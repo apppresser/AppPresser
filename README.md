@@ -31,10 +31,10 @@ This plugin is not an app-creator in itself, it serves as the core for all app d
 *   Build your app yourself with Phonegap, or with our build service
 *   Distribute to the iOS/Android app stores
 
-## Docfiles
+## AppPresser Documentation
 
 AppPresser Documentation is powered by [Markdown](http://daringfireball.net/projects/markdown/) files, that will be integrated with [Pico](https://github.com/gilbitron/Pico).
 
-If you would like to contribute to the documentation, please fork the AppPresser GitHub Repo, make your changes, and submit a Pull Request. We will review the changes and let you know if there are any issues, and if not, we'll accept the request.
+If you would like to contribute to the documentation, please fork the [AppPresser Documentation GitHub Repo](https://github.com/WebDevStudios/AppPresser-Documenation), make your changes, and submit a Pull Request. We will review the changes and let you know if there are any issues, and if not, we'll accept the request.
 
 We are happy to accept contributions, but also want to maintain high quality documentation so that everyone benefits in the end, so we'll work with you to make your contributions top-notch.
