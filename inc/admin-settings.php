@@ -408,7 +408,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 
 				if ( $license_status != 'valid' ) {
 					$class = 'inactive';
-					$notice = $license_status == 'invalid' ? __( 'Invalid Key' , 'apppresser' ) : '<a href="http://apppresser.com/extensions/appcamera">'. __( 'Get a license', 'apppresser' ) .'</a>';
+					$notice = $license_status == 'invalid' ? __( 'Invalid Key' , 'apppresser' ) : '<a href="http://apppresser.com/extensions/">'. __( 'Get a license', 'apppresser' ) .'</a>';
 				}
 
 				$field .= sprintf( '<input class="regular-text" type="text" id="apppresser--%1$s" name="appp_settings[%2$s]" value="%3$s" />'."\n", $key, $key, self::settings( $key ) );
