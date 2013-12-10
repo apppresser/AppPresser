@@ -1,0 +1,209 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: AppPresser v1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2013-12-08 20:30:24+0000\n"
+"Last-Translator: lswilson <lisa@webdevstudios.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: CSL v1.x\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-Bookmarks: \n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Textdomain-Support: yes"
+
+#. translators: plugin header field 'Name'
+#: apppresser.php:0
+#: inc/admin-settings.php:59
+#@ apppresser
+msgid "AppPresser"
+msgstr ""
+
+#. translators: plugin header field 'PluginURI'
+#. translators: plugin header field 'AuthorURI'
+#: apppresser.php:0
+#@ apppresser
+msgid "http://apppresser.com"
+msgstr ""
+
+#. translators: plugin header field 'Description'
+#: apppresser.php:0
+#@ apppresser
+msgid "A mobile app development framework for WordPress."
+msgstr ""
+
+#. translators: plugin header field 'Author'
+#: apppresser.php:0
+#@ apppresser
+msgid "AppPresser Team"
+msgstr ""
+
+#. translators: plugin header field 'Version'
+#: apppresser.php:0
+#@ apppresser
+msgid "1.0"
+msgstr ""
+
+#: inc/admin-settings.php:61
+#@ apppresser
+msgid "Help / Support"
+msgstr ""
+
+#: inc/admin-settings.php:226
+#@ apppresser
+msgid "Save Settings"
+msgstr ""
+
+#: inc/admin-settings.php:249
+#@ apppresser
+msgid "AppPresser Settings"
+msgstr ""
+
+#: inc/admin-settings.php:250
+#@ apppresser
+msgid "Load AppPresser for mobile browsers"
+msgstr ""
+
+#: inc/admin-settings.php:250
+#@ apppresser
+msgid "Whether or not you want to load the application layer for mobile users."
+msgstr ""
+
+#: inc/admin-settings.php:251
+#@ apppresser
+msgid "Load AppPresser for Admins Only"
+msgstr ""
+
+#: inc/admin-settings.php:251
+#@ apppresser
+msgid "Check this if you want to test your AppPresser app without loading it for visitors to your site."
+msgstr ""
+
+#: inc/admin-settings.php:251
+#@ apppresser
+msgid "(for testing purposes)"
+msgstr ""
+
+#: inc/admin-settings.php:252
+#@ apppresser
+msgid "Admin only theme"
+msgstr ""
+
+#: inc/admin-settings.php:252
+#@ apppresser
+msgid "Select which theme you want to be loaded with your testing of AppPresser."
+msgstr ""
+
+#: inc/admin-settings.php:252
+#@ apppresser
+msgid "must be enabled above"
+msgstr ""
+
+#: inc/admin-settings.php:253
+#@ apppresser
+msgid "Use a unique homepage for your app."
+msgstr ""
+
+#: inc/admin-settings.php:253
+#@ apppresser
+msgid "Allows you to specify which page users will see first when they load up you AppPresser app."
+msgstr ""
+
+#: inc/admin-settings.php:253
+#@ apppresser
+msgid "Start typing to search for a page"
+msgstr ""
+
+#: inc/admin-settings.php:255
+#@ apppresser
+msgid "-- select --"
+msgstr ""
+
+#: inc/admin-settings.php:261
+#@ apppresser
+msgid "Main Mobile Menu"
+msgstr ""
+
+#: inc/admin-settings.php:261
+#@ apppresser
+msgid "Lets you select which menu, from Appearance > Menu, you want to set as your main mobile menu."
+msgstr ""
+
+#: inc/admin-settings.php:263
+#@ apppresser
+msgid "Secondary Mobile Menu"
+msgstr ""
+
+#: inc/admin-settings.php:263
+#@ apppresser
+msgid "Lets you select which menu, from Appearance > Menu, you want to set as your secondary mobile menu."
+msgstr ""
+
+#: inc/admin-settings.php:274
+#@ apppresser
+msgid "Help/Support"
+msgstr ""
+
+#: inc/admin-settings.php:288
+#@ apppresser
+msgid "Select a page:"
+msgstr ""
+
+#: inc/admin-settings.php:306
+#@ apppresser
+msgid "AppPresser Help and Support"
+msgstr ""
+
+#: inc/admin-settings.php:307
+#@ apppresser
+msgid "For support, please visit our website to sign up for a paid plan or to submit a request:"
+msgstr ""
+
+#: inc/admin-settings.php:308
+#@ apppresser
+msgid "About AppPresser"
+msgstr ""
+
+#: inc/admin-settings.php:309
+#@ apppresser
+msgid "AppPresser was created by Scott Bolinger, Brad Williams, Brian Messenlehner, and Lisa Sabin-Wilson. Follow us on"
+msgstr ""
+
+#: inc/admin-settings.php:309
+#@ apppresser
+msgid "twitter"
+msgstr ""
+
+#: inc/admin-settings.php:450
+#@ apppresser
+msgid "security check failed"
+msgstr ""
+
+#: inc/admin-settings.php:457
+#@ apppresser
+msgid "Please Try Again"
+msgstr ""
+
+#: inc/admin-settings.php:464
+#@ apppresser
+msgid "No Results Found"
+msgstr ""
+
+#: inc/body-class-meta-box.php:27
+#@ default
+msgid "Page Transitions"
+msgstr ""
+
+#: inc/body-class-meta-box.php:46
+#@ default
+msgid "top or bottom, (default is right, use all lowercase)"
+msgstr ""
+
