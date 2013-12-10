@@ -309,10 +309,11 @@ class AppPresser_Admin_Settings extends AppPresser {
 		<div class="wrap <?php echo $class; ?>">
 
 			<?php self::screen_icon( 'options-general' ); ?>
-			<h2><?php _e( 'AppPresser Help and Support', 'apppresser' ); ?></h2>
-			<p><?php _e( 'For support, please visit our website to sign up for a paid plan or to submit a request:', 'apppresser' ); ?> <a href="http://apppresser.com/" target="_blank">AppPresser.com</a></p>
+			<h2>AppPresser <?php _e( 'Help and Support', 'apppresser' ); ?></h2>
+			<p><strong><?php _e( 'Resources', 'apppresser' ); ?>:</strong> <a href="https://github.com/WebDevStudios/AppPresser/" target="_blank">AppPresser <?php _e( 'Core on Github', 'apppresser' ); ?></a> | <a href="http://wordpress.org/support/plugin/apppresser" target="_blank"><?php _e( 'Support Forums', 'apppresser' ); ?></a> | <a href="http://apppresser.com/docs/" target="_blank">AppPresser <?php _e( 'Documentation', 'apppresser' ); ?></a></p>
+			<p><strong>AppPresser <?php _e( 'Online', 'apppresser' ); ?>:</strong> <a href="http://twitter.com/apppresser" target="_blank"><?php _e( 'Twitter', 'apppresser' ); ?></a> | <a href="http://facebook.com/apppresser" target="_blank"><?php _e( 'Facebook', 'apppresser' ); ?></a> | <a href="http://youtube.com/user/apppresser" target="_blank"><?php _e( 'YouTube', 'apppresser' ); ?></a></p>
 			<h3><?php _e( 'About AppPresser', 'apppresser' ); ?></h3>
-			<p><?php _e( 'AppPresser was created by Scott Bolinger, Brad Williams, Brian Messenlehner, and Lisa Sabin-Wilson. Follow us on', 'apppresser' ); ?> <a href="https://twitter.com/AppPresser" target="_blank"><?php _e('twitter', 'apppresser'); ?></a></p>
+			<p><?php _e( 'AppPresser was created by Scott Bolinger, Brad Williams, Brian Messenlehner, and Lisa Sabin-Wilson', 'apppresser' ); ?>.</p>
 		</div>
 		<?php
 	}
