@@ -1,9 +1,9 @@
 === AppPresser - Mobile App Framework ===
-Contributors: apppresser
+Contributors: apppresser, webdevstudios, williamsba1, scottopolis, jtsternberg, Messenlehner, LisaSabinWilson, tw2113
 Donate link: http://apppresser.com/
 Tags: mobile, app, ios, android, application, phonegap
 Requires at least: 3.5
-Tested up to: 3.7.1
+Tested up to: 3.8
 Stable tag: 1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
