@@ -20,7 +20,9 @@ Developers can use this plugin to make custom apps, or custom extensions for App
 
 This plugin is not an app-creator in itself, it serves as the core for all app development with AppPresser.
 
-<iframe width="530" height="298" src="//www.youtube.com/embed/i8Deew6pif4" frameborder="0" allowfullscreen></iframe>
+[youtube http://www.youtube.com/watch?v=i8Deew6pif4]
+
+Want to contribute to AppPresser? Awesome! Visit our [GitHub site for the project](https://github.com/WebDevStudios/AppPresser "AppPresser on GitHub").
 
 ### What this plugin does:
 
