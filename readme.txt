@@ -80,3 +80,24 @@ Please see our website for a tutorial.
 = Can I make any type of app I want? =
 
 Technically you can do anything with an AppPresser app that you can do with Phonegap. That means if you are handy with javascript, the sky is the limit!
+
+== Changelog ==
+
+= 1.0.1 =
+* Bug Fixes
+* Add theme updater and updater API
+* Better styling for "MP6"
+
+= 1.0.0 =
+* Release into the wild!
+
+
+== Upgrade Notice ==
+
+= 1.0.1 =
+* Bug Fixes
+* Add theme updater and updater API
+* Better styling for "MP6"
+
+= 1.0.0 =
+* Release into the wild!
