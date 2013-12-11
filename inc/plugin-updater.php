@@ -48,6 +48,7 @@ class AppPresser_Updater extends AppPresser {
 			'author'         => self::AUTHOR,
 			'remote_api_url' => self::STORE_URL,
 			'license'        => trim( appp_get_setting( $option_key ) ),
+			'theme_slug'     => $theme_slug
 		) );
 		$updater = new EDD_SL_Theme_Updater( $api_data );
 
