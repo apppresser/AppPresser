@@ -30,7 +30,7 @@ class AppPresser_Theme_Switcher extends AppPresser {
 	 * @since 1.0.0
 	 */
 	public function __construct() {
-		add_action( 'plugins_loaded', array( $this, 'switch_theme' ), 1 );
+		add_action( 'plugins_loaded', array( $this, 'switch_theme' ), 9999 );
 		add_filter( 'pre_option_show_on_front', array( $this, 'pre_show_on_front' ) );
 		add_filter( 'pre_option_page_on_front', array( $this, 'pre_page_on_front' ) );
 		$this->theme = wp_get_theme();
