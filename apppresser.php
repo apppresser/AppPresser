@@ -5,7 +5,7 @@ Plugin URI: http://apppresser.com
 Description: A mobile app development framework for WordPress.
 Text Domain: apppresser
 Domain Path: /languages
-Version: 1.0.2
+Version: 1.0.3
 Author: AppPresser Team
 Author URI: http://apppresser.com
 License: GPLv2
@@ -123,13 +123,14 @@ class AppPresser {
 
 		// Only use minified files if SCRIPT_DEBUG is off
 		// $min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
+		wp_enqueue_script( 'appp-core', self::$js_url .'appp.js', null, self::VERSION );
 
 		// Enqueue cordova scripts if we have an app
 		if ( self::is_app() ) {
 			if ( appp_is_ios() ) {
-				wp_enqueue_script( 'cordova-core', self::$pg_url .'ios/cordova.js', null, '1.0.0' );
+				wp_enqueue_script( 'cordova-core', self::$pg_url .'ios/cordova.js', null, self::VERSION );
 			} elseif ( appp_is_android() ) {
-				wp_enqueue_script( 'cordova-core', self::$pg_url .'android/cordova.js', null, '1.0.0' );
+				wp_enqueue_script( 'cordova-core', self::$pg_url .'android/cordova.js', null, self::VERSION );
 			}
 		}
 	}
