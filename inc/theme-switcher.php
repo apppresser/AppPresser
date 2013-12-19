@@ -139,4 +139,3 @@ function appp_is_android() {
 	$ua = strtolower( $_SERVER['HTTP_USER_AGENT'] );
 	return ( false !== stripos( $ua, 'android' ) );
 }
-
