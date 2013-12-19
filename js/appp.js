@@ -20,14 +20,14 @@ apppCore.init = function() {
 
 	if ( ! apppCore.is_appp_true && ! apppCore.QueryVars('appp') && apppCore.isApp() && apppCore.isMobile() ) {
 
+		// Redirect to query var-ed version
+		window.location.href = apppCore.AddQueryVar( window.location.href, 'appp', 1 );
+
+	} else if ( apppCore.QueryVars('appp') ) {
 		apppCore.log( 'apppCore.is_appp_true', !! apppCore.is_appp_true );
 		apppCore.log( "apppCore.QueryVars('appp')", !! apppCore.QueryVars('appp') );
 		apppCore.log( 'apppCore.isApp()', !! apppCore.isApp() );
 		apppCore.log( 'apppCore.isMobile()', !! apppCore.isMobile() );
-
-		return;
-		// Redirect to query var-ed version
-		window.location.href = apppCore.AddQueryVar( window.location.href, 'appp', 1 )
 	}
 }
 
