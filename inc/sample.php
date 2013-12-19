@@ -21,6 +21,9 @@ function appp_add_sample_settings( $apppresser ) {
 	// Create a new tab for our settings
 	$apppresser->add_setting_tab( __( 'New Tab', 'appp' ), 'new-tab-slug' );
 
+	// Add a license key setting. This works with 'appp_updater_add' or 'appp_theme_updater_add'
+	$apppresser->add_setting( MY_LICENSE_SETTING_KEY, __( 'AppPresser Extension License Key', 'apppresser' ), array( 'type' => 'license_key', 'helptext' => __( 'Adding a license key enables automatic updates.', 'apppresser' ) ) );
+
 	// Text input setting
 	$apppresser->add_setting( 'my_text_input', __( 'Write some text', 'appp' ), array(
 		'tab'         => 'new-tab-slug', // Add these settings to our new tab
@@ -46,6 +49,13 @@ function appp_add_sample_settings( $apppresser ) {
 			'value-1' => __( 'Value 1', 'appp' ),
 			'value-2' => __( 'Value 2', 'appp' ),
 		),
+	) );
+
+	// Add a section label/title
+	$apppresser->add_setting_label( __( 'More Options', 'apppresser' ), array(
+		'tab' => 'new-tab-slug',
+		// 'helptext' => __( 'These are additional options.', 'apppresser' ),
+		// 'description' => __( 'This is a sub-title.', 'apppresser' ),
 	) );
 
 	// Select setting
@@ -114,7 +124,7 @@ function appp_add_sample_button() {
 
 add_action( 'apppresser_tab_bottom_new-tab-slug', 'appp_add_some_text' );
 /**
- * Add a secondary button to your tab next to the save button
+ * Add an arbitrary row to an options tab in the AppPresser Settings API.
  */
 function appp_add_some_text() {
 
