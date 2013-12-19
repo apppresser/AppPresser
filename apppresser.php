@@ -34,6 +34,7 @@ class AppPresser {
 	public static $settings = 'false';
 	public static $instance = null;
 	public static $is_app   = null;
+	public static $l10n     = array();
 	public static $dir_path;
 	public static $inc_path;
 	public static $inc_url;
@@ -71,6 +72,15 @@ class AppPresser {
 		self::$js_url   = self::$dir_url  . 'js/';
 		self::$pg_url   = self::$dir_url  . 'pg/';
 
+		self::$l10n = array(
+			'ajaxurl'                     => admin_url( 'admin-ajax.php' ),
+			'debug'                       => defined( 'WP_DEBUG' ) && WP_DEBUG || defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG,
+			'home_url'                    => home_url(),
+			'mobile_browser_theme_switch' => appp_get_setting( 'mobile_browser_theme_switch' ),
+			'admin_theme_switch'          => appp_get_setting( 'admin_theme_switch' ),
+			'is_appp_true'                => self::is_app(),
+		);
+
 		// Load translations
 		load_plugin_textdomain( 'apppresser', false, 'apppresser/languages' );
 
@@ -81,6 +91,7 @@ class AppPresser {
 		// Hook in all our important pieces
 		add_action( 'plugins_loaded', array( $this, 'includes' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts' ) );
+		add_action( 'wp_head', array( $this, 'do_appp_script' ), 1 );
 
 		// remove wp version param from cordova enqueued scripts (so script loading doesn't break)
 		// This will mean that it's harder to break caching on the cordova script
@@ -88,6 +99,40 @@ class AppPresser {
 
 		require_once( self::$inc_path . 'admin-settings.php' );
 		require_once( self::$inc_path . 'plugin-updater.php' );
+	}
+
+	/**
+	 * Manually add some vars and our script tag so that we can head off the page if need be
+	 * @since  1.0.3
+	 */
+	function do_appp_script() {
+		// Only use minified files if SCRIPT_DEBUG is off
+		$min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
+
+		// If PHP can read the cookie, we'll enqueue the standard way
+		if ( is_user_logged_in() || self::is_app() ) {
+			wp_enqueue_script( 'appp-core', self::$js_url ."appp$min.js", null, self::VERSION );
+			wp_localize_script( 'appp-core', 'apppCore', self::$l10n );
+			return;
+		}
+
+		if ( ! self::$l10n['mobile_browser_theme_switch'] && ! self::$l10n['admin_theme_switch'] )
+			return;
+
+		// Otherwise we want to include the script ASAP to redirect the page if need be.
+
+		foreach ( self::$l10n as $key => $value ) {
+			$l10n[$key] = html_entity_decode( (string) $value, ENT_QUOTES, 'UTF-8');
+		}
+
+		?>
+		<script type='text/javascript'>
+		/* <![CDATA[ */
+		window.apppCore = <?php echo json_encode( $l10n ); ?>;
+		/* ]]> */
+		</script>
+		<script src="<?php echo self::$js_url; ?>appp<?php echo $min; ?>.js" type="text/javascript"></script>
+		<?php
 	}
 
 	/**
@@ -123,7 +168,6 @@ class AppPresser {
 
 		// Only use minified files if SCRIPT_DEBUG is off
 		// $min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
-		wp_enqueue_script( 'appp-core', self::$js_url .'appp.js', null, self::VERSION );
 
 		// Enqueue cordova scripts if we have an app
 		if ( self::is_app() ) {
@@ -182,12 +226,14 @@ class AppPresser {
 	/**
 	 * Sets/Gets the app_is_app variable
 	 * @since  1.0.0
-	 * @param  boolean $set Set the variable
-	 * @return boolean      Variable value
+	 * @return boolean Variable value
 	 */
-	public static function is_app( $set = null ) {
-		if ( $set !== null )
-			self::$is_app = $set;
+	public static function is_app() {
+		if ( self::$is_app !== null )
+			return self::$is_app;
+
+		self::$is_app = isset( $_GET['appp'] ) && $_GET['appp'] == 1 || isset( $_COOKIE['AppPresser_Appp'] ) && $_COOKIE['AppPresser_Appp'] === 'true';
+
 		return self::$is_app;
 	}
 
