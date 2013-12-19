@@ -53,7 +53,14 @@ class AppPresser_Admin_Settings extends AppPresser {
 		if ( $appp_theme = self::settings( 'appp_theme' ) ) {
 			// If admin only theme object exists
 			if ( isset( $this->themes[ $appp_theme ] ) && is_callable( array( $this->themes[ $appp_theme ], 'get_template_directory' ) ) ) {
-				// Get the themes directory
+				// Check child theme directory first
+				$dir = $this->themes[ $appp_theme ]->get_stylesheet_directory();
+				// If there is a 'appp-settings.php' file,
+				if ( file_exists( $dir .'/appp-settings.php' ) ) {
+					// include it
+					include( $dir .'/appp-settings.php' );
+				}
+				// Ok, check parent theme directory
 				$dir = $this->themes[ $appp_theme ]->get_template_directory();
 				// If there is a 'appp-settings.php' file,
 				if ( file_exists( $dir .'/appp-settings.php' ) ) {
@@ -102,7 +109,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 	 */
 	function admin_head() {
 		?>
-		<style>.apppresser_settings .help { background: rgb(220,220,220); border-radius: 50%; color: rgb(0, 0, 0); display: inline-block; height: 15px; margin-left: 5px; text-align: center; text-decoration: none; text-shadow: none; width: 15px; font-weight: normal; } .apppresser_settings.mp6 .help { line-height: 15px; } .form-table .appp-section-title { padding-left: 4px; padding-bottom: 0; } .appp-section-title h3 { margin: 0; } .apppresser_settings .form-table { display: none; padding-top: .6em; } .apppresser_settings .form-table.nav-tab-active { display: block; } .appp-ajax-results-help { display:none; margin: 10px 0 -8px 7px !important; } .submit .appp-tabs { margin: 0 10px; display: none; } .appp-tabs.nav-tab-active { display: inline; } .license_key.description span {
+		<style>.apppresser_settings .help { background: rgb(220,220,220); border-radius: 50%; color: rgb(0, 0, 0); display: inline-block; height: 15px; margin-left: 5px; text-align: center; text-decoration: none; text-shadow: none; width: 15px; font-weight: normal; } .apppresser_settings.mp6 .help { line-height: 15px; } .form-table .appp-section-title { padding-bottom: 0; } .appp-section-title h3 { margin: 0; } .apppresser_settings .form-table { display: none; padding-top: .6em; } .apppresser_settings .form-table.nav-tab-active { display: block; } .appp-ajax-results-help { display:none; margin: 10px 0 -8px 7px !important; } .submit .appp-tabs { margin: 0 10px; display: none; } .appp-tabs.nav-tab-active { display: inline; } .license_key.description span {
 			color: white; display: block; background: #49C749; text-align: center; font-weight: bold; font-style: normal; text-transform: uppercase; margin: -5px 1px; width: 25em; } .mp6 .license_key.description span { font-size: 14px; } .license_key.description span.inactive {
 			background: #F14949; } .license_key.description span.inactive a { color: #fff; }
 		</style>
