@@ -81,7 +81,18 @@ Please see our website for a tutorial.
 
 Technically you can do anything with an AppPresser app that you can do with Phonegap. That means if you are handy with javascript, the sky is the limit!
 
+
+== Screenshots ==
+
+1. AppPresser admin options page.
+
+
 == Changelog ==
+
+= 1.0.3 =
+* Bug Fix: `plugins_loaded` firing too early causing conflicts with other plugins.
+* Improvement: Check child theme for `app-settings.php` file as well as parent theme.
+* Improvement: Added method for loading AppPresser theme despite aggresively cached web hosts.
 
 = 1.0.2 =
 * Bug Fix: Conflict causing other themes to appear to need an update.
@@ -96,6 +107,11 @@ Technically you can do anything with an AppPresser app that you can do with Phon
 
 
 == Upgrade Notice ==
+
+= 1.0.3 =
+* Bug Fix: `plugins_loaded` firing too early causing conflicts with other plugins.
+* Improvement: Check child theme for `app-settings.php` file as well as parent theme.
+* Improvement: Added method for loading AppPresser theme despite aggresively cached web hosts.
 
 = 1.0.2 =
 * Bug Fix: Conflict causing other themes to appear to need an update.
