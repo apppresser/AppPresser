@@ -206,7 +206,8 @@ class AppPresser_Admin_Settings extends AppPresser {
 		?>
 		<div class="wrap <?php echo $class; ?>">
 			<?php
-			$current_tab = isset( $_GET['tab'] ) ? $_GET['tab'] : array_shift( array_keys( self::$admin_tabs ) );
+			$keys = array_keys( self::$admin_tabs );
+			$current_tab = isset( $_GET['tab'] ) ? $_GET['tab'] : array_shift( $keys );
 			$current_tab = preg_replace('/tab-/', '', $current_tab, 1 );
 
 			// Our tabs
@@ -336,12 +337,13 @@ class AppPresser_Admin_Settings extends AppPresser {
 	 */
 	public static function add_setting( $key, $label, $args = array() ) {
 
+		$keys = array_keys( self::$admin_tabs );
 		$defaults = array(
 			'type'        => 'text',
 			'helptext'    => '',
 			'description' => '',
 			'options'     => array(),
-			'tab'         => array_shift( array_keys( self::$admin_tabs ) ),
+			'tab'         => array_shift( $keys ),
 			'echo'        => false,
 		);
 		$args = wp_parse_args( $args, $defaults );
