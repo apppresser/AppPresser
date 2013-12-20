@@ -38,3 +38,22 @@ AppPresser Documentation is powered by [Markdown](http://daringfireball.net/proj
 If you would like to contribute to the documentation, please fork the [AppPresser Documentation GitHub Repo](https://github.com/WebDevStudios/AppPresser-Documenation), make your changes, and submit a Pull Request. We will review the changes and let you know if there are any issues, and if not, we'll accept the request.
 
 We are happy to accept contributions, but also want to maintain high quality documentation so that everyone benefits in the end, so we'll work with you to make your contributions top-notch.
+
+## Changelog
+
+#### 1.0.3
+* Bug Fix: `plugins_loaded` firing too early causing conflicts with other plugins.
+* Improvement: Check child theme for `app-settings.php` file as well as parent theme.
+* Improvement: Added method for loading AppPresser theme despite aggresively cached web hosts.
+
+
+#### 1.0.2
+* Bug Fix: Conflict causing other themes to appear to need an update.
+
+#### 1.0.1
+* Bug Fixes
+* Add theme updater and updater API
+* Better styling for "MP6"
+
+#### 1.0.0
+* Release into the wild!
