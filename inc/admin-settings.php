@@ -143,6 +143,10 @@ class AppPresser_Admin_Settings extends AppPresser {
 				case 'menu':
 					$cleaninput[ $key ] = absint( $value );
 					break;
+				case 'mobile_browser_theme_switch':
+					// Clear cookie
+					setcookie( 'AppPresser_Appp', 'true', time() - DAY_IN_SECONDS );
+					$cleaninput[ $key ] = isset( $inputs[ $key ] ) && $inputs[ $key ] == 'on' ? 'on' : '';
 				case 'admin_theme_switch':
 					$cleaninput[ $key ] = isset( $inputs[ $key ] ) && $inputs[ $key ] == 'on' ? 'on' : '';
 					break;
