@@ -224,7 +224,7 @@ class AppPresser {
 	}
 
 	/**
-	 * Sets/Gets the app_is_app variable
+	 * Gets the app_is_app variable
 	 * @since  1.0.0
 	 * @return boolean Variable value
 	 */
