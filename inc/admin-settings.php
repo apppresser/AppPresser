@@ -209,7 +209,6 @@ class AppPresser_Admin_Settings extends AppPresser {
 			$current_tab = isset( $_GET['tab'] ) ? $_GET['tab'] : array_shift( array_keys( self::$admin_tabs ) );
 			$current_tab = preg_replace('/tab-/', '', $current_tab, 1 );
 
-			self::screen_icon( 'options-general' );
 			// Our tabs
 			echo '<h2 class="nav-tab-wrapper">';
 			foreach ( self::$admin_tabs as $tab => $name ) {
@@ -318,8 +317,6 @@ class AppPresser_Admin_Settings extends AppPresser {
 		$class .= self::is_mp6() ? ' mp6' : '';
 		?>
 		<div class="wrap <?php echo $class; ?>">
-
-			<?php self::screen_icon( 'options-general' ); ?>
 			<h2>AppPresser <?php _e( 'Help and Support', 'apppresser' ); ?></h2>
 			<p><strong><?php _e( 'Resources', 'apppresser' ); ?>:</strong> <a href="https://github.com/WebDevStudios/AppPresser/" target="_blank">AppPresser <?php _e( 'Core on Github', 'apppresser' ); ?></a> | <a href="http://wordpress.org/support/plugin/apppresser" target="_blank"><?php _e( 'Support Forums', 'apppresser' ); ?></a> | <a href="http://apppresser.com/docs/" target="_blank">AppPresser <?php _e( 'Documentation', 'apppresser' ); ?></a></p>
 			<p><strong>AppPresser <?php _e( 'Online', 'apppresser' ); ?>:</strong> <a href="http://twitter.com/apppresser" target="_blank"><?php _e( 'Twitter', 'apppresser' ); ?></a> | <a href="http://facebook.com/apppresser" target="_blank"><?php _e( 'Facebook', 'apppresser' ); ?></a> | <a href="http://youtube.com/user/apppresser" target="_blank"><?php _e( 'YouTube', 'apppresser' ); ?></a></p>
@@ -475,16 +472,6 @@ class AppPresser_Admin_Settings extends AppPresser {
 	 */
 	public static function add_setting_label( $title, $args = array() ) {
 		self::add_setting( sanitize_title( $title ), $title, wp_parse_args( $args, array( 'type' => 'h3' ) ) );
-	}
-
-	/**
-	 * Only adds screen icons to relevant WP versions
-	 * @since  1.0.0
-	 * @param  string  $id screen ID
-	 */
-	public static function screen_icon( $id ) {
-		if ( ! self::is_mp6() )
-			screen_icon( $id );
 	}
 
 	public static function license_keys() {
