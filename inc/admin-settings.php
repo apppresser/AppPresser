@@ -264,9 +264,9 @@ class AppPresser_Admin_Settings extends AppPresser {
 		// Main tab
 		self::add_setting_tab( __( 'AppPresser', 'apppresser' ), 'general' );
 		self::add_setting_label( __( 'AppPresser Core Settings', 'apppresser' ) );
-		self::add_setting( 'mobile_browser_theme_switch', __( 'Load AppPresser for mobile browsers', 'apppresser' ), array( 'type' => 'checkbox', 'helptext' => __( 'Whether or not you want to load the application layer for mobile users.', 'apppresser' ) ) );
+		self::add_setting( 'mobile_browser_theme_switch', __( 'Load AppPresser for mobile browsers', 'apppresser' ), array( 'type' => 'checkbox', 'helptext' => __( 'Display AppPresser in mobile browsers such as Safari and Chrome, instead of your normal theme.', 'apppresser' ) ) );
 		self::add_setting( 'admin_theme_switch', __( 'Load AppPresser for Admins Only', 'apppresser' ), array( 'type' => 'checkbox', 'helptext' => __( 'Check this if you want to test your AppPresser app without loading it for visitors to your site.', 'apppresser' ), 'description' => __( '(for testing purposes)', 'apppresser' ) ) );
-		self::add_setting( 'appp_theme', __( 'Admin only theme', 'apppresser' ), array( 'type' => 'select', 'options' => $this->themes, 'helptext' => __( 'Select which theme you want to be loaded with your testing of AppPresser.', 'apppresser' ), 'description' => __( 'must be enabled above', 'apppresser' ) ) );
+		self::add_setting( 'appp_theme', __( 'App only theme', 'apppresser' ), array( 'type' => 'select', 'options' => $this->themes, 'helptext' => __( 'Select which theme you want to be loaded inside the app, such as the AppPresser theme.', 'apppresser' ), 'description' => __( 'must be enabled above', 'apppresser' ) ) );
 		self::add_setting( 'appp_home_page', __( 'Use a unique homepage for your app.', 'apppresser' ), array( 'helptext' => __( 'Allows you to specify which page users will see first when they load up you AppPresser app.', 'apppresser' ), 'description' => __( 'Start typing to search for a page', 'apppresser' ) ) );
 
 		$menus = array( 'option-none' => __( '-- select --', 'apppresser' ) );
