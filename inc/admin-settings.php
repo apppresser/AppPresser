@@ -93,9 +93,8 @@ class AppPresser_Admin_Settings extends AppPresser {
 		self::$help_menu_slug = add_submenu_page( self::$page_slug, __( 'Help / Support', 'apppresser' ), __( 'Help / Support', 'apppresser' ), 'manage_options', self::$help_slug, array( $this, 'help_support_page' ) );
 
 
-		// enqueue our js
-		add_action( 'admin_head-' . self::$menu_slug, array( $this, 'admin_head' ) );
-		add_action( 'admin_print_scripts-' . self::$menu_slug, array( $this, 'admin_scripts' ) );
+		// enqueue that shiz
+		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
 
 	}
 
@@ -107,24 +106,8 @@ class AppPresser_Admin_Settings extends AppPresser {
 		// admin scripts and styles
 		wp_enqueue_script( 'appp-admin', self::$js_url . 'appp-admin.js', array( 'jquery', 'jquery-ui-core', 'jquery-ui-tooltip' ), self::VERSION );
 		wp_enqueue_style( 'jquery-ui-smoothness', self::$css_url . 'smoothness/smoothness.custom.min.css' );
+		wp_enqueue_style( 'appp-admin-styles', self::$css_url . 'appp-admin-styles.css' );
 	}
-
-	/**
-	 * Apply some settings for our tooltip hover spot
-	 * @since  1.0.0
-	 */
-	function admin_head() {
-		?>
-		<style>.apppresser_settings .help { background: rgb(220,220,220); border-radius: 50%; color: rgb(0, 0, 0); display: inline-block; height: 15px; margin-left: 5px; text-align: center; text-decoration: none; text-shadow: none; width: 15px; font-weight: normal; } .apppresser_settings.mp6 .help { line-height: 15px; } .form-table .appp-section-title { padding-bottom: 0; } .appp-section-title h3 { margin: 0; } .apppresser_settings .form-table { display: none; padding-top: .6em; } .apppresser_settings .form-table.nav-tab-active { display: block; } .appp-ajax-results-help { display:none; margin: 10px 0 -8px 7px !important; } .submit .appp-tabs { margin: 0 10px; display: none; } .appp-tabs.nav-tab-active { display: inline; } .license_key.description span {
-			color: white; display: block; background: #49C749; text-align: center; font-weight: bold; font-style: normal; text-transform: uppercase; margin: -5px 1px; width: 25em; } .mp6 .license_key.description span { font-size: 14px; } .license_key.description span.inactive {
-			background: #F14949; } .license_key.description span.inactive a { color: #fff; }
-		</style>
-		<?php
-
-		// Easy hook for adding to the admin_head on the AppPresser settings page
-		do_action( 'appp_admin_settings_head', self::run() );
-	}
-
 
 	/**
 	 * Register AppPresser Settings with Settings API.
