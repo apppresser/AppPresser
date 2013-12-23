@@ -13,15 +13,17 @@
 class AppPresser_Admin_Settings extends AppPresser {
 
 	// A single instance of this class.
-	public static $instance       = null;
-	public static $page_slug      = 'apppresser_settings';
-	public static $help_slug      = 'apppresser_sub_help_support';
-	public static $menu_slug      = '';
-	public static $help_menu_slug = '';
-	public static $image_inputs   = array();
-	public static $all_fields     = array();
-	public static $admin_tabs     = array();
-	public static $license_keys   = array();
+	public static $instance              = null;
+	public static $page_slug             = 'apppresser_settings';
+	public static $extensions_slug       = 'apppresser_sub_extensions';
+	public static $help_slug             = 'apppresser_sub_help_support';
+	public static $menu_slug             = '';
+	public static $extensions_menu_slug  = '';
+	public static $help_menu_slug        = '';
+	public static $image_inputs          = array();
+	public static $all_fields            = array();
+	public static $admin_tabs            = array();
+	public static $license_keys          = array();
 
 	/**
 	 * Creates or returns an instance of this class.
@@ -82,10 +84,14 @@ class AppPresser_Admin_Settings extends AppPresser {
 	 * @since  1.0.0
 	 */
 	function plugin_menu() {
+		
 		// Create main menu
 		self::$menu_slug = add_menu_page( __( 'AppPresser', 'apppresser' ), __( 'AppPresser', 'apppresser' ), 'manage_options', self::$page_slug, array( $this, 'settings_page' ) );
+		
 		// Create submenu items
+		self::$extensions_menu_slug = add_submenu_page( self::$page_slug, __( 'Extensions', 'apppresser' ), __( 'Extensions', 'apppresser' ), 'manage_options', self::$extensions_slug, array( $this, 'extensions_page' ) );
 		self::$help_menu_slug = add_submenu_page( self::$page_slug, __( 'Help / Support', 'apppresser' ), __( 'Help / Support', 'apppresser' ), 'manage_options', self::$help_slug, array( $this, 'help_support_page' ) );
+
 
 		// enqueue our js
 		add_action( 'admin_head-' . self::$menu_slug, array( $this, 'admin_head' ) );
@@ -325,6 +331,45 @@ class AppPresser_Admin_Settings extends AppPresser {
 			<p><?php _e( 'AppPresser was created by Scott Bolinger, Brad Williams, Brian Messenlehner, and Lisa Sabin-Wilson', 'apppresser' ); ?>.</p>
 		</div>
 		<?php
+	}
+
+	/**
+	 * AppPresser extensions page output
+	 * @since  1.0.x
+	 */
+	function extensions_page() {
+		$class = self::$page_slug;
+		$class .= self::is_mp6() ? ' mp6' : '';
+		?>
+		<div class="wrap <?php echo $class; ?>">
+            <h2><?php printf( 'AppPresser ' .__( 'Extensions &nbsp;&mdash;&nbsp; %s', 'apppresser' ), '<a href="http://apppresser.com/extensions/?ref=appp" class="button-primary" target="_blank">' . __( 'Browse All Extensions', 'apppresser' ) . '</a>' ); ?></h2>
+            <p><?php _e( 'These extensions extend the functionality of AppPresser.', 'apppresser' ); ?></p>
+            <?php 
+	        // Attempt to pull back our cached feed
+	        $feed = get_transient( 'appp_extensions_feed' );
+
+	        // If we don't have a cached feed, pull back fresh data
+	        if ( empty( $feed ) ) {
+
+	                // Retrieve and parse our feed
+	                $feed = wp_remote_get( 'http://apppresser.com/?feed=addons', array( 'sslverify' => false ) );
+	                if ( ! is_wp_error( $feed ) ) {
+	                        if ( isset( $feed['body'] ) && strlen( $feed['body'] ) > 0 ) {
+	                                $feed = wp_remote_retrieve_body( $feed );
+	                                // Cache our feed for 1 hour
+	                                set_transient( 'appp_extensions_feed', $feed, HOUR_IN_SECONDS );
+	                        }
+	                } else {
+	                        $feed = '<div class="error"><p>' . __( 'There was an error retrieving the extensions list from the server. Please try again later.', 'apppresser' ) . '</div>';
+	                }
+	        }
+
+	        // display the feed or error message
+	        echo $feed;
+            ?>
+        </div>
+        <?php
+
 	}
 
 	/**
