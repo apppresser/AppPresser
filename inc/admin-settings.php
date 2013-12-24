@@ -40,7 +40,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 	 * @since  1.0.0
 	 */
 	function __construct() {
-		add_action( 'admin_menu', array( $this, 'plugin_menu' ) );
+		add_action( 'admin_menu', array( $this, 'plugin_menu' ), 9 );
 		add_filter( 'sanitize_option_'. AppPresser::SETTINGS_NAME, array( $this, 'maybe_reset_license_statuses' ), 99 );
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 		add_action( 'apppresser_add_settings', array( $this, 'add_settings' ), 6 ); // Higher priority
