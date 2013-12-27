@@ -201,14 +201,16 @@ class AppPresser {
 	 * @param  string $key Optional key to get a specific option
 	 * @return mixed       Array of all options, a specific option, or false if specific option not found.
 	 */
-	public static function settings( $key = false ) {
+	public static function settings( $key = false, $fallback = false ) {
 		if ( self::$settings === 'false' ) {
 			self::$settings = get_option( self::SETTINGS_NAME );
 		}
 		if ( $key ) {
 			$setting = isset( self::$settings[ $key ] ) ? self::$settings[ $key ] : false;
 			// Override value or supply fallback
-			return apply_filters( 'apppresser_setting_default', $setting, $key, self::$settings );
+			$return = apply_filters( 'apppresser_setting_default', $setting, $key, self::$settings, $fallback );
+			return $return ? $return : $fallback;
+
 		}
 		return self::$settings;
 	}
