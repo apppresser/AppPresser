@@ -198,8 +198,9 @@ class AppPresser {
 	/**
 	 * Utility method for getting our plugin's settings
 	 * @since  1.0.0
-	 * @param  string $key Optional key to get a specific option
-	 * @return mixed       Array of all options, a specific option, or false if specific option not found.
+	 * @param  string $key      Optional key to get a specific option
+	 * @param  string $fallback Fallback option if none is found.
+	 * @return mixed            Array of all options, a specific option, or false if specific option not found.
 	 */
 	public static function settings( $key = false, $fallback = false ) {
 		if ( self::$settings === 'false' ) {
@@ -247,9 +248,10 @@ AppPresser::get();
 /**
  * Function wrapper for AppPresser::settings()
  * @since  1.0.0
- * @param  string $key Optional key to get a specific option
- * @return mixed       Array of all options, a specific option, or false if specific option not found.
+ * @param  string $key      Optional key to get a specific option
+ * @param  string $fallback Fallback option if none is found.
+ * @return mixed            Array of all options, a specific option, or false if specific option not found.
  */
-function appp_get_setting( $key = false ) {
-	return AppPresser::settings( $key );
+function appp_get_setting( $key = false, $fallback = false ) {
+	return AppPresser::settings( $key, $fallback );
 }
