@@ -189,6 +189,12 @@ class AppPresser {
 
 	}
 
+	/**
+	 * Strip query var from enqueued cordova script
+	 * @since  1.0.3
+	 * @param  string  $src URL
+	 * @return string       Modified URL
+	 */
 	function remove_query_arg( $src ) {
 		if ( false !== strpos( $src, 'cordova.js' ) )
 			$src = remove_query_arg( 'ver', $src );

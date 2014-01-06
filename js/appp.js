@@ -18,7 +18,7 @@ apppCore.init = function() {
 
 	apppCore.log( 'apppCore', apppCore );
 
-	if ( ! apppCore.is_appp_true && ! apppCore.QueryVars('appp') && apppCore.isApp() && apppCore.isMobile() ) {
+	if ( ! apppCore.is_appp_true && ! apppCore.QueryVars('appp') && ! apppCore._isApp && apppCore.isApp() && apppCore.isMobile() ) {
 
 		// Redirect to query var-ed version
 		window.location.href = apppCore.AddQueryVar( window.location.href, 'appp', 1 );
