@@ -4,7 +4,7 @@ Donate link: http://apppresser.com/
 Tags: mobile, app, ios, android, application, phonegap
 Requires at least: 3.5
 Tested up to: 3.8
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -89,6 +89,9 @@ Technically you can do anything with an AppPresser app that you can do with Phon
 
 == Changelog ==
 
+= 1.0.4 =
+* Extensions submenu highlighting available AppPresser add-ons
+
 = 1.0.3 =
 * Bug Fix: `plugins_loaded` firing too early causing conflicts with other plugins.
 * Improvement: Check child theme for `app-settings.php` file as well as parent theme.
@@ -107,6 +110,9 @@ Technically you can do anything with an AppPresser app that you can do with Phon
 
 
 == Upgrade Notice ==
+
+= 1.0.4 =
+* Extensions submenu highlighting available AppPresser add-ons
 
 = 1.0.3 =
 * Bug Fix: `plugins_loaded` firing too early causing conflicts with other plugins.
