@@ -13,15 +13,17 @@
 class AppPresser_Admin_Settings extends AppPresser {
 
 	// A single instance of this class.
-	public static $instance       = null;
-	public static $page_slug      = 'apppresser_settings';
-	public static $help_slug      = 'apppresser_sub_help_support';
-	public static $menu_slug      = '';
-	public static $help_menu_slug = '';
-	public static $image_inputs   = array();
-	public static $all_fields     = array();
-	public static $admin_tabs     = array();
-	public static $license_keys   = array();
+	public static $instance              = null;
+	public static $page_slug             = 'apppresser_settings';
+	public static $extensions_slug       = 'apppresser_sub_extensions';
+	public static $help_slug             = 'apppresser_sub_help_support';
+	public static $menu_slug             = '';
+	public static $extensions_menu_slug  = '';
+	public static $help_menu_slug        = '';
+	public static $image_inputs          = array();
+	public static $all_fields            = array();
+	public static $admin_tabs            = array();
+	public static $license_keys          = array();
 
 	/**
 	 * Creates or returns an instance of this class.
@@ -82,14 +84,17 @@ class AppPresser_Admin_Settings extends AppPresser {
 	 * @since  1.0.0
 	 */
 	function plugin_menu() {
+		
 		// Create main menu
 		self::$menu_slug = add_menu_page( __( 'AppPresser', 'apppresser' ), __( 'AppPresser', 'apppresser' ), 'manage_options', self::$page_slug, array( $this, 'settings_page' ) );
+		
 		// Create submenu items
+		self::$extensions_menu_slug = add_submenu_page( self::$page_slug, __( 'Extensions', 'apppresser' ), __( 'Extensions', 'apppresser' ), 'manage_options', self::$extensions_slug, array( $this, 'extensions_page' ) );
 		self::$help_menu_slug = add_submenu_page( self::$page_slug, __( 'Help / Support', 'apppresser' ), __( 'Help / Support', 'apppresser' ), 'manage_options', self::$help_slug, array( $this, 'help_support_page' ) );
 
-		// enqueue our js
-		add_action( 'admin_head-' . self::$menu_slug, array( $this, 'admin_head' ) );
-		add_action( 'admin_print_scripts-' . self::$menu_slug, array( $this, 'admin_scripts' ) );
+
+		// enqueue that shiz
+		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
 
 	}
 
@@ -101,24 +106,8 @@ class AppPresser_Admin_Settings extends AppPresser {
 		// admin scripts and styles
 		wp_enqueue_script( 'appp-admin', self::$js_url . 'appp-admin.js', array( 'jquery', 'jquery-ui-core', 'jquery-ui-tooltip' ), self::VERSION );
 		wp_enqueue_style( 'jquery-ui-smoothness', self::$css_url . 'smoothness/smoothness.custom.min.css' );
+		wp_enqueue_style( 'appp-admin-styles', self::$css_url . 'appp-admin-styles.css' );
 	}
-
-	/**
-	 * Apply some settings for our tooltip hover spot
-	 * @since  1.0.0
-	 */
-	function admin_head() {
-		?>
-		<style>.apppresser_settings .help { background: rgb(220,220,220); border-radius: 50%; color: rgb(0, 0, 0); display: inline-block; height: 15px; margin-left: 5px; text-align: center; text-decoration: none; text-shadow: none; width: 15px; font-weight: normal; } .apppresser_settings.mp6 .help { line-height: 15px; } .form-table .appp-section-title { padding-bottom: 0; } .appp-section-title h3 { margin: 0; } .apppresser_settings .form-table { display: none; padding-top: .6em; } .apppresser_settings .form-table.nav-tab-active { display: block; } .appp-ajax-results-help { display:none; margin: 10px 0 -8px 7px !important; } .submit .appp-tabs { margin: 0 10px; display: none; } .appp-tabs.nav-tab-active { display: inline; } .license_key.description span {
-			color: white; display: block; background: #49C749; text-align: center; font-weight: bold; font-style: normal; text-transform: uppercase; margin: -5px 1px; width: 25em; } .mp6 .license_key.description span { font-size: 14px; } .license_key.description span.inactive {
-			background: #F14949; } .license_key.description span.inactive a { color: #fff; }
-		</style>
-		<?php
-
-		// Easy hook for adding to the admin_head on the AppPresser settings page
-		do_action( 'appp_admin_settings_head', self::run() );
-	}
-
 
 	/**
 	 * Register AppPresser Settings with Settings API.
@@ -329,6 +318,45 @@ class AppPresser_Admin_Settings extends AppPresser {
 			<p><?php _e( 'AppPresser was created by Scott Bolinger, Brad Williams, Brian Messenlehner, and Lisa Sabin-Wilson', 'apppresser' ); ?>.</p>
 		</div>
 		<?php
+	}
+
+	/**
+	 * AppPresser extensions page output
+	 * @since  1.0.x
+	 */
+	function extensions_page() {
+		$class = self::$page_slug;
+		$class .= self::is_mp6() ? ' mp6' : '';
+		?>
+		<div class="wrap <?php echo $class; ?>">
+            <h2><?php printf( 'AppPresser ' .__( 'Extensions &nbsp;&mdash;&nbsp; %s', 'apppresser' ), '<a href="http://apppresser.com/extensions/?ref=appp" class="button-primary" target="_blank">' . __( 'Browse All Extensions', 'apppresser' ) . '</a>' ); ?></h2>
+            <p><?php _e( 'These extensions extend the functionality of AppPresser.', 'apppresser' ); ?></p>
+            <?php 
+	        // Attempt to pull back our cached feed
+	        $feed = get_transient( 'appp_extensions_feed' );
+
+	        // If we don't have a cached feed, pull back fresh data
+	        if ( empty( $feed ) ) {
+
+	                // Retrieve and parse our feed
+	                $feed = wp_remote_get( 'http://apppresser.com/?feed=addons', array( 'sslverify' => false ) );
+	                if ( ! is_wp_error( $feed ) ) {
+	                        if ( isset( $feed['body'] ) && strlen( $feed['body'] ) > 0 ) {
+	                                $feed = wp_remote_retrieve_body( $feed );
+	                                // Cache our feed for 1 hour
+	                                set_transient( 'appp_extensions_feed', $feed, HOUR_IN_SECONDS );
+	                        }
+	                } else {
+	                        $feed = '<div class="error"><p>' . __( 'There was an error retrieving the extensions list from the server. Please try again later.', 'apppresser' ) . '</div>';
+	                }
+	        }
+
+	        // display the feed or error message
+	        echo $feed;
+            ?>
+        </div>
+        <?php
+
 	}
 
 	/**
