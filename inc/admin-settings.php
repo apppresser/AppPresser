@@ -109,7 +109,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 		// admin scripts and styles
 		wp_enqueue_script( 'appp-admin', self::$js_url . 'appp-admin.js', array( 'jquery', 'jquery-ui-core', 'jquery-ui-tooltip' ), self::VERSION );
 		wp_enqueue_style( 'jquery-ui-smoothness', self::$css_url . 'smoothness/smoothness.custom.min.css' );
-		wp_enqueue_style( 'appp-admin-styles', self::$css_url . 'appp-admin-styles.css', null, self::VERSION );
+		wp_enqueue_style( 'appp-admin-styles', self::$css_url . 'appp-admin-styles.css', null, self::VERSION.time() );
 	}
 
 	/**
@@ -316,62 +316,6 @@ class AppPresser_Admin_Settings extends AppPresser {
 	}
 
 	/**
-	 * Help and Support settings page
-	 * @since  1.0.0
-	 */
-	function help_support_page() {
-		$class = self::$page_slug;
-		$class .= self::is_mp6() ? ' mp6' : '';
-		?>
-		<div class="wrap <?php echo $class; ?>">
-			<h2>AppPresser <?php _e( 'Help and Support', 'apppresser' ); ?></h2>
-			<p><strong><?php _e( 'Resources', 'apppresser' ); ?>:</strong> <a href="https://github.com/WebDevStudios/AppPresser/" target="_blank">AppPresser <?php _e( 'Core on Github', 'apppresser' ); ?></a> | <a href="http://wordpress.org/support/plugin/apppresser" target="_blank"><?php _e( 'Support Forums', 'apppresser' ); ?></a> | <a href="http://apppresser.com/docs/" target="_blank">AppPresser <?php _e( 'Documentation', 'apppresser' ); ?></a></p>
-			<p><strong>AppPresser <?php _e( 'Online', 'apppresser' ); ?>:</strong> <a href="http://twitter.com/apppresser" target="_blank"><?php _e( 'Twitter', 'apppresser' ); ?></a> | <a href="http://facebook.com/apppresser" target="_blank"><?php _e( 'Facebook', 'apppresser' ); ?></a> | <a href="http://youtube.com/user/apppresser" target="_blank"><?php _e( 'YouTube', 'apppresser' ); ?></a></p>
-			<h3><?php _e( 'About AppPresser', 'apppresser' ); ?></h3>
-			<p><?php _e( 'AppPresser was created by Scott Bolinger, Brad Williams, Brian Messenlehner, and Lisa Sabin-Wilson', 'apppresser' ); ?>.</p>
-		</div>
-		<?php
-	}
-
-	/**
-	 * AppPresser extensions page output
-	 * @since  1.0.4
-	 */
-	function extensions_page() {
-		$class = self::$page_slug;
-		$class .= self::is_mp6() ? ' mp6' : '';
-		?>
-		<div class="wrap <?php echo $class; ?>">
-			<h2><?php printf( 'AppPresser ' .__( 'Extensions &nbsp;&mdash;&nbsp; %s', 'apppresser' ), '<a href="http://apppresser.com/extensions/?ref=appp" class="button-primary" target="_blank">' . __( 'Browse All Extensions', 'apppresser' ) . '</a>' ); ?></h2>
-			<p><?php _e( 'These extensions extend the functionality of AppPresser.', 'apppresser' ); ?></p>
-
-         <?php
-			// Attempt to pull back our cached feed
-			$feed = get_transient( 'appp_extensions_feed' );
-			$fallback = '<div class="error"><p>' . __( 'There was an error retrieving the extensions list. Please try again later.', 'apppresser' ) . '</div>';
-
-			// If we don't have a cached feed, pull back fresh data
-			if ( empty( $feed ) ) {
-				// Retrieve and parse our feed
-				$feed = wp_remote_get( 'http://apppresser.com/?feed=addons', array( 'sslverify' => false ) );
-				if ( ! is_wp_error( $feed ) ) {
-					if ( isset( $feed['body'] ) && strlen( $feed['body'] ) > 0 ) {
-						$feed = wp_remote_retrieve_body( $feed );
-						// Cache our feed for 1 hour
-						set_transient( 'appp_extensions_feed', $feed, HOUR_IN_SECONDS );
-					}
-				}
-			}
-
-			// display the feed or error message
-			echo $feed && ! is_wp_error( $feed ) ? $feed : $fallback;
-			?>
-     </div>
-     <?php
-
-	}
-
-	/**
 	 * Adds a setting section to AppPresser's settings
 	 * @since  1.0.0
 	 * @param  string  $key     Option key
@@ -560,6 +504,62 @@ class AppPresser_Admin_Settings extends AppPresser {
 
 		// send back our encoded data
 		wp_send_json_success( $return );
+
+	}
+
+	/**
+	 * Help and Support settings page
+	 * @since  1.0.0
+	 */
+	function help_support_page() {
+		$class = self::$page_slug;
+		$class .= self::is_mp6() ? ' mp6' : '';
+		?>
+		<div class="wrap <?php echo $class; ?>">
+			<h2>AppPresser <?php _e( 'Help and Support', 'apppresser' ); ?></h2>
+			<p><strong><?php _e( 'Resources', 'apppresser' ); ?>:</strong> <a href="https://github.com/WebDevStudios/AppPresser/" target="_blank">AppPresser <?php _e( 'Core on Github', 'apppresser' ); ?></a> | <a href="http://wordpress.org/support/plugin/apppresser" target="_blank"><?php _e( 'Support Forums', 'apppresser' ); ?></a> | <a href="http://apppresser.com/docs/" target="_blank">AppPresser <?php _e( 'Documentation', 'apppresser' ); ?></a></p>
+			<p><strong>AppPresser <?php _e( 'Online', 'apppresser' ); ?>:</strong> <a href="http://twitter.com/apppresser" target="_blank"><?php _e( 'Twitter', 'apppresser' ); ?></a> | <a href="http://facebook.com/apppresser" target="_blank"><?php _e( 'Facebook', 'apppresser' ); ?></a> | <a href="http://youtube.com/user/apppresser" target="_blank"><?php _e( 'YouTube', 'apppresser' ); ?></a></p>
+			<h3><?php _e( 'About AppPresser', 'apppresser' ); ?></h3>
+			<p><?php _e( 'AppPresser was created by Scott Bolinger, Brad Williams, Brian Messenlehner, and Lisa Sabin-Wilson', 'apppresser' ); ?>.</p>
+		</div>
+		<?php
+	}
+
+	/**
+	 * AppPresser extensions page output
+	 * @since  1.0.4
+	 */
+	function extensions_page() {
+		$class = self::$page_slug;
+		$class .= self::is_mp6() ? ' mp6' : '';
+		?>
+		<div class="wrap <?php echo $class; ?>">
+			<h2><?php printf( 'AppPresser ' .__( 'Extensions &nbsp;&mdash;&nbsp; %s', 'apppresser' ), '<a href="http://apppresser.com/extensions/?ref=appp" class="button-primary" target="_blank">' . __( 'Browse All Extensions', 'apppresser' ) . '</a>' ); ?></h2>
+			<p><?php _e( 'These extensions extend the functionality of AppPresser.', 'apppresser' ); ?></p>
+
+         <?php
+			// Attempt to pull back our cached feed
+			$feed = get_transient( 'appp_extensions_feed' );
+			$fallback = '<div class="error"><p>' . __( 'There was an error retrieving the extensions list. Please try again later.', 'apppresser' ) . '</div>';
+
+			// If we don't have a cached feed, pull back fresh data
+			if ( empty( $feed ) ) {
+				// Retrieve and parse our feed
+				$feed = wp_remote_get( 'http://apppresser.com/?feed=addons', array( 'sslverify' => false ) );
+				if ( ! is_wp_error( $feed ) ) {
+					if ( isset( $feed['body'] ) && strlen( $feed['body'] ) > 0 ) {
+						$feed = wp_remote_retrieve_body( $feed );
+						// Cache our feed for 1 hour
+						set_transient( 'appp_extensions_feed', $feed, HOUR_IN_SECONDS );
+					}
+				}
+			}
+
+			// display the feed or error message
+			echo $feed && ! is_wp_error( $feed ) ? $feed : $fallback;
+			?>
+     </div>
+     <?php
 
 	}
 
