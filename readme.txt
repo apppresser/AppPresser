@@ -4,7 +4,7 @@ Donate link: http://apppresser.com/
 Tags: mobile, app, ios, android, application, phonegap
 Requires at least: 3.5
 Tested up to: 3.8
-Stable tag: 1.0.4
+Stable tag: 1.0.4.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -89,6 +89,9 @@ Technically you can do anything with an AppPresser app that you can do with Phon
 
 == Changelog ==
 
+= 1.0.4.1 =
+* Remove "App only theme?" front-end error.
+
 = 1.0.4 =
 * Extensions submenu highlighting available for AppPresser add-ons.
 * Addressed some pre-PHP 5.3 notices.
@@ -113,6 +116,9 @@ Technically you can do anything with an AppPresser app that you can do with Phon
 
 
 == Upgrade Notice ==
+
+= 1.0.4.1 =
+* Remove "App only theme?" front-end error.
 
 = 1.0.4 =
 * Extensions submenu highlighting available for AppPresser add-ons.

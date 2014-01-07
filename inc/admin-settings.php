@@ -549,6 +549,8 @@ class AppPresser_Admin_Settings extends AppPresser {
 				if ( ! is_wp_error( $feed ) ) {
 					if ( isset( $feed['body'] ) && strlen( $feed['body'] ) > 0 ) {
 						$feed = wp_remote_retrieve_body( $feed );
+
+						$feed = str_ireplace( array( '<html>', '<body>', '</html>', '</body>'), '', $feed );
 						// Cache our feed for 1 hour
 						set_transient( 'appp_extensions_feed', $feed, HOUR_IN_SECONDS );
 					}
