@@ -41,6 +41,13 @@ We are happy to accept contributions, but also want to maintain high quality doc
 
 ## Changelog
 
+#### 1.0.4
+* Extensions submenu highlighting available for AppPresser add-ons.
+* Addressed some pre-PHP 5.3 notices.
+* Bug Fix: White-screen on the front end if selecting a theme in the "App only theme?" setting that does not support AppPresser. An error will now be shown.
+* Improvement: `appp_get_setting()` now accepts a fallback option like `get_option()`.
+
+
 #### 1.0.3
 * Bug Fix: `plugins_loaded` firing too early causing conflicts with other plugins.
 * Improvement: Check child theme for `app-settings.php` file as well as parent theme.
