@@ -94,10 +94,11 @@ class AppPresser_Admin_Settings extends AppPresser {
 		self::$help_menu_slug = add_submenu_page( self::$page_slug, __( 'Help / Support', 'apppresser' ), __( 'Help / Support', 'apppresser' ), 'manage_options', self::$help_slug, array( $this, 'help_support_page' ) );
 
 		add_action( 'admin_head-' . self::$menu_slug, array( $this, 'admin_head' ) );
+
 		// enqueue
-		foreach ( array( self::$menu_slug, self::$extensions_menu_slug ) as $slug ) {
+		foreach ( array( self::$menu_slug, self::$extensions_menu_slug, self::$help_menu_slug ) as $slug )
 			add_action( 'admin_print_scripts-' . $slug, array( $this, 'admin_scripts' ) );
-		}
+
 	}
 
 	/**
