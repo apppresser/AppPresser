@@ -322,7 +322,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 
 	/**
 	 * AppPresser extensions page output
-	 * @since  1.0.x
+	 * @since  1.0.4
 	 */
 	function extensions_page() {
 		$class = self::$page_slug;
