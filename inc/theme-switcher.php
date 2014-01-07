@@ -33,6 +33,8 @@ class AppPresser_Theme_Switcher extends AppPresser {
 		add_action( 'plugins_loaded', array( $this, 'switch_theme' ), 9999 );
 		add_filter( 'pre_option_show_on_front', array( $this, 'pre_show_on_front' ) );
 		add_filter( 'pre_option_page_on_front', array( $this, 'pre_page_on_front' ) );
+ 		add_action( 'template_redirect', array( $this, 'check_appaware' ) );
+
 		$this->theme = wp_get_theme();
 	}
 
@@ -113,6 +115,19 @@ class AppPresser_Theme_Switcher extends AppPresser {
 
 		return false;
 	}
+
+	/**
+	 * Checks if selected theme supports apppresser. Theme should have `add_theme_support( 'apppresser' );`
+	 * If not, dies with a message and link to the AppPresser settings page.
+	 *
+	 * @since  1.0.4
+	 */
+	public function check_appaware() {
+		if ( ! current_theme_supports( 'apppresser' ) ) {
+			wp_die( '<p style="text-align:center;font-size:1.1em"><strong>'. __( 'This theme does not support AppPresser.', 'apppresser' ) . '</strong><br>' . sprintf( __( 'Please change your %s to an AppAware theme.', 'apppresser' ), '<a href="'. AppPresser_Admin_Settings::url() .'">'. __( '"App only theme?" setting', 'apppresser' ) .'</a>' ) .'</p>' );
+		}
+	}
+
 
 }
 AppPresser_Theme_Switcher::go();
