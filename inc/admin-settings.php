@@ -339,7 +339,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 			'helptext'    => '',
 			'description' => '',
 			'options'     => array(),
-			'tab'         => isset( $args['echo'] ) && $args['echo'] ? 'echoed' ? array_shift( $keys ),
+			'tab'         => isset( $args['echo'] ) && $args['echo'] ? 'echoed' : array_shift( $keys ),
 			'echo'        => false,
 		);
 		$args = wp_parse_args( $args, $defaults );
