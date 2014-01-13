@@ -22,6 +22,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 	public static $help_menu_slug = '';
 	public static $image_inputs   = array();
 	public static $all_fields     = array();
+	public static $field_args     = array();
 	public static $admin_tabs     = array();
 	public static $license_keys   = array();
 
@@ -169,8 +170,21 @@ class AppPresser_Admin_Settings extends AppPresser {
 		}
 
 		// Don't delete license keys and other options if a particular plugin is deactivated at the time of saving.
+
+		// Get existing options
 		$existing = is_array( appp_get_setting() ) ? appp_get_setting() : array();
-		$cleaninput = array_merge( $existing, $cleaninput );
+		// Check for keys differing keys from existing option
+		$diff = array_diff_key( $existing, $cleaninput );
+		// Loop through any differeing keys
+		foreach ( (array) $diff as $field_id => $value ) {
+
+			// If the field is still registered, ignore it
+			if ( !! self::get_all_fields( $field_id ) )
+				continue;
+
+			// If we get here, the field is no longer registered and so the option should be preserved.
+			$cleaninput[ $field_id ] = $diff[ $field_id  ];
+		}
 
 		return $cleaninput;
 	}
@@ -234,9 +248,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 						// A hook for adding additional data to the top of each tabbed area
 						do_action( "apppresser_tab_top_$tab", self::run(), self::settings() );
 						if ( isset( self::$all_fields[ $tab ] ) ) {
-							foreach ( self::$all_fields[ $tab ] as $field_key => $field ) {
-								echo $field['html'],"\n";
-							}
+							echo implode( "\n", self::$all_fields[ $tab ] );
 						}
 						// A hook for adding additional data to the bottom of each tabbed area
 						do_action( "apppresser_tab_bottom_$tab", self::run(), self::settings() );
@@ -444,12 +456,42 @@ class AppPresser_Admin_Settings extends AppPresser {
 		</tr>
 		';
 
-		self::$all_fields[ $args['tab'] ][ $key ] = array( 'html' => $_field, 'args' => $args );
+		self::$all_fields[ $args['tab'] ][ $key ] = $_field;
+		self::$field_args[ $key ] = array( 'args' => $args );
 
 		if ( $args['echo'] )
 			echo $_field;
 
 		return $_field;
+	}
+
+	/**
+	 * Gets all registered fields arguments
+	 * @since  1.0.5
+	 * @param  string  $field_id Id of field to check
+	 * @return mixed             False, all fields array, or singular field array
+	 */
+	public static function get_all_fields( $field_id = '' ) {
+		if ( ! empty( self::$field_args ) ) {
+
+			if ( ! $field_id )
+				return self::$field_args;
+
+			return isset( self::$field_args[ $field_id ] ) ? self::$field_args[ $field_id ] : false;
+		}
+
+		ob_start();
+		// Do html
+		@do_action( 'apppresser_add_settings', self::run() );
+		// grab the data from the output buffer and add it to our $content variable
+		$content = ob_get_contents();
+		ob_end_clean();
+
+		if ( ! $field_id )
+			return self::$field_args;
+
+		return isset( self::$field_args[ $field_id ] ) ? self::$field_args[ $field_id ] : false;
+
 	}
 
 	/**
