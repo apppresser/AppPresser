@@ -41,6 +41,11 @@ We are happy to accept contributions, but also want to maintain high quality doc
 
 ## Changelog
 
+#### 1.0.5
+* Enhancement/Bug Fix: Don't delete license keys and other options if a particular plugin is deactivated at the time of saving.
+* Enhancement: Add a `apppresser_tab_top_$tab` hook to match the `apppresser_tab_bottom_$tab` hook.
+
+
 #### 1.0.4
 * Extensions submenu highlighting available for AppPresser add-ons.
 * Addressed some pre-PHP 5.3 notices.

@@ -168,6 +168,10 @@ class AppPresser_Admin_Settings extends AppPresser {
 
 		}
 
+		// Don't delete license keys and other options if a particular plugin is deactivated at the time of saving.
+		$existing = is_array( appp_get_setting() ) ? appp_get_setting() : array();
+		$cleaninput = array_merge( $existing, $cleaninput );
+
 		return $cleaninput;
 	}
 
@@ -227,8 +231,12 @@ class AppPresser_Admin_Settings extends AppPresser {
 					$current_class = $tab == $current_tab ? ' nav-tab-active' : '';
 
 					echo '<table class="appp-tabs form-table tab-'. $tab . $current_class .'">';
+						// A hook for adding additional data to the top of each tabbed area
+						do_action( "apppresser_tab_top_$tab", self::run(), self::settings() );
 						if ( isset( self::$all_fields[ $tab ] ) ) {
-							echo implode( '', self::$all_fields[ $tab ] );
+							foreach ( self::$all_fields[ $tab ] as $field_key => $field ) {
+								echo $field['html'],"\n";
+							}
 						}
 						// A hook for adding additional data to the bottom of each tabbed area
 						do_action( "apppresser_tab_bottom_$tab", self::run(), self::settings() );
@@ -294,7 +302,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 	 * @since  1.0.0
 	 */
 	public function help_link() {
-		echo '<a class="button-secondary" href="'. add_query_arg( 'page', self::$help_slug, admin_url( 'admin.php' ) ) .'">'. __( 'Help/Support', 'apppresser' ) .'</a>';
+		echo '<a href="'. add_query_arg( 'page', self::$help_slug, admin_url( 'admin.php' ) ) .'">'. __( 'Help/Support', 'apppresser' ) .'</a>';
 	}
 
 	/**
@@ -331,10 +339,11 @@ class AppPresser_Admin_Settings extends AppPresser {
 			'helptext'    => '',
 			'description' => '',
 			'options'     => array(),
-			'tab'         => array_shift( $keys ),
+			'tab'         => isset( $args['echo'] ) && $args['echo'] ? 'echoed' ? array_shift( $keys ),
 			'echo'        => false,
 		);
 		$args = wp_parse_args( $args, $defaults );
+
 		// Clean values
 		$key     = esc_attr( $key );
 		$label   = sanitize_text_field( $label );
@@ -434,12 +443,11 @@ class AppPresser_Admin_Settings extends AppPresser {
 		$_field = $_field . $field .'
 		</tr>
 		';
-		if ( $args['echo'] ) {
+
+		self::$all_fields[ $args['tab'] ][ $key ] = array( 'html' => $_field, 'args' => $args );
+
+		if ( $args['echo'] )
 			echo $_field;
-			self::$all_fields['echoed'][ $key ] = $_field;
-		} else {
-			self::$all_fields[ $args['tab'] ][ $key ] = $_field;
-		}
 
 		return $_field;
 	}

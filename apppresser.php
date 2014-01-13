@@ -211,6 +211,7 @@ class AppPresser {
 	public static function settings( $key = false, $fallback = false ) {
 		if ( self::$settings === 'false' ) {
 			self::$settings = get_option( self::SETTINGS_NAME );
+			self::$settings = empty( self::$settings ) ? array() : (array) self::$settings;
 		}
 		if ( $key ) {
 			$setting = isset( self::$settings[ $key ] ) ? self::$settings[ $key ] : false;
