@@ -142,6 +142,7 @@ class AppPresser {
 	function includes() {
 
 		require_once( self::$inc_path . 'theme-switcher.php' );
+		$this->theme_switcher = new AppPresser_Theme_Switcher();
 		require_once( self::$inc_path . 'mods.php' );
 		// Uncomment when we add back in the app panel
 		// require_once( self::$inc_path . 'body-class-meta-box.php' );

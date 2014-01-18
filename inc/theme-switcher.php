@@ -9,21 +9,10 @@
 
 class AppPresser_Theme_Switcher extends AppPresser {
 
-	// A single instance of this class.
-	public static $instance     = null;
-	public static $switch_theme = false;
-
-	/**
-	 * Creates or returns an instance of this class.
-	 * @since  0.1.0
-	 * @return AppPresser_Theme_Switcher A single instance of this class.
-	 */
-	public static function go() {
-		if ( self::$instance === null )
-			self::$instance = new self();
-
-		return self::$instance;
-	}
+	public $original_template   = null;
+	public $original_stylesheet = null;
+	public $theme               = null;
+	public $appp_theme          = false;
 
 	/**
 	 * Party Started
@@ -33,8 +22,8 @@ class AppPresser_Theme_Switcher extends AppPresser {
 		add_action( 'plugins_loaded', array( $this, 'switch_theme' ), 9999 );
 		add_filter( 'pre_option_show_on_front', array( $this, 'pre_show_on_front' ) );
 		add_filter( 'pre_option_page_on_front', array( $this, 'pre_page_on_front' ) );
- 		// add_action( 'after_setup_theme', array( $this, 'check_appaware' ), 99 );
 
+		// cache the activated theme object
 		$this->theme = wp_get_theme();
 	}
 
@@ -52,37 +41,81 @@ class AppPresser_Theme_Switcher extends AppPresser {
 			setcookie( 'AppPresser_Appp', 'true', time() + ( DAY_IN_SECONDS * 30 ) );
 		}
 
-		if (
+		$do_switch = (
 			// check if user is running native app
 			self::is_app()
 			// check if the setting is enabled to view the APP theme as an administrator
-			|| ( self::settings( 'admin_theme_switch' ) == 'on' && current_user_can( 'manage_options' ) )
+			|| ( appp_get_setting( 'admin_theme_switch' ) == 'on' && current_user_can( 'manage_options' ) )
 			// it's not an app but we want to switch the theme for mobile
-			|| ( ! self::is_app() && self::settings( 'mobile_browser_theme_switch' ) == 'on' && wp_is_mobile() )
-		) {
+			|| ( ! self::is_app() && appp_get_setting( 'mobile_browser_theme_switch' ) == 'on' && wp_is_mobile() )
+		) && appp_get_setting( 'appp_theme' );
 
-			self::$switch_theme = true;
+		if ( ! $do_switch )
+			return;
 
-			// switch the current theme to use the AppPresser theme
-			add_filter( 'template', array( $this, 'do_switch' ) );
-			add_filter( 'option_template', array( $this, 'do_switch' ) );
-			add_filter( 'option_stylesheet', array( $this, 'do_switch' ) );
+		// Get the saved setting's theme object
+		$this->appp_theme = wp_get_theme( appp_get_setting( 'appp_theme' ) );
 
-		}
+		// switch the current theme to use the AppPresser theme
+		add_filter( 'option_template', array( $this, 'template_request' ), 5 );
+		add_filter( 'option_stylesheet', array( $this, 'stylesheet_request' ), 5 );
+		add_filter( 'template', array( $this, 'maybe_switch' ) );
+	}
 
+	/**
+	 * Cache our original template and maybe switch themes
+	 * @since  1.0.5
+	 * @param  string  $template Template name
+	 * @return string            Maybe modified template name
+	 */
+	public function template_request( $template ) {
+		// Cache our original template request
+		$this->original_template = null === $this->original_template ? $template : $this->original_template;
+
+		return $this->maybe_switch( $template );
+	}
+
+	/**
+	 * Cache our original stylesheet and maybe switch themes
+	 * @since  1.0.5
+	 * @param  string  $stylesheet Stylesheet template name
+	 * @return string              Maybe modified template name
+	 */
+	public function stylesheet_request( $stylesheet ) {
+		// Cache our original stylesheet request
+		$this->original_stylesheet = null === $this->original_stylesheet ? $stylesheet : $this->original_stylesheet;
+
+		return $this->maybe_switch( $stylesheet, true );
 	}
 
 	/**
 	 * AppPresser switch theme function
 	 * @since  1.0.0
-	 * @return theme name to load
+	 * @param  string  $template           template name
+	 * @param  boolean $stylesheet_request Request for template or stylesheet theme name
+	 * @return string                      Modified template name
 	 */
-	public function do_switch( $template = '' ) {
+	public function maybe_switch( $template = '', $stylesheet_request = false ) {
 
-		$template = $template ? $template : $this->theme->name;
-		// load the AppPresser theme setting
-		$template = self::settings( 'appp_theme' ) ? self::settings( 'appp_theme' ) : $template;
+		// Ensure we return something
+		if ( ! $template ) {
+			$template = $stylesheet_request
+				? $this->original_stylesheet
+				: $this->original_template;
+		}
 
+		// If we're not doing the theme switch, bail
+		if ( ! $this->appp_theme )
+			return $template;
+
+		// Ok, do the template switch
+		$template = $stylesheet_request
+			// If a request for the stylesheet dir name, give back our setting
+			? appp_get_setting( 'appp_theme' )
+			// Otherwise, give back our saved settings parent theme dir (if it has one)
+			: $this->appp_theme->get_template();
+
+		// return the switched template
 		return $template;
 	}
 
@@ -94,7 +127,7 @@ class AppPresser_Theme_Switcher extends AppPresser {
 	public function pre_show_on_front() {
 
 		$this->theme = wp_get_theme();
-		if ( $this->theme->template == $this->do_switch() && ! is_admin() ) {
+		if ( $this->theme->template == $this->maybe_switch() && ! is_admin() ) {
 			return 'page';
 		}
 
@@ -109,27 +142,14 @@ class AppPresser_Theme_Switcher extends AppPresser {
 	public function pre_page_on_front() {
 
 		$this->theme = wp_get_theme();
-		if ( $this->theme->template == $this->do_switch() && ! is_admin() ) {
+		if ( $this->theme->template == $this->maybe_switch() && ! is_admin() ) {
 			return appp_get_setting( 'appp_home_page' );
 	  	}
 
 		return false;
 	}
 
-	/**
-	 * Checks if selected theme supports apppresser. Theme should have `add_theme_support( 'apppresser' );`
-	 * If not, dies with a message and link to the AppPresser settings page.
-	 *
-	 * @since  1.0.4
-	 */
-	public function check_appaware() {
-		if ( self::$switch_theme && ! current_theme_supports( 'apppresser' ) && current_user_can( 'manage_options' ) ) {
-			wp_die( '<p style="text-align:center;font-size:1.1em"><strong>'. __( 'This theme does not support AppPresser.', 'apppresser' ) . '</strong><br>' . sprintf( __( 'Please change your %s to an AppAware theme.', 'apppresser' ), '<a href="'. AppPresser_Admin_Settings::url() .'">'. __( '"App only theme?" setting', 'apppresser' ) .'</a>' ) .'</p>' );
-		}
-	}
-
 }
-AppPresser_Theme_Switcher::go();
 
 /**
  * AppPresser detect iOS function
