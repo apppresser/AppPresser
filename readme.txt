@@ -124,6 +124,7 @@ Technically you can do anything with an AppPresser app that you can do with Phon
 
 = 1.0.5 =
 * Enhancement/Bug Fix: Don't delete license keys and other options if a particular plugin is deactivated at the time of saving.
+* Enhancement/Bug Fix: AppPresser "App only theme" option now works with child themes.
 * Enhancement: Add a `apppresser_tab_top_$tab` hook to match the `apppresser_tab_bottom_$tab` hook.
 
 = 1.0.4.1 =
