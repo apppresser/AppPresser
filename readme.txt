@@ -4,7 +4,7 @@ Donate link: http://apppresser.com/
 Tags: mobile, app, ios, android, application, phonegap
 Requires at least: 3.5
 Tested up to: 3.8
-Stable tag: 1.0.5
+Stable tag: 1.0.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -89,6 +89,9 @@ Technically you can do anything with an AppPresser app that you can do with Phon
 
 == Changelog ==
 
+= 1.0.6 =
+* Enhancement: New filter `apppresser_theme_settings_file` that allows you to set the location of your theme's AppPresser settings registration (so your settings show when the theme is not active). Will fallback to looking for `appp-settings.php` file in the theme root.
+
 = 1.0.5 =
 * Enhancement/Bug Fix: Don't delete license keys and other options if a particular plugin is deactivated at the time of saving.
 * Enhancement/Bug Fix: AppPresser "App only theme" option now works with child themes.
@@ -121,6 +124,9 @@ Technically you can do anything with an AppPresser app that you can do with Phon
 
 
 == Upgrade Notice ==
+
+= 1.0.6 =
+* Enhancement: New filter `apppresser_theme_settings_file` that allows you to set the location of your theme's AppPresser settings registration (so your settings show when the theme is not active). Will fallback to looking for `appp-settings.php` file in the theme root.
 
 = 1.0.5 =
 * Enhancement/Bug Fix: Don't delete license keys and other options if a particular plugin is deactivated at the time of saving.

@@ -41,6 +41,9 @@ We are happy to accept contributions, but also want to maintain high quality doc
 
 ## Changelog
 
+#### 1.0.6
+* Enhancement: New filter `apppresser_theme_settings_file` that allows you to set the location of your theme's AppPresser settings registration (so your settings show when the theme is not active). Will fallback to looking for `appp-settings.php` file in the theme root.
+
 #### 1.0.5
 * Enhancement/Bug Fix: Don't delete license keys and other options if a particular plugin is deactivated at the time of saving.
 * Enhancement/Bug Fix: AppPresser "App only theme" option now works with child themes.

@@ -56,19 +56,25 @@ class AppPresser_Admin_Settings extends AppPresser {
 		if ( $appp_theme = self::settings( 'appp_theme' ) ) {
 			// If admin only theme object exists
 			if ( isset( $this->themes[ $appp_theme ] ) && is_callable( array( $this->themes[ $appp_theme ], 'get_template_directory' ) ) ) {
+
+				// Let themes override the location/name of the file
+				$file_override = apply_filters( 'apppresser_theme_settings_file', '' );
+				if ( $file_override && file_exists( $file_override ) ) {
+					require_once( $file_override );
+				}
 				// Check child theme directory first
 				$dir = $this->themes[ $appp_theme ]->get_stylesheet_directory();
 				// If there is a 'appp-settings.php' file,
 				if ( file_exists( $dir .'/appp-settings.php' ) ) {
 					// include it
-					include( $dir .'/appp-settings.php' );
+					require_once( $dir .'/appp-settings.php' );
 				}
 				// Ok, check parent theme directory
 				$dir = $this->themes[ $appp_theme ]->get_template_directory();
 				// If there is a 'appp-settings.php' file,
 				if ( file_exists( $dir .'/appp-settings.php' ) ) {
 					// include it
-					include( $dir .'/appp-settings.php' );
+					require_once( $dir .'/appp-settings.php' );
 				}
 			}
 		}
