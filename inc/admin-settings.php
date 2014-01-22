@@ -43,6 +43,11 @@ class AppPresser_Admin_Settings extends AppPresser {
 	 * @since  1.0.0
 	 */
 	function __construct() {
+		// Manually clear cookies?
+		if ( isset( $_GET['clear_app_cookie'] ) && 'true' === $_GET['clear_app_cookie'] ) {
+			self::clear_cookie();
+		}
+
 		add_action( 'admin_menu', array( $this, 'plugin_menu' ), 9 );
 		add_filter( 'sanitize_option_'. AppPresser::SETTINGS_NAME, array( $this, 'maybe_reset_license_statuses' ), 99 );
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
@@ -153,7 +158,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 					break;
 				case 'mobile_browser_theme_switch':
 					// Clear cookie
-					setcookie( 'AppPresser_Appp', 'true', time() - DAY_IN_SECONDS );
+					self::clear_cookie();
 					$cleaninput[ $key ] = isset( $inputs[ $key ] ) && $inputs[ $key ] == 'on' ? 'on' : '';
 				case 'admin_theme_switch':
 					$cleaninput[ $key ] = isset( $inputs[ $key ] ) && $inputs[ $key ] == 'on' ? 'on' : '';
@@ -628,6 +633,14 @@ class AppPresser_Admin_Settings extends AppPresser {
 	 */
 	public static function url() {
 		return add_query_arg( 'page', self::$page_slug, admin_url( 'admin.php' ) );
+	}
+
+	/**
+	 * Removes cookie by setting a date in the past as the expiration
+	 * @since  1.0.6
+	 */
+	public static function clear_cookie() {
+		setcookie( 'AppPresser_Appp', 'true', time() - DAY_IN_SECONDS );
 	}
 
 }
