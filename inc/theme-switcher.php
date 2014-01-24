@@ -19,6 +19,8 @@ class AppPresser_Theme_Switcher extends AppPresser {
 	 * @since 1.0.0
 	 */
 	public function __construct() {
+		if ( isset( $_GET['wp_customize'] ) && $_GET['wp_customize'] == 'on' )
+			return;
 		add_action( 'plugins_loaded', array( $this, 'switch_theme' ), 9999 );
 		add_filter( 'pre_option_show_on_front', array( $this, 'pre_show_on_front' ) );
 		add_filter( 'pre_option_page_on_front', array( $this, 'pre_page_on_front' ) );
@@ -34,7 +36,8 @@ class AppPresser_Theme_Switcher extends AppPresser {
 	 */
 	public function switch_theme() {
 
-		if ( is_admin() )
+		// If viewing the appp_theme customizer, we need the theme to be switched so the theme mods save properly
+		if ( is_admin() && ! $this->is_appp_theme_customizer() )
 			return;
 		// Set cookie from querystring if request is coming from an app
 		if ( self::is_app() ) {
@@ -60,6 +63,15 @@ class AppPresser_Theme_Switcher extends AppPresser {
 		add_filter( 'option_template', array( $this, 'template_request' ), 5 );
 		add_filter( 'option_stylesheet', array( $this, 'stylesheet_request' ), 5 );
 		add_filter( 'template', array( $this, 'maybe_switch' ) );
+	}
+
+	/**
+	 * Check url to determine if we are in the appp_theme customizer
+	 * @since  1.0.7
+	 * @return boolean True if we're in the customizer
+	 */
+	public function is_appp_theme_customizer() {
+		return false !== stripos( $_SERVER['REQUEST_URI'], '/wp-admin/customize.php?appp_theme=1' );
 	}
 
 	/**
