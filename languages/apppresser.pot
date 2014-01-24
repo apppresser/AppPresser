@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: AppPresser\n"
-"POT-Creation-Date: 2014-01-15 12:30-0600\n"
-"PO-Revision-Date: 2014-01-15 12:32-0600\n"
+"POT-Creation-Date: 2014-01-24 15:03-0600\n"
+"PO-Revision-Date: 2014-01-24 15:04-0600\n"
 "Last-Translator: Michael Beckwith <michael.d.beckwith@gmail.com>\n"
 "Language-Team: Michael Beckwith <michael.d.beckwith@gmail.com>\n"
 "Language: en_EN\n"
@@ -18,198 +18,212 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: inc/admin-settings.php:89 inc/admin-settings.php:286
-#: inc/admin-settings.php:573
+#: inc/AppPresser_Admin_Settings.php:128 inc/AppPresser_Admin_Settings.php:347
+#: inc/AppPresser_Admin_Settings.php:702
 msgid "AppPresser"
 msgstr ""
 
-#: inc/admin-settings.php:93
+#: inc/AppPresser_Admin_Settings.php:133
 msgid "Extensions"
 msgstr ""
 
-#: inc/admin-settings.php:95
+#: inc/AppPresser_Admin_Settings.php:135
 msgid "Help / Support"
 msgstr ""
 
-#: inc/admin-settings.php:263
+#: inc/AppPresser_Admin_Settings.php:324
 msgid "Save Settings"
 msgstr ""
 
-#: inc/admin-settings.php:287
+#: inc/AppPresser_Admin_Settings.php:348
 msgid "AppPresser Core Settings"
 msgstr ""
 
-#: inc/admin-settings.php:291
+#: inc/AppPresser_Admin_Settings.php:352
 msgid "Load AppPresser for mobile browsers"
 msgstr ""
 
-#: inc/admin-settings.php:291
+#: inc/AppPresser_Admin_Settings.php:354
 msgid ""
 "Display AppPresser in mobile browsers such as Safari and Chrome, instead of "
 "your normal theme."
 msgstr ""
 
-#: inc/admin-settings.php:294
+#: inc/AppPresser_Admin_Settings.php:358
 msgid "Load AppPresser for Admins Only"
 msgstr ""
 
-#: inc/admin-settings.php:294
+#: inc/AppPresser_Admin_Settings.php:360
 msgid ""
 "Check this if you want to test your AppPresser app without loading it for "
 "visitors to your site."
 msgstr ""
 
-#: inc/admin-settings.php:294
+#: inc/AppPresser_Admin_Settings.php:361
 msgid "(for testing purposes)"
 msgstr ""
 
-#: inc/admin-settings.php:295
-msgid "App only theme"
+#: inc/AppPresser_Admin_Settings.php:371
+msgid "Customize this theme."
 msgstr ""
 
-#: inc/admin-settings.php:295
+#: inc/AppPresser_Admin_Settings.php:373
+msgid "App-only theme"
+msgstr ""
+
+#: inc/AppPresser_Admin_Settings.php:376
 msgid ""
 "Select which theme you want to be loaded inside the app, such as the "
 "AppPresser theme."
 msgstr ""
 
-#: inc/admin-settings.php:295
-msgid "must be enabled above"
+#: inc/AppPresser_Admin_Settings.php:377
+#, php-format
+msgid "Must be enabled above.%s"
 msgstr ""
 
-#: inc/admin-settings.php:296
+#: inc/AppPresser_Admin_Settings.php:379
 msgid "Use a unique homepage for your app."
 msgstr ""
 
-#: inc/admin-settings.php:296
+#: inc/AppPresser_Admin_Settings.php:380
 msgid ""
 "Allows you to specify which page users will see first when they load up you "
 "AppPresser app."
 msgstr ""
 
-#: inc/admin-settings.php:296
+#: inc/AppPresser_Admin_Settings.php:381
 msgid "Start typing to search for a page"
 msgstr ""
 
-#: inc/admin-settings.php:298
+#: inc/AppPresser_Admin_Settings.php:384
 msgid "-- select --"
 msgstr ""
 
-#: inc/admin-settings.php:304
+#: inc/AppPresser_Admin_Settings.php:390
 msgid "Main App Menu"
 msgstr ""
 
-#: inc/admin-settings.php:304
+#: inc/AppPresser_Admin_Settings.php:393
 msgid "Use a custom main menu inside your app, different from your main site."
 msgstr ""
 
-#: inc/admin-settings.php:306
+#: inc/AppPresser_Admin_Settings.php:396
 msgid "Secondary App Menu"
 msgstr ""
 
-#: inc/admin-settings.php:306
+#: inc/AppPresser_Admin_Settings.php:399
 msgid ""
 "Use a custom secondary menu inside your app (the top right dropdown in the "
 "header)."
 msgstr ""
 
-#: inc/admin-settings.php:317
+#: inc/AppPresser_Admin_Settings.php:411
 msgid "Help/Support"
 msgstr ""
 
-#: inc/admin-settings.php:331
+#: inc/AppPresser_Admin_Settings.php:425
 msgid "Select a page:"
 msgstr ""
 
-#: inc/admin-settings.php:426
+#: inc/AppPresser_Admin_Settings.php:520
 msgid "Active"
 msgstr ""
 
-#: inc/admin-settings.php:430
+#: inc/AppPresser_Admin_Settings.php:524
 msgid "Invalid Key"
 msgstr ""
 
-#: inc/admin-settings.php:430
+#: inc/AppPresser_Admin_Settings.php:524
 msgid "Get a license"
 msgstr ""
 
-#: inc/admin-settings.php:531
+#: inc/AppPresser_Admin_Settings.php:645
+msgid "Save App Theme"
+msgstr ""
+
+#: inc/AppPresser_Admin_Settings.php:647
+#, php-format
+msgid "You are previewing the app-only theme: %s"
+msgstr ""
+
+#: inc/AppPresser_Admin_Settings.php:660
 msgid "security check failed"
 msgstr ""
 
-#: inc/admin-settings.php:538
+#: inc/AppPresser_Admin_Settings.php:667
 msgid "Please Try Again"
 msgstr ""
 
-#: inc/admin-settings.php:545
+#: inc/AppPresser_Admin_Settings.php:674
 msgid "No Results Found"
 msgstr ""
 
-#: inc/admin-settings.php:569
+#: inc/AppPresser_Admin_Settings.php:698
 msgid "Help and Support"
 msgstr ""
 
-#: inc/admin-settings.php:570
+#: inc/AppPresser_Admin_Settings.php:699
 msgid "Resources"
 msgstr ""
 
-#: inc/admin-settings.php:570
+#: inc/AppPresser_Admin_Settings.php:699
 msgid "Core on Github"
 msgstr ""
 
-#: inc/admin-settings.php:570
+#: inc/AppPresser_Admin_Settings.php:699
 msgid "Support Forums"
 msgstr ""
 
-#: inc/admin-settings.php:570
+#: inc/AppPresser_Admin_Settings.php:699
 msgid "Documentation"
 msgstr ""
 
-#: inc/admin-settings.php:571
+#: inc/AppPresser_Admin_Settings.php:700
 msgid "Online"
 msgstr ""
 
-#: inc/admin-settings.php:571
+#: inc/AppPresser_Admin_Settings.php:700
 msgid "Web"
 msgstr ""
 
-#: inc/admin-settings.php:571
+#: inc/AppPresser_Admin_Settings.php:700
 msgid "Twitter"
 msgstr ""
 
-#: inc/admin-settings.php:571
+#: inc/AppPresser_Admin_Settings.php:700
 msgid "Facebook"
 msgstr ""
 
-#: inc/admin-settings.php:571
+#: inc/AppPresser_Admin_Settings.php:700
 msgid "YouTube"
 msgstr ""
 
-#: inc/admin-settings.php:572
+#: inc/AppPresser_Admin_Settings.php:701
 msgid "About AppPresser"
 msgstr ""
 
-#: inc/admin-settings.php:573
+#: inc/AppPresser_Admin_Settings.php:702
 #, php-format
 msgid ""
 "%s was created by Scott Bolinger, Brad Williams, Brian Messenlehner, and "
 "Lisa Sabin-Wilson"
 msgstr ""
 
-#: inc/admin-settings.php:587
+#: inc/AppPresser_Admin_Settings.php:716
 #, php-format
 msgid "Extensions &nbsp;&mdash;&nbsp; %s"
 msgstr ""
 
-#: inc/admin-settings.php:587
+#: inc/AppPresser_Admin_Settings.php:716
 msgid "Browse All Extensions"
 msgstr ""
 
-#: inc/admin-settings.php:588
+#: inc/AppPresser_Admin_Settings.php:717
 msgid "These extensions extend the functionality of AppPresser."
 msgstr ""
 
-#: inc/admin-settings.php:593
+#: inc/AppPresser_Admin_Settings.php:722
 msgid ""
 "There was an error retrieving the extensions list. Please try again later."
 msgstr ""
@@ -313,17 +327,4 @@ msgstr ""
 msgid ""
 "This is a sentence describing the reason for this tab of settings. You can "
 "add a %s."
-msgstr ""
-
-#: inc/theme-switcher.php:127
-msgid "This theme does not support AppPresser."
-msgstr ""
-
-#: inc/theme-switcher.php:127
-#, php-format
-msgid "Please change your %s to an AppAware theme."
-msgstr ""
-
-#: inc/theme-switcher.php:127
-msgid "\"App only theme?\" setting"
 msgstr ""
