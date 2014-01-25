@@ -437,7 +437,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 		$_field  = '
 		<tr valign="top" class="apppresser-'. $key .'">';
 			if ( $type == 'h3' ) {
-				$_field = '<th colspan="2" scope="row"  class="appp-section-title"><h3 id="apppresser--'. $key .'">'. $label . $help .'</h3>';
+				$_field .= '<th colspan="2" scope="row"  class="appp-section-title"><h3 id="apppresser--'. $key .'">'. $label . $help .'</h3>';
 				$_field .= ! empty( $args['description'] ) ? '<p>'. trim( $args['description'] ) .'</p>' : '';
 				$_field .= '</th>';
 			} else {
