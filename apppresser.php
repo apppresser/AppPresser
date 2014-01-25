@@ -99,6 +99,9 @@ class AppPresser {
 
 		require_once( self::$inc_path . 'AppPresser_Admin_Settings.php' );
 		require_once( self::$inc_path . 'plugin-updater.php' );
+		require_once( self::$inc_path . 'AppPresser_Theme_Customizer.php' );
+		$this->theme_customizer = new AppPresser_Theme_Customizer();
+
 	}
 
 	/**
@@ -141,9 +144,8 @@ class AppPresser {
 	 */
 	function includes() {
 
-		require_once( self::$inc_path . 'theme-switcher.php' );
+		require_once( self::$inc_path . 'AppPresser_Theme_Switcher.php' );
 		$this->theme_switcher = new AppPresser_Theme_Switcher();
-		require_once( self::$inc_path . 'mods.php' );
 		// Uncomment when we add back in the app panel
 		// require_once( self::$inc_path . 'body-class-meta-box.php' );
 
