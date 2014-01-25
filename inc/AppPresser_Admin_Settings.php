@@ -410,8 +410,8 @@ class AppPresser_Admin_Settings extends AppPresser {
 	 * @since  1.0.0
 	 * @param  string  $key     Option key
 	 * @param  string  $label   Option label
-	 * @param  string  $type    Type of option: checkbox, select, or text
-	 * @param  array   $options Array of possible options for select
+	 * @param  array   $args    Array of possible options for select
+	 * @return mixed   $_field  Setting.
 	 */
 	public static function add_setting( $key, $label, $args = array() ) {
 
