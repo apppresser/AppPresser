@@ -155,7 +155,7 @@ class AppPresser_Theme_Switcher extends AppPresser {
 	/**
 	 * AppPresser set the default home page view to page if running the APPP theme
 	 * @since  1.0.0
-	 * @return 'page' if APPP theme is running
+	 * @return mixed 'page' if APPP theme is running or false
 	 */
 	public function pre_show_on_front() {
 
@@ -170,7 +170,7 @@ class AppPresser_Theme_Switcher extends AppPresser {
 	/**
 	 * AppPresser set the default home page based on the APPP settings
 	 * @since  1.0.0
-	 * @return page ID stored in APPP settings
+	 * @return int page ID stored in APPP settings
 	 */
 	public function pre_page_on_front() {
 
