@@ -577,8 +577,8 @@ class AppPresser_Admin_Settings extends AppPresser {
 	/**
 	 * Adds a setting section title to AppPresser's settings.
 	 * @since  1.0.0
-	 * @param  string  $label   Title
-	 * @param  array   $options Array of possible options
+	 * @param  string  $title   Title
+	 * @param  array   $args    Array of possible options
 	 */
 	public static function add_setting_label( $title, $args = array() ) {
 		self::add_setting( sanitize_title( $title ), $title, wp_parse_args( $args, array( 'type' => 'h3' ) ) );
@@ -741,8 +741,7 @@ AppPresser_Admin_Settings::run();
  * @since  1.0.0
  * @param  string  $key     Option key
  * @param  string  $label   Option label
- * @param  string  $type    Type of option: checkbox, select, or text
- * @param  array   $options Array of possible options for select
+ * @param  array   $args    Array of possible options for select
  */
 function appp_add_setting( $key, $label, $args = array() ) {
 	AppPresser_Admin_Settings::add_setting( $key, $label, $args );
