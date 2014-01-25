@@ -55,22 +55,6 @@ class AppPresser_Admin_Settings extends AppPresser {
 		$this->themes    = wp_get_themes();
 		// Get all nav menus
 		$this->nav_menus = wp_get_nav_menus();
-		// Get saved apppresser theme
-		$appp_theme      = self::settings( 'appp_theme' );
-
-		// If in the customizer && 'Use different theme for app?' option
-		if ( $appp_theme && isset( $_GET['appp_theme'] ) ) {
-
-			// If we're trying to customize the apppresser theme, make sure we're viewing the right theme.
-			if ( ! isset( $_GET['theme'] ) || $appp_theme != $_GET['theme'] ) {
-				add_action( 'admin_init', array( $this, 'redirect_correct_appp_theme' ) );
-			}
-
-			// Filter back button url
-			add_filter( 'clean_url', array( $this, 'change_button_url' ) );
-			// Filter the 'save' button text
-			add_filter( 'gettext', array( $this, 'change_button_text' ) );
-		}
 
 		add_action( 'admin_menu', array( $this, 'plugin_menu' ), 9 );
 		add_filter( 'sanitize_option_'. AppPresser::SETTINGS_NAME, array( $this, 'maybe_reset_license_statuses' ), 99 );
@@ -78,6 +62,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 		add_action( 'apppresser_add_settings', array( $this, 'add_settings' ), 6 ); // Higher priority
 		add_filter( 'apppresser_field_markup_text', array( $this, 'ajax_container' ), 10, 2 );
 		add_action( 'wp_ajax_appp_search_post_handler', array( $this, 'ajax_post_results' ) );
+		add_action( 'admin_head', array( $this, 'icon_styles' ) );
 
 	}
 
@@ -176,11 +161,12 @@ class AppPresser_Admin_Settings extends AppPresser {
 	}
 
 	/**
-	 * If customizing apppresser theme, makes sure we're viewing the right theme.
-	 * @since  1.0.7
+	 * Easy hook for adding to the admin_head on the AppPresser settings page
+	 * @since  1.0.0
 	 */
-	function redirect_correct_appp_theme() {
-		wp_redirect( add_query_arg( 'theme', self::settings( 'appp_theme' ) ) );
+	function icon_styles() {
+		// Include css for modifying menu icon
+		require_once( self::$dir_path . 'css/icon-styles.php' );
 	}
 
 	/**
@@ -361,20 +347,11 @@ class AppPresser_Admin_Settings extends AppPresser {
 			'description' => __( '(for testing purposes)', 'apppresser' ),
 		) );
 
-		$customize = '';
-		// If app theme saved, get the customizer url
-		if ( appp_get_setting( 'appp_theme' ) ) {
-			$url = add_query_arg( array(
-				'appp_theme' => true,
-				'theme' => appp_get_setting( 'appp_theme' ),
-			), admin_url( 'customize.php' ) );
-			$customize = sprintf( ' <a href="%s">%s</a>', $url, __( 'Customize this theme.', 'apppresser' ) );
-		}
 		self::add_setting( 'appp_theme', __( 'App-only theme', 'apppresser' ), array(
 			'type' => 'select',
 			'options' => $this->themes,
 			'helptext' => __( 'Select which theme you want to be loaded inside the app, such as the AppPresser theme.', 'apppresser' ),
-			'description' => sprintf( __( 'Must be enabled above.%s', 'apppresser' ), $customize ),
+			'description' => __( 'Must be enabled above.', 'apppresser' ),
 		) );
 		self::add_setting( 'appp_home_page', __( 'Use a unique homepage for your app.', 'apppresser' ), array(
 			'helptext' => __( 'Allows you to specify which page users will see first when they load up you AppPresser app.', 'apppresser' ),
@@ -617,36 +594,6 @@ class AppPresser_Admin_Settings extends AppPresser {
 		if ( empty( self::$license_keys ) )
 			self::$license_keys = apply_filters( 'apppresser_license_keys_to_check', self::$license_keys, self::run() );
 		return self::$license_keys;
-	}
-
-	/**
-	 * Change customizer back button url for our app-theme version
-	 * @since  1.0.7
-	 * @param  string  $url Original url
-	 * @return string       Maybe modified url
-	 */
-	public function change_button_url( $url ) {
-		if ( $url == admin_url( 'themes.php' ) ) {
-			return $this->url();
-		}
-		return $url;
-	}
-
-	/**
-	 * Change Save button text
-	 * @link http://codex.wordpress.org/Plugin_API/Filter_Reference/gettext
-	 * @since  1.0.7
-	 * @param  string  $translated_text Input
-	 * @return string                   Maybe modified text
-	 */
-	public function change_button_text( $translated_text ) {
-		switch ( $translated_text ) {
-			case 'Save &amp; Publish':
-				return __( 'Save App Theme', 'apppresser' );
-			case 'You are previewing %s':
-				return __( 'You are previewing the app-only theme: %s', 'apppresser' );
-		}
-		return $translated_text;
 	}
 
 	/**
