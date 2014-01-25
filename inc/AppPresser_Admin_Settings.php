@@ -194,6 +194,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 					// Clear cookie
 					self::clear_cookie();
 					$cleaninput[ $key ] = isset( $inputs[ $key ] ) && $inputs[ $key ] == 'on' ? 'on' : '';
+					break;
 				case 'admin_theme_switch':
 					$cleaninput[ $key ] = isset( $inputs[ $key ] ) && $inputs[ $key ] == 'on' ? 'on' : '';
 					break;
