@@ -161,11 +161,10 @@ class AppPresser_Admin_Settings extends AppPresser {
 	}
 
 	/**
-	 * Easy hook for adding to the admin_head on the AppPresser settings page
+	 * Include css for modifying menu icon
 	 * @since  1.0.0
 	 */
 	function icon_styles() {
-		// Include css for modifying menu icon
 		require_once( self::$dir_path . 'css/icon-styles.php' );
 	}
 
