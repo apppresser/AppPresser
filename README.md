@@ -41,6 +41,9 @@ We are happy to accept contributions, but also want to maintain high quality doc
 
 ## Changelog
 
+#### 1.0.7
+* Enable theme customizer for the App-only theme while theme is not active. There is now a link to customize the theme below the select dropdown.
+
 #### 1.0.6
 * Enhancement: New filter `apppresser_theme_settings_file` that allows you to set the location of your theme's AppPresser settings registration (so your settings show when the theme is not active). Will fallback to looking for `appp-settings.php` file in the theme root.
 * Enhancement: New filter `apppresser_notifications`, allows other plugins/themes to add their own notification count.
