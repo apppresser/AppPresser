@@ -32,6 +32,9 @@ class AppPresser_Theme_Customizer extends AppPresser {
 
 		$this->mods = array_keys( (array) get_option( "theme_mods_$appp_theme" ) );
 
+		// Cache non-saved theme_mod settings
+		add_action( 'customize_register', array( $this, 'get_registered' ), 9999 );
+
 		add_action( 'customize_render_control', array( $this, 'attach_warning' ) );
 		// Filter back button url
 		add_filter( 'clean_url', array( $this, 'change_back_button_url' ) );
@@ -79,22 +82,42 @@ class AppPresser_Theme_Customizer extends AppPresser {
 	}
 
 	/**
+	 * Cache non-saved theme_mod settings
+	 * @since  1.0.8
+	 * @param  WP_Customize_Manager $wp_customize Theme Customizer object.
+	 */
+	public function get_registered( $customizer ) {
+		$setttings = $customizer->settings();
+		if ( ! is_array( $setttings ) || empty( $setttings ) )
+			return;
+
+		// Cache JUST our theme_mods as "safe" to change
+		foreach ( $customizer->settings() as $id => $control ) {
+			// add to the array of "safe" settings
+			if ( 'theme_mod' == $control->type ) {
+				$this->mods[] = $id;
+			}
+		}
+	}
+
+	/**
 	 * Change customizer back button url for our app-theme version
 	 * @since  1.0.7
 	 * @param  WP_Customize_Control object
 	 */
 	public function attach_warning( $customize ) {
+
 		// If this is an app-theme mod..
-		if ( ! $is_appp_mod = array_key_exists( $customize->id, $this->mods ) ) {
+		if ( ! $is_appp_mod = in_array( $customize->id, $this->mods(), true ) ) {
 			/// loop through our mods and see if we're looking at a sub-setting
-			foreach ( $this->mods as $mod_key ) {
+			foreach ( $this->mods() as $mod_key ) {
 				if ( false !== stripos( $customize->id, $mod_key ) ) {
 					$is_appp_mod = true;
 					break;
 				}
 			}
 		}
-		// If this is NOT a app-theme mod
+		// If this is NOT an app-theme mod
 		if ( ! $is_appp_mod ) {
 			// Add a warning asterisk to the control label
 			$customize->label = $customize->label . ' <span class="file-error">*</span>';
@@ -157,6 +180,15 @@ class AppPresser_Theme_Customizer extends AppPresser {
 		}
 		// Send back sanitized text
 		return $safe_text;
+	}
+
+	/**
+	 * Our cached theme mod settings
+	 * @since  1.0.8
+	 * @return array  Cached theme mod settings array
+	 */
+	public function mods() {
+		return isset( $this->mods ) ? $this->mods : array();
 	}
 
 }
