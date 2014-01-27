@@ -34,23 +34,37 @@ class AppPresser_Theme_Switcher extends AppPresser {
 	 */
 	public function switch_theme() {
 
-		// If viewing the appp_theme customizer, we need the theme to be switched so the theme mods save properly
-		if ( is_admin() && ! $this->is_appp_theme_customizer() )
+		$dont_switch = (
+			// If viewing the appp_theme customizer, we need the theme to be switched so the theme mods save properly
+			is_admin() && ! $this->is_appp_theme_customizer()
+		);
+
+		if ( $dont_switch ) {
 			return;
+		}
 
 		// Set cookie from querystring if request is coming from an app
 		if ( self::is_app() ) {
 			setcookie( 'AppPresser_Appp', 'true', time() + ( DAY_IN_SECONDS * 30 ) );
 		}
 
-		$do_switch = (
+		$do_switch = appp_get_setting( 'appp_theme' ) && (
 			// check if user is running native app
 			self::is_app()
 			// check if the setting is enabled to view the APP theme as an administrator
-			|| ( appp_get_setting( 'admin_theme_switch' ) == 'on' && current_user_can( 'manage_options' ) )
+			|| (
+				appp_get_setting( 'admin_theme_switch' ) == 'on'
+				&& current_user_can( 'manage_options' )
+			)
 			// it's not an app but we want to switch the theme for mobile
-			|| ( ! self::is_app() && appp_get_setting( 'mobile_browser_theme_switch' ) == 'on' && wp_is_mobile() )
-		) && appp_get_setting( 'appp_theme' );
+			|| (
+				! self::is_app()
+				&& appp_get_setting( 'mobile_browser_theme_switch' ) == 'on'
+				&& wp_is_mobile()
+			)
+			// If we're previewing the app theme
+			|| $this->is_appp_theme_customizer()
+		);
 
 		if ( ! $do_switch )
 			return;
@@ -70,12 +84,15 @@ class AppPresser_Theme_Switcher extends AppPresser {
 	 * @return boolean True if we're in the customizer
 	 */
 	public function is_appp_theme_customizer() {
+		if ( isset( $this->is_appp_customizer ) )
+			return $this->is_appp_customizer;
+
 		// Check if we're in the appp theme customizer
-		$is_appp_customizer = isset( $_GET['appp_theme'], $_GET['theme'] )
+		$this->is_appp_customizer = isset( $_GET['appp_theme'], $_GET['theme'] )
 		// or during ajax requests from the appp theme customizer
 		|| ( isset( $_REQUEST['wp_customize'], $_REQUEST['theme'] ) && appp_get_setting( 'appp_theme' ) == $_REQUEST['theme'] );
 
-		return $is_appp_customizer;
+		return $this->is_appp_customizer;
 	}
 
 	/**
