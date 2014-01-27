@@ -10,6 +10,10 @@ Developers can use this plugin to make custom apps, or custom extensions for App
 
 This plugin is not an app-creator in itself, it serves as the core for all app development with AppPresser.
 
+Note: This repository is for code contributors. To use this plugin on your website, please download here: [http://wordpress.org/plugins/apppresser/](http://wordpress.org/plugins/apppresser/)
+
+**After cloning this repository, please change the folder name from "AppPresser" to "apppresser" to fix dependency errors.**
+
 ### What this plugin does:
 
 *   Integrates Phonegap with WordPress, which exposes the [Phonegap API](http://docs.phonegap.com/en/3.2.0/index.html "Phonegap docs")
