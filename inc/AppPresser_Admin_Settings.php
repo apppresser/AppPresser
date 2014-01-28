@@ -48,13 +48,12 @@ class AppPresser_Admin_Settings extends AppPresser {
 			self::clear_cookie();
 		}
 
-		// include theme settings file if it exists
-		$this->get_theme_settings_file();
-
 		// Get all themes
 		$this->themes    = wp_get_themes();
 		// Get all nav menus
 		$this->nav_menus = wp_get_nav_menus();
+		// include theme settings file if it exists
+		$this->get_theme_settings_file();
 
 		add_action( 'admin_menu', array( $this, 'plugin_menu' ), 9 );
 		add_filter( 'sanitize_option_'. AppPresser::SETTINGS_NAME, array( $this, 'maybe_reset_license_statuses' ), 99 );
