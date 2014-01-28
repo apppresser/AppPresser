@@ -45,6 +45,10 @@ We are happy to accept contributions, but also want to maintain high quality doc
 
 ## Changelog
 
+#### 1.0.9
+* Bug Fix: App-theme settings were not getting displayed if the theme was not active (despite being set as the App-only theme)
+
+
 #### 1.0.8
 * Bug Fix: Theme\_mod settings would get the non-theme_mod setting warning asterisk if no value had been saved to them yet.
 * Bug Fix: If the "Load AppPresser for Admins Only" setting was not checked, the theme customizer would try to activate the app theme from the customizer.
