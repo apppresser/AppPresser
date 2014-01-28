@@ -146,7 +146,7 @@ class AppPresser_Theme_Customizer extends AppPresser {
 	public function modify_customizer_text_strings( $translated_text ) {
 		switch ( $translated_text ) {
 			case 'Save &amp; Publish':
-				return __( 'Save App Theme', 'apppresser' );
+				return __( 'Save App Settings', 'apppresser' );
 			case 'You are previewing %s':
 				$notice = '<p>'. __( 'You are previewing the app-only theme: ', 'apppresser' ) .'</p>';
 				// This is the theme title, do not remove
