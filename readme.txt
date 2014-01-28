@@ -4,7 +4,7 @@ Donate link: http://apppresser.com/
 Tags: mobile, app, ios, android, application, phonegap, iphone app, android app, mobile app, native app, wordpress mobile, ipad app, iOS app
 Requires at least: 3.5
 Tested up to: 3.8
-Stable tag: 1.0.7
+Stable tag: 1.0.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -89,6 +89,10 @@ Technically you can do anything with an AppPresser app that you can do with Phon
 
 == Changelog ==
 
+= 1.0.8 =
+* Bug Fix: Theme\_mod settings would get the non-theme_mod setting warning asterisk if no value had been saved to them yet.
+* Bug Fix: If the "Load AppPresser for Admins Only" setting was not checked, the theme customizer would try to activate the app theme from the customizer.
+
 = 1.0.7 =
 * Enable theme customizer for the App-only theme while theme is not active. There is now a link to customize the theme below the select dropdown.
 
@@ -128,6 +132,10 @@ Technically you can do anything with an AppPresser app that you can do with Phon
 
 
 == Upgrade Notice ==
+
+= 1.0.8 =
+* Bug Fix: Theme\_mod settings would get the non-theme_mod setting warning asterisk if no value had been saved to them yet.
+* Bug Fix: If the "Load AppPresser for Admins Only" setting was not checked, the theme customizer would try to activate the app theme from the customizer.
 
 = 1.0.7 =
 * Enable theme customizer for the App-only theme while theme is not active. There is now a link to customize the theme below the select dropdown.
