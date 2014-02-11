@@ -97,7 +97,6 @@ class AppPresser {
 		// This will mean that it's harder to break caching on the cordova script
 		add_filter( 'script_loader_src', array( $this, 'remove_query_arg' ), 9999 );
 
-		require_once( self::$inc_path . 'AppPresser_Admin_Settings.php' );
 		require_once( self::$inc_path . 'plugin-updater.php' );
 		require_once( self::$inc_path . 'AppPresser_Theme_Customizer.php' );
 		$this->theme_customizer = new AppPresser_Theme_Customizer();
@@ -143,7 +142,8 @@ class AppPresser {
 	 * @since  1.0.0
 	 */
 	function includes() {
-
+		
+		require_once( self::$inc_path . 'AppPresser_Admin_Settings.php' );
 		require_once( self::$inc_path . 'AppPresser_Theme_Switcher.php' );
 		$this->theme_switcher = new AppPresser_Theme_Switcher();
 		// Uncomment when we add back in the app panel
