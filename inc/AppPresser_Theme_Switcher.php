@@ -183,24 +183,3 @@ class AppPresser_Theme_Switcher extends AppPresser {
 	}
 
 }
-
-/**
- * AppPresser detect iOS function
- * @since  1.0.0
- * @return true if device is running iOS
- */
-function appp_is_ios() {
-	$ua = strtolower( $_SERVER['HTTP_USER_AGENT'] );
-	return ( strstr( $ua, 'iphone' ) || strstr( $ua, 'ipod' ) || strstr( $ua, 'ipad' )
-	);
-}
-
-/**
- * AppPresser detect Android function
- * @since  1.0.0
- * @return true if device is running Android
- */
-function appp_is_android() {
-	$ua = strtolower( $_SERVER['HTTP_USER_AGENT'] );
-	return ( false !== stripos( $ua, 'android' ) );
-}

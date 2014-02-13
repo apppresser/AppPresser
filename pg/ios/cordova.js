@@ -8,9 +8,9 @@
  to you under the Apache License, Version 2.0 (the
  "License"); you may not use this file except in compliance
  with the License.  You may obtain a copy of the License at
- 
+
      http://www.apache.org/licenses/LICENSE-2.0
- 
+
  Unless required by applicable law or agreed to in writing,
  software distributed under the License is distributed on an
  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -1336,7 +1336,7 @@ function injectPluginScript(pathPrefix, finishPluginLoading) {
 function findCordovaPath() {
     var path = null;
     var scripts = document.getElementsByTagName('script');
-    var term = 'cordova.js';
+    var term = apppCordova.filename;
     for (var n = scripts.length-1; n>-1; n--) {
         var src = scripts[n].src;
         if (src.indexOf(term) == (src.length - term.length)) {
@@ -1353,7 +1353,7 @@ function findCordovaPath() {
 exports.load = function(callback) {
     var pathPrefix = findCordovaPath();
     if (pathPrefix === null) {
-        console.log('Could not find cordova.js script tag. Plugin loading may fail.');
+        console.log('Could not find '+ apppCordova.filename +' script tag. Plugin loading may fail.');
         pathPrefix = '';
     }
     injectPluginScript(pathPrefix, callback);
