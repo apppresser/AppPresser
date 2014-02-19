@@ -199,7 +199,9 @@ class AppPresser_Admin_Settings extends AppPresser {
 					$cleaninput[ $key ] = isset( $inputs[ $key ] ) && $inputs[ $key ] == 'on' ? 'on' : '';
 					break;
 				default:
-					$cleaninput[ $key ] = apply_filters( 'apppresser_sanitize_setting', sanitize_text_field( $value ), $key, $value, $inputs, self::run() ); ;
+					$filtered_value = apply_filters( 'apppresser_sanitize_setting_'.$key, NULL, $value, $inputs, self::run() );
+					$filtered_value = null === $filtered_value ? sanitize_text_field( $value ) : $filtered_value;
+					$cleaninput[ $key ] = apply_filters( 'apppresser_sanitize_setting', $filtered_value, $key, $value, $inputs, self::run() );
 					break;
 			}
 
