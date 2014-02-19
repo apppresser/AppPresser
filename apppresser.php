@@ -211,7 +211,7 @@ class AppPresser {
 	 * @param  string $fallback Fallback option if none is found.
 	 * @return mixed            Array of all options, a specific option, or false if specific option not found.
 	 */
-	public static function settings( $key = 'false', $fallback = 'false' ) {
+	public static function settings( $key = false, $fallback = false ) {
 		if ( self::$settings === 'false' ) {
 			self::$settings = get_option( self::SETTINGS_NAME );
 			self::$settings = empty( self::$settings ) ? array() : (array) self::$settings;
@@ -262,6 +262,6 @@ AppPresser::get();
  * @param  string $fallback Fallback option if none is found.
  * @return mixed            Array of all options, a specific option, or false if specific option not found.
  */
-function appp_get_setting( $key = 'false', $fallback = 'false' ) {
+function appp_get_setting( $key = false, $fallback = false ) {
 	return AppPresser::settings( $key, $fallback );
 }
