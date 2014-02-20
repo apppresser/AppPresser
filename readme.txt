@@ -3,8 +3,8 @@ Contributors: apppresser, webdevstudios, williamsba1, scottopolis, jtsternberg, 
 Donate link: http://apppresser.com/
 Tags: mobile, app, ios, android, application, phonegap, iphone app, android app, mobile app, native app, wordpress mobile, ipad app, iOS app
 Requires at least: 3.5
-Tested up to: 3.8
-Stable tag: 1.0.9
+Tested up to: 3.8.1
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -89,6 +89,12 @@ Technically you can do anything with an AppPresser app that you can do with Phon
 
 == Changelog ==
 
+= 1.1.0 =
+* Fixed annoyance of settings page not returning to the tab you were on when you clicked 'save.'
+* Enhancement: New filter, "apppresser_sanitize_setting_$key" for registering your own sanitization callback to override AppPresser's.
+* Enhancement: New filter, "apppresser_field_override_$type" for registering your own field type view callback to override AppPresser's.
+* Enhancement: Added [CMB](https://github.com/WebDevStudios/Custom-Metaboxes-and-Fields-for-WordPress). Settings API will be re-worked in next versions to use CMB.
+
 = 1.0.9 =
 * Bug Fix: App-theme settings were not getting displayed if the theme was not active (despite being set as the App-only theme)
 
@@ -135,6 +141,12 @@ Technically you can do anything with an AppPresser app that you can do with Phon
 
 
 == Upgrade Notice ==
+
+= 1.1.0 =
+* Fixed annoyance of settings page not returning to the tab you were on when you clicked 'save.'
+* Enhancement: New filter, "apppresser_sanitize_setting_$key" for registering your own sanitization callback to override AppPresser's.
+* Enhancement: New filter, "apppresser_field_override_$type" for registering your own field type view callback to override AppPresser's.
+* Enhancement: Added [CMB](https://github.com/WebDevStudios/Custom-Metaboxes-and-Fields-for-WordPress). Settings API will be re-worked in next versions to use CMB.
 
 = 1.0.9 =
 * Bug Fix: App-theme settings were not getting displayed if the theme was not active (despite being set as the App-only theme)

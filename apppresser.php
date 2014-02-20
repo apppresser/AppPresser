@@ -5,7 +5,7 @@ Plugin URI: http://apppresser.com
 Description: A mobile app development framework for WordPress.
 Text Domain: apppresser
 Domain Path: /languages
-Version: 1.0.9
+Version: 1.1.0
 Author: AppPresser Team
 Author URI: http://apppresser.com
 License: GPLv2
@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class AppPresser {
 
-	const VERSION           = '1.0.9';
+	const VERSION           = '1.1.0';
 	const SETTINGS_NAME     = 'appp_settings';
 	public static $settings = 'false';
 	public static $instance = null;
@@ -287,7 +287,7 @@ class AppPresser {
 	 * @param  string $fallback Fallback option if none is found.
 	 * @return mixed            Array of all options, a specific option, or false if specific option not found.
 	 */
-	public static function settings( $key = 'false', $fallback = 'false' ) {
+	public static function settings( $key = false, $fallback = false ) {
 		if ( self::$settings === 'false' ) {
 			self::$settings = get_option( self::SETTINGS_NAME );
 			self::$settings = empty( self::$settings ) ? array() : (array) self::$settings;
@@ -338,7 +338,7 @@ AppPresser::get();
  * @param  string $fallback Fallback option if none is found.
  * @return mixed            Array of all options, a specific option, or false if specific option not found.
  */
-function appp_get_setting( $key = 'false', $fallback = 'false' ) {
+function appp_get_setting( $key = false, $fallback = false ) {
 	return AppPresser::settings( $key, $fallback );
 }
 

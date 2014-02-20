@@ -156,7 +156,8 @@ class AppPresser_Admin_Settings extends AppPresser {
 	 * @since  1.0.0
 	 */
 	function admin_head() {
-		do_action( 'appp_admin_settings_head', self::run() );
+		$appp_settings = self::run();
+		do_action( 'appp_admin_settings_head', $appp_settings );
 	}
 
 	/**
@@ -179,13 +180,14 @@ class AppPresser_Admin_Settings extends AppPresser {
 	 * AppPresser Settings validation
 	 *
 	 * @since  1.0.0
-	 * @param  array $inputs The input array we want to validate
+	 * @param  array $settings The input array we want to validate
 	 * @return array         Our sanitized inputs
 	 */
-	function settings_validate( $inputs ) {
+	function settings_validate( $settings ) {
 
+		$appp_settings = self::run();
 		// sanitize the settings data submitted
-		foreach ( $inputs as $key => $value ) {
+		foreach ( $settings as $key => $value ) {
 			switch ( $key ) {
 				case 'menu':
 					$cleaninput[ $key ] = absint( $value );
@@ -193,13 +195,18 @@ class AppPresser_Admin_Settings extends AppPresser {
 				case 'mobile_browser_theme_switch':
 					// Clear cookie
 					self::clear_cookie();
-					$cleaninput[ $key ] = isset( $inputs[ $key ] ) && $inputs[ $key ] == 'on' ? 'on' : '';
+					$cleaninput[ $key ] = isset( $settings[ $key ] ) && $settings[ $key ] == 'on' ? 'on' : '';
 					break;
 				case 'admin_theme_switch':
-					$cleaninput[ $key ] = isset( $inputs[ $key ] ) && $inputs[ $key ] == 'on' ? 'on' : '';
+					$cleaninput[ $key ] = isset( $settings[ $key ] ) && $settings[ $key ] == 'on' ? 'on' : '';
 					break;
 				default:
-					$cleaninput[ $key ] = apply_filters( 'apppresser_sanitize_setting', sanitize_text_field( $value ), $key, $value, $inputs, self::run() ); ;
+					// Allow sanitization override
+					$filtered_value = apply_filters( "apppresser_sanitize_setting_$key", null, $value, $settings, $appp_settings );
+					// If no override, sanitize the value ourselves
+					$filtered_value = null === $filtered_value ? sanitize_text_field( $value ) : $filtered_value;
+					// And fallback sanitization hook (mostly for backwards compatibility)
+					$cleaninput[ $key ] = apply_filters( 'apppresser_sanitize_setting', $filtered_value, $key, $value, $settings, $appp_settings );
 					break;
 			}
 
@@ -262,8 +269,9 @@ class AppPresser_Admin_Settings extends AppPresser {
 	 */
 	public function settings_page() {
 
+		$appp_settings = self::run();
 		// Add settings tabs/inputs via this hook. The AppPresser_Admin_Settings instance is passed in.
-		do_action( 'apppresser_add_settings', self::run() );
+		do_action( 'apppresser_add_settings', $appp_settings );
 
 		$class = self::$page_slug;
 		$class .= self::is_mp6() ? ' mp6' : '';
@@ -292,12 +300,12 @@ class AppPresser_Admin_Settings extends AppPresser {
 
 					echo '<table class="appp-tabs form-table tab-'. $tab . $current_class .'">';
 						// A hook for adding additional data to the top of each tabbed area
-						do_action( "apppresser_tab_top_$tab", self::run(), self::settings() );
+						do_action( "apppresser_tab_top_$tab", $appp_settings, self::settings() );
 						if ( isset( self::$all_fields[ $tab ] ) ) {
 							echo implode( "\n", self::$all_fields[ $tab ] );
 						}
 						// A hook for adding additional data to the bottom of each tabbed area
-						do_action( "apppresser_tab_bottom_$tab", self::run(), self::settings() );
+						do_action( "apppresser_tab_bottom_$tab", $appp_settings, self::settings() );
 					echo '</table>';
 				}
 
@@ -313,7 +321,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 					foreach ( self::$admin_tabs as $tab => $name ) {
 						$current_class = $tab == $current_tab ? ' nav-tab-active' : '';
 						echo '<span class="appp-tabs tab-'. $tab . $current_class .'">';
-						do_action( "apppresser_tab_buttons_$tab", self::run(), self::settings() );
+						do_action( "apppresser_tab_buttons_$tab", $appp_settings, self::settings() );
 						echo '</span>';
 					}
 					?>
@@ -415,6 +423,9 @@ class AppPresser_Admin_Settings extends AppPresser {
 	 */
 	public static function add_setting( $key, $label, $args = array() ) {
 
+		$appp_settings = self::run();
+		$value = self::settings( $key );
+
 		$keys = array_keys( self::$admin_tabs );
 		$defaults = array(
 			'type'        => 'text',
@@ -443,9 +454,13 @@ class AppPresser_Admin_Settings extends AppPresser {
 			} else {
 				$_field  = '<th scope="row"><label for="apppresser-'. $key .'">'. $label .'</label>'. $help . '</th><td>';
 			}
+		// Filter allows devs to add their own field types
+		$field = apply_filters( "apppresser_field_override_$type", $field, $key, $value, $args, $appp_settings );
+
+		if ( '' === $field ) : // No custom type added
 		switch ( $type ) {
 			case 'checkbox':
-				$field .= '<input type="checkbox" id="apppresser--'. $key .'" name="appp_settings['. $key .']" '. checked( self::settings( $key ), 'on', false ) .' />'."\n";
+				$field .= '<input type="checkbox" id="apppresser--'. $key .'" name="appp_settings['. $key .']" '. checked( $value, 'on', false ) .' />'."\n";
 				if ( $args['description'] )
 					$field .= '&nbsp; <span class="description">'. $args['description'] .'</span>';
 				break;
@@ -455,7 +470,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 				<select id="apppresser--'. $key .'" name="appp_settings['. $key .']" >'."\n";
 				// load all themes
 				if ( ! empty( $options ) ) {
-					$current = self::settings( $key );
+					$current = $value;
 					$opts = array();
 					foreach ( $options as $value => $name ) {
 						$value = $value == 'option-none' ? '' : esc_attr( $value );
@@ -475,7 +490,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 				<div id="apppresser--'. $key .'">'."\n";
 				// load all themes
 				if ( ! empty( $options ) ) {
-					$current = self::settings( $key );
+					$current = $value;
 					$opts = array();
 					foreach ( $options as $value => $name ) {
 						$value = $value == 'option-none' ? '' : esc_attr( $value );
@@ -500,7 +515,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 					$notice = $license_status == 'invalid' ? __( 'Invalid Key' , 'apppresser' ) : '<a href="http://apppresser.com/extensions/">'. __( 'Get a license', 'apppresser' ) .'</a>';
 				}
 
-				$field .= sprintf( '<input class="regular-text" type="text" id="apppresser--%1$s" name="appp_settings[%2$s]" value="%3$s" />'."\n", $key, $key, self::settings( $key ) );
+				$field .= sprintf( '<input class="regular-text" type="text" id="apppresser--%1$s" name="appp_settings[%2$s]" value="%3$s" />'."\n", $key, $key, $value );
 				$field .= sprintf( '<p class="description license_key"><span class="regular-text %1$s">%2$s</span></p>', $class, $notice );
 
 				break;
@@ -509,15 +524,17 @@ class AppPresser_Admin_Settings extends AppPresser {
 				break;
 
 			default:
-				// Filter allows devs to add their own field types
-				$field .= sprintf( '<input class="regular-text" type="text" id="apppresser--%1$s" name="appp_settings[%2$s]" value="%3$s" />'."\n", $key, $key, self::settings( $key ) );
+				// Filter allows devs to modify default field type or override it
+				$field .= sprintf( '<input class="regular-text" type="text" id="apppresser--%1$s" name="appp_settings[%2$s]" value="%3$s" />'."\n", $key, $key, $value );
 				break;
 		}
+		endif; // End check for custom type
+
 		if ( trim( $args['description'] ) && ! in_array( $type, array( 'h3', 'checkbox' ) ) ) {
 			$field .= '<p class="description">'. trim( $args['description'] ) .'</p>';
 		}
 		// Filter allows devs to add their own field types
-		$field = apply_filters( "apppresser_field_markup_$type", $field, $key, self::settings( $key ), $args, self::run() );
+		$field = apply_filters( "apppresser_field_markup_$type", $field, $key, $value, $args, $appp_settings );
 
 		if ( $type !== 'h3' )
 			$field .= '</td>';
@@ -550,9 +567,10 @@ class AppPresser_Admin_Settings extends AppPresser {
 			return isset( self::$field_args[ $field_id ] ) ? self::$field_args[ $field_id ] : false;
 		}
 
+		$appp_settings = self::run();
 		ob_start();
 		// Do html
-		@do_action( 'apppresser_add_settings', self::run() );
+		@do_action( 'apppresser_add_settings', $appp_settings );
 		// grab the data from the output buffer and add it to our $content variable
 		$content = ob_get_contents();
 		ob_end_clean();
@@ -590,8 +608,10 @@ class AppPresser_Admin_Settings extends AppPresser {
 	 * @return array  All license option keys
 	 */
 	public static function license_keys() {
-		if ( empty( self::$license_keys ) )
-			self::$license_keys = apply_filters( 'apppresser_license_keys_to_check', self::$license_keys, self::run() );
+		if ( empty( self::$license_keys ) ) {
+			$appp_settings = self::run();
+			self::$license_keys = apply_filters( 'apppresser_license_keys_to_check', self::$license_keys, $appp_settings );
+		}
 		return self::$license_keys;
 	}
 
@@ -645,14 +665,14 @@ class AppPresser_Admin_Settings extends AppPresser {
 			<p><strong><?php _e( 'Resources', 'apppresser' ); ?>:</strong> <a href="https://github.com/WebDevStudios/AppPresser/" target="_blank">AppPresser <?php _e( 'Core on Github', 'apppresser' ); ?></a> | <a href="http://wordpress.org/support/plugin/apppresser" target="_blank"><?php _e( 'Support Forums', 'apppresser' ); ?></a> | <a href="http://apppresser.com/docs/" target="_blank">AppPresser <?php _e( 'Documentation', 'apppresser' ); ?></a></p>
 			<p><strong>AppPresser <?php _e( 'Online', 'apppresser' ); ?>:</strong> <a href="http://apppresser.com" target="_blank"><?php _e( 'Web', 'apppresser' ); ?></a> |  <a href="http://twitter.com/apppresser" target="_blank"><?php _e( 'Twitter', 'apppresser' ); ?></a> | <a href="http://facebook.com/apppresser" target="_blank"><?php _e( 'Facebook', 'apppresser' ); ?></a> | <a href="http://youtube.com/user/apppresser" target="_blank"><?php _e( 'YouTube', 'apppresser' ); ?></a></p>
 			<h3><?php _e( 'About', 'apppresser' ); ?> AppPresser</h3>
-			<p><?php printf( __( '%s was created by %s, %s, %s, and %s', 'apppresser' ), 
-				'<a href="http://apppresser.com" target="_blank">AppPresser</a>', 
-				'<a href="http://twitter.com/scottbolinger" target="_blank">Scott Bolinger</a>', 
-				'<a href="http://twitter.com/williamsba" target="_blank">Brad Williams</a>', 
-				'<a href="http://twitter.com/bmess" target="_blank">Brian Messenlehner</a>', 
+			<p><?php printf( __( '%s was created by %s, %s, %s, and %s', 'apppresser' ),
+				'<a href="http://apppresser.com" target="_blank">AppPresser</a>',
+				'<a href="http://twitter.com/scottbolinger" target="_blank">Scott Bolinger</a>',
+				'<a href="http://twitter.com/williamsba" target="_blank">Brad Williams</a>',
+				'<a href="http://twitter.com/bmess" target="_blank">Brian Messenlehner</a>',
 				'<a href="http://twitter.com/lisasabinwilson" target="_blank">Lisa Sabin-Wilson</a>' ); ?>.</p>
-			<p><?php printf( __( 'Development props to %s and %s', 'apppresser' ), 
-				'<a href="http://twitter.com/jtsternberg" target="_blank">Justin "JT$" Sternberg</a>', 
+			<p><?php printf( __( 'Development props to %s and %s', 'apppresser' ),
+				'<a href="http://twitter.com/jtsternberg" target="_blank">Justin "JT$" Sternberg</a>',
 				'<a href="http://twitter.com/tw2113" target="_blank">Michael "Venkman" Beckwith</a>' ); ?>.</p>
 		</div>
 		<?php

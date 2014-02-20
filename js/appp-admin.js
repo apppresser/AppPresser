@@ -6,19 +6,20 @@ jQuery(document).ready(function($) {
 
 	var deg          = 180;
 	var $context     = $('.apppresser_settings');
+	var $referrer    = $context.find('[name="_wp_http_referer"]');
 	var $slidepanel  = $( '#slidepanel' );
-	var $show        = $('.show_hidden', $context ).after( ' <span>▾</span>' );
+	var $show        = $context.find('.show_hidden' ).after( ' <span>▾</span>' );
 	var $arrow       = $show.next('span').css({'display':'inline-block'}).rotate(deg);
-	var $navtabs     = $( '.nav-tab', $context );
-	var $tabs        = $( '.appp-tabs', $context );
+	var $navtabs     = $context.find( '.nav-tab' );
+	var $tabs        = $context.find( '.appp-tabs' );
 	var $ajaxinput   = $('#apppresser--appp_home_page');
 	var $ajaxcontext = $ajaxinput.parents('tr');
-	var $ajaxresults = $('.appp-ajax-results-posts', $ajaxcontext);
-	var $ajaxhelp    = $('.appp-ajax-results-help', $ajaxcontext);
-	var $spinner     = $('.appp-spinner', $ajaxcontext);
+	var $ajaxresults = $ajaxcontext.find('.appp-ajax-results-posts');
+	var $ajaxhelp    = $ajaxcontext.find('.appp-ajax-results-help');
+	var $spinner     = $ajaxcontext.find('.appp-spinner');
 
 
-	$( 'a.help', $context ).tooltip().click( function(e) { e.preventDefault(); } );
+	$context.find( 'a.help' ).tooltip().click( function(e) { e.preventDefault(); } );
 
 	$context
 		.on( 'click', '.show_hidden', function( event ) {
@@ -32,7 +33,9 @@ jQuery(document).ready(function($) {
 		})
 		.on( 'click', '.nav-tab', function( event ) {
 			event.preventDefault();
-			var $self = $(this);
+			var $self  = $(this);
+			var newurl = $self.attr( 'href' );
+
 			$tabs.hide();
 			$navtabs.removeClass( 'nav-tab-active' );
 
@@ -40,8 +43,10 @@ jQuery(document).ready(function($) {
 			$( '.' + $self.data('selector') ).fadeIn('fast');
 			$self.addClass( 'nav-tab-active' );
 
+			// Set referrer to current tab
+	    	$referrer.val( newurl );
 			if ( typeof window.history.pushState == 'function' ) {
-			    window.history.pushState( '','', $self.attr( 'href' ) );
+			    window.history.pushState( '','', newurl );
 			}
 
 		})
