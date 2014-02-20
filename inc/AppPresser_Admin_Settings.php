@@ -180,14 +180,14 @@ class AppPresser_Admin_Settings extends AppPresser {
 	 * AppPresser Settings validation
 	 *
 	 * @since  1.0.0
-	 * @param  array $inputs The input array we want to validate
+	 * @param  array $settings The input array we want to validate
 	 * @return array         Our sanitized inputs
 	 */
-	function settings_validate( $inputs ) {
+	function settings_validate( $settings ) {
 
 		$appp_settings = self::run();
 		// sanitize the settings data submitted
-		foreach ( $inputs as $key => $value ) {
+		foreach ( $settings as $key => $value ) {
 			switch ( $key ) {
 				case 'menu':
 					$cleaninput[ $key ] = absint( $value );
@@ -195,15 +195,18 @@ class AppPresser_Admin_Settings extends AppPresser {
 				case 'mobile_browser_theme_switch':
 					// Clear cookie
 					self::clear_cookie();
-					$cleaninput[ $key ] = isset( $inputs[ $key ] ) && $inputs[ $key ] == 'on' ? 'on' : '';
+					$cleaninput[ $key ] = isset( $settings[ $key ] ) && $settings[ $key ] == 'on' ? 'on' : '';
 					break;
 				case 'admin_theme_switch':
-					$cleaninput[ $key ] = isset( $inputs[ $key ] ) && $inputs[ $key ] == 'on' ? 'on' : '';
+					$cleaninput[ $key ] = isset( $settings[ $key ] ) && $settings[ $key ] == 'on' ? 'on' : '';
 					break;
 				default:
-					$filtered_value = apply_filters( 'apppresser_sanitize_setting_'.$key, NULL, $value, $inputs, $appp_settings );
+					// Allow sanitization override
+					$filtered_value = apply_filters( "apppresser_sanitize_setting_$key", null, $value, $settings, $appp_settings );
+					// If no override, sanitize the value ourselves
 					$filtered_value = null === $filtered_value ? sanitize_text_field( $value ) : $filtered_value;
-					$cleaninput[ $key ] = apply_filters( 'apppresser_sanitize_setting', $filtered_value, $key, $value, $inputs, $appp_settings );
+					// And fallback sanitization hook (mostly for backwards compatibility)
+					$cleaninput[ $key ] = apply_filters( 'apppresser_sanitize_setting', $filtered_value, $key, $value, $settings, $appp_settings );
 					break;
 			}
 
