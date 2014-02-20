@@ -270,10 +270,10 @@ class AppPresser {
 			return $this->phonegap_plugins;
 
 		// Include our base list of plugins
-		require_once( self::$inc_path . 'phonegap_plugins.php' );
+		require_once( self::$inc_path . 'phonegap-plugins/all-plugins.php' );
 		// Only iOS and Android for now
 		$os = $os == 'ios' ? 'ios' : 'android';
-		require_once( self::$inc_path . 'phonegap_'. $os .'_plugins.php' );
+		require_once( self::$inc_path . 'phonegap-plugins/'. $os .'-plugins.php' );
 
 		// Filter allows additional phonegap plugins to be added to the list of available plugins
 		$this->phonegap_plugins = apply_filters( 'apppresser_phonegap_plugins_list', $plugins, $os, $this );
