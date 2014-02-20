@@ -46,7 +46,7 @@ jQuery(document).ready(function($) {
 			// Set referrer to current tab
 	    	$referrer.val( newurl );
 			if ( typeof window.history.pushState == 'function' ) {
-			    window.history.pushState( '','', $self.attr( 'href' ) );
+			    window.history.pushState( '','', newurl );
 			}
 
 		})
