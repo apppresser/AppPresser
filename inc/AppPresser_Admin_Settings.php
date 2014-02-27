@@ -118,7 +118,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 
 		// Extensions page submenu item
 		self::$extn_menu_slug = add_submenu_page( self::$page_slug, __( 'Extensions', 'apppresser' ), __( 'Extensions', 'apppresser' ), 'manage_options', self::$extensions_slug, array( $this, 'extensions_page' ) );
-		
+
 		// Help page submenu item
 		self::$help_menu_slug = add_submenu_page( self::$page_slug, __( 'Help / Support', 'apppresser' ), __( 'Help / Support', 'apppresser' ), 'manage_options', self::$help_slug, array( $this, 'help_support_page' ) );
 
