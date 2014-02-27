@@ -476,9 +476,9 @@ class AppPresser_Admin_Settings extends AppPresser {
 				if ( ! empty( $options ) ) {
 					$current = $value;
 					$opts = array();
-					foreach ( $options as $value => $name ) {
-						$value = $value == 'option-none' ? '' : esc_attr( $value );
-						$opts[ $value ] = '<option value="'. $value .'" '. selected( $value, $current, false ) .'>'. esc_html( $name ) .'</option>'."\n";
+					foreach ( $options as $opt_value => $opt_name ) {
+						$opt_value = $opt_value == 'option-none' ? '' : esc_attr( $opt_value );
+						$opts[ $opt_value ] = '<option value="'. $opt_value .'" '. selected( $opt_value, $current, false ) .'>'. esc_html( $opt_name ) .'</option>'."\n";
 					}
 					if ( isset( $opts['option-none'] ) ) {
 						$field .= '<option value="">'. $opts['option-none'] .'</option>';
