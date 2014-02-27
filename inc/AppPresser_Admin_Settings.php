@@ -496,9 +496,9 @@ class AppPresser_Admin_Settings extends AppPresser {
 				if ( ! empty( $options ) ) {
 					$current = $value;
 					$opts = array();
-					foreach ( $options as $value => $name ) {
-						$value = $value == 'option-none' ? '' : esc_attr( $value );
-						$opts[ $value ] = '<p><label><input type="radio" name="appp_settings['. $key .']" value="'. $value .'" '. checked( $value, $current, false ) .'>&nbsp;&nbsp;'. esc_html( $name ) .'</label></p>'."\n";
+					foreach ( $options as $opt_value => $opt_name ) {
+						$opt_value = $opt_value == 'option-none' ? '' : esc_attr( $opt_value );
+						$opts[ $opt_value ] = '<p><label><input type="radio" name="appp_settings['. $key .']" value="'. $opt_value .'" '. checked( $opt_value, $current, false ) .'>&nbsp;&nbsp;'. esc_html( $opt_name ) .'</label></p>'."\n";
 					}
 					if ( isset( $opts['option-none'] ) ) {
 						$field .= '<p><label><input type="radio" name="appp_settings['. $key .']" value="">&nbsp;&nbsp;'. $opts['option-none'] .'</label></p>';
