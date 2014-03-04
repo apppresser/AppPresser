@@ -366,7 +366,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 		) );
 		self::add_setting( 'appp_home_page', __( 'Use a unique homepage for your app.', 'apppresser' ), array(
 			'helptext' => __( 'Allows you to specify which page users will see first when they load up you AppPresser app.', 'apppresser' ),
-			'description' => __( 'Start typing to search for a page', 'apppresser' ),
+			'description' => __( 'Start typing to search for a page, or enter a page ID.', 'apppresser' ),
 		) );
 
 		$menus = array( 'option-none' => __( '-- select --', 'apppresser' ) );
