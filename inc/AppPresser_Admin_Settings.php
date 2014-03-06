@@ -369,24 +369,6 @@ class AppPresser_Admin_Settings extends AppPresser {
 			'description' => __( 'Start typing to search for a page, or enter a page ID.', 'apppresser' ),
 		) );
 
-		$menus = array( 'option-none' => __( '-- select --', 'apppresser' ) );
-		foreach ( (array) $this->nav_menus as $menu ) {
-			$menus[ $menu->term_id ] = $menu->name;
-		}
-
-		// Register main menu setting
-		self::add_setting( 'menu', __( 'Main App Menu', 'apppresser' ), array(
-			'type' => 'select',
-			'options' => $menus,
-			'helptext' => __( 'Use a custom main menu inside your app, different from your main site.', 'apppresser' ),
-		) );
-		// Register secondary  menu setting
-		self::add_setting( 'secondary_menu', __( 'Secondary App Menu', 'apppresser' ), array(
-			'type' => 'select',
-			'options' => $menus,
-			'helptext' => __( 'Use a custom secondary menu inside your app (the top right dropdown in the header).', 'apppresser' ),
-		) );
-
 		add_action( 'apppresser_tab_buttons_general', array( $this, 'help_link' ) );
 
 	}
