@@ -78,28 +78,28 @@ class AppPresser_Admin_Settings extends AppPresser {
 				// Let themes override the location/name of the file
 				$file_override = apply_filters( 'apppresser_theme_settings_file', '' );
 				if ( $file_override && file_exists( $file_override ) ) {
-					return require_once( $file_override );
+					require_once( $file_override );
 				}
 				// Check child theme directory first
 				$dir = $this->themes[ $appp_theme ]->get_stylesheet_directory();
 				// If there is a 'appp-settings.php' file,
 				if ( file_exists( $dir .'/appp-settings.php' ) ) {
 					// include it
-					return require_once( $dir .'/appp-settings.php' );
+					require_once( $dir .'/appp-settings.php' );
 				}
 				// Ok, check parent theme directory
 				$dir = $this->themes[ $appp_theme ]->get_template_directory();
 				// If there is a 'appp-settings.php' file,
 				if ( file_exists( $dir .'/appp-settings.php' ) ) {
 					// include it
-					return require_once( $dir .'/appp-settings.php' );
+					require_once( $dir .'/appp-settings.php' );
 				}
 			}
 		}
 		// Otherwise if there is a 'appp-settings.php' file in the currently active theme,
 		elseif ( file_exists( get_stylesheet_directory_uri() .'/appp-settings.php' ) ) {
 			// include it
-			return require_once( get_stylesheet_directory_uri() .'/appp-settings.php' );
+			require_once( get_stylesheet_directory_uri() .'/appp-settings.php' );
 		}
 	}
 
