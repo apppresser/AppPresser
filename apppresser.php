@@ -170,22 +170,22 @@ class AppPresser {
 	function maybe_enqueue_cordova() {
 
 		// If not in an app, don't enqueue cordova scripts
-		if ( ! self::is_app() )
-			return;
+		// if ( ! self::is_app() )
+		// 	return;
 
 		$filename = "cordova{$this->minified}.js";
 		$is_ios   = appp_is_ios();
 
 		// Only enqueue cordova for iOS
-		if ( $is_ios ) {
+		// if ( $is_ios ) {
 			$os = 'ios';
 			wp_enqueue_script( 'cordova-core', self::$pg_url .'ios/'. $filename, null, self::VERSION );
-		}
+		// }
 		// Or Android
-		elseif ( appp_is_android() ) {
-			$os = 'android';
-			wp_enqueue_script( 'cordova-core', self::$pg_url .'android/'. $filename, null, self::VERSION );
-		}
+		// elseif ( appp_is_android() ) {
+		// 	$os = 'android';
+		// 	wp_enqueue_script( 'cordova-core', self::$pg_url .'android/'. $filename, null, self::VERSION );
+		// }
 
 		wp_localize_script( 'cordova-core', 'apppCordova', array(
 			'included_plugins' => $this->phonegap_plugins( $os ),
@@ -225,42 +225,51 @@ class AppPresser {
 	 */
 	public function phonegap_plugins( $os = 'ios' ) {
 
-		// By default, AppPresser will only load one plugin
-		$default_plugins = array(
-			// 'file.LocalFileSystem',
-			'device.device',
-			'inappbrowser.InAppBrowser',
-			'splashscreen.SplashScreen',
-			'network-information.network',
-			'network-information.Connection',
-		);
+		// By default, AppPresser will only load these plugins
+		$default_plugins = array( 'device', 'inappbrowser', 'splashscreen', 'network-information' );
 
-		// Filter allows other plugins to load additional phonegap plugins
-		$plugins_include = apply_filters( 'apppresser_phonegap_plugins_include', $default_plugins, $os, $this );
+		/**
+		 * Filter to bulk include phonegap script packages
+		 * @var array
+		 *
+		 * Included by default:
+		 * 'device', 'inappbrowser', 'splashscreen', 'network-information'
+		 *
+		 * Available packages:
+		 * 'dialogs', 'file', 'device-motion', 'device-orientation', 'globalization',
+		 * 'splashscreen', 'contacts', 'vibration', 'file-transfer', 'camera',
+		 * 'battery-status', 'geolocation', 'media', 'media-capture', 'console'
+		 *
+		 */
+		$plugins_packages_include = apply_filters( 'apppresser_phonegap_plugin_packages', $default_plugins, $os, $this );
 
-		// Retrieve plugin config arrays
-		return $this->pluck_phonegap_plugins( $plugins_include, $os );
+		// configure plugins array format
+		return $this->line_item_plugins( $plugins_packages_include, $os );
 	}
 
 	/**
 	 * Get phonegap plugins config by their IDs
 	 * @since  1.1.0
-	 * @param  array $keep Array of keys to pluck from the phonegap plugin list
-	 * @param  string $os  Operating System
-	 * @return array       Filtered list
+	 * @param  array $include Array of keys to pluck from the phonegap plugin list
+	 * @param  string $os     Operating System
+	 * @return array          Filtered & formatted list
 	 */
-	public function pluck_phonegap_plugins( $keep = array(), $os = 'ios' ) {
+	public function line_item_plugins( $include, $os ) {
+		$plugins = array();
 
-		$plugins = $this->all_phonegap_plugins( $os );
-		$return = array();
-		foreach ( $keep as $id ) {
-			if ( isset( $plugins[ $id ] ) ) {
-				$data = $plugins[ $id ];
-				$data['id'] = $id;
-				$return[] = $data;
+		$all = $this->all_phonegap_plugins( $os );
+
+		// build array of plugins to match format phonegap is looking for
+		foreach ( $include as $plugin ) {
+			if ( array_key_exists( $plugin, $all ) ) {
+				foreach ( $all[ $plugin ] as $key => $array ) {
+					$array['id'] = $plugin .'.'. $key;
+					$plugins[] = $array;
+				}
 			}
 		}
-		return $return;
+
+		return $plugins;
 	}
 
 	/**
