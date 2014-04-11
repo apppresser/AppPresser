@@ -170,22 +170,22 @@ class AppPresser {
 	function maybe_enqueue_cordova() {
 
 		// If not in an app, don't enqueue cordova scripts
-		// if ( ! self::is_app() )
-		// 	return;
+		if ( ! self::is_app() )
+			return;
 
 		$filename = "cordova{$this->minified}.js";
 		$is_ios   = appp_is_ios();
 
 		// Only enqueue cordova for iOS
-		// if ( $is_ios ) {
+		if ( $is_ios ) {
 			$os = 'ios';
 			wp_enqueue_script( 'cordova-core', self::$pg_url .'ios/'. $filename, null, self::VERSION );
-		// }
+		}
 		// Or Android
-		// elseif ( appp_is_android() ) {
-		// 	$os = 'android';
-		// 	wp_enqueue_script( 'cordova-core', self::$pg_url .'android/'. $filename, null, self::VERSION );
-		// }
+		elseif ( appp_is_android() ) {
+			$os = 'android';
+			wp_enqueue_script( 'cordova-core', self::$pg_url .'android/'. $filename, null, self::VERSION );
+		}
 
 		wp_localize_script( 'cordova-core', 'apppCordova', array(
 			'included_plugins' => $this->phonegap_plugins( $os ),
@@ -241,7 +241,7 @@ class AppPresser {
 		 * 'battery-status', 'geolocation', 'media', 'media-capture', 'console'
 		 *
 		 */
-		$plugins_packages_include = apply_filters( 'apppresser_phonegap_plugin_packages', $default_plugins, $os, $this );
+		$plugins_packages_include = array_unique( apply_filters( 'apppresser_phonegap_plugin_packages', $default_plugins, $os, $this ) );
 
 		// configure plugins array format
 		return $this->line_item_plugins( $plugins_packages_include, $os );
