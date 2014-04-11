@@ -263,7 +263,7 @@ class AppPresser {
 		foreach ( $include as $plugin ) {
 			if ( array_key_exists( $plugin, $all ) ) {
 				foreach ( $all[ $plugin ] as $key => $array ) {
-					$array['id'] = $plugin .'.'. $key;
+					$array['id'] = "org.apache.cordova.$plugin.$key";
 					$plugins[] = $array;
 				}
 			}
