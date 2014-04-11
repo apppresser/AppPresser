@@ -227,8 +227,12 @@ class AppPresser {
 
 		// By default, AppPresser will only load one plugin
 		$default_plugins = array(
-			// 'org.apache.cordova.file.LocalFileSystem',
-			'org.apache.cordova.device.device',
+			// 'file.LocalFileSystem',
+			'device.device',
+			'inappbrowser.InAppBrowser',
+			'splashscreen.SplashScreen',
+			'network-information.network',
+			'network-information.Connection',
 		);
 
 		// Filter allows other plugins to load additional phonegap plugins
