@@ -241,7 +241,7 @@ class AppPresser {
 		 * 'battery-status', 'geolocation', 'media', 'media-capture', 'console'
 		 *
 		 */
-		$plugins_packages_include = array_unique( apply_filters( 'apppresser_phonegap_plugin_packages', $default_plugins, $os, $this ) );
+		$plugins_packages_include = array_unique( apply_filters( 'apppresser_phonegap_plugin_packages', $default_plugins, $this, $os ) );
 
 		// configure plugins array format
 		return $this->line_item_plugins( $plugins_packages_include, $os );
@@ -289,7 +289,7 @@ class AppPresser {
 		require_once( self::$inc_path . 'phonegap-plugins/'. $os .'-plugins.php' );
 
 		// Filter allows additional phonegap plugins to be added to the list of available plugins
-		$this->phonegap_plugins = apply_filters( 'apppresser_phonegap_plugins_list', $plugins, $os, $this );
+		$this->phonegap_plugins = apply_filters( 'apppresser_phonegap_plugins_list', $plugins, $this, $os );
 		return $this->phonegap_plugins;
 	}
 
