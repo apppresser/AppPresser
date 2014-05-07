@@ -65,7 +65,7 @@ class AppPresser_Theme_Customizer extends AppPresser {
 		), admin_url( 'customize.php' ) );
 
 		// Add url to description
-		$description_with_url = $args['description'] . sprintf( ' <a href="%s">%s</a>', $url, __( 'Customize this theme.', 'apppresser' ) );
+		$description_with_url = $args['description'] . sprintf( ' <a href="%s">%s</a>', $url, __( '<br/>Click here to customize app colors, menus, & more.', 'apppresser' ) );
 
 		// Replace description with new
 		$field = str_replace( $args['description'], $description_with_url, $field );
