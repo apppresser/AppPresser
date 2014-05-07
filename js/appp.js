@@ -210,3 +210,8 @@ apppCore.isApp = function( name ) {
 };
 
 apppCore.init();
+
+document.addEventListener("deviceready", onDeviceReady, false);
+function onDeviceReady() {
+    navigator.splashscreen.hide();
+}
