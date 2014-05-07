@@ -677,6 +677,8 @@ class AppPresser_Admin_Settings extends AppPresser {
 				'<a href="http://twitter.com/lisasabinwilson" target="_blank">Lisa Sabin-Wilson</a>' ); ?>.</p>
 			<p><?php printf( __( 'Development props to %s and %s', 'apppresser' ),
 				'<a href="http://twitter.com/jtsternberg" target="_blank">Justin "JT$" Sternberg</a>',
+				'<a href="http://twitter.com/pmgarman" target="_blank">Patrick Garman</a>',
+				'<a href="http://twitter.com/modemlooper" target="_blank">Ryan Fugate</a>',
 				'<a href="http://twitter.com/tw2113" target="_blank">Michael "Venkman" Beckwith</a>' ); ?>.</p>
 		</div>
 		<?php
