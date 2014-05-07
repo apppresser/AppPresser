@@ -210,3 +210,12 @@ apppCore.isApp = function( name ) {
 };
 
 apppCore.init();
+
+if ( typeof onDeviceReady != 'undefined' ) {
+	document.addEventListener("deviceready", onDeviceReady, false);
+}
+
+function onDeviceReady() {
+	if( navigator.splashscreen && apppCore.is_appp_true == 1 )
+    navigator.splashscreen.hide();
+}

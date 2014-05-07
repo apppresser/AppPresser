@@ -369,7 +369,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 			'description' => __( 'Start typing to search for a page, or enter a page ID.', 'apppresser' ),
 		) );
 
-		$menus = array( 'option-none' => __( '-- select --', 'apppresser' ) );
+		/*$menus = array( 'option-none' => __( '-- select --', 'apppresser' ) );
 		foreach ( (array) $this->nav_menus as $menu ) {
 			$menus[ $menu->term_id ] = $menu->name;
 		}
@@ -385,7 +385,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 			'type' => 'select',
 			'options' => $menus,
 			'helptext' => __( 'Use a custom secondary menu inside your app (the top right dropdown in the header).', 'apppresser' ),
-		) );
+		) );*/
 
 		add_action( 'apppresser_tab_buttons_general', array( $this, 'help_link' ) );
 
@@ -677,6 +677,8 @@ class AppPresser_Admin_Settings extends AppPresser {
 				'<a href="http://twitter.com/lisasabinwilson" target="_blank">Lisa Sabin-Wilson</a>' ); ?>.</p>
 			<p><?php printf( __( 'Development props to %s and %s', 'apppresser' ),
 				'<a href="http://twitter.com/jtsternberg" target="_blank">Justin "JT$" Sternberg</a>',
+				'<a href="http://twitter.com/pmgarman" target="_blank">Patrick Garman</a>',
+				'<a href="http://twitter.com/modemlooper" target="_blank">Ryan Fugate</a>',
 				'<a href="http://twitter.com/tw2113" target="_blank">Michael "Venkman" Beckwith</a>' ); ?>.</p>
 		</div>
 		<?php
