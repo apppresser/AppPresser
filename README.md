@@ -45,6 +45,18 @@ We are happy to accept contributions, but also want to maintain high quality doc
 
 ## Changelog
 
+#### 1.1.1
+* Enhancement: optimize cordova scripts to only load when needed
+* Moved app menu settings to theme customizer exclusively
+* Hide app splashscreen on load
+* Misc bug fixes
+
+#### 1.1.0
+* Fixed annoyance of settings page not returning to the tab you were on when you clicked 'save.'
+* Enhancement: New filter, "apppresser_sanitize_setting_$key" for registering your own sanitization callback to override AppPresser's.
+* Enhancement: New filter, "apppresser_field_override_$type" for registering your own field type view callback to override AppPresser's.
+* Enhancement: Added [CMB](https://github.com/WebDevStudios/Custom-Metaboxes-and-Fields-for-WordPress). Settings API will be re-worked in next versions to use CMB.
+
 #### 1.0.9
 * Bug Fix: App-theme settings were not getting displayed if the theme was not active (despite being set as the App-only theme)
 
