@@ -148,6 +148,12 @@ Technically you can do anything with an AppPresser app that you can do with Phon
 
 == Upgrade Notice ==
 
+= 1.1.1 =
+* Enhancement: optimize cordova scripts to only load when needed
+* Moved app menu settings to theme customizer exclusively
+* Hide app splashscreen on load
+* Misc bug fixes
+
 = 1.1.0 =
 * Fixed annoyance of settings page not returning to the tab you were on when you clicked 'save.'
 * Enhancement: New filter, "apppresser_sanitize_setting_$key" for registering your own sanitization callback to override AppPresser's.
