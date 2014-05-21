@@ -213,5 +213,7 @@ apppCore.init();
 
 // Hide splashscreen on load
 window.onload = function() {
-	navigator.splashscreen.hide();
+	if ( navigator.splashscreen ) {
+		navigator.splashscreen.hide();
+	}
 }
