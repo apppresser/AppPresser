@@ -45,6 +45,9 @@ We are happy to accept contributions, but also want to maintain high quality doc
 
 ## Changelog
 
+#### 1.1.2
+* Fix for splashscreen hide
+
 #### 1.1.1
 * Enhancement: optimize cordova scripts to only load when needed
 * Moved app menu settings to theme customizer exclusively

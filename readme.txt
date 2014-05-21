@@ -148,6 +148,9 @@ Technically you can do anything with an AppPresser app that you can do with Phon
 
 == Upgrade Notice ==
 
+= 1.1.2 =
+* Fix for splashscreen hide
+
 = 1.1.1 =
 * Enhancement: optimize cordova scripts to only load when needed
 * Moved app menu settings to theme customizer exclusively
