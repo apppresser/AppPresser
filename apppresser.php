@@ -92,17 +92,12 @@ class AppPresser {
 		register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
 
 		// Hook in all our important pieces
-		add_action( 'plugins_loaded', array( $this, 'includes' ) );
+		add_action( 'plugins_loaded', array( $this, 'includes' ), 5 );
 		add_action( 'wp_enqueue_scripts', array( $this, 'maybe_enqueue_cordova' ), 8 );
 		add_action( 'wp_head', array( $this, 'do_appp_script' ), 1 );
 
 		// Strip query var from enqueued cordova script
 		add_filter( 'script_loader_src', array( $this, 'remove_query_arg' ), 9999 );
-
-		require_once( self::$inc_path . 'AppPresser_Admin_Settings.php' );
-		require_once( self::$inc_path . 'plugin-updater.php' );
-		require_once( self::$inc_path . 'AppPresser_Theme_Customizer.php' );
-		$this->theme_customizer = new AppPresser_Theme_Customizer();
 
 	}
 
@@ -148,6 +143,10 @@ class AppPresser {
 		$this->theme_switcher = new AppPresser_Theme_Switcher();
 		// Uncomment when we add back in the app panel
 		// require_once( self::$inc_path . 'body-class-meta-box.php' );
+		require_once( self::$inc_path . 'AppPresser_Admin_Settings.php' );
+		require_once( self::$inc_path . 'plugin-updater.php' );
+		require_once( self::$inc_path . 'AppPresser_Theme_Customizer.php' );
+		$this->theme_customizer = new AppPresser_Theme_Customizer();
 
 	}
 

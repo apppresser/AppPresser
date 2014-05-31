@@ -78,8 +78,8 @@ class AppPresser_Theme_Switcher extends AppPresser {
 		$this->appp_theme = wp_get_theme( appp_get_setting( 'appp_theme' ) );
 
 		// switch the current theme to use the AppPresser theme
-		add_filter( 'option_template', array( $this, 'template_request' ), 5 );
-		add_filter( 'option_stylesheet', array( $this, 'stylesheet_request' ), 5 );
+		add_filter( 'template', array( $this, 'template_request' ), 5 );
+		add_filter( 'stylesheet', array( $this, 'stylesheet_request' ), 5 );
 		add_filter( 'template', array( $this, 'maybe_switch' ) );
 	}
 
