@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: AppPresser 1.1.3
+Plugin Name: AppPresser
 Plugin URI: http://apppresser.com
 Description: A mobile app development framework for WordPress.
 Text Domain: apppresser
