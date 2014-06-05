@@ -45,6 +45,9 @@ We are happy to accept contributions, but also want to maintain high quality doc
 
 ## Changelog
 
+#### 1.1.3
+* Roll back script optimization to fix push notifications and other bugs
+
 #### 1.1.2
 * Fix for splashscreen hide
 

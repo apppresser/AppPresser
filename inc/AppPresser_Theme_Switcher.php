@@ -15,18 +15,6 @@ class AppPresser_Theme_Switcher extends AppPresser {
 	public $appp_theme          = false;
 
 	/**
-	 * Theme Switcher goals:
-	 *
-	 * Switch theme to App-only theme if setting exists. This should happen for:
-	 * * Admins, if "Load AppPresser for Admins Only" setting is checked
-	 * * Viewers of the app
-	 * * (Possibly in the future) Switch theme for mobile viewers of site
-	 *
-	 * Switch theme for app-only theme customizer, and customizer settings need to save properly
-	 *
-	 */
-
-	/**
 	 * Party Started
 	 * @since 1.0.0
 	 */
@@ -64,9 +52,16 @@ class AppPresser_Theme_Switcher extends AppPresser {
 			// check if user is running native app
 			self::is_app()
 			// check if the setting is enabled to view the APP theme as an administrator
-			|| $this->maybe_admin_switch()
+			|| (
+				appp_get_setting( 'admin_theme_switch' ) == 'on'
+				&& current_user_can( 'manage_options' )
+			)
 			// it's not an app but we want to switch the theme for mobile
-			|| $this->maybe_mobile_switch()
+			|| (
+				! self::is_app()
+				&& appp_get_setting( 'mobile_browser_theme_switch' ) == 'on'
+				&& wp_is_mobile()
+			)
 			// If we're previewing the app theme
 			|| $this->is_appp_theme_customizer()
 		);
@@ -81,24 +76,6 @@ class AppPresser_Theme_Switcher extends AppPresser {
 		add_filter( 'option_template', array( $this, 'template_request' ), 5 );
 		add_filter( 'option_stylesheet', array( $this, 'stylesheet_request' ), 5 );
 		add_filter( 'template', array( $this, 'maybe_switch' ) );
-	}
-
-	/**
-	 * Check if the setting is enabled to view the APP theme as an administrator
-	 * @since  1.1.1
-	 * @return bool  True if doing switch
-	 */
-	public function maybe_admin_switch() {
-		return appp_get_setting( 'admin_theme_switch' ) == 'on' && current_user_can( 'manage_options' );
-	}
-
-	/**
-	 * Check if the setting is enabled to view the APP theme for mobile, and we're a mobile viewer
-	 * @since  1.1.1
-	 * @return bool  True if doing switch
-	 */
-	public function maybe_mobile_switch() {
-		return ! self::is_app() && appp_get_setting( 'mobile_browser_theme_switch' ) == 'on' && wp_is_mobile();
 	}
 
 	/**
@@ -205,4 +182,25 @@ class AppPresser_Theme_Switcher extends AppPresser {
 		return false;
 	}
 
+}
+
+/**
+ * AppPresser detect iOS function
+ * @since  1.0.0
+ * @return true if device is running iOS
+ */
+function appp_is_ios() {
+	$ua = strtolower( $_SERVER['HTTP_USER_AGENT'] );
+	return ( strstr( $ua, 'iphone' ) || strstr( $ua, 'ipod' ) || strstr( $ua, 'ipad' )
+	);
+}
+
+/**
+ * AppPresser detect Android function
+ * @since  1.0.0
+ * @return true if device is running Android
+ */
+function appp_is_android() {
+	$ua = strtolower( $_SERVER['HTTP_USER_AGENT'] );
+	return ( false !== stripos( $ua, 'android' ) );
 }

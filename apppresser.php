@@ -1,11 +1,11 @@
 <?php
 /*
-Plugin Name: AppPresser
+Plugin Name: AppPresser 1.1.3
 Plugin URI: http://apppresser.com
 Description: A mobile app development framework for WordPress.
 Text Domain: apppresser
 Domain Path: /languages
-Version: 1.1.2
+Version: 1.1.3
 Author: AppPresser Team
 Author URI: http://apppresser.com
 License: GPLv2
@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class AppPresser {
 
-	const VERSION           = '1.1.2';
+	const VERSION           = '1.1.3';
 	const SETTINGS_NAME     = 'appp_settings';
 	public static $settings = 'false';
 	public static $instance = null;
@@ -81,9 +81,6 @@ class AppPresser {
 			'is_appp_true'                => self::is_app(),
 		);
 
-		// Only use minified files if SCRIPT_DEBUG is off
-		$this->minified = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-
 		// Load translations
 		load_plugin_textdomain( 'apppresser', false, 'apppresser/languages' );
 
@@ -93,10 +90,11 @@ class AppPresser {
 
 		// Hook in all our important pieces
 		add_action( 'plugins_loaded', array( $this, 'includes' ) );
-		add_action( 'wp_enqueue_scripts', array( $this, 'maybe_enqueue_cordova' ), 8 );
+		add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts' ), 8 );
 		add_action( 'wp_head', array( $this, 'do_appp_script' ), 1 );
 
-		// Strip query var from enqueued cordova script
+		// remove wp version param from cordova enqueued scripts (so script loading doesn't break)
+		// This will mean that it's harder to break caching on the cordova script
 		add_filter( 'script_loader_src', array( $this, 'remove_query_arg' ), 9999 );
 
 		require_once( self::$inc_path . 'AppPresser_Admin_Settings.php' );
@@ -111,10 +109,12 @@ class AppPresser {
 	 * @since  1.0.3
 	 */
 	function do_appp_script() {
+		// Only use minified files if SCRIPT_DEBUG is off
+		$min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
 
 		// If PHP can read the cookie, we'll enqueue the standard way
 		if ( is_user_logged_in() || self::is_app() ) {
-			wp_enqueue_script( 'appp-core', self::$js_url ."appp{$this->minified}.js", null, self::VERSION );
+			wp_enqueue_script( 'appp-core', self::$js_url ."appp$min.js", null, self::VERSION );
 			wp_localize_script( 'appp-core', 'apppCore', self::$l10n );
 			return;
 		}
@@ -134,7 +134,7 @@ class AppPresser {
 		window.apppCore = <?php echo json_encode( $l10n ); ?>;
 		/* ]]> */
 		</script>
-		<script src="<?php echo self::$js_url; ?>appp<?php echo $this->minified; ?>.js" type="text/javascript"></script>
+		<script src="<?php echo self::$js_url; ?>appp<?php echo $min; ?>.js" type="text/javascript"></script>
 		<?php
 	}
 
@@ -164,34 +164,22 @@ class AppPresser {
 	}
 
 	/**
-	 * Enqueue phonegap/cordove if in app-wrapper
+	 * Frontend scripts and styles
 	 * @since  1.0.0
 	 */
-	function maybe_enqueue_cordova() {
+	function frontend_scripts() {
 
-		// If not in an app, don't enqueue cordova scripts
-		if ( ! self::is_app() )
-			return;
+		// Only use minified files if SCRIPT_DEBUG is off
+		// $min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
 
-		$filename = "cordova{$this->minified}.js";
-		$is_ios   = appp_is_ios();
-
-		// Only enqueue cordova for iOS
-		if ( $is_ios ) {
-			$os = 'ios';
-			wp_enqueue_script( 'cordova-core', self::$pg_url .'ios/'. $filename, null, self::VERSION );
+		// Enqueue cordova scripts if we have an app
+		if ( self::is_app() ) {
+			if ( appp_is_ios() ) {
+				wp_enqueue_script( 'cordova-core', self::$pg_url .'ios/cordova.js', null, self::VERSION );
+			} elseif ( appp_is_android() ) {
+				wp_enqueue_script( 'cordova-core', self::$pg_url .'android/cordova.js', null, self::VERSION );
+			}
 		}
-		// Or Android
-		elseif ( appp_is_android() ) {
-			$os = 'android';
-			wp_enqueue_script( 'cordova-core', self::$pg_url .'android/'. $filename, null, self::VERSION );
-		}
-
-		wp_localize_script( 'cordova-core', 'apppCordova', array(
-			'included_plugins' => $this->phonegap_plugins( $os ),
-			// If updating cordova.js, replace instances of 'cordova.js' with apppCordova.filename
-			'filename' => $filename,
-		) );
 	}
 
 	/**
@@ -199,98 +187,21 @@ class AppPresser {
 	 * @since  1.0.0
 	 */
 	function deactivate() {
+
 		// code to execute when plugin is deactivated
+
 	}
 
 	/**
-	 * Remove wp version param from cordova enqueued scripts (so script loading doesn't break)
-	 *
-	 * This will mean that it's harder to break caching on the cordova script
-	 *
+	 * Strip query var from enqueued cordova script
 	 * @since  1.0.3
 	 * @param  string  $src URL
 	 * @return string       Modified URL
 	 */
 	function remove_query_arg( $src ) {
-		if ( false !== strpos( $src, "cordova{$this->minified}.js" ) )
+		if ( false !== strpos( $src, 'cordova.js' ) )
 			$src = remove_query_arg( 'ver', $src );
 		return $src;
-	}
-
-	/**
-	 * Gets list of phonegap plugins to be loaded.
-	 * @since  1.1.0
-	 * @param  string $os Operating System
-	 * @return array      Array of plugin configurations
-	 */
-	public function phonegap_plugins( $os = 'ios' ) {
-
-		// By default, AppPresser will only load these plugins
-		$default_plugins = array( 'device', 'inappbrowser', 'splashscreen', 'network-information' );
-
-		/**
-		 * Filter to bulk include phonegap script packages
-		 * @var array
-		 *
-		 * Included by default:
-		 * 'device', 'inappbrowser', 'splashscreen', 'network-information'
-		 *
-		 * Available packages:
-		 * 'dialogs', 'file', 'device-motion', 'device-orientation', 'globalization',
-		 * 'splashscreen', 'contacts', 'vibration', 'file-transfer', 'camera',
-		 * 'battery-status', 'geolocation', 'media', 'media-capture', 'console'
-		 *
-		 */
-		$plugins_packages_include = array_unique( apply_filters( 'apppresser_phonegap_plugin_packages', $default_plugins, $this, $os ) );
-
-		// configure plugins array format
-		return $this->line_item_plugins( $plugins_packages_include, $os );
-	}
-
-	/**
-	 * Get phonegap plugins config by their IDs
-	 * @since  1.1.0
-	 * @param  array $include Array of keys to pluck from the phonegap plugin list
-	 * @param  string $os     Operating System
-	 * @return array          Filtered & formatted list
-	 */
-	public function line_item_plugins( $include, $os ) {
-		$plugins = array();
-
-		$all = $this->all_phonegap_plugins( $os );
-
-		// build array of plugins to match format phonegap is looking for
-		foreach ( $include as $plugin ) {
-			if ( array_key_exists( $plugin, $all ) ) {
-				foreach ( $all[ $plugin ] as $key => $array ) {
-					$array['id'] = "org.apache.cordova.$plugin.$key";
-					$plugins[] = $array;
-				}
-			}
-		}
-
-		return $plugins;
-	}
-
-	/**
-	 * Gets the array of registered phonegap files
-	 * @since  1.1.0
-	 * @param  string $os Operating System
-	 * @return array      All phonegap plugin config arrays
-	 */
-	public function all_phonegap_plugins( $os = 'ios' ) {
-		if ( isset( $this->phonegap_plugins ) )
-			return $this->phonegap_plugins;
-
-		// Include our base list of plugins
-		require_once( self::$inc_path . 'phonegap-plugins/all-plugins.php' );
-		// Only iOS and Android for now
-		$os = $os == 'ios' ? 'ios' : 'android';
-		require_once( self::$inc_path . 'phonegap-plugins/'. $os .'-plugins.php' );
-
-		// Filter allows additional phonegap plugins to be added to the list of available plugins
-		$this->phonegap_plugins = apply_filters( 'apppresser_phonegap_plugins_list', $plugins, $this, $os );
-		return $this->phonegap_plugins;
 	}
 
 	/**
@@ -353,25 +264,4 @@ AppPresser::get();
  */
 function appp_get_setting( $key = false, $fallback = false ) {
 	return AppPresser::settings( $key, $fallback );
-}
-
-/**
- * AppPresser detect iOS function
- * @since  1.0.0
- * @return true if device is running iOS
- */
-function appp_is_ios() {
-	$ua = strtolower( $_SERVER['HTTP_USER_AGENT'] );
-	return ( strstr( $ua, 'iphone' ) || strstr( $ua, 'ipod' ) || strstr( $ua, 'ipad' )
-	);
-}
-
-/**
- * AppPresser detect Android function
- * @since  1.0.0
- * @return true if device is running Android
- */
-function appp_is_android() {
-	$ua = strtolower( $_SERVER['HTTP_USER_AGENT'] );
-	return ( false !== stripos( $ua, 'android' ) );
 }
