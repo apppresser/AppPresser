@@ -204,3 +204,12 @@ function appp_is_android() {
 	$ua = strtolower( $_SERVER['HTTP_USER_AGENT'] );
 	return ( false !== stripos( $ua, 'android' ) );
 }
+
+function appp_body_class( $classes = array() ) {
+	if ( AppPresser::is_app() || ( appp_get_setting( 'admin_theme_switch' ) == 'on' && current_user_can( 'manage_options' ) ) ) {
+		$classes[] = 'apppresser';
+	}
+
+	return $classes;
+}
+add_filter( 'body_class', 'appp_body_class' );
