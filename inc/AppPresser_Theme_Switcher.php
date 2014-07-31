@@ -159,6 +159,10 @@ class AppPresser_Theme_Switcher extends AppPresser {
 	 */
 	public function pre_show_on_front() {
 
+		if( !appp_get_setting( 'appp_home_page' ) ) {
+			return false;
+		}
+
 		$this->theme = wp_get_theme();
 		if ( $this->theme->template == $this->maybe_switch() && ! is_admin() ) {
 			return 'page';
