@@ -65,6 +65,26 @@ class AppPresser_Admin_Settings extends AppPresser {
 
 	}
 
+
+	/**
+	 * phonegap_versions function.
+	 *
+	 * @access public
+	 * @return array
+	 */
+	public function phonegap_versions() {
+
+		return $pg_versions = array( '3-5-0' => '3.5.0', '3-6-3' => '3.6.3' );
+
+	}
+
+
+	/**
+	 * get_theme_settings_file function.
+	 *
+	 * @access public
+	 * @return void
+	 */
 	public function get_theme_settings_file() {
 		// Get saved apppresser theme
 		$appp_theme = self::settings( 'appp_theme' );
@@ -364,6 +384,14 @@ class AppPresser_Admin_Settings extends AppPresser {
 			'helptext' => __( 'Select which theme you want to be loaded inside the app, such as the AppPresser theme.', 'apppresser' ),
 			'description' => __( 'Must be enabled above.', 'apppresser' ),
 		) );
+
+		self::add_setting( 'appp_pg_version', __( 'Phonegap Version', 'apppresser' ), array(
+			'type' => 'select',
+			'options' => $this->phonegap_versions(),
+			'helptext' => __( 'Select the Phonegap Version of your app.', 'apppresser' ),
+			'description' => __( 'Select Phonegap Version.', 'apppresser' ),
+		) );
+
 		self::add_setting( 'appp_home_page', __( 'Use a unique homepage for your app.', 'apppresser' ), array(
 			'helptext' => __( 'Allows you to specify which page users will see first when they load up you AppPresser app.', 'apppresser' ),
 			'description' => __( 'Start typing to search for a page, or enter a page ID.', 'apppresser' ),
