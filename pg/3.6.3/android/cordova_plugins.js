@@ -352,6 +352,13 @@ module.exports = [
         ]
     },
     {
+        "file": "plugins/nl.x-services.plugins.socialsharing/www/SocialSharing.js",
+        "id": "nl.x-services.plugins.socialsharing.SocialSharing",
+        "clobbers": [
+            "window.plugins.socialsharing"
+        ]
+    },
+    {
         "file": "plugins/com.phonegap.plugins.PushPlugin/www/PushNotification.js",
         "id": "com.phonegap.plugins.PushPlugin.PushNotification",
         "clobbers": [
@@ -380,6 +387,7 @@ module.exports.metadata =
     "org.apache.cordova.file-transfer": "0.4.6",
     "org.apache.cordova.device": "0.2.12",
     "org.apache.cordova.contacts": "0.2.13",
+    "nl.x-services.plugins.socialsharing": "4.3.8",
     "com.phonegap.plugins.PushPlugin": "2.4.0",
     "org.apache.cordova.splashscreen": "0.3.4"
 }
