@@ -62,6 +62,8 @@ class AppPresser {
 	 */
 	function __construct() {
 
+		$pg_version =  ( appp_get_setting( 'appp_pg_version' ) ) ? appp_get_setting( 'appp_pg_version' ) : '3.5.0';
+
 		// Define plugin constants
 		self::$dir_path = trailingslashit( plugin_dir_path( __FILE__ ) );
 		self::$dir_url  = trailingslashit( plugins_url( dirname( plugin_basename( __FILE__ ) ) ) );
@@ -70,7 +72,7 @@ class AppPresser {
 		self::$css_url  = self::$dir_url  . 'css/';
 		self::$img_url  = self::$dir_url  . 'images/';
 		self::$js_url   = self::$dir_url  . 'js/';
-		self::$pg_url   = self::$dir_url  . 'pg/';
+		self::$pg_url   = self::$dir_url  . 'pg/' . $pg_version . '/';
 
 		self::$l10n = array(
 			'ajaxurl'                     => admin_url( 'admin-ajax.php' ),

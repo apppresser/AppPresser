@@ -74,7 +74,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 	 */
 	public function phonegap_versions() {
 
-		return $pg_versions = array( '3-5-0' => '3.5.0', '3-6-3' => '3.6.3' );
+		return $pg_versions = array( '3.5.0' => '3.5.0', '3.6.3' => '3.6.3' );
 
 	}
 
