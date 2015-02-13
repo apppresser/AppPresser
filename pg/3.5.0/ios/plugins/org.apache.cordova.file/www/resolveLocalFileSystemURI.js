@@ -1,4 +1,4 @@
-cordova.define("org.apache.cordova.file.resolveLocalFileSystemURI", function(require, exports, module) {/*
+cordova.define("org.apache.cordova.file.resolveLocalFileSystemURI", function(require, exports, module) { /*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -24,6 +24,7 @@ var argscheck = require('cordova/argscheck'),
     FileEntry = require('./FileEntry'),
     FileError = require('./FileError'),
     exec = require('cordova/exec');
+var fileSystems = require('./fileSystems');
 
 /**
  * Look up file system Entry referred to by local URI.
@@ -31,13 +32,14 @@ var argscheck = require('cordova/argscheck'),
  * @param successCallback  invoked with Entry object corresponding to URI
  * @param errorCallback    invoked if error occurs retrieving file system entry
  */
-module.exports = function(uri, successCallback, errorCallback) {
+module.exports.resolveLocalFileSystemURL = function(uri, successCallback, errorCallback) {
     argscheck.checkArgs('sFF', 'resolveLocalFileSystemURI', arguments);
     // error callback
     var fail = function(error) {
         errorCallback && errorCallback(new FileError(error));
     };
-    // sanity check for 'not:valid:filename'
+    // sanity check for 'not:valid:filename' or '/not:valid:filename'
+    // file.spec.12 window.resolveLocalFileSystemURI should error (ENCODING_ERR) when resolving invalid URI with leading /.
     if(!uri || uri.split(":").length > 2) {
         setTimeout( function() {
             fail(FileError.ENCODING_ERR);
@@ -46,12 +48,17 @@ module.exports = function(uri, successCallback, errorCallback) {
     }
     // if successful, return either a file or directory entry
     var success = function(entry) {
-        var result;
         if (entry) {
             if (successCallback) {
                 // create appropriate Entry object
-                result = (entry.isDirectory) ? new DirectoryEntry(entry.name, entry.fullPath) : new FileEntry(entry.name, entry.fullPath);
-                successCallback(result);
+                var fsName = entry.filesystemName || (entry.filesystem && entry.filesystem.name) || (entry.filesystem == window.PERSISTENT ? 'persistent' : 'temporary');
+                fileSystems.getFs(fsName, function(fs) {
+                    if (!fs) {
+                        fs = new FileSystem(fsName, {name:"", fullPath:"/"});
+                    }
+                    var result = (entry.isDirectory) ? new DirectoryEntry(entry.name, entry.fullPath, fs, entry.nativeURL) : new FileEntry(entry.name, entry.fullPath, fs, entry.nativeURL);
+                    successCallback(result);
+                });
             }
         }
         else {
@@ -62,4 +69,9 @@ module.exports = function(uri, successCallback, errorCallback) {
 
     exec(success, fail, "File", "resolveLocalFileSystemURI", [uri]);
 };
+module.exports.resolveLocalFileSystemURI = function() {
+    console.log("resolveLocalFileSystemURI is deprecated. Please call resolveLocalFileSystemURL instead.");
+    module.exports.resolveLocalFileSystemURL.apply(this, arguments);
+};
+
 });

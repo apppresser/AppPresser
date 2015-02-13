@@ -1,4 +1,4 @@
-cordova.define("org.apache.cordova.network-information.network", function(require, exports, module) {/*
+cordova.define("org.apache.cordova.network-information.network", function(require, exports, module) { /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -24,7 +24,7 @@ var exec = require('cordova/exec'),
     utils = require('cordova/utils');
 
 // Link the onLine property with the Cordova-supplied network info.
-// This works because we clobber the naviagtor object with our own
+// This works because we clobber the navigator object with our own
 // object in bootstrap.js.
 if (typeof navigator != 'undefined') {
     utils.defineGetter(navigator, 'onLine', function() {
@@ -87,4 +87,5 @@ channel.onCordovaReady.subscribe(function() {
 });
 
 module.exports = me;
+
 });

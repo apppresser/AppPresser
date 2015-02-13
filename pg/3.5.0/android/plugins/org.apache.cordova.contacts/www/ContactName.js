@@ -1,4 +1,4 @@
-cordova.define("org.apache.cordova.contacts.ContactName", function(require, exports, module) {/*
+cordova.define("org.apache.cordova.contacts.ContactName", function(require, exports, module) { /*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -39,4 +39,5 @@ var ContactName = function(formatted, familyName, givenName, middle, prefix, suf
 };
 
 module.exports = ContactName;
+
 });

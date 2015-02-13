@@ -1,4 +1,4 @@
-cordova.define("org.apache.cordova.media-capture.capture", function(require, exports, module) {/*
+cordova.define("org.apache.cordova.media-capture.capture", function(require, exports, module) { /*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -37,6 +37,9 @@ function _capture(type, successCallback, errorCallback, options) {
         for (i = 0; i < pluginResult.length; i++) {
             var mediaFile = new MediaFile();
             mediaFile.name = pluginResult[i].name;
+
+            // Backwards compatibility
+            mediaFile.localURL = pluginResult[i].localURL || pluginResult[i].fullPath;
             mediaFile.fullPath = pluginResult[i].fullPath;
             mediaFile.type = pluginResult[i].type;
             mediaFile.lastModifiedDate = pluginResult[i].lastModifiedDate;
@@ -91,4 +94,5 @@ Capture.prototype.captureVideo = function(successCallback, errorCallback, option
 
 
 module.exports = new Capture();
+
 });

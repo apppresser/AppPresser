@@ -1,4 +1,4 @@
-cordova.define("org.apache.cordova.dialogs.notification", function(require, exports, module) {/*
+cordova.define("org.apache.cordova.dialogs.notification", function(require, exports, module) { /*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -63,7 +63,8 @@ module.exports = {
         // Some platforms take an array of button label names.
         // Other platforms take a comma separated list.
         // For compatibility, we convert to the desired type based on the platform.
-        if (platform.id == "android" || platform.id == "ios" || platform.id == "windowsphone" || platform.id == "firefoxos") {
+        if (platform.id == "amazon-fireos" || platform.id == "android" || platform.id == "ios" || platform.id == "windowsphone" || platform.id == "firefoxos" || platform.id == "ubuntu") {
+
             if (typeof _buttonLabels === 'string') {
                 var buttonLabelString = _buttonLabels;
                 _buttonLabels = _buttonLabels.split(","); // not crazy about changing the var type here
@@ -87,13 +88,13 @@ module.exports = {
      * @param {Function} resultCallback     The callback that is called when user clicks on a button.
      * @param {String} title                Title of the dialog (default: "Prompt")
      * @param {Array} buttonLabels          Array of strings for the button labels (default: ["OK","Cancel"])
-     * @param {String} defaultText          Textbox input value (default: "Default text")
+     * @param {String} defaultText          Textbox input value (default: empty string)
      */
     prompt: function(message, resultCallback, title, buttonLabels, defaultText) {
         var _message = (message || "Prompt message");
         var _title = (title || "Prompt");
         var _buttonLabels = (buttonLabels || ["OK","Cancel"]);
-        var _defaultText = (defaultText || "Default text");
+        var _defaultText = (defaultText || "");
         exec(resultCallback, null, "Notification", "prompt", [_message, _title, _buttonLabels, _defaultText]);
     },
 
@@ -104,7 +105,9 @@ module.exports = {
      * @param {Integer} count       The number of beeps.
      */
     beep: function(count) {
-        exec(null, null, "Notification", "beep", [count]);
+        var defaultedCount = count || 1;
+        exec(null, null, "Notification", "beep", [ defaultedCount ]);
     }
 };
+
 });

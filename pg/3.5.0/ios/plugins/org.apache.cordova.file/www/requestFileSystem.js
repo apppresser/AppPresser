@@ -1,4 +1,4 @@
-cordova.define("org.apache.cordova.file.requestFileSystem", function(require, exports, module) {/*
+cordova.define("org.apache.cordova.file.requestFileSystem", function(require, exports, module) { /*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -23,6 +23,7 @@ var argscheck = require('cordova/argscheck'),
     FileError = require('./FileError'),
     FileSystem = require('./FileSystem'),
     exec = require('cordova/exec');
+var fileSystems = require('./fileSystems');
 
 /**
  * Request a file system in which to store application data.
@@ -37,16 +38,19 @@ var requestFileSystem = function(type, size, successCallback, errorCallback) {
         errorCallback && errorCallback(new FileError(code));
     };
 
-    if (type < 0 || type > 3) {
+    if (type < 0) {
         fail(FileError.SYNTAX_ERR);
     } else {
         // if successful, return a FileSystem object
         var success = function(file_system) {
             if (file_system) {
                 if (successCallback) {
-                    // grab the name and root from the file system object
-                    var result = new FileSystem(file_system.name, file_system.root);
-                    successCallback(result);
+                    fileSystems.getFs(file_system.name, function(fs) {
+                        if (!fs) {
+                            fs = new FileSystem(file_system.name, file_system.root);
+                        }
+                        successCallback(fs);
+                    });
                 }
             }
             else {
@@ -59,4 +63,5 @@ var requestFileSystem = function(type, size, successCallback, errorCallback) {
 };
 
 module.exports = requestFileSystem;
+
 });

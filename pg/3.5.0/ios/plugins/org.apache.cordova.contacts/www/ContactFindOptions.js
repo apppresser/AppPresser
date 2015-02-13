@@ -1,4 +1,4 @@
-cordova.define("org.apache.cordova.contacts.ContactFindOptions", function(require, exports, module) {/*
+cordova.define("org.apache.cordova.contacts.ContactFindOptions", function(require, exports, module) { /*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -26,10 +26,12 @@ cordova.define("org.apache.cordova.contacts.ContactFindOptions", function(requir
  * @param multiple boolean used to determine if more than one contact should be returned
  */
 
-var ContactFindOptions = function(filter, multiple) {
+var ContactFindOptions = function(filter, multiple, desiredFields) {
     this.filter = filter || '';
     this.multiple = (typeof multiple != 'undefined' ? multiple : false);
+    this.desiredFields = typeof desiredFields != 'undefined' ? desiredFields : [];
 };
 
 module.exports = ContactFindOptions;
+
 });

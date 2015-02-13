@@ -1,4 +1,4 @@
-cordova.define("org.apache.cordova.file.FileError", function(require, exports, module) {/*
+cordova.define("org.apache.cordova.file.FileError", function(require, exports, module) { /*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -44,4 +44,5 @@ FileError.TYPE_MISMATCH_ERR = 11;
 FileError.PATH_EXISTS_ERR = 12;
 
 module.exports = FileError;
+
 });

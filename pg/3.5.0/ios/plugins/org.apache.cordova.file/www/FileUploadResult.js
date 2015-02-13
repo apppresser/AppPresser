@@ -1,4 +1,4 @@
-cordova.define("org.apache.cordova.file.FileUploadResult", function(require, exports, module) {/*
+cordova.define("org.apache.cordova.file.FileUploadResult", function(require, exports, module) { /*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -23,11 +23,9 @@ cordova.define("org.apache.cordova.file.FileUploadResult", function(require, exp
  * FileUploadResult
  * @constructor
  */
-var FileUploadResult = function() {
-    this.bytesSent = 0;
-    this.responseCode = null;
-    this.response = null;
-};
-
-module.exports = FileUploadResult;
+module.exports = function FileUploadResult(size, code, content) {
+	this.bytesSent = size;
+	this.responseCode = code;
+	this.response = content;
+ };
 });
