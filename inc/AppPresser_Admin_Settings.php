@@ -561,7 +561,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 				break;
 
 			case 'file':
-				$field .= '<input class="custom_media_url" id="" type="text" name="" value="" style="margin-bottom:10px; clear:right;"><a href="#" class="button-primary custom_media_upload">Choose File</a>'."\n";
+				$field .= sprintf( '<input class="custom_media_url" id="apppresser--%1$s" type="text" name="appp_settings[%2$s]" value="%3$s" style="margin-bottom:10px; clear:right;"><a href="#" class="button-primary custom_media_upload">Choose File</a>'."\n", $key, $key, $value );
 				if ( $args['description'] )
 					$field .= '&nbsp; <span class="description">'. $args['description'] .'</span>';
 				break;
