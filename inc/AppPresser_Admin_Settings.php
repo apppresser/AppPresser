@@ -173,6 +173,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 		wp_enqueue_script( 'appp-admin', self::$js_url . 'appp-admin.js', array( 'jquery', 'jquery-ui-core', 'jquery-ui-tooltip' ), self::VERSION );
 		wp_enqueue_style( 'jquery-ui-smoothness', self::$css_url . 'smoothness/smoothness.custom.min.css' );
 		wp_enqueue_style( 'appp-admin-styles', self::$css_url . 'appp-admin-styles.css', null, self::VERSION );
+		wp_enqueue_media();
 	}
 
 	/**
@@ -553,6 +554,16 @@ class AppPresser_Admin_Settings extends AppPresser {
 				break;
 
 			case 'h3':
+				break;
+
+			case 'title':
+				$field .= '<h2>' . $value . '</h2>';
+				break;
+
+			case 'file':
+				$field .= '<input class="custom_media_url" id="" type="text" name="" value="" style="margin-bottom:10px; clear:right;"><a href="#" class="button-primary custom_media_upload">Choose File</a>'."\n";
+				if ( $args['description'] )
+					$field .= '&nbsp; <span class="description">'. $args['description'] .'</span>';
 				break;
 
 			default:
