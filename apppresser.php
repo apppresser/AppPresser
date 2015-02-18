@@ -84,7 +84,7 @@ class AppPresser {
 		);
 
 		// Load translations
-		load_plugin_textdomain( 'apppresser', false, 'apppresser/languages' );
+		load_plugin_textdomain( 'apppresser', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 
 		// Setup our activation and deactivation hooks
 		register_activation_hook( __FILE__, array( $this, 'activate' ) );
