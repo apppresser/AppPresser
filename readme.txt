@@ -1,10 +1,10 @@
 === AppPresser - Mobile App Framework ===
-Contributors: apppresser, webdevstudios, williamsba1, scottopolis, jtsternberg, Messenlehner, LisaSabinWilson, tw2113
+Contributors: apppresser, webdevstudios, williamsba1, scottopolis, jtsternberg, Messenlehner, LisaSabinWilson, tw2113, modemlooper
 Donate link: http://apppresser.com/
 Tags: mobile, app, ios, android, application, phonegap, iphone app, android app, mobile app, native app, wordpress mobile, ipad app, iOS app
 Requires at least: 3.5
 Tested up to: 3.8.1
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -88,6 +88,8 @@ Technically you can do anything with an AppPresser app that you can do with Phon
 
 
 == Changelog ==
+= 1.1.1 =
+* new option to load specific version of Phonegap files
 
 = 1.1.0 =
 * Fixed annoyance of settings page not returning to the tab you were on when you clicked 'save.'
@@ -141,6 +143,8 @@ Technically you can do anything with an AppPresser app that you can do with Phon
 
 
 == Upgrade Notice ==
+= 1.1.1 =
+* new option to load specific version of Phonegap files
 
 = 1.1.0 =
 * Fixed annoyance of settings page not returning to the tab you were on when you clicked 'save.'
