@@ -2,816 +2,458 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AppPresser v1.1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: 2014-09-15 20:49:59+0000\n"
-"Last-Translator: admin <ram_saa@hotmail.com>\n"
+"POT-Creation-Date: 2015-03-05 13:47-0600\n"
+"PO-Revision-Date: 2015-03-05 13:47-0600\n"
+"Last-Translator: Michael Beckwith <michael.d.beckwith@gmail.com>\n"
 "Language-Team: \n"
+"Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: CSL v1.x\n"
-"X-Poedit-Language: Spanish\n"
-"X-Poedit-Country: SPAIN\n"
+"X-Generator: Poedit 1.7.4\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
+"_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
 "X-Poedit-Basepath: ../\n"
-"X-Poedit-Bookmarks: \n"
+"X-Textdomain-Support: yes\n"
 "X-Poedit-SearchPath-0: .\n"
-"X-Textdomain-Support: yes"
 
-#. translators: plugin header field 'Name'
-#: apppresser.php:0
-#: inc/AppPresser_Admin_Settings.php:112
-#: inc/AppPresser_Admin_Settings.php:344
-#@ apppresser
+# @ apppresser
+#: inc/AppPresser_Admin_Settings.php:132 inc/AppPresser_Admin_Settings.php:365
 msgid "AppPresser"
 msgstr "AppPresser"
 
-#. translators: plugin header field 'PluginURI'
-#. translators: plugin header field 'AuthorURI'
-#: apppresser.php:0
-#@ apppresser
-msgid "http://apppresser.com"
-msgstr "http://apppresser.com"
-
-#. translators: plugin header field 'Description'
-#: apppresser.php:0
-#@ apppresser
-msgid "A mobile app development framework for WordPress."
-msgstr "Un framework para desarrollar aplicaciones móviles de WordPress."
-
-#. translators: plugin header field 'Author'
-#: apppresser.php:0
-#@ apppresser
-msgid "AppPresser Team"
-msgstr "Equipo de AppPresser"
-
-#. translators: plugin header field 'Version'
-#: apppresser.php:0
-#@ apppresser
-msgid "1.1.3"
-msgstr "1.1.3"
-
-#: inc/AppPresser_Admin_Settings.php:117
-#@ apppresser
+# @ apppresser
+#: inc/AppPresser_Admin_Settings.php:137
 msgid "Settings"
 msgstr "Configuración"
 
-#: inc/AppPresser_Admin_Settings.php:120
-#@ apppresser
+# @ apppresser
+#: inc/AppPresser_Admin_Settings.php:140
 msgid "Extensions"
 msgstr "Extensiones"
 
-#: inc/AppPresser_Admin_Settings.php:123
-#@ apppresser
+# @ apppresser
+#: inc/AppPresser_Admin_Settings.php:143
 msgid "Help / Support"
 msgstr "Ayuda / Soporte"
 
-#: inc/AppPresser_Admin_Settings.php:321
-#@ apppresser
+# @ apppresser
+#: inc/AppPresser_Admin_Settings.php:342
 msgid "Save Settings"
 msgstr "Guardar configuración"
 
-#: inc/AppPresser_Admin_Settings.php:345
-#@ apppresser
+# @ apppresser
+#: inc/AppPresser_Admin_Settings.php:366
 msgid "AppPresser Core Settings"
 msgstr "Configuración básica de AppPresser"
 
-#: inc/AppPresser_Admin_Settings.php:349
-#@ apppresser
+# @ apppresser
+#: inc/AppPresser_Admin_Settings.php:370
 msgid "Load AppPresser for mobile browsers"
 msgstr "Cargar AppPresser para navegadores de dispositivos móviles"
 
-#: inc/AppPresser_Admin_Settings.php:351
-#@ apppresser
-msgid "Display AppPresser in mobile browsers such as Safari and Chrome, instead of your normal theme."
-msgstr "Visualiza el tema de AppPreser en los navegadores móviles, como Safari y Chrome, en lugar de tu tema regular."
+# @ apppresser
+#: inc/AppPresser_Admin_Settings.php:372
+msgid ""
+"Display AppPresser in mobile browsers such as Safari and Chrome, instead of "
+"your normal theme."
+msgstr ""
+"Visualiza el tema de AppPreser en los navegadores móviles, como Safari y "
+"Chrome, en lugar de tu tema regular."
 
-#: inc/AppPresser_Admin_Settings.php:355
-#@ apppresser
+# @ apppresser
+#: inc/AppPresser_Admin_Settings.php:376
 msgid "Load AppPresser for Admins Only"
 msgstr "Cargar AppPresser solo para administradores"
 
-#: inc/AppPresser_Admin_Settings.php:357
-#@ apppresser
-msgid "Check this if you want to test your AppPresser app without loading it for visitors to your site."
-msgstr "Marca si quieres probar tu aplicación sin cargarla para quienes visiten tu sitio."
+# @ apppresser
+#: inc/AppPresser_Admin_Settings.php:378
+msgid ""
+"Check this if you want to test your AppPresser app without loading it for "
+"visitors to your site."
+msgstr ""
+"Marca si quieres probar tu aplicación sin cargarla para quienes visiten tu "
+"sitio."
 
-#: inc/AppPresser_Admin_Settings.php:358
-#@ apppresser
+# @ apppresser
+#: inc/AppPresser_Admin_Settings.php:379
 msgid "(for testing purposes)"
 msgstr "(para propósitos de prueba)"
 
-#: inc/AppPresser_Admin_Settings.php:361
-#@ apppresser
+# @ apppresser
+#: inc/AppPresser_Admin_Settings.php:382
 msgid "App-only theme"
 msgstr "Tema de la aplicación"
 
-#: inc/AppPresser_Admin_Settings.php:364
-#@ apppresser
-msgid "Select which theme you want to be loaded inside the app, such as the AppPresser theme."
-msgstr "Selecciona el tema que desear cargar adentro de la aplicación, como el tema de AppPresser."
+# @ apppresser
+#: inc/AppPresser_Admin_Settings.php:385
+msgid ""
+"Select which theme you want to be loaded inside the app, such as the "
+"AppPresser theme."
+msgstr ""
+"Selecciona el tema que desear cargar adentro de la aplicación, como el tema "
+"de AppPresser."
 
-#: inc/AppPresser_Admin_Settings.php:365
-#@ apppresser
+# @ apppresser
+#: inc/AppPresser_Admin_Settings.php:386
 msgid "Must be enabled above."
 msgstr "Tiene que habilitarse desde arriba."
 
-#: inc/AppPresser_Admin_Settings.php:367
-#@ apppresser
+#: inc/AppPresser_Admin_Settings.php:389
+msgid "Phonegap Version"
+msgstr ""
+
+#: inc/AppPresser_Admin_Settings.php:392
+msgid "Select the Phonegap Version of your app."
+msgstr ""
+
+#: inc/AppPresser_Admin_Settings.php:393
+msgid "Select Phonegap Version."
+msgstr ""
+
+# @ apppresser
+#: inc/AppPresser_Admin_Settings.php:396
 msgid "Use a unique homepage for your app."
 msgstr "Utiliza una página principal para tu aplicación."
 
-#: inc/AppPresser_Admin_Settings.php:368
-#@ apppresser
-msgid "Allows you to specify which page users will see first when they load up you AppPresser app."
-msgstr "Te permite especificar cuál página verán primero los usuarios cuando abran tu aplicación."
+# @ apppresser
+#: inc/AppPresser_Admin_Settings.php:397
+msgid ""
+"Allows you to specify which page users will see first when they load up you "
+"AppPresser app."
+msgstr ""
+"Te permite especificar cuál página verán primero los usuarios cuando abran "
+"tu aplicación."
 
-#: inc/AppPresser_Admin_Settings.php:369
-#@ apppresser
+# @ apppresser
+#: inc/AppPresser_Admin_Settings.php:398
 msgid "Start typing to search for a page, or enter a page ID."
 msgstr "Empieza a escribir para buscar una página o ingresa su ID."
 
-#: inc/AppPresser_Admin_Settings.php:399
-#@ apppresser
+# @ apppresser
+#: inc/AppPresser_Admin_Settings.php:428
 msgid "Help/Support"
 msgstr "Ayuda / Soporte"
 
-#: inc/AppPresser_Admin_Settings.php:413
-#@ apppresser
+# @ apppresser
+#: inc/AppPresser_Admin_Settings.php:442
 msgid "Select a page:"
 msgstr "Selecciona una página:"
 
-#: inc/AppPresser_Admin_Settings.php:515
-#@ apppresser
+# @ apppresser
+#: inc/AppPresser_Admin_Settings.php:544
 msgid "Active"
 msgstr "Activo"
 
-#: inc/AppPresser_Admin_Settings.php:519
-#@ apppresser
+# @ apppresser
+#: inc/AppPresser_Admin_Settings.php:548
 msgid "Invalid Key"
 msgstr "Clave de licencia inválida"
 
-#: inc/AppPresser_Admin_Settings.php:519
-#@ apppresser
+# @ apppresser
+#: inc/AppPresser_Admin_Settings.php:548
 msgid "Get a license"
 msgstr "Consigue una licencia"
 
-#: inc/AppPresser_Admin_Settings.php:630
-#@ apppresser
+# @ apppresser
+#: inc/AppPresser_Admin_Settings.php:669
 msgid "security check failed"
 msgstr "Fallo la comprobación de seguridad"
 
-#: inc/AppPresser_Admin_Settings.php:637
-#: inc/cmb/helpers/cmb_Meta_Box_ajax.php:47
-#@ apppresser
-#@ cmb
+# @ apppresser
+# @ cmb
+#: inc/AppPresser_Admin_Settings.php:676
 msgid "Please Try Again"
 msgstr "Por favor inténtalo de nuevo"
 
-#: inc/AppPresser_Admin_Settings.php:644
-#@ apppresser
+# @ apppresser
+#: inc/AppPresser_Admin_Settings.php:683
 msgid "No Results Found"
 msgstr "No se encontraron resultados"
 
-#: inc/AppPresser_Admin_Settings.php:668
-#@ apppresser
+# @ apppresser
+#: inc/AppPresser_Admin_Settings.php:707
 msgid "Help and Support"
 msgstr "Ayuda y soporte de AppPresser"
 
-#: inc/AppPresser_Admin_Settings.php:669
-#@ apppresser
+# @ apppresser
+#: inc/AppPresser_Admin_Settings.php:708
 msgid "Resources"
 msgstr "Recursos"
 
-#: inc/AppPresser_Admin_Settings.php:669
-#@ apppresser
+# @ apppresser
+#: inc/AppPresser_Admin_Settings.php:708
 msgid "Core on Github"
 msgstr "Núcleo del sistema en Github"
 
-#: inc/AppPresser_Admin_Settings.php:669
-#@ apppresser
+# @ apppresser
+#: inc/AppPresser_Admin_Settings.php:708
 msgid "Support Forums"
 msgstr "Foros de soporte"
 
-#: inc/AppPresser_Admin_Settings.php:669
-#@ apppresser
+# @ apppresser
+#: inc/AppPresser_Admin_Settings.php:708
 msgid "Documentation"
 msgstr "Documentación"
 
-#: inc/AppPresser_Admin_Settings.php:670
-#@ apppresser
+# @ apppresser
+#: inc/AppPresser_Admin_Settings.php:709
 msgid "Online"
 msgstr "en línea"
 
-#: inc/AppPresser_Admin_Settings.php:670
-#@ apppresser
+# @ apppresser
+#: inc/AppPresser_Admin_Settings.php:709
 msgid "Web"
 msgstr "Página web"
 
-#: inc/AppPresser_Admin_Settings.php:670
-#@ apppresser
+# @ apppresser
+#: inc/AppPresser_Admin_Settings.php:709
 msgid "Twitter"
 msgstr "Twitter"
 
-#: inc/AppPresser_Admin_Settings.php:670
-#@ apppresser
+# @ apppresser
+#: inc/AppPresser_Admin_Settings.php:709
 msgid "Facebook"
 msgstr "Facebook"
 
-#: inc/AppPresser_Admin_Settings.php:670
-#@ apppresser
+# @ apppresser
+#: inc/AppPresser_Admin_Settings.php:709
 msgid "YouTube"
 msgstr "YouTube"
 
-#: inc/AppPresser_Admin_Settings.php:671
-#@ apppresser
+# @ apppresser
+#: inc/AppPresser_Admin_Settings.php:710
 msgid "About"
 msgstr "Acerca de"
 
-#: inc/AppPresser_Admin_Settings.php:672
+# @ apppresser
+#: inc/AppPresser_Admin_Settings.php:711
 #, php-format
-#@ apppresser
 msgid "%s was created by %s, %s, %s, and %s"
 msgstr "%s fue creado por %s, %s, %s y %s"
 
-#: inc/AppPresser_Admin_Settings.php:678
+# @ apppresser
+#: inc/AppPresser_Admin_Settings.php:717
 #, php-format
-#@ apppresser
 msgid "Development props to %s, %s, %s, and %s"
 msgstr "Apoyo en el desarrollo de %s, %s, %s y %s"
 
-#: inc/AppPresser_Admin_Settings.php:696
+# @ apppresser
+#: inc/AppPresser_Admin_Settings.php:735
 #, php-format
-#@ apppresser
 msgid "Extensions &nbsp;&mdash;&nbsp; %s"
 msgstr "Extensiones de AppPresser &nbsp;&mdash;&nbsp; %s"
 
-#: inc/AppPresser_Admin_Settings.php:696
-#@ apppresser
+# @ apppresser
+#: inc/AppPresser_Admin_Settings.php:735
 msgid "Browse All Extensions"
 msgstr "Ver todas las extensiones"
 
-#: inc/AppPresser_Admin_Settings.php:697
-#@ apppresser
+# @ apppresser
+#: inc/AppPresser_Admin_Settings.php:736
 msgid "These extensions extend the functionality of AppPresser."
 msgstr "Estas extensiones aumentan la funcionalidad de AppPresser."
 
-#: inc/AppPresser_Admin_Settings.php:702
-#@ apppresser
-msgid "There was an error retrieving the extensions list. Please try again later."
-msgstr "Hubo un error al cargar la lista de extensiones. Por favor inténtalo más tarde."
+# @ apppresser
+#: inc/AppPresser_Admin_Settings.php:741
+msgid ""
+"There was an error retrieving the extensions list. Please try again later."
+msgstr ""
+"Hubo un error al cargar la lista de extensiones. Por favor inténtalo más "
+"tarde."
 
+# @ apppresser
 #: inc/AppPresser_Theme_Customizer.php:68
-#@ apppresser
 msgid "<br/>Click here to customize app colors, menus, & more."
-msgstr "<br/>Clic aquí para personalizar los colores, menús, etcétera de la aplicación."
+msgstr ""
+"<br/>Clic aquí para personalizar los colores, menús, etcétera de la "
+"aplicación."
 
+# @ apppresser
 #: inc/AppPresser_Theme_Customizer.php:149
-#@ apppresser
 msgid "Save App Settings"
 msgstr "Guardar configuración"
 
+# @ apppresser
 #: inc/AppPresser_Theme_Customizer.php:151
-#@ apppresser
 msgid "You are previewing the app-only theme: "
 msgstr "Estás en la vista preliminar del tema de la aplicación:"
 
+# @ apppresser
 #: inc/AppPresser_Theme_Customizer.php:155
-#@ apppresser
 msgid "WARNING:"
 msgstr "ADVERTENCIA:"
 
+# @ apppresser
 #: inc/AppPresser_Theme_Customizer.php:156
 #, php-format
-#@ apppresser
-msgid "Settings with an asterisk (%s) are not specific to the app-only theme, and will effect your desktop theme."
-msgstr "Las configuraciones con asterisco (%s) no son específicas del tema de la aplicación, por lo que también afectarán el tema del escritorio."
+msgid ""
+"Settings with an asterisk (%s) are not specific to the app-only theme, and "
+"will effect your desktop theme."
+msgstr ""
+"Las configuraciones con asterisco (%s) no son específicas del tema de la "
+"aplicación, por lo que también afectarán el tema del escritorio."
 
+# @ default
 #: inc/EDD_SL_Theme_Updater.php:54
-#@ default
-msgid "Updating this theme will lose any customizations you have made. 'Cancel' to stop, 'OK' to update."
+#, fuzzy
+msgid ""
+"Updating this theme will lose any customizations you have made. 'Cancel' to "
+"stop, 'OK' to update."
 msgstr ""
+".etadpu ot 'KO' ,pots ot 'lecnaC' .edam evah uoy snoitazimotsuc yna esol "
+"lliw emeht siht gnitadpU"
 
-#: inc/body-class-meta-box.php:27
-#@ default
-msgid "Page Transitions"
-msgstr ""
-
+# @ default
 #: inc/body-class-meta-box.php:46
-#@ default
+#, fuzzy
 msgid "top or bottom, (default is right, use all lowercase)"
-msgstr ""
+msgstr "(esacrewol lla esu ,thgir si tluafed) , mottob ro pot"
 
-#: inc/cmb/example-functions.php:28
-#@ cmb
-msgid "Test Metabox"
-msgstr ""
-
-#: inc/cmb/example-functions.php:36
-#: inc/cmb/example-functions.php:269
-#@ cmb
-msgid "Test Text"
-msgstr ""
-
-#: inc/cmb/example-functions.php:37
-#: inc/cmb/example-functions.php:47
-#: inc/cmb/example-functions.php:54
-#: inc/cmb/example-functions.php:61
-#: inc/cmb/example-functions.php:69
-#: inc/cmb/example-functions.php:76
-#: inc/cmb/example-functions.php:88
-#: inc/cmb/example-functions.php:94
-#: inc/cmb/example-functions.php:101
-#: inc/cmb/example-functions.php:116
-#: inc/cmb/example-functions.php:124
-#: inc/cmb/example-functions.php:131
-#: inc/cmb/example-functions.php:137
-#: inc/cmb/example-functions.php:143
-#: inc/cmb/example-functions.php:155
-#: inc/cmb/example-functions.php:166
-#: inc/cmb/example-functions.php:177
-#: inc/cmb/example-functions.php:188
-#: inc/cmb/example-functions.php:196
-#: inc/cmb/example-functions.php:203
-#: inc/cmb/example-functions.php:211
-#: inc/cmb/example-functions.php:217
-#: inc/cmb/example-functions.php:229
-#: inc/cmb/example-functions.php:270
-#: inc/cmb/example-functions.php:335
-#: inc/cmb/example-functions.php:342
-#: inc/cmb/example-functions.php:349
-#: inc/cmb/example-functions.php:355
-#: inc/cmb/example-functions.php:361
-#: inc/cmb/example-functions.php:367
-#: inc/cmb/example-functions.php:373
-#: inc/cmb/example-functions.php:391
-#@ cmb
-msgid "field description (optional)"
-msgstr ""
-
-#: inc/cmb/example-functions.php:46
-#@ cmb
-msgid "Test Text Small"
-msgstr ""
-
-#: inc/cmb/example-functions.php:53
-#@ cmb
-msgid "Test Text Medium"
-msgstr ""
-
-#: inc/cmb/example-functions.php:60
-#@ cmb
-msgid "Website URL"
-msgstr ""
-
-#: inc/cmb/example-functions.php:68
-#@ cmb
-msgid "Test Text Email"
-msgstr ""
-
-#: inc/cmb/example-functions.php:75
-#@ cmb
-msgid "Test Time"
-msgstr ""
-
-#: inc/cmb/example-functions.php:81
-#: inc/cmb/example-functions.php:82
-#@ cmb
-msgid "Time zone"
-msgstr ""
-
-#: inc/cmb/example-functions.php:87
-#@ cmb
-msgid "Test Date Picker"
-msgstr ""
-
-#: inc/cmb/example-functions.php:93
-#@ cmb
-msgid "Test Date Picker (UNIX timestamp)"
-msgstr ""
-
-#: inc/cmb/example-functions.php:100
-#@ cmb
-msgid "Test Date/Time Picker Combo (UNIX timestamp)"
-msgstr ""
-
-#: inc/cmb/example-functions.php:115
-#@ cmb
-msgid "Test Money"
-msgstr ""
-
-#: inc/cmb/example-functions.php:123
-#@ cmb
-msgid "Test Color Picker"
-msgstr ""
-
-#: inc/cmb/example-functions.php:130
-#@ cmb
-msgid "Test Text Area"
-msgstr ""
-
-#: inc/cmb/example-functions.php:136
-#@ cmb
-msgid "Test Text Area Small"
-msgstr ""
-
-#: inc/cmb/example-functions.php:142
-#@ cmb
-msgid "Test Text Area for Code"
-msgstr ""
-
-#: inc/cmb/example-functions.php:148
-#@ cmb
-msgid "Test Title Weeeee"
-msgstr ""
-
-#: inc/cmb/example-functions.php:149
-#@ cmb
-msgid "This is a title description"
-msgstr ""
-
-#: inc/cmb/example-functions.php:154
-#@ cmb
-msgid "Test Select"
-msgstr ""
-
-#: inc/cmb/example-functions.php:159
-#: inc/cmb/example-functions.php:170
-#: inc/cmb/example-functions.php:181
-#@ cmb
-msgid "Option One"
-msgstr ""
-
-#: inc/cmb/example-functions.php:160
-#: inc/cmb/example-functions.php:171
-#: inc/cmb/example-functions.php:182
-#@ cmb
-msgid "Option Two"
-msgstr ""
-
-#: inc/cmb/example-functions.php:161
-#: inc/cmb/example-functions.php:172
-#: inc/cmb/example-functions.php:183
-#@ cmb
-msgid "Option Three"
-msgstr ""
-
-#: inc/cmb/example-functions.php:165
-#@ cmb
-msgid "Test Radio inline"
-msgstr ""
-
-#: inc/cmb/example-functions.php:176
-#@ cmb
-msgid "Test Radio"
-msgstr ""
-
-#: inc/cmb/example-functions.php:187
-#@ cmb
-msgid "Test Taxonomy Radio"
-msgstr ""
-
-#: inc/cmb/example-functions.php:195
-#@ cmb
-msgid "Test Taxonomy Select"
-msgstr ""
-
-#: inc/cmb/example-functions.php:202
-#@ cmb
-msgid "Test Taxonomy Multi Checkbox"
-msgstr ""
-
-#: inc/cmb/example-functions.php:210
-#@ cmb
-msgid "Test Checkbox"
-msgstr ""
-
-#: inc/cmb/example-functions.php:216
-#@ cmb
-msgid "Test Multi Checkbox"
-msgstr ""
-
-#: inc/cmb/example-functions.php:221
-#@ cmb
-msgid "Check One"
-msgstr ""
-
-#: inc/cmb/example-functions.php:222
-#@ cmb
-msgid "Check Two"
-msgstr ""
-
-#: inc/cmb/example-functions.php:223
-#@ cmb
-msgid "Check Three"
-msgstr ""
-
-#: inc/cmb/example-functions.php:228
-#@ cmb
-msgid "Test wysiwyg"
-msgstr ""
-
-#: inc/cmb/example-functions.php:235
-#@ cmb
-msgid "Test Image"
-msgstr ""
-
-#: inc/cmb/example-functions.php:236
-#@ cmb
-msgid "Upload an image or enter a URL."
-msgstr ""
-
-#: inc/cmb/example-functions.php:241
-#@ cmb
-msgid "Multiple Files"
-msgstr ""
-
-#: inc/cmb/example-functions.php:242
-#@ cmb
-msgid "Upload or add multiple images/attachments."
-msgstr ""
-
-#: inc/cmb/example-functions.php:248
-#@ cmb
-msgid "oEmbed"
-msgstr ""
-
-#: inc/cmb/example-functions.php:249
-#@ cmb
-msgid "Enter a youtube, twitter, or instagram URL. Supports services listed at <a href=\"http://codex.wordpress.org/Embeds\">http://codex.wordpress.org/Embeds</a>."
-msgstr ""
-
-#: inc/cmb/example-functions.php:261
-#@ cmb
-msgid "About Page Metabox"
-msgstr ""
-
-#: inc/cmb/example-functions.php:282
-#@ cmb
-msgid "Repeating Field Group"
-msgstr ""
-
-#: inc/cmb/example-functions.php:288
-#@ cmb
-msgid "Generates reusable form entries"
-msgstr ""
-
-#: inc/cmb/example-functions.php:290
-#@ cmb
-msgid "Add Another Entry"
-msgstr ""
-
-#: inc/cmb/example-functions.php:291
-#@ cmb
-msgid "Remove Entry"
-msgstr ""
-
-#: inc/cmb/example-functions.php:328
-#@ cmb
-msgid "User Profile Metabox"
-msgstr ""
-
-#: inc/cmb/example-functions.php:334
-#@ cmb
-msgid "Extra Info"
-msgstr ""
-
-#: inc/cmb/example-functions.php:341
-#@ cmb
-msgid "Avatar"
-msgstr ""
-
-#: inc/cmb/example-functions.php:348
-#@ cmb
-msgid "Facebook URL"
-msgstr ""
-
-#: inc/cmb/example-functions.php:354
-#@ cmb
-msgid "Twitter URL"
-msgstr ""
-
-#: inc/cmb/example-functions.php:360
-#@ cmb
-msgid "Google+ URL"
-msgstr ""
-
-#: inc/cmb/example-functions.php:366
-#@ cmb
-msgid "Linkedin URL"
-msgstr ""
-
-#: inc/cmb/example-functions.php:372
-#@ cmb
-msgid "User Field"
-msgstr ""
-
-#: inc/cmb/example-functions.php:386
-#@ cmb
-msgid "Theme Options Metabox"
-msgstr ""
-
-#: inc/cmb/example-functions.php:390
-#@ cmb
-msgid "Site Background Color"
-msgstr ""
-
-#: inc/cmb/helpers/cmb_Meta_Box_ajax.php:131
-#@ cmb
-msgid "Remove Embed"
-msgstr ""
-
-#: inc/cmb/helpers/cmb_Meta_Box_ajax.php:134
-#, php-format
-#@ cmb
-msgid "No oEmbed Results Found for %s. View more info at"
-msgstr ""
-
-#: inc/cmb/helpers/cmb_Meta_Box_field.php:449
-#@ cmb
-msgid "Add Group"
-msgstr ""
-
-#: inc/cmb/helpers/cmb_Meta_Box_field.php:450
-#@ cmb
-msgid "Remove Group"
-msgstr ""
-
-#: inc/cmb/helpers/cmb_Meta_Box_types.php:249
-#@ cmb
-msgid "Add Row"
-msgstr ""
-
-#: inc/cmb/helpers/cmb_Meta_Box_types.php:305
-#: inc/cmb/helpers/cmb_Meta_Box_types.php:705
-#: inc/cmb/helpers/cmb_Meta_Box_types.php:765
-#@ cmb
-msgid "Remove"
-msgstr ""
-
-#: inc/cmb/helpers/cmb_Meta_Box_types.php:600
-#: inc/cmb/helpers/cmb_Meta_Box_types.php:634
-#@ cmb
-msgid "No terms"
-msgstr ""
-
-#: inc/cmb/helpers/cmb_Meta_Box_types.php:673
-#: inc/cmb/helpers/cmb_Meta_Box_types.php:727
-#@ cmb
-msgid "Add or Upload File"
-msgstr ""
-
-#: inc/cmb/helpers/cmb_Meta_Box_types.php:694
-#: inc/cmb/helpers/cmb_Meta_Box_types.php:757
-#@ cmb
-msgid "Remove Image"
-msgstr ""
-
-#: inc/cmb/helpers/cmb_Meta_Box_types.php:705
-#: inc/cmb/helpers/cmb_Meta_Box_types.php:765
-#@ cmb
-msgid "File:"
-msgstr ""
-
-#: inc/cmb/helpers/cmb_Meta_Box_types.php:705
-#: inc/cmb/helpers/cmb_Meta_Box_types.php:765
-#@ cmb
-msgid "Download"
-msgstr ""
-
-#: inc/cmb/init.php:251
-#@ default
-msgid "Clear"
-msgstr ""
-
-#: inc/cmb/init.php:252
-#@ default
-msgid "Default"
-msgstr ""
-
-#: inc/cmb/init.php:253
-#@ default
-msgid "Select Color"
-msgstr ""
-
-#: inc/cmb/init.php:254
-#@ default
-msgid "Current Color"
-msgstr ""
-
-#: inc/cmb/init.php:1155
-#@ cmb
-msgid "Save"
-msgstr ""
-
+# @ appp
 #: inc/sample.php:22
-#@ appp
+#, fuzzy
 msgid "New Tab"
-msgstr ""
+msgstr "baT weN"
 
+# @ apppresser
 #: inc/sample.php:25
-#@ apppresser
 msgid "AppPresser Extension License Key"
 msgstr "Clave de la licencia de la extensión de AppPresser"
 
+# @ apppresser
 #: inc/sample.php:25
-#@ apppresser
 msgid "Adding a license key enables automatic updates."
-msgstr "Añadiendo una clave de licencia se habilitan las actualizaciones automáticas."
+msgstr ""
+"Añadiendo una clave de licencia se habilitan las actualizaciones automáticas."
 
+# @ appp
 #: inc/sample.php:28
-#@ appp
+#, fuzzy
 msgid "Write some text"
-msgstr ""
+msgstr "txet emos etirW"
 
-#: inc/sample.php:30
-#: inc/sample.php:38
-#: inc/sample.php:46
-#: inc/sample.php:65
-#@ appp
+# @ appp
+#: inc/sample.php:30 inc/sample.php:38 inc/sample.php:46 inc/sample.php:65
+#, fuzzy
 msgid "Input description (optional)"
-msgstr ""
+msgstr "(lanoitpo) noitpircsed tupnI"
 
+# @ appp
 #: inc/sample.php:31
-#@ appp
-msgid "This is a (optional) help text displayed in a tooltip to explain this setting. Will use custom sanitization to replace \"red\" with \"green\""
+#, fuzzy
+msgid ""
+"This is a (optional) help text displayed in a tooltip to explain this "
+"setting. Will use custom sanitization to replace \"red\" with \"green\""
 msgstr ""
+"\"neerg\" htiw \"der\" ecalper ot noitazitinas motsuc esu lliW . gnittes "
+"siht nialpxe ot pitloot a ni deyalpsid txet pleh (lanoitpo) a si sihT"
 
+# @ appp
 #: inc/sample.php:35
-#@ appp
+#, fuzzy
 msgid "Check this box"
-msgstr ""
+msgstr "xob siht kcehC"
 
-#: inc/sample.php:39
-#: inc/sample.php:47
-#: inc/sample.php:66
-#: inc/sample.php:80
-#@ appp
-msgid "This is a (optional) help text displayed in a tooltip to explain this setting."
+# @ appp
+#: inc/sample.php:39 inc/sample.php:47 inc/sample.php:66 inc/sample.php:80
+#, fuzzy
+msgid ""
+"This is a (optional) help text displayed in a tooltip to explain this "
+"setting."
 msgstr ""
+".gnittes siht nialpxe ot pitloot a ni deyalpsid txet pleh (lanoitpo) a si "
+"sihT"
 
+# @ appp
 #: inc/sample.php:43
-#@ appp
+#, fuzzy
 msgid "Select an option"
-msgstr ""
+msgstr "noitpo na tceleS"
 
-#: inc/sample.php:49
-#: inc/sample.php:68
-#@ appp
+# @ appp
+#: inc/sample.php:49 inc/sample.php:68
+#, fuzzy
 msgid "Value 1"
-msgstr ""
+msgstr "1 eulav"
 
-#: inc/sample.php:50
-#: inc/sample.php:69
-#@ appp
+# @ appp
+#: inc/sample.php:50 inc/sample.php:69
+#, fuzzy
 msgid "Value 2"
-msgstr ""
+msgstr "2 eulaV"
 
+# @ apppresser
 #: inc/sample.php:55
-#@ apppresser
 msgid "More Options"
 msgstr "Más opciones"
 
+# @ appp
 #: inc/sample.php:62
-#@ appp
+#, fuzzy
 msgid "Select another option"
-msgstr ""
+msgstr "noitpo rehtona tceleS"
 
+# @ appp
 #: inc/sample.php:70
-#@ appp
+#, fuzzy
 msgid "Value 3"
-msgstr ""
+msgstr "3 eulaV"
 
+# @ appp
 #: inc/sample.php:71
-#@ appp
+#, fuzzy
 msgid "One More"
-msgstr ""
+msgstr "eroM enO"
 
+# @ appp
 #: inc/sample.php:76
-#@ appp
+#, fuzzy
 msgid "This is a custom type"
-msgstr ""
+msgstr "epyt motsuc a si sihT"
 
+# @ appp
 #: inc/sample.php:79
-#@ appp
+#, fuzzy
 msgid "This field is disabled and read only"
-msgstr ""
+msgstr "ylno daer dna delbasid si dleif sihT"
 
+# @ appp
 #: inc/sample.php:122
-#@ appp
+#, fuzzy
 msgid "Go Home"
-msgstr ""
+msgstr "emoH oG"
 
+# @ appp
 #: inc/sample.php:131
-#@ appp
+#, fuzzy
 msgid "link to another resource"
-msgstr ""
+msgstr "ecruoser rehtona ot knil"
 
+# @ appp
 #: inc/sample.php:135
-#, php-format
-#@ appp
-msgid "This is a sentence describing the reason for this tab of settings. You can add a %s."
+#, fuzzy, php-format
+msgid ""
+"This is a sentence describing the reason for this tab of settings. You can "
+"add a %s."
 msgstr ""
+"sihT si a ecnetnes gnibircsed eht nosaer rof siht bat fo sgnittes. uoY nac "
+"dda a %s."
 
+# @ apppresser
+#~ msgid "http://apppresser.com"
+#~ msgstr "http://apppresser.com"
+
+# @ apppresser
+#~ msgid "A mobile app development framework for WordPress."
+#~ msgstr "Un framework para desarrollar aplicaciones móviles de WordPress."
+
+# @ apppresser
+#~ msgid "AppPresser Team"
+#~ msgstr "Equipo de AppPresser"
+
+# @ apppresser
+#~ msgid "1.1.3"
+#~ msgstr "1.1.3"
