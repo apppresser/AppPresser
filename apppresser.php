@@ -167,6 +167,8 @@ class AppPresser {
 	 * @since  1.0.0
 	 */
 	function maybe_enqueue_cordova() {
+	
+		$os = null;
 
 		// If not in an app, don't enqueue cordova scripts
 		if ( ! self::is_app() )
