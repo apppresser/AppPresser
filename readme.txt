@@ -4,15 +4,15 @@ Donate link: http://apppresser.com/
 Tags: mobile, app, ios, android, application, phonegap, iphone app, android app, mobile app, native app, wordpress mobile, ipad app, iOS app
 Requires at least: 3.5
 Tested up to: 3.9.1
-Stable tag: 1.1.3
+Stable tag: 1.1.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Build native iOS and Android mobile apps with the AppPresser framework.
+Build iOS and Android mobile apps with the AppPresser framework.
 
 == Description ==
 
-AppPresser is the first native mobile app development framework for WordPress.
+AppPresser is a mobile app development framework for WordPress.
 
 [AppPresser](http://apppresser.com/ "AppPresser mobile apps with WordPress") allows you to use a WordPress site as an app, including access to device features such as the camera, contacts, and more. You can create your app completely in WordPress, using themes, plugins, and all the stuff you already know.
 

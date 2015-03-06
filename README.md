@@ -45,6 +45,11 @@ We are happy to accept contributions, but also want to maintain high quality doc
 
 ## Changelog
 
+#### 1.1.4
+* Update to support Phonegap 3.6.3
+* Add option to switch between Phonegap versions
+* Bug fixes, translation updates
+
 #### 1.1.3
 * Roll back script optimization to fix push notifications and other bugs
 
