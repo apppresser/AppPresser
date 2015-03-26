@@ -293,6 +293,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 	 * @since  1.0.0
 	 */
 	public function settings_page() {
+	
 
 		$appp_settings = self::run();
 		// Add settings tabs/inputs via this hook. The AppPresser_Admin_Settings instance is passed in.
@@ -315,6 +316,8 @@ class AppPresser_Admin_Settings extends AppPresser {
 				echo '<a class="nav-tab'. $current_class .'" data-selector="tab-'. $tab .'" href="?page='. self::$page_slug .'&tab=tab-'. $tab .'">'. $name .'</a>';
 			}
 			echo '</h2>';
+			
+					
 			?>
 			<form method="post" action="options.php">
 				<?php
@@ -361,10 +364,11 @@ class AppPresser_Admin_Settings extends AppPresser {
 	 * @since 1.0.0
 	 */
 	public function add_settings() {
+	
 		// Main tab
 		self::add_setting_tab( __( 'AppPresser', 'apppresser' ), 'general' );
 		self::add_setting_label( __( 'AppPresser Core Settings', 'apppresser' ) );
-
+	
 		// For now...
 		if ( appp_get_setting( 'mobile_browser_theme_switch' ) ) {
 			self::add_setting( 'mobile_browser_theme_switch', __( 'Load AppPresser for mobile browsers', 'apppresser' ), array(
@@ -385,7 +389,14 @@ class AppPresser_Admin_Settings extends AppPresser {
 			'helptext' => __( 'Select which theme you want to be loaded inside the app, such as the AppPresser theme.', 'apppresser' ),
 			'description' => __( 'Must be enabled above.', 'apppresser' ),
 		) );
-
+		
+		self::add_setting( 'customizer_link', __( 'App Design', 'apppresser' ), array(
+			'type' => 'paragraph',
+			'helptext' => __( 'Opens the customizer to customize the look of your app.', 'apppresser' ),
+			'value' => __( '<span></span>', 'apppresser' ),
+			'description' => __( 'Click here to customize app colors, menus, homepage & more.', 'apppresser' ),
+		) );
+		
 		self::add_setting( 'appp_pg_version', __( 'Phonegap Version', 'apppresser' ), array(
 			'type' => 'select',
 			'options' => $this->phonegap_versions(),
@@ -393,10 +404,10 @@ class AppPresser_Admin_Settings extends AppPresser {
 			'description' => __( 'Select Phonegap Version.', 'apppresser' ),
 		) );
 
-		self::add_setting( 'appp_home_page', __( 'Use a unique homepage for your app.', 'apppresser' ), array(
+		/*self::add_setting( 'appp_home_page', __( 'Use a unique homepage for your app.', 'apppresser' ), array(
 			'helptext' => __( 'Allows you to specify which page users will see first when they load up you AppPresser app.', 'apppresser' ),
 			'description' => __( 'Start typing to search for a page, or enter a page ID.', 'apppresser' ),
-		) );
+		) );*/
 
 		/*$menus = array( 'option-none' => __( '-- select --', 'apppresser' ) );
 		foreach ( (array) $this->nav_menus as $menu ) {
@@ -558,6 +569,10 @@ class AppPresser_Admin_Settings extends AppPresser {
 
 			case 'title':
 				$field .= '<h2>' . $value . '</h2>';
+				break;
+				
+			case 'paragraph':
+				$field .= '<p>' . $args['value'] . '</p>';
 				break;
 
 			case 'file':

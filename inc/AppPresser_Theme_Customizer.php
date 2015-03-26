@@ -19,7 +19,7 @@ class AppPresser_Theme_Customizer extends AppPresser {
 			return;
 
 		// Add customizer link to appp_theme field description
-		add_filter( 'apppresser_field_markup_select', array( $this, 'add_customizer_link' ), 10, 4 );
+		add_filter( 'apppresser_field_markup_paragraph', array( $this, 'add_customizer_link' ), 10, 4 );
 
 		// If not in the customizer, bail
 		if ( ! isset( $_GET['appp_theme'] ) )
@@ -53,9 +53,9 @@ class AppPresser_Theme_Customizer extends AppPresser {
 	 * @param array   $args    Array of arguments for field
 	 */
 	public function add_customizer_link( $field, $key, $setting, $args ) {
-
+	
 		// Only modify the 'appp_theme' setting
-		if ( 'appp_theme' !== $key )
+		if ( 'customizer_link' !== $key )
 			return $field;
 
 		// Get the customizer url
@@ -65,10 +65,10 @@ class AppPresser_Theme_Customizer extends AppPresser {
 		), admin_url( 'customize.php' ) );
 
 		// Add url to description
-		$description_with_url = $args['description'] . sprintf( ' <a href="%s">%s</a>', $url, __( '<br/>Click here to customize app colors, menus, & more.', 'apppresser' ) );
+		$description_with_url = $args['value'] . sprintf( '<a class="button button-primary button-large" href="%s">%s</a>', $url, __( 'Open Customizer', 'apppresser' ) );
 
 		// Replace description with new
-		$field = str_replace( $args['description'], $description_with_url, $field );
+		$field = str_replace( $args['value'], $description_with_url, $field );
 
 		return $field;
 	}
