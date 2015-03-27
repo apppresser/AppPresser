@@ -8,7 +8,7 @@ Stable tag: 1.1.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Build iOS and Android mobile apps with the AppPresser framework.
+Your WordPress site in an App.
 
 == Description ==
 
