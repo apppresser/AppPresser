@@ -62,7 +62,7 @@ class AppPresser_Theme_Customizer extends AppPresser {
 		$url = add_query_arg( array(
 			'appp_theme' => true,
 			'theme' => $setting,
-		), admin_url( 'customize.php' ) );
+		), esc_url( admin_url( 'customize.php' ) ) );
 
 		// Add url to description
 		$description_with_url = $args['value'] . sprintf( '<a class="button button-primary button-large" href="%s">%s</a>', $url, __( 'Open Customizer', 'apppresser' ) );

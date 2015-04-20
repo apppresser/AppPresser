@@ -436,7 +436,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 	 * @since  1.0.0
 	 */
 	public function help_link() {
-		echo '<a href="'. add_query_arg( 'page', self::$help_slug, admin_url( 'admin.php' ) ) .'">'. __( 'Help/Support', 'apppresser' ) .'</a>';
+		echo '<a href="'. add_query_arg( 'page', self::$help_slug, esc_url( admin_url( 'admin.php' ) ) ) .'">'. __( 'Help/Support', 'apppresser' ) .'</a>';
 	}
 
 	/**
