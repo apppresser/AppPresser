@@ -145,12 +145,12 @@ class AppPresser_Updater extends AppPresser {
 			return false;
 
 		// Call the custom API.
-		$response = wp_remote_post( add_query_arg( array(
+		$response = wp_remote_post( esc_url( add_query_arg( array(
 			'edd_action'=> 'activate_license',
 			'license' 	=> $license,
 			// 'the_title' filter needed to match EDD's check
 			'item_name' => urlencode( apply_filters( 'the_title', $updater->public['item_name'], 0 ) ),
-		), $updater->public['api_url'] ) );
+		), $updater->public['api_url'] ) ) );
 
 		// make sure the response came back okay
 		if ( is_wp_error( $response ) )

@@ -59,10 +59,10 @@ class AppPresser_Theme_Customizer extends AppPresser {
 			return $field;
 
 		// Get the customizer url
-		$url = add_query_arg( array(
+		$url = esc_url( add_query_arg( array(
 			'appp_theme' => true,
 			'theme' => $setting,
-		), esc_url( admin_url( 'customize.php' ) ) );
+		), admin_url( 'customize.php' ) ) );
 
 		// Add url to description
 		$description_with_url = $args['value'] . sprintf( '<a class="button button-primary button-large" href="%s">%s</a>', $url, __( 'Open Customizer', 'apppresser' ) );
@@ -78,7 +78,7 @@ class AppPresser_Theme_Customizer extends AppPresser {
 	 * @since  1.0.7
 	 */
 	public function redirect_correct_appp_theme() {
-		wp_redirect( add_query_arg( 'theme', appp_get_setting( 'appp_theme' ) ) );
+		wp_redirect(  esc_url( add_query_arg( 'theme', appp_get_setting( 'appp_theme' ) ) ) );
 	}
 
 	/**
