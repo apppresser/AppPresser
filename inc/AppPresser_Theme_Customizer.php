@@ -54,15 +54,14 @@ class AppPresser_Theme_Customizer extends AppPresser {
 	 */
 	public function add_customizer_link( $field, $key, $setting, $args ) {
 	
+		$appp_theme = appp_get_setting( 'appp_theme' );
+	
 		// Only modify the 'appp_theme' setting
 		if ( 'customizer_link' !== $key )
 			return $field;
 
 		// Get the customizer url
-		$url = esc_url( add_query_arg( array(
-			'appp_theme' => true,
-			'theme' => $setting,
-		), admin_url( 'customize.php' ) ) );
+		$url = esc_url( add_query_arg( array( 'appp_theme' => 1, 'theme' => $appp_theme ), admin_url( 'customize.php' ) ) );
 
 		// Add url to description
 		$description_with_url = $args['value'] . sprintf( '<a class="button button-primary button-large" href="%s">%s</a>', $url, __( 'Open Customizer', 'apppresser' ) );
