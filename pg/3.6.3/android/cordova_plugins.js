@@ -371,7 +371,14 @@ module.exports = [
         "clobbers": [
             "navigator.splashscreen"
         ]
-    }
+    },
+    {
+        "file": "plugins/com.phonegap.plugins.facebookconnect/facebookConnectPlugin.js",
+        "id": "com.phonegap.plugins.facebookconnect.FacebookConnectPlugin",
+        "clobbers": [
+            "facebookConnectPlugin"
+        ]
+    },
 ];
 module.exports.metadata = 
 // TOP OF METADATA
@@ -389,7 +396,8 @@ module.exports.metadata =
     "org.apache.cordova.contacts": "0.2.13",
     "nl.x-services.plugins.socialsharing": "4.3.8",
     "com.phonegap.plugins.PushPlugin": "2.4.0",
-    "org.apache.cordova.splashscreen": "0.3.4"
+    "org.apache.cordova.splashscreen": "0.3.4",
+    "com.phonegap.plugins.facebookconnect": "0.11.0",
 }
 // BOTTOM OF METADATA
 });

@@ -175,11 +175,12 @@ class AppPresser {
 		// $min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
 
 		// Enqueue cordova scripts if we have an app
+
 		if ( self::is_app() ) {
 			if ( appp_is_ios() ) {
-				wp_enqueue_script( 'cordova-core', self::$pg_url .'ios/cordova.js', null, self::VERSION );
+				wp_enqueue_script( 'cordova-core', self::$pg_url .'ios/cordova.js', null, filemtime( self::$dir_path .'pg/' . $pg_version . '/ios/cordova_plugins.js' ) );
 			} elseif ( appp_is_android() ) {
-				wp_enqueue_script( 'cordova-core', self::$pg_url .'android/cordova.js', null, self::VERSION );
+				wp_enqueue_script( 'cordova-core', self::$pg_url .'android/cordova.js', null, filemtime( self::$dir_path .'pg/' . $pg_version . '/android/cordova_plugins.js' ) );
 			}
 		}
 	}
