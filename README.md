@@ -45,6 +45,11 @@ We are happy to accept contributions, but also want to maintain high quality doc
 
 ## Changelog
 
+#### 1.1.9
+* Started updating changelog again, yay!
+* Add support for Facebook connect extension
+* Delete unnecessary files
+
 #### 1.1.4
 * Update to support Phonegap 3.6.3
 * Add option to switch between Phonegap versions
