@@ -43,6 +43,7 @@ class AppPresser {
 	public static $js_url;
 	public static $dir_url;
 	public static $pg_url;
+	public static $errorpath = '../php-error-log.php';
 
 	/**
 	 * Creates or returns an instance of this class.
@@ -102,6 +103,7 @@ class AppPresser {
 		require_once( self::$inc_path . 'AppPresser_Admin_Settings.php' );
 		require_once( self::$inc_path . 'plugin-updater.php' );
 		require_once( self::$inc_path . 'AppPresser_Theme_Customizer.php' );
+		require_once( self::$inc_path . 'AppPresser_Ajax_Extras.php' );
 		$this->theme_customizer = new AppPresser_Theme_Customizer();
 
 	}
@@ -148,8 +150,6 @@ class AppPresser {
 
 		require_once( self::$inc_path . 'AppPresser_Theme_Switcher.php' );
 		$this->theme_switcher = new AppPresser_Theme_Switcher();
-		// Uncomment when we add back in the app panel
-		// require_once( self::$inc_path . 'body-class-meta-box.php' );
 
 	}
 
