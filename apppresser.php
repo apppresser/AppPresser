@@ -43,6 +43,7 @@ class AppPresser {
 	public static $js_url;
 	public static $dir_url;
 	public static $pg_url;
+	public static $pg_version;
 	public static $errorpath = '../php-error-log.php';
 
 	/**
@@ -63,7 +64,7 @@ class AppPresser {
 	 */
 	function __construct() {
 
-		$pg_version =  ( appp_get_setting( 'appp_pg_version' ) ) ? appp_get_setting( 'appp_pg_version' ) : '3.5.0';
+		self::$pg_version =  ( appp_get_setting( 'appp_pg_version' ) ) ? appp_get_setting( 'appp_pg_version' ) : '3.5.0';
 
 		// Define plugin constants
 		self::$dir_path = trailingslashit( plugin_dir_path( __FILE__ ) );
@@ -73,7 +74,7 @@ class AppPresser {
 		self::$css_url  = self::$dir_url  . 'css/';
 		self::$img_url  = self::$dir_url  . 'images/';
 		self::$js_url   = self::$dir_url  . 'js/';
-		self::$pg_url   = self::$dir_url  . 'pg/' . $pg_version . '/';
+		self::$pg_url   = self::$dir_url  . 'pg/' . self::$pg_version . '/';
 
 		self::$l10n = array(
 			'ajaxurl'                     => admin_url( 'admin-ajax.php' ),
@@ -178,9 +179,9 @@ class AppPresser {
 
 		if ( self::is_app() ) {
 			if ( appp_is_ios() ) {
-				wp_enqueue_script( 'cordova-core', self::$pg_url .'ios/cordova.js', null, filemtime( self::$dir_path .'pg/' . $pg_version . '/ios/cordova_plugins.js' ) );
+				wp_enqueue_script( 'cordova-core', self::$pg_url .'ios/cordova.js', null, filemtime( self::$dir_path .'pg/' . self::$pg_version . '/ios/cordova_plugins.js' ) );
 			} elseif ( appp_is_android() ) {
-				wp_enqueue_script( 'cordova-core', self::$pg_url .'android/cordova.js', null, filemtime( self::$dir_path .'pg/' . $pg_version . '/android/cordova_plugins.js' ) );
+				wp_enqueue_script( 'cordova-core', self::$pg_url .'android/cordova.js', null, filemtime( self::$dir_path .'pg/' . self::$pg_version . '/android/cordova_plugins.js' ) );
 			}
 		}
 	}
