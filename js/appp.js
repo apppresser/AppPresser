@@ -29,6 +29,9 @@ apppCore.init = function() {
 		apppCore.log( 'apppCore.isApp()', !! apppCore.isApp() );
 		apppCore.log( 'apppCore.isMobile()', !! apppCore.isMobile() );
 	}
+	
+	// For loading pause events, to kill youtube vids
+	document.addEventListener('deviceready', apppCore.onDeviceReady2, false);
 }
 
 /**
@@ -208,6 +211,35 @@ apppCore.isApp = function( name ) {
 	// return our count
 	return apppCore._isApp;
 };
+
+apppCore.onDevicePause = function() {
+	console.log('paused or backbutton');
+	
+	// check if iframe is youtube and then kill it on pause
+	if( 'Android' === device.platform ) {
+		setTimeout(function() {
+			var divs = document.getElementsByTagName("iframe");
+			var Vidsrc;
+		
+		   for (var i in divs) {
+		   
+		   		if( /youtube/.test(divs[i].src) ) {
+			   		Vidsrc = divs[i].src;
+			   		divs[i].src = '';
+			   		divs[i].src = Vidsrc;
+		   		}
+	
+			}
+			
+		}, 0);
+	}
+
+};
+
+apppCore.onDeviceReady2 = function() {
+	document.addEventListener( 'pause', apppCore.onDevicePause, false );
+	document.addEventListener('backbutton', apppCore.onDevicePause, false );
+}
 
 apppCore.init();
 
