@@ -213,28 +213,77 @@ apppCore.isApp = function( name ) {
 };
 
 apppCore.onDevicePause = function() {
-	console.log('paused or backbutton');
 	
 	// check if iframe is youtube and then kill it on pause
 	if( 'Android' === device.platform ) {
 		setTimeout(function() {
 			var divs = document.getElementsByTagName("iframe");
 			var Vidsrc;
+
+			var prevUrl = JSON.parse( localStorage['urlHistory'] );
+
+			if(divs) {
+				console.log('Killing youtube vids');
+				for (var i in divs) {
+			   
+			   		if( /youtube/.test(divs[i].src) ) {
+				   		Vidsrc = divs[i].src;
+				   		divs[i].src = '';
+				   		divs[i].src = Vidsrc;
+			   		}
 		
-		   for (var i in divs) {
-		   
-		   		if( /youtube/.test(divs[i].src) ) {
-			   		Vidsrc = divs[i].src;
-			   		divs[i].src = '';
-			   		divs[i].src = Vidsrc;
-		   		}
-	
+				}
+		
 			}
+
+			apppCore.maybeGoBack();
 			
 		}, 0);
 	}
 
 };
+
+apppCore.maybeGoBack = function() {
+
+	// Since we hijacked the backbutton event, we have to redo all the logic. Go back with or without ajax, or exit app.
+		
+	// Get our
+	var prevUrl = JSON.parse( localStorage['urlHistory'] );
+	
+	var home = jQuery('body').hasClass('home');
+	
+	if( home ) {
+		// exit the app if we are on the homepage
+		navigator.app.exitApp();
+	} else if( appp.can_ajax && prevUrl.length >= 1 ) {
+
+		// If we can ajax and there's a previous url...
+
+		// remove the current url from array
+		prevUrl.shift();
+		
+		if( prevUrl[0]['url'] == window.location.href ) {
+			navigator.app.exitApp();
+		}
+		
+		// ajax to previous page
+		window.apppresser.loadAjaxContent( prevUrl[0]['url'], false, event );
+		
+		// Resave history
+		localStorage['urlHistory'] = JSON.stringify( prevUrl );
+
+	} else {
+
+		// If ajax loading disabled, use normal browser back function
+		window.history.back();
+		
+		// If there's a problem, exit the app
+		if( window.history.back() === 'undefined' ) {
+			navigator.app.exitApp();
+		}
+	}
+
+}
 
 apppCore.onDeviceReady2 = function() {
 	document.addEventListener( 'pause', apppCore.onDevicePause, false );
