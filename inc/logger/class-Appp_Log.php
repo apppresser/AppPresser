@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * ApppLog class
+ *
+ * @package AppPresser
+ * @subpackage ApppLog
+ * @license http://www.opensource.org/licenses/gpl-license.php GPL v2.0 (or later)
+ */
+
 class ApppLog {
 
 	private static $instance;
@@ -42,6 +50,10 @@ class ApppLog {
 		return self::$instance;
 	}
 
+	/**
+	 * Write the log message to the file
+	 * @since  1.3.0
+	 */
 	public static function log( $title, $var, $file = 'file', $function = 'function', $line = 'line' ) {
 		$logfile = fopen(self::$log_filepath, "a") or die("Unable to open file!");
 
@@ -53,6 +65,10 @@ class ApppLog {
 		fclose($logfile);
 	}
 
+	/**
+	 * Turns logging off site wide from the admin setting log tab
+	 * @since  1.3.0
+	 */
 	public function toggle_logging( $new_status = null ) {
 		if( $new_status == null ) {
 			$current_status = get_option( self::$logging_status_option, 'on' );
@@ -70,6 +86,10 @@ class ApppLog {
 		}
 	}
 
+	/**
+	 * Sets up the cron that will exprire the logging.  This is to avoid the log file growing out of control.
+	 * @since  1.3.0
+	 */
 	public function set_logging_cron() {
 		if ( ! wp_next_scheduled( self::$expire_logging ) ) {
 			$one_day = (24 * 60 * 60);
@@ -77,10 +97,18 @@ class ApppLog {
 		}
 	}
 
+	/**
+	 * Clears the log on plugin deactivation
+	 * @since 1.3.0
+	 */
 	public function clear_logging_cron() {
 		wp_clear_scheduled_hook(self::$expire_logging);
 	}
 
+	/**
+	 * Ajax call back that handles the checkbox onclick event to toggle enabling or disabling logging
+	 * @since 1.3.0
+	 */
 	public function toggle_logging_callback() {
 		if( isset( $_POST['status'] ) ) {
 			$this->toggle_logging( $_POST['status'] );
@@ -90,12 +118,20 @@ class ApppLog {
 		die();
 	}
 
+	/**
+	 * Turns off logging and email the admin to let them know
+	 * @since 1.3.0
+	 */
 	public function expire_logging() {
 		$this->toggle_logging( 'off' );
 		//wp_clear_scheduled_hook(self::$expire_logging);
 		wp_mail( get_bloginfo('admin_email'), 'ApppPresser Logging', 'AppPresser logging has been turned off.');
 	}
 
+	/**
+	 * Since the filename is randmized this will look up its name from the wp_options table
+	 * @since 1.3.0
+	 */
 	public function get_filename() {
 		if( self::$log_filename == null ) {
 			$filename = get_option( 'appplog_filename', false );
@@ -111,6 +147,10 @@ class ApppLog {
 
 ApppLog::get_instance();
 
+/**
+ * A utility function to add a message to the log
+ * @since 1.3.0
+ */
 function appp_debug_log( $title, $var, $file = 'file', $function = 'function', $line = 'line' ) {
 	if( ApppLog::$logging_status == 'on' ) {
 		ApppLog::log( $title, $var, $file, $function, $line );

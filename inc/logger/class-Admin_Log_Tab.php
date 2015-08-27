@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * AdminLogTab class
+ *
+ * @package AppPresser
+ * @subpackage ApppLog
+ * @license http://www.opensource.org/licenses/gpl-license.php GPL v2.0 (or later)
+ */
 
 class AdminLogTab {
 
@@ -22,6 +29,11 @@ class AdminLogTab {
 		return self::$instance;
 	}
 
+	/**
+	 * Gets the log file name
+	 * @since  1.3.0
+	 * @return string|boolean A file path or false if the file does not exist
+	 */
 	public function get_log_file_name() {
 		if( file_exists( ApppLog::$log_filepath ) ) {
 			return ApppLog::$log_filepath;
@@ -30,6 +42,11 @@ class AdminLogTab {
 		}
 	}
 
+	/**
+	 * Reads the log file
+	 * @since  1.3.0
+	 * @return string The file content
+	 */
 	public function get_log_file_content() {
 		if( $this->get_log_file_name() ) {
 			return file_get_contents( $this->get_log_file_name(), false );
@@ -38,12 +55,14 @@ class AdminLogTab {
 		return '';
 	}
 
+	/**
+	 * Displays the template of the log file and admin settings under the log tab
+	 * @since  1.3.0
+	 */
 	public function display_log() {
 		$file_exists = file_exists( ApppLog::$log_filepath );
 		$file_writeable = is_writeable( ApppLog::$log_filepath );
-		$file_log_url = WP_CONTENT_URL . ApppLog::$log_dir_path . ApppLog::$log_filename;
 
 		include_once $this->template;
 	}
-
 }

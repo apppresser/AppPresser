@@ -3,7 +3,7 @@
  * Admin Settings Log Pages
  *
  * @package AppPresser
- * @subpackage Admin
+ * @subpackage ApppLog
  * @license http://www.opensource.org/licenses/gpl-license.php GPL v2.0 (or later)
  */
 
@@ -17,7 +17,7 @@ class AppPresser_Log extends AppPresser {
 
 	/**
 	 * Creates or returns an instance of this class.
-	 * @since  1.1.9
+	 * @since  1.3.0
 	 * @return AppPresser_Admin_Settings A single instance of this class.
 	 */
 	public static function run() {
@@ -28,8 +28,8 @@ class AppPresser_Log extends AppPresser {
 	}
 
 	/**
-	 * Setup the AppPresser Settings
-	 * @since  1.1.9
+	 * Setup the ApppLog Settings
+	 * @since  1.3.0
 	 */
 	function __construct() {
 
@@ -48,6 +48,7 @@ class AppPresser_Log extends AppPresser {
 
 	/**
 	 * Add Log tab!
+	 * @since 1.3.0
 	 * @param object  $apppresser  AppPresser_Admin_Settings Instance
 	 */
 	public function log_viewer( $apppresser ) {
@@ -57,7 +58,9 @@ class AppPresser_Log extends AppPresser {
 	}
 
 	/**
-	 *
+	 * Add the log template.php to the tab
+	 * @since 1.3.0
+	 * @param array $arg1
 	 */
 	public function appp_log_file_info( $arg1 ) {
 		$view_log = new AdminLogTab(self::$inc_path.'logger');
@@ -67,7 +70,8 @@ class AppPresser_Log extends AppPresser {
 	}
 
 	/**
-	 * Add an arbitrary row to an options tab in the AppPresser Settings API.
+	 * Removes the save settings button when viewing the log tab
+	 * @since 1.3.0
 	 */
 	public function appp_remove_settings_save_button() {
 		?>
@@ -94,6 +98,10 @@ class AppPresser_Log extends AppPresser {
 		<?php
 	}
 
+	/**
+	 * The server side ajax handler when sending log messages from JavaScript
+	 * @since 1.3.0
+	 */
 	public function ajax_log() {
 
 		$post_vars = array( 'title', 'var', 'file', 'function', 'line' );
@@ -108,6 +116,10 @@ class AppPresser_Log extends AppPresser {
 		wp_die();
 	}
 
+	/**
+	 * Initializes the appp_log_data variable for the admin_head
+	 * @since 1.3.0
+	 */
 	public function admin_head_javascript() { ?>
 		<script type="text/javascript">
 		var appp_log_data = {
@@ -124,7 +136,9 @@ class AppPresser_Log extends AppPresser {
 	}
 
 	/**
-	 * // test
+	 * Adds the app_log() function for the wp admin
+	 *
+	 * // how to test
 	 *	appp_log_data.title = 'test';
 	 *	appp_log_data.var = 'my var';
 	 *	appp_log_data.file = 'some.js';
@@ -132,6 +146,7 @@ class AppPresser_Log extends AppPresser {
      *	appp_log_data.line = '139';
      *
 	 *	app_log();
+	 * @since 1.3.0
 	 */
 	public function admin_footer_javascript() { ?>
 		<script type="text/javascript">

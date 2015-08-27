@@ -1,4 +1,10 @@
-<div class="wrap">
+<?php
+/**
+ * Template to display the contents of the log file
+ *
+ * @since 1.3.0
+ */
+?><div class="wrap">
 	<h3><?php _e('Debug log'); ?></h3>
 	<div id="tab-admin-page" class="wrap">
 		<?php if( !$file_exists ) : ?>
