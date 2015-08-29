@@ -135,11 +135,11 @@ jQuery(document).ready(function($) {
             $(button).prev().val(attachment.url);
 
             wp.media.editor.send.attachment = send_attachment_bkp;
-        }
+        };
 
         wp.media.editor.open(button);
 
-        return false;       
+        return false;
     });
 
 });
