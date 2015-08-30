@@ -22,11 +22,7 @@ class ApppLog {
 
 	public function __construct() {
 
-		wp_enqueue_script( 'appp-logger', AppPresser::$inc_url ."logger/appp.logger.js", array( 'jquery' ) );
-		add_action( 'wp_ajax_' . $this->ajax_action, array( $this, 'toggle_logging_callback' ) );
-		add_action( 'wp_ajax_nopriv_' . $this->ajax_action, array( $this, 'toggle_logging_callback' ) );
-
-		add_action( self::$expire_logging, array($this, 'expire_logging') );
+		$this->hooks();
 
 		self::$logging_status = get_option( self::$logging_status_option, 'off' );
 		self::$log_filename   = $this->get_filename();
@@ -36,6 +32,17 @@ class ApppLog {
 			mkdir( WP_CONTENT_DIR . self::$log_dir_path );
 			touch( self::$log_filepath );
 		}
+	}
+
+	public function hooks() {
+		add_action( 'wp_ajax_' . $this->ajax_action, array( $this, 'toggle_logging_callback' ) );
+		add_action( 'wp_ajax_nopriv_' . $this->ajax_action, array( $this, 'toggle_logging_callback' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_action( self::$expire_logging, array($this, 'expire_logging') );
+	}
+
+	public function enqueue_scripts() {
+		wp_enqueue_script( 'appp-logger', AppPresser::$inc_url ."logger/appp.logger.js", array( 'jquery' ) );
 	}
 
 	/**
