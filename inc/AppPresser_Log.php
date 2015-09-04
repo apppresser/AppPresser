@@ -13,7 +13,9 @@
 class AppPresser_Log extends AppPresser {
 
 	// A single instance of this class.
-	public static $instance        = null;
+	public static $instance = null;
+
+	private $template = 'template.php';
 
 	/**
 	 * Creates or returns an instance of this class.
@@ -32,14 +34,9 @@ class AppPresser_Log extends AppPresser {
 	 * @since  1.3.0
 	 */
 	function __construct() {
-
-		require_once( self::$inc_path . 'logger/class-Appp_Log.php' );
-		require_once( self::$inc_path . 'logger/class-Admin_Log_Tab.php' );
-
 		add_action( 'apppresser_add_settings', array( $this, 'log_viewer' ), 60 );
 		add_action( 'apppresser_tab_bottom_log', array( $this, 'appp_log_file_info' ) );
 		add_action( 'apppresser_tab_bottom_log', array( $this, 'appp_remove_settings_save_button' ) );
-		add_action( 'plugins_loaded', array( 'AdminLogTab', 'get_instance' ) );
 		add_action( 'admin_head', array( $this, 'admin_head_javascript' ) );
 		add_action( 'admin_footer', array( $this, 'admin_footer_javascript' ) );
 		add_action( 'wp_ajax_appp_log', array( $this, 'ajax_log' ) );
@@ -54,7 +51,7 @@ class AppPresser_Log extends AppPresser {
 	public function log_viewer( $apppresser ) {
 
 		// Create a new tab for our settings
-		$apppresser->add_setting_tab( __( 'Log', 'appp' ), 'log' );
+		$apppresser->add_setting_tab( __( 'Log', 'apppresser' ), 'log' );
 	}
 
 	/**
@@ -63,9 +60,11 @@ class AppPresser_Log extends AppPresser {
 	 * @param array $arg1
 	 */
 	public function appp_log_file_info( $arg1 ) {
-		$view_log = new AdminLogTab(self::$inc_path.'logger');
+
+		$this->template = self::$tmpl_path . $this->template;
+
 		echo '<tr><td>';
-		$view_log->display_log();
+		$this->display_log();
 		echo '</td></tr>';
 	}
 
@@ -156,6 +155,43 @@ class AppPresser_Log extends AppPresser {
 			});
 		};
 		</script> <?php
+	}
+
+	/**
+	 * Gets the log file name
+	 * @since  1.3.0
+	 * @return string|boolean A file path or false if the file does not exist
+	 */
+	public function get_log_file_name() {
+		if( file_exists( ApppLog::$log_filepath ) ) {
+			return ApppLog::$log_filepath;
+		} else{
+			return false;
+		}
+	}
+
+	/**
+	 * Reads the log file
+	 * @since  1.3.0
+	 * @return string The file content
+	 */
+	public function get_log_file_content() {
+		if( $this->get_log_file_name() ) {
+			return file_get_contents( $this->get_log_file_name(), false );
+		}
+
+		return '';
+	}
+
+	/**
+	 * Displays the template of the log file and admin settings under the log tab
+	 * @since  1.3.0
+	 */
+	public function display_log() {
+		$file_exists = file_exists( ApppLog::$log_filepath );
+		$file_writeable = is_writeable( ApppLog::$log_filepath );
+
+		include_once $this->template;
 	}
 }
 AppPresser_Log::run();

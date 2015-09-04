@@ -24,7 +24,7 @@ function m1_add_bodyclass_meta_boxes() {
 
 	add_meta_box(
 		'bodyclass',			                // Unique ID
-		esc_html__( 'Page Transitions' ),		// Title
+		esc_html__( 'Page Transitions', 'apppresser' ),		// Title
 		'm1_bodyclass_meta_box',		            // Callback function
 		'page',					        // Admin page (or post type)
 		'side',					            // Context
@@ -43,7 +43,7 @@ function m1_bodyclass_meta_box( $bodyclass ) {
 	<?php // make this a select menu ?>
 	<p>Where should the page transition start?</p>
 	<p>
-		<label for="m1-body-class"><?php _e( "top or bottom, (default is right, use all lowercase)" ); ?></label>
+		<label for="m1-body-class"><?php _e( "top or bottom, (default is right, use all lowercase)", 'apppresser' ); ?></label>
 		<br />
 		<input type="text" class="widefat" placeholder="right" name="m1_body_class_name" id="m1_body_class_name" value="<?php echo $body_class; ?>" size="30" />
 	</p>

@@ -5,19 +5,19 @@
  * @since 1.3.0
  */
 ?><div class="wrap">
-	<h3><?php _e('Debug log'); ?></h3>
+	<h3><?php _e('Debug log', 'apppresser'); ?></h3>
 	<div id="tab-admin-page" class="wrap">
 		<?php if( !$file_exists ) : ?>
 			<div id="message" class="error inline">
-				<p><?php _e( 'The log file does not exist ' . $this->get_log_file_name() ); ?></p>
+				<p><?php echo sprintf( __( 'The log file does not exist %s', 'apppresser' ), $this->get_log_file_name() ); ?></p>
 			</div>
 		<?php elseif( !$file_writeable ) : ?>
 			<div id="message" class="error inline">
-				<p><?php _e( 'The log file is not writeable ' . $this->get_log_file_name() ); ?></p>
+				<p><?php echo sprintf( __( 'The log file is not writeable %s', 'apppresser'), $this->get_log_file_name() ); ?></p>
 			</div>
 		<?php endif; ?>
 		<div>
-			<input type="checkbox" name="enable_log" id="enable_log" <?php checked( 'on', ApppLog::$logging_status ); ?>/> <label>Enable logging</label>
+			<input type="checkbox" name="enable_log" id="enable_log" <?php checked( 'on', ApppLog::$logging_status ); ?>/> <label><?php _e( 'Enable logging', 'apppresser'); ?></label>
 			<script type="text/javascript">
 				jQuery( document ).on( 'click', '#enable_log', function(event){
 					apppLogger.adminToggleLogging(jQuery('#enable_log'));

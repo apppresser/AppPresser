@@ -29,7 +29,11 @@ class ApppLog {
 		self::$log_filepath   = WP_CONTENT_DIR . self::$log_dir_path . self::$log_filename;
 		self::$log_url        = WP_CONTENT_URL . ApppLog::$log_dir_path . ApppLog::$log_filename;
 		if( !file_exists( self::$log_filepath ) ) {
-			mkdir( WP_CONTENT_DIR . self::$log_dir_path );
+			if( file_exists( WP_CONTENT_DIR . self::$log_dir_path ) ) {
+				// create the directory if it doesn't exist
+				mkdir( WP_CONTENT_DIR . self::$log_dir_path );
+			}
+			// create the file if it doesn't exist
 			touch( self::$log_filepath );
 		}
 	}
@@ -37,12 +41,12 @@ class ApppLog {
 	public function hooks() {
 		add_action( 'wp_ajax_' . $this->ajax_action, array( $this, 'toggle_logging_callback' ) );
 		add_action( 'wp_ajax_nopriv_' . $this->ajax_action, array( $this, 'toggle_logging_callback' ) );
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( self::$expire_logging, array($this, 'expire_logging') );
 	}
 
 	public function enqueue_scripts() {
-		wp_enqueue_script( 'appp-logger', AppPresser::$inc_url ."logger/appp.logger.js", array( 'jquery' ) );
+		wp_enqueue_script( 'appp-logger', AppPresser::$js_url ."/appp.logger.js", array( 'jquery' ) );
 	}
 
 	/**
@@ -132,7 +136,7 @@ class ApppLog {
 	public function expire_logging() {
 		$this->toggle_logging( 'off' );
 		//wp_clear_scheduled_hook(self::$expire_logging);
-		wp_mail( get_bloginfo('admin_email'), 'ApppPresser Logging', 'AppPresser logging has been turned off.');
+		wp_mail( get_bloginfo('admin_email'), __('ApppPresser Logging', 'apppresser'), __('AppPresser logging has been turned off.', 'apppresser' ) );
 	}
 
 	/**

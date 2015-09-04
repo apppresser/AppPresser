@@ -19,35 +19,35 @@ add_action( 'apppresser_add_settings', 'appp_add_sample_settings' );
 function appp_add_sample_settings( $apppresser ) {
 
 	// Create a new tab for our settings
-	$apppresser->add_setting_tab( __( 'New Tab', 'appp' ), 'new-tab-slug' );
+	$apppresser->add_setting_tab( __( 'New Tab', 'apppresser' ), 'new-tab-slug' );
 
 	// Add a license key setting. This works with 'appp_updater_add' or 'appp_theme_updater_add'
 	$apppresser->add_setting( MY_LICENSE_SETTING_KEY, __( 'AppPresser Extension License Key', 'apppresser' ), array( 'type' => 'license_key', 'helptext' => __( 'Adding a license key enables automatic updates.', 'apppresser' ) ) );
 
 	// Text input setting
-	$apppresser->add_setting( 'my_text_input', __( 'Write some text', 'appp' ), array(
+	$apppresser->add_setting( 'my_text_input', __( 'Write some text', 'apppresser' ), array(
 		'tab'         => 'new-tab-slug', // Add these settings to our new tab
-		'description' => __( 'Input description (optional)', 'appp' ),
-		'helptext'    => __( 'This is a (optional) help text displayed in a tooltip to explain this setting. Will use custom sanitization to replace "red" with "green"', 'appp' ),
+		'description' => __( 'Input description (optional)', 'apppresser' ),
+		'helptext'    => __( 'This is a (optional) help text displayed in a tooltip to explain this setting. Will use custom sanitization to replace "red" with "green"', 'apppresser' ),
 	) );
 
 	// Checkbox setting
-	$apppresser->add_setting( 'my_checkbox', __( 'Check this box', 'appp' ), array(
+	$apppresser->add_setting( 'my_checkbox', __( 'Check this box', 'apppresser' ), array(
 		'tab'         => 'new-tab-slug',
 		'type'        => 'checkbox',
-		'description' => __( 'Input description (optional)', 'appp' ),
-		'helptext'    => __( 'This is a (optional) help text displayed in a tooltip to explain this setting.', 'appp' ),
+		'description' => __( 'Input description (optional)', 'apppresser' ),
+		'helptext'    => __( 'This is a (optional) help text displayed in a tooltip to explain this setting.', 'apppresser' ),
 	) );
 
 	// Radio setting
-	$apppresser->add_setting( 'my_radio', __( 'Select an option', 'appp' ), array(
+	$apppresser->add_setting( 'my_radio', __( 'Select an option', 'apppresser' ), array(
 		'tab'         => 'new-tab-slug',
 		'type'        => 'radio',
-		'description' => __( 'Input description (optional)', 'appp' ),
-		'helptext'    => __( 'This is a (optional) help text displayed in a tooltip to explain this setting.', 'appp' ),
+		'description' => __( 'Input description (optional)', 'apppresser' ),
+		'helptext'    => __( 'This is a (optional) help text displayed in a tooltip to explain this setting.', 'apppresser' ),
 		'options'     => array(
-			'value-1' => __( 'Value 1', 'appp' ),
-			'value-2' => __( 'Value 2', 'appp' ),
+			'value-1' => __( 'Value 1', 'apppresser' ),
+			'value-2' => __( 'Value 2', 'apppresser' ),
 		),
 	) );
 
@@ -59,25 +59,25 @@ function appp_add_sample_settings( $apppresser ) {
 	) );
 
 	// Select setting
-	$apppresser->add_setting( 'my_select', __( 'Select another option', 'appp' ), array(
+	$apppresser->add_setting( 'my_select', __( 'Select another option', 'apppresser' ), array(
 		'tab'         => 'new-tab-slug',
 		'type'        => 'select',
-		'description' => __( 'Input description (optional)', 'appp' ),
-		'helptext'    => __( 'This is a (optional) help text displayed in a tooltip to explain this setting.', 'appp' ),
+		'description' => __( 'Input description (optional)', 'apppresser' ),
+		'helptext'    => __( 'This is a (optional) help text displayed in a tooltip to explain this setting.', 'apppresser' ),
 		'options'     => array(
-			'value-1' => __( 'Value 1', 'appp' ),
-			'value-2' => __( 'Value 2', 'appp' ),
-			'value-3' => __( 'Value 3', 'appp' ),
-			'1-more'  => __( 'One More', 'appp' ),
+			'value-1' => __( 'Value 1', 'apppresser' ),
+			'value-2' => __( 'Value 2', 'apppresser' ),
+			'value-3' => __( 'Value 3', 'apppresser' ),
+			'1-more'  => __( 'One More', 'apppresser' ),
 		),
 	) );
 
 	// Custom setting type
-	$apppresser->add_setting( 'my_custom_setting', __( 'This is a custom type', 'appp' ), array(
+	$apppresser->add_setting( 'my_custom_setting', __( 'This is a custom type', 'apppresser' ), array(
 		'tab'         => 'new-tab-slug',
 		'type'        => 'custom_disabled',
-		'description' => __( 'This field is disabled and read only', 'appp' ),
-		'helptext'    => __( 'This is a (optional) help text displayed in a tooltip to explain this setting.', 'appp' ),
+		'description' => __( 'This field is disabled and read only', 'apppresser' ),
+		'helptext'    => __( 'This is a (optional) help text displayed in a tooltip to explain this setting.', 'apppresser' ),
 	) );
 
 }
@@ -119,7 +119,7 @@ add_action( 'apppresser_tab_buttons_new-tab-slug', 'appp_add_sample_button' );
  * Add a secondary button to your tab next to the save button
  */
 function appp_add_sample_button() {
-	echo '<a class="button-secondary" href="'. home_url() .'">'. __( 'Go Home', 'appp' ) .'</a>';
+	echo '<a class="button-secondary" href="'. home_url() .'">'. __( 'Go Home', 'apppresser' ) .'</a>';
 }
 
 add_action( 'apppresser_tab_bottom_new-tab-slug', 'appp_add_some_text' );
@@ -128,11 +128,11 @@ add_action( 'apppresser_tab_bottom_new-tab-slug', 'appp_add_some_text' );
  */
 function appp_add_some_text() {
 
-	$link = sprintf( '<a href="#link">%s</a>', __( 'link to another resource', 'appp' ) );
+	$link = sprintf( '<a href="#link">%s</a>', __( 'link to another resource', 'apppresser' ) );
 	?>
 	<tr>
 		<td colspan="2">
-			<?php printf( __( 'This is a sentence describing the reason for this tab of settings. You can add a %s.', 'appp' ), $link ); ?>
+			<?php printf( __( 'This is a sentence describing the reason for this tab of settings. You can add a %s.', 'apppresser' ), $link ); ?>
 		</td>
 	</tr>
 	<?php
