@@ -1,14 +1,14 @@
 <?php
 
 /**
- * ApppLog class
+ * AppPresser_Logger class
  *
  * @package AppPresser
- * @subpackage ApppLog
+ * @subpackage AppPresser_Logger
  * @license http://www.opensource.org/licenses/gpl-license.php GPL v2.0 (or later)
  */
 
-class ApppLog {
+class AppPresser_Logger {
 
 	private static $instance;
 	public static $logging_status_option = 'appplog';
@@ -27,7 +27,7 @@ class ApppLog {
 		self::$logging_status = get_option( self::$logging_status_option, 'off' );
 		self::$log_filename   = $this->get_filename();
 		self::$log_filepath   = WP_CONTENT_DIR . self::$log_dir_path . self::$log_filename;
-		self::$log_url        = WP_CONTENT_URL . ApppLog::$log_dir_path . ApppLog::$log_filename;
+		self::$log_url        = WP_CONTENT_URL . self::$log_dir_path . self::$log_filename;
 		if( !file_exists( self::$log_filepath ) ) {
 			if( file_exists( WP_CONTENT_DIR . self::$log_dir_path ) ) {
 				// create the directory if it doesn't exist
@@ -156,15 +156,15 @@ class ApppLog {
 	}
 }
 
-ApppLog::get_instance();
+AppPresser_Logger::get_instance();
 
 /**
  * A utility function to add a message to the log
  * @since 1.3.0
  */
 function appp_debug_log( $title, $var, $file = 'file', $function = 'function', $line = 'line' ) {
-	if( ApppLog::$logging_status == 'on' ) {
-		ApppLog::log( $title, $var, $file, $function, $line );
+	if( AppPresser_Logger::$logging_status == 'on' ) {
+		AppPresser_Logger::log( $title, $var, $file, $function, $line );
 	}
 } add_action( 'appp_debug_log', 'appp_debug_log', 10, 5 );
 

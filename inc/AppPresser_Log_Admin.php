@@ -3,14 +3,14 @@
  * Admin Settings Log Pages
  *
  * @package AppPresser
- * @subpackage ApppLog
+ * @subpackage AppPresser_Log_Admin
  * @license http://www.opensource.org/licenses/gpl-license.php GPL v2.0 (or later)
  */
 
 /**
  * Admin Log
  */
-class AppPresser_Log extends AppPresser {
+class AppPresser_Log_Admin extends AppPresser {
 
 	// A single instance of this class.
 	public static $instance = null;
@@ -30,7 +30,7 @@ class AppPresser_Log extends AppPresser {
 	}
 
 	/**
-	 * Setup the ApppLog Settings
+	 * Setup the AppPresser_Log_Admin Settings
 	 * @since  1.3.0
 	 */
 	function __construct() {
@@ -163,8 +163,8 @@ class AppPresser_Log extends AppPresser {
 	 * @return string|boolean A file path or false if the file does not exist
 	 */
 	public function get_log_file_name() {
-		if( file_exists( ApppLog::$log_filepath ) ) {
-			return ApppLog::$log_filepath;
+		if( file_exists( AppPresser_Logger::$log_filepath ) ) {
+			return AppPresser_Logger::$log_filepath;
 		} else{
 			return false;
 		}
@@ -188,10 +188,10 @@ class AppPresser_Log extends AppPresser {
 	 * @since  1.3.0
 	 */
 	public function display_log() {
-		$file_exists = file_exists( ApppLog::$log_filepath );
-		$file_writeable = is_writeable( ApppLog::$log_filepath );
+		$file_exists = file_exists( AppPresser_Logger::$log_filepath );
+		$file_writeable = is_writeable( AppPresser_Logger::$log_filepath );
 
 		include_once $this->template;
 	}
 }
-AppPresser_Log::run();
+AppPresser_Log_Admin::run();

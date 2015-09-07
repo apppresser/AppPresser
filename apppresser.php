@@ -107,7 +107,7 @@ class AppPresser {
 		require_once( self::$inc_path . 'plugin-updater.php' );
 		require_once( self::$inc_path . 'AppPresser_Theme_Customizer.php' );
 		require_once( self::$inc_path . 'AppPresser_Ajax_Extras.php' );
-		require_once( self::$inc_path . 'AppPresser_Log.php' );
+		require_once( self::$inc_path . 'AppPresser_Log_Admin.php' );
 		require_once( self::$inc_path . 'AppPresser_Logger.php' );
 		$this->theme_customizer = new AppPresser_Theme_Customizer();
 

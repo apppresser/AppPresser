@@ -17,7 +17,7 @@
 			</div>
 		<?php endif; ?>
 		<div>
-			<input type="checkbox" name="enable_log" id="enable_log" <?php checked( 'on', ApppLog::$logging_status ); ?>/> <label><?php _e( 'Enable logging', 'apppresser'); ?></label>
+			<input type="checkbox" name="enable_log" id="enable_log" <?php checked( 'on', AppPresser_Logger::$logging_status ); ?>/> <label><?php _e( 'Enable logging', 'apppresser'); ?></label>
 			<script type="text/javascript">
 				jQuery( document ).on( 'click', '#enable_log', function(event){
 					apppLogger.adminToggleLogging(jQuery('#enable_log'));
@@ -30,7 +30,7 @@
 			<?php endif; ?>
 		</div>
 		<?php if( $file_exists ) : ?>
-				<p><a href="<?php echo ApppLog::$log_url ?>" target="_blank"><?php echo ApppLog::$log_url ?></a></p>
+				<p><a href="<?php echo AppPresser_Logger::$log_url ?>" target="_blank"><?php echo AppPresser_Logger::$log_url ?></a></p>
 		<?php endif; ?>
 	</div>
 </div>
