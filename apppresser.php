@@ -34,6 +34,7 @@ class AppPresser {
 	public static $settings = 'false';
 	public static $instance = null;
 	public static $is_app   = null;
+	public static $is_apppv2 = null;
 	public static $l10n     = array();
 	public static $dir_path;
 	public static $inc_path;
@@ -118,6 +119,12 @@ class AppPresser {
 	 * @since  1.0.3
 	 */
 	function do_appp_script() {
+
+		/*if( self::get_apv2() ) {
+			wp_localize_script( 'jquery', 'apppCore', self::$l10n );
+			return;
+		}*/
+
 		// Only use minified files if SCRIPT_DEBUG is off
 		$min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
 
@@ -189,7 +196,7 @@ class AppPresser {
 
 		// Enqueue cordova scripts if we have an app
 
-		if ( self::is_app() ) {
+		if ( self::is_app() && ! self::get_apv2() ) {
 			if ( appp_is_ios() ) {
 				wp_enqueue_script( 'cordova-core', self::$pg_url .'ios/cordova.js', null, filemtime( self::$dir_path .'pg/' . self::$pg_version . '/ios/cordova_plugins.js' ) );
 			} elseif ( appp_is_android() ) {
