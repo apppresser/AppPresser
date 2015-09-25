@@ -1,1 +1,3 @@
 *.svn
+sftp-config.json
+node_modules/

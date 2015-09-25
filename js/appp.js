@@ -235,9 +235,9 @@ apppCore.onDevicePause = function() {
 			var divs = document.getElementsByTagName("iframe");
 			var Vidsrc;
 
-			var prevUrl = JSON.parse( localStorage['urlHistory'] );
+			var prevUrl = JSON.parse( localStorage.urlHistory );
 
-			if(divs) {
+			if(divs.length) {
 				console.log('Killing youtube vids');
 				for (var i in divs) {
 
@@ -263,7 +263,7 @@ apppCore.maybeGoBack = function() {
 	// Since we hijacked the backbutton event, we have to redo all the logic. Go back with or without ajax, or exit app.
 
 	// Get our
-	var prevUrl = JSON.parse( localStorage['urlHistory'] );
+	var prevUrl = JSON.parse( localStorage.urlHistory );
 
 	var home = jQuery('body').hasClass('home');
 
@@ -277,20 +277,19 @@ apppCore.maybeGoBack = function() {
 		// remove the current url from array
 		prevUrl.shift();
 
-		if( prevUrl[0]['url'] == window.location.href ) {
+		if( prevUrl.length > 1 && prevUrl[prevUrl.length-1].url == window.location.href ) {
 			navigator.app.exitApp();
 		}
 
 		// ajax to previous page
-		window.apppresser.loadAjaxContent( prevUrl[0]['url'], false, event );
+		window.apppresser.loadAjaxContent( prevUrl[0].url, false, event );
 
 		// Resave history
-		localStorage['urlHistory'] = JSON.stringify( prevUrl );
+		localStorage.urlHistory = JSON.stringify( prevUrl );
 
 	} else {
 
 		// If ajax loading disabled, use normal browser back function
-		window.history.back();
 
 		// If there's a problem, exit the app
 		if( window.history.back() === 'undefined' ) {
@@ -298,7 +297,7 @@ apppCore.maybeGoBack = function() {
 		}
 	}
 
-}
+};
 
 apppCore.onDeviceReady2 = function() {
 	document.addEventListener( 'pause', apppCore.onDevicePause, false );
