@@ -105,7 +105,7 @@ We are happy to accept contributions, but also want to maintain high quality doc
 #### 1.0.3
 * Bug Fix: `plugins_loaded` firing too early causing conflicts with other plugins.
 * Improvement: Check child theme for `app-settings.php` file as well as parent theme.
-* Improvement: Added method for loading AppPresser theme despite aggresively cached web hosts.
+* Improvement: Added method for loading AppPresser theme despite aggressively cached web hosts.
 
 
 #### 1.0.2

@@ -158,7 +158,7 @@ Technically you can do anything with an AppPresser app that you can do with Phon
 = 1.0.3 =
 * Bug Fix: `plugins_loaded` firing too early causing conflicts with other plugins.
 * Improvement: Check child theme for `app-settings.php` file as well as parent theme.
-* Improvement: Added method for loading AppPresser theme despite aggresively cached web hosts.
+* Improvement: Added method for loading AppPresser theme despite aggressively cached web hosts.
 
 = 1.0.2 =
 * Bug Fix: Conflict causing other themes to appear to need an update.
@@ -223,7 +223,7 @@ Technically you can do anything with an AppPresser app that you can do with Phon
 = 1.0.3 =
 * Bug Fix: `plugins_loaded` firing too early causing conflicts with other plugins.
 * Improvement: Check child theme for `app-settings.php` file as well as parent theme.
-* Improvement: Added method for loading AppPresser theme despite aggresively cached web hosts.
+* Improvement: Added method for loading AppPresser theme despite aggressively cached web hosts.
 
 = 1.0.2 =
 * Bug Fix: Conflict causing other themes to appear to need an update.
