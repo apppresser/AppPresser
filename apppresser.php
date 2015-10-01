@@ -5,7 +5,7 @@ Plugin URI: http://apppresser.com
 Description: A mobile app development framework for WordPress.
 Text Domain: apppresser
 Domain Path: /languages
-Version: 1.2.0
+Version: 2.0.0
 Author: AppPresser Team
 Author URI: http://apppresser.com
 License: GPLv2
@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class AppPresser {
 
-	const VERSION           = '1.2.0';
+	const VERSION           = '2.0.0';
 	const SETTINGS_NAME     = 'appp_settings';
 	public static $settings = 'false';
 	public static $instance = null;
@@ -120,10 +120,10 @@ class AppPresser {
 	 */
 	function do_appp_script() {
 
-		/*if( self::get_apv2() ) {
+		if( self::get_apv2() == '2' ) {
 			wp_localize_script( 'jquery', 'apppCore', self::$l10n );
 			return;
-		}*/
+		}
 
 		// Only use minified files if SCRIPT_DEBUG is off
 		$min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
@@ -249,6 +249,16 @@ class AppPresser {
 		return self::$settings;
 	}
 
+
+	/**
+	 * Set the cookie
+	 * @since 2.0.0
+	 */
+	public static function set_app_cookie() {
+		setcookie( 'AppPresser_Appp', 'true', time() + ( DAY_IN_SECONDS * 30 ) );
+		setcookie( 'AppPresser_Appp2', 'true', time() + ( DAY_IN_SECONDS * 30 ) );
+	}
+
 	/**
 	 * Checks if WP install is displaying the NEW WordPress style (previously the MP6 plugin)
 	 * @since  1.0.0
@@ -274,8 +284,13 @@ class AppPresser {
 	}
 
 	public static function get_apv2() {
+
 		if( self::$is_apppv2 == null) {
-				self::$is_apppv2 = isset( $_GET['appp'] ) && isset( $_GET['appp'] ) == 2;
+			self::$is_apppv2 = isset( $_GET['appp'] ) && isset( $_GET['appp'] ) == 2 || isset( $_COOKIE['AppPresser_Appp2'] ) && $_COOKIE['AppPresser_Appp2'] === 'true';
+
+			if ( self::$is_apppv2 && ! isset( $_COOKIE['AppPresser_Appp2'] ) ) {
+				self::set_app_cookie();
+			}
 		}
 		return self::$is_apppv2;
 	}

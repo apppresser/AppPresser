@@ -45,7 +45,7 @@ class AppPresser_Theme_Switcher extends AppPresser {
 
 		// Set cookie from querystring if request is coming from an app
 		if ( self::is_app() ) {
-			setcookie( 'AppPresser_Appp', 'true', time() + ( DAY_IN_SECONDS * 30 ) );
+			self::set_app_cookie();
 		}
 
 		$do_switch = appp_get_setting( 'appp_theme' ) && (
