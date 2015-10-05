@@ -16,8 +16,8 @@ class AppPresser_Logger {
 	public static $expire_logging = 'expire_logging';
 	public static $logging_status;
 	public static $log_filename = null;
-	public static $log_dir_path = '/uploads/apppresser';
-	public static $uploads_dir_path = WP_CONTENT_DIR . '/uploads';
+	public static $log_dir_path = 'apppresser';
+	public static $uploads_dir_path;
 	public static $log_filepath;
 	public static $log_url = null;
 
@@ -27,8 +27,14 @@ class AppPresser_Logger {
 
 		self::$logging_status = get_option( self::$logging_status_option, 'off' );
 		self::$log_filename   = $this->get_filename();
-		self::$log_filepath   = WP_CONTENT_DIR . self::$log_dir_path . DIRECTORY_SEPARATOR . self::$log_filename;
-		self::$log_url        = WP_CONTENT_URL . self::$log_dir_path . DIRECTORY_SEPARATOR . self::$log_filename;
+
+		$upload_dir = wp_upload_dir();
+
+		self::$uploads_dir_path = $upload_dir['basedir'];
+		self::$log_dir_path = $upload_dir['basedir'] . DIRECTORY_SEPARATOR . self::$log_dir_path;
+
+		self::$log_filepath   = self::$log_dir_path . DIRECTORY_SEPARATOR . self::$log_filename;
+		self::$log_url        = $upload_dir['baseurl'] . DIRECTORY_SEPARATOR . self::$log_filename;
 		self::log_dir_exists();
 	}
 
@@ -158,25 +164,13 @@ class AppPresser_Logger {
 
 		if( ! file_exists( self::$log_filepath ) ) {
 
-			//echo self::$log_filepath . ' does not exist<br>';
-
-			if( ! file_exists( self::$uploads_dir_path ) ) {
-				mkdir( self::$uploads_dir_path );
-
-				if ( ! file_exists( self::$uploads_dir_path ) ) {
-					echo 'Unable to create uploads directory';
-				}
-			}
-
-			if( ! file_exists( WP_CONTENT_DIR . self::$log_dir_path ) ) {
-
-				//echo WP_CONTENT_DIR . self::$log_dir_path . ' does not exist<br>';
+			if( ! file_exists( self::$log_dir_path ) ) {
 
 				// create the directory if it doesn't exist
-				mkdir( WP_CONTENT_DIR . self::$log_dir_path );
+				wp_mkdir_p( self::$log_dir_path );
 
-				if ( ! file_exists( WP_CONTENT_DIR . self::$log_dir_path ) ) {
-					echo 'Unable to create uploads directory';
+				if ( ! file_exists( self::$log_dir_path ) ) {
+					echo 'Unable to create log directory';
 				}
 			}
 			// create the file if it doesn't exist
