@@ -16,7 +16,8 @@ class AppPresser_Logger {
 	public static $expire_logging = 'expire_logging';
 	public static $logging_status;
 	public static $log_filename = null;
-	public static $log_dir_path = '/uploads/apppresser/';
+	public static $log_dir_path = '/uploads/apppresser';
+	public static $uploads_dir_path = WP_CONTENT_DIR . '/uploads';
 	public static $log_filepath;
 	public static $log_url = null;
 
@@ -26,16 +27,9 @@ class AppPresser_Logger {
 
 		self::$logging_status = get_option( self::$logging_status_option, 'off' );
 		self::$log_filename   = $this->get_filename();
-		self::$log_filepath   = WP_CONTENT_DIR . self::$log_dir_path . self::$log_filename;
-		self::$log_url        = WP_CONTENT_URL . self::$log_dir_path . self::$log_filename;
-		if( !file_exists( self::$log_filepath ) ) {
-			if( file_exists( WP_CONTENT_DIR . self::$log_dir_path ) ) {
-				// create the directory if it doesn't exist
-				mkdir( WP_CONTENT_DIR . self::$log_dir_path );
-			}
-			// create the file if it doesn't exist
-			touch( self::$log_filepath );
-		}
+		self::$log_filepath   = WP_CONTENT_DIR . self::$log_dir_path . DIRECTORY_SEPARATOR . self::$log_filename;
+		self::$log_url        = WP_CONTENT_URL . self::$log_dir_path . DIRECTORY_SEPARATOR . self::$log_filename;
+		self::log_dir_exists();
 	}
 
 	public function hooks() {
@@ -144,6 +138,7 @@ class AppPresser_Logger {
 	 * @since 1.3.0
 	 */
 	public function get_filename() {
+
 		if( self::$log_filename == null ) {
 			$filename = get_option( 'appplog_filename', false );
 			if( ! $filename ) {
@@ -153,6 +148,40 @@ class AppPresser_Logger {
 			self::$log_filename = $filename;
 		}
 		return self::$log_filename;
+	}
+
+	/**
+	 *	Create the wp-content/uploads/apppresser directory
+	 *  1.3.0
+	 */
+	public function log_dir_exists() {
+
+		if( ! file_exists( self::$log_filepath ) ) {
+
+			//echo self::$log_filepath . ' does not exist<br>';
+
+			if( ! file_exists( self::$uploads_dir_path ) ) {
+				mkdir( self::$uploads_dir_path );
+
+				if ( ! file_exists( self::$uploads_dir_path ) ) {
+					echo 'Unable to create uploads directory';
+				}
+			}
+
+			if( ! file_exists( WP_CONTENT_DIR . self::$log_dir_path ) ) {
+
+				//echo WP_CONTENT_DIR . self::$log_dir_path . ' does not exist<br>';
+
+				// create the directory if it doesn't exist
+				mkdir( WP_CONTENT_DIR . self::$log_dir_path );
+
+				if ( ! file_exists( WP_CONTENT_DIR . self::$log_dir_path ) ) {
+					echo 'Unable to create uploads directory';
+				}
+			}
+			// create the file if it doesn't exist
+			touch( self::$log_filepath );
+		}
 	}
 }
 
