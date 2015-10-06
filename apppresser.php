@@ -1,4 +1,4 @@
-©©<?php
+<?php
 /*
 Plugin Name: AppPresser
 Plugin URI: http://apppresser.com
@@ -256,6 +256,13 @@ class AppPresser {
 	 */
 	public static function set_app_cookie() {
 		setcookie( 'AppPresser_Appp', 'true', time() + ( DAY_IN_SECONDS * 30 ) );
+	}
+
+	/**
+	 * Set the cookie
+	 * @since 2.0.0
+	 */
+	public static function set_app2_cookie() {
 		setcookie( 'AppPresser_Appp2', 'true', time() + ( DAY_IN_SECONDS * 30 ) );
 	}
 
@@ -285,9 +292,10 @@ class AppPresser {
 
 	public static function get_apv2() {
 
-		if( self::$is_apppv2 == null) {
-			self::$is_apppv2 = isset( $_GET['appp'] ) && isset( $_GET['appp'] ) == 2 || isset( $_COOKIE['AppPresser_Appp2'] ) && $_COOKIE['AppPresser_Appp2'] === 'true';
+		if( self::$is_apppv2 === null) {
+			self::$is_apppv2 = ( isset( $_GET['appp'] ) && $_GET['appp'] == 2 ) || isset( $_COOKIE['AppPresser_Appp2'] ) && $_COOKIE['AppPresser_Appp2'] === 'true';
 		}
+
 		return self::$is_apppv2;
 	}
 
