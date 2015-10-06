@@ -1,4 +1,4 @@
-<?php
+©©<?php
 /*
 Plugin Name: AppPresser
 Plugin URI: http://apppresser.com
@@ -287,10 +287,6 @@ class AppPresser {
 
 		if( self::$is_apppv2 == null) {
 			self::$is_apppv2 = isset( $_GET['appp'] ) && isset( $_GET['appp'] ) == 2 || isset( $_COOKIE['AppPresser_Appp2'] ) && $_COOKIE['AppPresser_Appp2'] === 'true';
-
-			if ( self::$is_apppv2 && ! isset( $_COOKIE['AppPresser_Appp2'] ) ) {
-				self::set_app_cookie();
-			}
 		}
 		return self::$is_apppv2;
 	}
