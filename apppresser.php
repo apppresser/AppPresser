@@ -98,7 +98,6 @@ class AppPresser {
 		add_action( 'plugins_loaded', array( $this, 'includes' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts' ), 8 );
 		add_action( 'wp_head', array( $this, 'do_appp_script' ), 1 );
-		add_action( 'customize_save_{$setting_id}', array( $this, 'customize_save_{$setting_id}') );
 
 		// remove wp version param from cordova enqueued scripts (so script loading doesn't break)
 		// This will mean that it's harder to break caching on the cordova script
