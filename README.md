@@ -45,6 +45,9 @@ We are happy to accept contributions, but also want to maintain high quality doc
 
 ## Changelog
 
+#### 1.3.1
+* App design customizer static front page setting should only affect mobile app
+
 #### 1.1.9
 * Started updating changelog again, yay!
 * Add support for Facebook connect extension

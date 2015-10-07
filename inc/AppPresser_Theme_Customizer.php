@@ -90,6 +90,8 @@ class AppPresser_Theme_Customizer extends AppPresser {
 		if ( ! is_array( $setttings ) || empty( $setttings ) )
 			return;
 
+		$customizer->remove_section("static_front_page");
+
 		// Cache JUST our theme_mods as "safe" to change
 		foreach ( $customizer->settings() as $id => $control ) {
 			// add to the array of "safe" settings
