@@ -290,6 +290,11 @@ class AppPresser {
 		return self::$is_app;
 	}
 
+	/**
+	 * Gets the app_is_app variable, but only if it == 2
+	 * @since 2.0.0
+	 * @return boolean Variable value
+	 */
 	public static function get_apv2() {
 
 		if( self::$is_apppv2 === null) {
