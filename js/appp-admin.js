@@ -16,7 +16,7 @@ jQuery(document).ready(function($) {
 	var $ajaxcontext = $ajaxinput.parents('tr');
 	var $ajaxresults = $ajaxcontext.find('.appp-ajax-results-posts');
 	var $ajaxhelp    = $ajaxcontext.find('.appp-ajax-results-help');
-	var $spinner     = $ajaxcontext.find('.appp-spinner').css({'visibility':'visible', 'float':'inline-block', 'display':'none'});
+	var $spinner     = $ajaxcontext.find('.appp-spinner').css({'visibility':'visible', 'float':'inline-block', 'display':'none'}); // manually set css due to recent wp admin css updates
 
 
 	$context.find( 'a.help' ).tooltip().click( function(e) { e.preventDefault(); } );
@@ -74,6 +74,8 @@ jQuery(document).ready(function($) {
 			$ajaxhelp.hide();
 
 		}).on( 'change', '#apppresser--appp_show_on_front input', function(event) {
+
+			// Toggle the state of the static home_page field if lastest posts is selected
 			if( $(this).val() == 'latest_posts' ) {
 				$('#apppresser--appp_home_page').prop("disabled", true);
 			} else {
@@ -83,6 +85,7 @@ jQuery(document).ready(function($) {
 			return true;
 		});
 
+	// Set the initial state of the static home_page field as disabled if lastest posts is selected
 	if( $('#apppresser--appp_show_on_front input[value="latest_posts"]').is(':checked') ) {
 		$('#apppresser--appp_home_page').prop("disabled", true);
 	}
