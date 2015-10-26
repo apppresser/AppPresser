@@ -262,6 +262,11 @@ apppCore.maybeGoBack = function() {
 
 	// Since we hijacked the backbutton event, we have to redo all the logic. Go back with or without ajax, or exit app.
 
+	if( appcamera && appcamera.attaching_image && appcamera.attaching_image ) {
+		appcamera.attaching_image = false;
+		return;
+	}
+
 	// Get our
 	var prevUrl = JSON.parse( sessionStorage.urlHistory );
 
