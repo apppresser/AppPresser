@@ -46,7 +46,15 @@ We are happy to accept contributions, but also want to maintain high quality doc
 ## Changelog
 
 #### 1.3.1
-* App design customizer static front page setting should only affect mobile app
+* Remove static homepage option from customizer
+* Add option for posts on mobile homepage
+* Standardize text-domains
+* Add logging for debugging and customer support
+
+#### 1.2.0
+* Stop youtube videos on app exit
+* Fix undefined index error
+* Add ajax functions for AppTheme
 
 #### 1.1.9
 * Started updating changelog again, yay!

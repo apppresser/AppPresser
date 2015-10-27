@@ -3,8 +3,8 @@ Contributors: apppresser, webdevstudios, williamsba1, scottopolis, jtsternberg, 
 Donate link: http://apppresser.com/
 Tags: mobile, app, ios, android, application, phonegap, iphone app, android app, mobile app, native app, wordpress mobile, ipad app, iOS app
 Requires at least: 3.5
-Tested up to: 4.2.4
-Stable tag: 1.2.0
+Tested up to: 4.3.1
+Stable tag: 1.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -26,7 +26,7 @@ Want to contribute to AppPresser? Awesome! Visit our [GitHub site for the projec
 
 ### What this plugin does:
 
-*   Integrates Phonegap with WordPress, which exposes the [Phonegap API](http://docs.phonegap.com/en/3.2.0/index.html "Phonegap docs")
+*   Integrates Phonegap with WordPress, which exposes the [Phonegap API](http://docs.phonegap.com/en/3.6.0/index.html "Phonegap docs")
 *   Allows you to use javascript (using the Phonegap API) to use native device features
 *   Allows you to use other AppPresser plugins and themes to create an app
 *   Adds a settings page with app-only homepage, menus, and theme settings
@@ -51,7 +51,7 @@ Want to contribute to AppPresser? Awesome! Visit our [GitHub site for the projec
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. Navigate to AppPresser settings page to configure
 
-After installing, optionally add AppPresser theme/extensions, or use the [Phonegap API](http://docs.phonegap.com/en/3.2.0/index.html "Phonegap docs") to create custom apps.
+After installing, optionally add AppPresser theme/extensions, or use the [Phonegap API](http://docs.phonegap.com/en/3.6.0/index.html "Phonegap docs") to create custom apps.
 
 == Frequently Asked Questions ==
 
@@ -88,6 +88,12 @@ Technically you can do anything with an AppPresser app that you can do with Phon
 
 
 == Changelog ==
+= 1.3.1 =
+* Remove static homepage option from customizer
+* Add option for posts on mobile homepage
+* Standardize text-domains
+* Add logging for debugging and customer support
+
 = 1.2.0 =
 * Stop youtube videos on app exit
 * Fix undefined index error
