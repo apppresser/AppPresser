@@ -88,6 +88,10 @@ Technically you can do anything with an AppPresser app that you can do with Phon
 
 
 == Changelog ==
+
+= 1.3.2 =
+* bug fix: Android back button
+
 = 1.3.1 =
 * Remove static homepage option from customizer
 * Add option for posts on mobile homepage

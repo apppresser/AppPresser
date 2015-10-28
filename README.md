@@ -45,6 +45,9 @@ We are happy to accept contributions, but also want to maintain high quality doc
 
 ## Changelog
 
+#### 1.3.2
+* bug fix: Android back button
+
 #### 1.3.1
 * Remove static homepage option from customizer
 * Add option for posts on mobile homepage
