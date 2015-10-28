@@ -284,11 +284,13 @@ apppCore.maybeGoBack = function() {
 		}
 
 		// ajax to previous page
-		if( prevUrl.length ) {
+		if( prevUrl.length > 1 ) {
 			// go to the second item, because prevUrl[0] is the current page
 			window.apppresser.loadAjaxContent( prevUrl[1].url, false, event );
 			// remove the first array item
 			prevUrl.shift();
+		} else {
+			navigator.app.exitApp();
 		}
 
 		// Resave history
