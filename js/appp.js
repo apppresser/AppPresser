@@ -7,6 +7,9 @@
 // initiate apppCore var if it hasn't been
 window.apppCore = typeof window.apppCore !== 'undefined' ? window.apppCore : {};
 
+// used to stop the maybeGoBack function
+apppCore.noGoBackFlag = '';
+
 /**
  * Get things started
  * @since  1.0.3
@@ -258,12 +261,39 @@ apppCore.onDevicePause = function() {
 
 };
 
+// Array of functions to set senarios of setting the apppCore.noGoBackFlag
+apppCore.noGoBackFlags = [];
+
+/**
+ * Allow other apps to add functions for when not to goBack
+ * Add new functions to the apppCore.noGoBackFlags array.
+ * Your new function needs to set the apppCore.noGoBackFlag to a string.
+ */
+apppCore.checkForNoGoBackFlags = function() {
+	for(var i = 0; i < apppCore.noGoBackFlags.length; i++) {
+		if( typeof apppCore.noGoBackFlags[i] == 'function' ) {
+			apppCore.noGoBackFlags[i].call();	
+		}
+		if( apppCore.noGoBackFlag ) {
+			return;
+		}
+	}
+};
+
 apppCore.maybeGoBack = function() {
 
 	// Since we hijacked the backbutton event, we have to redo all the logic. Go back with or without ajax, or exit app.
 
+	// TODO: deprecate this statement in favor of using the apppCore.noGoBackFlag to make it more universal
 	if( appcamera && appcamera.attaching_image && appcamera.attaching_image ) {
 		appcamera.attaching_image = false;
+		return;
+	}
+
+	// Sometimes we just don't want to goBack: i.e. while uploading images or changing the avatar
+	if( apppCore.noGoBackFlag || apppCore.checkForNoGoBackFlags() || apppCore.noGoBackFlag /* check again */ ) {
+		apppCore.log('skip maybeGoBack', apppCore.noGoBackFlag);
+		apppCore.noGoBackFlag = false;
 		return;
 	}
 
