@@ -45,6 +45,9 @@ We are happy to accept contributions, but also want to maintain high quality doc
 
 ## Changelog
 
+#### 1.3.3
+* Add noGoBackFlag feature to allow any app to stop the mayGoBack function (appbuddy 0.9.9 initially)
+
 #### 1.3.2
 * bug fix: Android back button
 
