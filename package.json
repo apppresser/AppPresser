@@ -6,7 +6,8 @@
     "grunt-contrib-concat": "~0.4.0",
     "grunt-contrib-jshint": "^0.11.3",
     "grunt-contrib-uglify": "^0.9.2",
-    "grunt-shell": "~0.7.0"
+    "grunt-shell": "~0.7.0",
+    "shell": "^0.3.2"
   },
   "description": "",
   "author": "AppPresser",

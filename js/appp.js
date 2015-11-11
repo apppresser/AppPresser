@@ -35,6 +35,8 @@ apppCore.init = function() {
 
 	// For loading pause events, to kill youtube vids
 	document.addEventListener('deviceready', apppCore.onDeviceReady2, false);
+	document.addEventListener('onload', apppCore.onDeviceReady_no_ajax_app, false);
+	
 };
 
 /**
@@ -238,8 +240,6 @@ apppCore.onDevicePause = function() {
 			var divs = document.getElementsByTagName("iframe");
 			var Vidsrc;
 
-			var prevUrl = JSON.parse( sessionStorage.urlHistory );
-
 			if(divs.length) {
 				console.log('Killing youtube vids');
 				for (var i in divs) {
@@ -285,7 +285,7 @@ apppCore.maybeGoBack = function() {
 	// Since we hijacked the backbutton event, we have to redo all the logic. Go back with or without ajax, or exit app.
 
 	// TODO: deprecate this statement in favor of using the apppCore.noGoBackFlag to make it more universal
-	if( appcamera && appcamera.attaching_image && appcamera.attaching_image ) {
+	if( typeof appcamera == 'object' && typeof appcamera.attaching_image != 'undefined' && appcamera.attaching_image ) {
 		appcamera.attaching_image = false;
 		return;
 	}
@@ -298,7 +298,7 @@ apppCore.maybeGoBack = function() {
 	}
 
 	// Get our
-	var prevUrl = JSON.parse( sessionStorage.urlHistory );
+	var prevUrl = ( appp.can_ajax ) ? JSON.parse( sessionStorage.urlHistory ) : [];
 
 	var home = jQuery('body').hasClass('home');
 
@@ -341,6 +341,14 @@ apppCore.maybeGoBack = function() {
 apppCore.onDeviceReady2 = function() {
 	document.addEventListener( 'pause', apppCore.onDevicePause, false );
 	document.addEventListener('backbutton', apppCore.onDevicePause, false );
+};
+
+// Need these events added on every onload event 
+// when 'disable dynamic page loading' is enabled
+apppCore.onDeviceReady_no_ajax_app = function() {
+	if( ! apppCore.is_appp_true && ! appp.can_ajax ) {
+		apppCore.onDeviceReady2();
+	}
 };
 
 apppCore.init();

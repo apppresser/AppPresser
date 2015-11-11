@@ -12,11 +12,17 @@ module.exports = function(grunt) {
 					'js/appp.min.js': ['js/appp.js']
 				}
 			}
-		}
+		},
+		shell: {
+	        rsync: {
+	            command: './rsync.sh'
+	        }
+	    }
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-shell');
 
 	// Default task.
 	grunt.registerTask('default', ['jshint','uglify']);
