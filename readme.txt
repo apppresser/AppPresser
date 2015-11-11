@@ -91,6 +91,7 @@ Technically you can do anything with an AppPresser app that you can do with Phon
 
 = 1.3.3 =
 * Add noGoBackFlag feature to allow any app to stop the mayGoBack function (appbuddy 0.9.9 initially)
+* Fix Android back button when 'disable dynamic page loading' is enabled
 
 = 1.3.2 =
 * bug fix: Android back button
