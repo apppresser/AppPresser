@@ -171,7 +171,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 	function admin_scripts() {
 		// admin scripts and styles
 		wp_enqueue_script( 'appp-admin', self::$js_url . 'appp-admin.js', array( 'jquery', 'jquery-ui-core', 'jquery-ui-tooltip' ), self::VERSION );
-		// wp_enqueue_style( 'jquery-ui-smoothness', self::$css_url . 'smoothness/smoothness.custom.min.css' );
+		wp_enqueue_style( 'jquery-ui-smoothness', self::$css_url . 'smoothness/smoothness.custom.min.css' );
 		wp_enqueue_style( 'appp-admin-styles', self::$css_url . 'appp-admin-styles.css', null, self::VERSION );
 		wp_enqueue_media();
 	}
@@ -404,15 +404,17 @@ class AppPresser_Admin_Settings extends AppPresser {
 			'description' => __( 'Select Phonegap Version.', 'apppresser' ),
 		) );
 
-		self::add_setting( 'appp_home_page', __( 'Use a unique homepage for your app.', 'apppresser' ), array(
-			'helptext' => __( 'Allows you to specify which page users will see first when they load up you AppPresser app.', 'apppresser' ),
-			'description' => __( 'Start typing to search for a page, or enter a page ID.', 'apppresser' ),
+		self::add_setting( 'appp_show_on_front', __( 'Use a unique homepage for your app.', 'apppresser' ), array(
+			'type' => 'radio',
+			'options' => array('latest_posts' => 'Your latest posts', 'static_page' => 'A static page (select below)' ),
+			'helptext' => __( 'SAllows you to specify which page users will see first when they load up you AppPresser app.', 'apppresser' ),
+			'description' => __( 'Select homepage option.', 'apppresser' ),
 		) );
 
-		/*self::add_setting( 'appp_home_page', __( 'Use a unique homepage for your app.', 'apppresser' ), array(
-			'helptext' => __( 'Allows you to specify which page users will see first when they load up you AppPresser app.', 'apppresser' ),
+		self::add_setting( 'appp_home_page', '', array(
+			// 'helptext' => __( 'Allows you to specify which page users will see first when they load up you AppPresser app.', 'apppresser' ),
 			'description' => __( 'Start typing to search for a page, or enter a page ID.', 'apppresser' ),
-		) );*/
+		) );
 
 		/*$menus = array( 'option-none' => __( '-- select --', 'apppresser' ) );
 		foreach ( (array) $this->nav_menus as $menu ) {

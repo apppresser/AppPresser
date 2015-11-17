@@ -285,7 +285,7 @@ class AppPresser {
 		if ( self::$is_app !== null )
 			return self::$is_app;
 
-		self::$is_app = isset( $_GET['appp'] ) || isset( $_COOKIE['AppPresser_Appp'] ) && $_COOKIE['AppPresser_Appp'] === 'true';
+		self::$is_app = isset( $_GET['appp'] ) && $_GET['appp'] == 1 || isset( $_COOKIE['AppPresser_Appp'] ) && $_COOKIE['AppPresser_Appp'] === 'true';
 
 		return self::$is_app;
 	}

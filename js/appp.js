@@ -7,6 +7,9 @@
 // initiate apppCore var if it hasn't been
 window.apppCore = typeof window.apppCore !== 'undefined' ? window.apppCore : {};
 
+// used to stop the maybeGoBack function
+apppCore.noGoBackFlag = '';
+
 /**
  * Get things started
  * @since  1.0.3
@@ -32,6 +35,8 @@ apppCore.init = function() {
 
 	// For loading pause events, to kill youtube vids
 	document.addEventListener('deviceready', apppCore.onDeviceReady2, false);
+	document.addEventListener('onload', apppCore.onDeviceReady_no_ajax_app, false);
+	
 };
 
 /**
@@ -235,8 +240,6 @@ apppCore.onDevicePause = function() {
 			var divs = document.getElementsByTagName("iframe");
 			var Vidsrc;
 
-			var prevUrl = JSON.parse( localStorage.urlHistory );
-
 			if(divs.length) {
 				console.log('Killing youtube vids');
 				for (var i in divs) {
@@ -258,12 +261,44 @@ apppCore.onDevicePause = function() {
 
 };
 
+// Array of functions to set senarios of setting the apppCore.noGoBackFlag
+apppCore.noGoBackFlags = [];
+
+/**
+ * Allow other apps to add functions for when not to goBack
+ * Add new functions to the apppCore.noGoBackFlags array.
+ * Your new function needs to set the apppCore.noGoBackFlag to a string.
+ */
+apppCore.checkForNoGoBackFlags = function() {
+	for(var i = 0; i < apppCore.noGoBackFlags.length; i++) {
+		if( typeof apppCore.noGoBackFlags[i] == 'function' ) {
+			apppCore.noGoBackFlags[i].call();	
+		}
+		if( apppCore.noGoBackFlag ) {
+			return;
+		}
+	}
+};
+
 apppCore.maybeGoBack = function() {
 
 	// Since we hijacked the backbutton event, we have to redo all the logic. Go back with or without ajax, or exit app.
 
+	// TODO: deprecate this statement in favor of using the apppCore.noGoBackFlag to make it more universal
+	if( typeof appcamera == 'object' && typeof appcamera.attaching_image != 'undefined' && appcamera.attaching_image ) {
+		appcamera.attaching_image = false;
+		return;
+	}
+
+	// Sometimes we just don't want to goBack: i.e. while uploading images or changing the avatar
+	if( apppCore.noGoBackFlag || apppCore.checkForNoGoBackFlags() || apppCore.noGoBackFlag /* check again */ ) {
+		apppCore.log('skip maybeGoBack', apppCore.noGoBackFlag);
+		apppCore.noGoBackFlag = false;
+		return;
+	}
+
 	// Get our
-	var prevUrl = JSON.parse( localStorage.urlHistory );
+	var prevUrl = ( appp.can_ajax ) ? JSON.parse( sessionStorage.urlHistory ) : [];
 
 	var home = jQuery('body').hasClass('home');
 
@@ -274,18 +309,22 @@ apppCore.maybeGoBack = function() {
 
 		// If we can ajax and there's a previous url...
 
-		// remove the current url from array
-		prevUrl.shift();
-
 		if( prevUrl.length > 1 && prevUrl[prevUrl.length-1].url == window.location.href ) {
 			navigator.app.exitApp();
 		}
 
 		// ajax to previous page
-		window.apppresser.loadAjaxContent( prevUrl[0].url, false, event );
+		if( prevUrl.length > 1 ) {
+			// go to the second item, because prevUrl[0] is the current page
+			window.apppresser.loadAjaxContent( prevUrl[1].url, false, event );
+			// remove the first array item
+			prevUrl.shift();
+		} else {
+			navigator.app.exitApp();
+		}
 
 		// Resave history
-		localStorage.urlHistory = JSON.stringify( prevUrl );
+		sessionStorage.urlHistory = JSON.stringify( prevUrl );
 
 	} else {
 
@@ -302,6 +341,14 @@ apppCore.maybeGoBack = function() {
 apppCore.onDeviceReady2 = function() {
 	document.addEventListener( 'pause', apppCore.onDevicePause, false );
 	document.addEventListener('backbutton', apppCore.onDevicePause, false );
+};
+
+// Need these events added on every onload event 
+// when 'disable dynamic page loading' is enabled
+apppCore.onDeviceReady_no_ajax_app = function() {
+	if( ! apppCore.is_appp_true && ! appp.can_ajax ) {
+		apppCore.onDeviceReady2();
+	}
 };
 
 apppCore.init();
