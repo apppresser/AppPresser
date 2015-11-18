@@ -54,7 +54,7 @@ class AppPresser_Theme_Switcher extends AppPresser {
 
 		$do_switch = appp_get_setting( 'appp_theme' ) && (
 			// check if user is running native app
-			self::is_app()
+			( self::is_app() || self::get_apv2() )
 			// check if the setting is enabled to view the APP theme as an administrator
 			|| (
 				appp_get_setting( 'admin_theme_switch' ) == 'on'
