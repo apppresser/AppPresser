@@ -108,6 +108,7 @@ class AppPresser {
 		require_once( self::$inc_path . 'plugin-updater.php' );
 		require_once( self::$inc_path . 'AppPresser_Theme_Customizer.php' );
 		require_once( self::$inc_path . 'AppPresser_Ajax_Extras.php' );
+		// TODO: fix file path for creating log directory and log file for multisite
 		if( ! is_multisite() ) {
 			require_once( self::$inc_path . 'AppPresser_Log_Admin.php' );
 			require_once( self::$inc_path . 'AppPresser_Logger.php' );
