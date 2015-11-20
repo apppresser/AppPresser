@@ -108,8 +108,10 @@ class AppPresser {
 		require_once( self::$inc_path . 'plugin-updater.php' );
 		require_once( self::$inc_path . 'AppPresser_Theme_Customizer.php' );
 		require_once( self::$inc_path . 'AppPresser_Ajax_Extras.php' );
-		require_once( self::$inc_path . 'AppPresser_Log_Admin.php' );
-		require_once( self::$inc_path . 'AppPresser_Logger.php' );
+		if( ! is_multisite() ) {
+			require_once( self::$inc_path . 'AppPresser_Log_Admin.php' );
+			require_once( self::$inc_path . 'AppPresser_Logger.php' );
+		}
 		$this->theme_customizer = new AppPresser_Theme_Customizer();
 
 	}
@@ -120,7 +122,7 @@ class AppPresser {
 	 */
 	function do_appp_script() {
 
-		if( self::get_apv2() == '2' ) {
+		if( self::get_apv2() ) {
 			wp_localize_script( 'jquery', 'apppCore', self::$l10n );
 			return;
 		}
