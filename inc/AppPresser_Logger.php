@@ -20,10 +20,9 @@ class AppPresser_Logger {
 	public static $uploads_dir_path;
 	public static $log_filepath;
 	public static $log_url = null;
+	const USER_META_LOG_NAG = 'appp_log_error_nag_ignore';
 
 	public function __construct() {
-
-		$this->hooks();
 
 		self::$logging_status = get_option( self::$logging_status_option, 'off' );
 		self::$log_filename   = $this->get_filename();
@@ -35,14 +34,20 @@ class AppPresser_Logger {
 
 		self::$log_filepath   = self::$log_dir_path . DIRECTORY_SEPARATOR . self::$log_filename;
 		self::$log_url        = $upload_dir['baseurl'] . DIRECTORY_SEPARATOR . self::$log_filename;
-		self::log_dir_exists();
+		
+		$this->hooks();
 	}
 
 	public function hooks() {
 		add_action( 'wp_ajax_' . $this->ajax_action, array( $this, 'toggle_logging_callback' ) );
 		add_action( 'wp_ajax_nopriv_' . $this->ajax_action, array( $this, 'toggle_logging_callback' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-		add_action( self::$expire_logging, array($this, 'expire_logging') );
+		add_action( self::$expire_logging, array( $this, 'expire_logging') );
+		add_action( 'wp_ajax_log_dismiss', array( $this, 'log_dismiss' ) );
+		add_action( 'wp_ajax_nopriv_log_dismiss', array( $this, 'log_dismiss' ) );
+
+		// Log dir and file
+		add_action('admin_notices', array( $this, 'log_dir_exists' ) );
 	}
 
 	public function enqueue_scripts() {
@@ -162,20 +167,115 @@ class AppPresser_Logger {
 	 */
 	public function log_dir_exists() {
 
+		if( ! is_admin() || ! current_user_can('manage_options') ) {
+			return;
+		}
+
+		global $current_user;
+
+		$user_id = $current_user->ID;
+
+		if ( get_user_meta($user_id, self::USER_META_LOG_NAG, true) === 'true' ) {
+
+			// ignore the admin notice
+
+			return;
+		}
+
 		if( ! file_exists( self::$log_filepath ) ) {
 
 			if( ! file_exists( self::$log_dir_path ) ) {
 
-				// create the directory if it doesn't exist
-				wp_mkdir_p( self::$log_dir_path );
+				if( is_writable( self::$uploads_dir_path ) ) {
+					// create the directory if it doesn't exist
+					wp_mkdir_p( self::$log_dir_path );	
+				} else {
+					// Can not create directory
+					echo ' <div class="error notice is-dismissible app-new-log-error">
+					<p><b>AppPresser Debugging Log File</b></p>
+				        <p>' . self::$log_dir_path . ' ' . __( 'directory is not writable', 'apppresser' ) . '</p>
+				    	</div>
+				    <script type="text/javascript">
 
-				if ( ! file_exists( self::$log_dir_path ) ) {
-					echo 'Unable to create log directory';
+				    jQuery(document).ready(function() {
+				    	// double layer doc ready to add these events after wp-admin doc ready stuff
+						jQuery(document).ready(function() {				    	
+
+							jQuery(".app-new-log-error .notice-dismiss").on("click",function() {
+								jQuery.ajax({
+									type: "POST",
+									url:  "'.admin_url('admin-ajax.php').'",
+									data: {
+										action: "log_dismiss"
+									},
+									success: function(response) {
+										console.log(response);
+									}
+								});
+							});
+						});
+
+					});
+				    	
+				    </script>';
+
+					return;
 				}
 			}
+			
 			// create the file if it doesn't exist
-			touch( self::$log_filepath );
+			if( ! file_exists( self::$log_filepath ) && is_writable( self::$log_dir_path ) ) {
+				@touch( self::$log_filepath );
+			} else {
+				// directory exist but the directory is not writable
+				echo '<div class="error notice is-dismissible app-new-log-error">
+						<p><b>AppPresser Debugging Log File</b></p>
+				        <p>' . self::$log_filepath . ' ' . __('file is not writable', 'apppresser') . '</p>
+				      </div>
+				    <script type="text/javascript">
+
+				    jQuery(document).ready(function() {
+				    	// double layer doc ready to add these events after wp-admin doc ready stuff
+						jQuery(document).ready(function() {				    	
+
+							jQuery(".app-new-log-error .notice-dismiss").on("click",function() {
+								jQuery.ajax({
+									type: "POST",
+									url:  "'.admin_url('admin-ajax.php').'",
+									data: {
+										action: "log_dismiss"
+									},
+									success: function(response) {
+										console.log(response);
+									}
+								});
+							});
+						});
+
+					});
+				    	
+				    </script>';
+			}
 		}
+	}
+
+	public function log_dismiss() {
+		global $current_user;
+
+		$user_id = $current_user->ID;
+		if ( ! get_user_meta($user_id, self::USER_META_LOG_NAG) ) {
+			add_user_meta($user_id, self::USER_META_LOG_NAG, 'true', true);
+		}
+
+		echo $user_id;
+		die();
+	}
+
+	public function remove_usermeta() {
+		global $wpdb;
+
+		// Delete any nag user_meta
+		$wpdb->query( "DELETE FROM {$wpdb->prefix}usermeta WHERE meta_key = '".self::USER_META_LOG_NAG."';" );
 	}
 }
 

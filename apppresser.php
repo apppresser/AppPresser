@@ -214,8 +214,10 @@ class AppPresser {
 	 */
 	function deactivate() {
 
-		// code to execute when plugin is deactivated
-
+		// AppPresser_Logger may not exist if mulit-site
+		if( class_exists('AppPresser_Logger') ) {
+			AppPresser_Logger::remove_usermeta();
+		}
 	}
 
 	/**
