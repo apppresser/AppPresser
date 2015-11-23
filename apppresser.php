@@ -86,6 +86,7 @@ class AppPresser {
 			'mobile_browser_theme_switch' => appp_get_setting( 'mobile_browser_theme_switch' ),
 			'admin_theme_switch'          => appp_get_setting( 'admin_theme_switch' ),
 			'is_appp_true'                => self::is_app(),
+			'noGoBackFlags'				  => array(),
 		);
 
 		// Load translations
