@@ -232,7 +232,7 @@ apppCore.isApp = function( name ) {
 	return apppCore._isApp;
 };
 
-apppCore.onDevicePause = function() {
+apppCore.onDevicePause = function(event) {
 
 	// check if iframe is youtube and then kill it on pause
 	if( 'Android' === device.platform ) {
@@ -254,7 +254,10 @@ apppCore.onDevicePause = function() {
 
 			}
 
-			apppCore.maybeGoBack();
+			if(event.type == 'backbutton') {
+				apppCore.maybeGoBack();	
+			}
+			
 
 		}, 0);
 	}
