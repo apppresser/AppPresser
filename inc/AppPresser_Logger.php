@@ -29,11 +29,12 @@ class AppPresser_Logger {
 
 		$upload_dir = wp_upload_dir();
 
+		self::$log_url        = $upload_dir['baseurl'] . DIRECTORY_SEPARATOR . self::$log_dir_path . DIRECTORY_SEPARATOR . self::$log_filename;
+
 		self::$uploads_dir_path = $upload_dir['basedir'];
 		self::$log_dir_path = $upload_dir['basedir'] . DIRECTORY_SEPARATOR . self::$log_dir_path;
 
 		self::$log_filepath   = self::$log_dir_path . DIRECTORY_SEPARATOR . self::$log_filename;
-		self::$log_url        = $upload_dir['baseurl'] . DIRECTORY_SEPARATOR . self::$log_filename;
 		
 		$this->hooks();
 	}
@@ -77,7 +78,7 @@ class AppPresser_Logger {
 
 		$txt = '['.date('Y-m-d H:i:s').'] '.$function.'() /'.str_replace(ABSPATH, '', $file).':'.$line."\n".$title.': '.$txt."\n----\n";
 
-		fwrite($logfile, $txt);
+		fwrite($logfile, stripcslashes ( $txt ) );
 		fclose($logfile);
 	}
 
