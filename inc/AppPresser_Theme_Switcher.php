@@ -44,17 +44,17 @@ class AppPresser_Theme_Switcher extends AppPresser {
 		}
 
 		// Set cookie from querystring if request is coming from an app
-		if ( self::is_app() ) {
+		if ( self::get_apv( 1 ) ) { // only v1
 			self::set_app_cookie();
 		}
 
-		if ( self::get_apv2() ) {
-			self::set_app2_cookie();
+		if ( self::get_apv( 2 ) ) { // only v2
+			self::set_app_cookie( 2 );
 		}
 
 		$do_switch = appp_get_setting( 'appp_theme' ) && (
 			// check if user is running native app
-			( self::is_app() || self::get_apv2() )
+			( self::is_app() )
 			// check if the setting is enabled to view the APP theme as an administrator
 			|| (
 				appp_get_setting( 'admin_theme_switch' ) == 'on'
