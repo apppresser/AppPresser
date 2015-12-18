@@ -1,5 +1,4 @@
-*.svn
-sftp-config.json
+*.svnsftp-config.json
 node_modules/
 .DS_Store
 rsync*
