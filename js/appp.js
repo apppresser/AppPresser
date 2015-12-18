@@ -257,7 +257,6 @@ apppCore.onDevicePause = function(event) {
 			if(event.type == 'backbutton') {
 				apppCore.maybeGoBack();	
 			}
-			
 
 		}, 0);
 	}

@@ -4,7 +4,7 @@ Donate link: http://apppresser.com/
 Tags: mobile, app, ios, android, application, phonegap, iphone app, android app, mobile app, native app, wordpress mobile, ipad app, iOS app
 Requires at least: 3.5
 Tested up to: 4.3.1
-Stable tag: 1.3.3
+Stable tag: 1.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -89,6 +89,16 @@ Technically you can do anything with an AppPresser app that you can do with Phon
 
 == Changelog ==
 
+= 1.4.0 =
+* Include phonegap files for 3.7.0
+* Add 3.7.0 option to admin settings
+* Remove logging from multisite
+* Improve the logic around creating the log file
+* Add an admin nag for log file which each admin can dismiss
+* Fix log file URL
+* Verify backbutton event before calling maybeGoBack
+* Fix typos in readme files
+
 = 1.3.3 =
 * Add noGoBackFlag feature to allow any app to stop the mayGoBack function (appbuddy 0.9.9 initially)
 * Fix Android back button when 'disable dynamic page loading' is enabled
@@ -172,7 +182,7 @@ Technically you can do anything with an AppPresser app that you can do with Phon
 = 1.0.3 =
 * Bug Fix: `plugins_loaded` firing too early causing conflicts with other plugins.
 * Improvement: Check child theme for `app-settings.php` file as well as parent theme.
-* Improvement: Added method for loading AppPresser theme despite aggresively cached web hosts.
+* Improvement: Added method for loading AppPresser theme despite aggressively cached web hosts.
 
 = 1.0.2 =
 * Bug Fix: Conflict causing other themes to appear to need an update.
@@ -237,7 +247,7 @@ Technically you can do anything with an AppPresser app that you can do with Phon
 = 1.0.3 =
 * Bug Fix: `plugins_loaded` firing too early causing conflicts with other plugins.
 * Improvement: Check child theme for `app-settings.php` file as well as parent theme.
-* Improvement: Added method for loading AppPresser theme despite aggresively cached web hosts.
+* Improvement: Added method for loading AppPresser theme despite aggressively cached web hosts.
 
 = 1.0.2 =
 * Bug Fix: Conflict causing other themes to appear to need an update.

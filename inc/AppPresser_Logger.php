@@ -29,7 +29,7 @@ class AppPresser_Logger {
 
 		$upload_dir = wp_upload_dir();
 
-		self::$log_url        = $upload_dir['baseurl'] . DIRECTORY_SEPARATOR . self::$log_filename;
+		self::$log_url        = $upload_dir['baseurl'] . DIRECTORY_SEPARATOR . self::$log_dir_path . DIRECTORY_SEPARATOR . self::$log_filename;
 
 		self::$uploads_dir_path = $upload_dir['basedir'];
 		self::$log_dir_path = $upload_dir['basedir'] . DIRECTORY_SEPARATOR . self::$log_dir_path;

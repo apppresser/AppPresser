@@ -45,6 +45,16 @@ We are happy to accept contributions, but also want to maintain high quality doc
 
 ## Changelog
 
+#### 1.4.0
+* Include phonegap files for 3.7.0
+* Add 3.7.0 option to admin settings
+* Remove logging from multisite
+* Improve the logic around creating the log file
+* Add an admin nag for log file which each admin can dismiss
+* Fix log file URL
+* Verify backbutton event before calling maybeGoBack
+* Fix typos in readme files
+
 #### 1.3.3
 * Add noGoBackFlag feature to allow any app to stop the mayGoBack function (appbuddy 0.9.9 initially)
 * Fix Android back button when 'disable dynamic page loading' is enabled
@@ -123,7 +133,7 @@ We are happy to accept contributions, but also want to maintain high quality doc
 #### 1.0.3
 * Bug Fix: `plugins_loaded` firing too early causing conflicts with other plugins.
 * Improvement: Check child theme for `app-settings.php` file as well as parent theme.
-* Improvement: Added method for loading AppPresser theme despite aggresively cached web hosts.
+* Improvement: Added method for loading AppPresser theme despite aggressively cached web hosts.
 
 
 #### 1.0.2
