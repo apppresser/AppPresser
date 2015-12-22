@@ -5,7 +5,7 @@ Plugin URI: http://apppresser.com
 Description: A mobile app development framework for WordPress.
 Text Domain: apppresser
 Domain Path: /languages
-Version: 1.4.0
+Version: 2.0.0
 Author: AppPresser Team
 Author URI: http://apppresser.com
 License: GPLv2
@@ -29,11 +29,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class AppPresser {
 
-	const VERSION           = '1.4.0';
+	const VERSION           = '2.0.0';
 	const SETTINGS_NAME     = 'appp_settings';
 	public static $settings = 'false';
 	public static $instance = null;
 	public static $is_app   = null;
+	public static $is_apppv = null;
 	public static $l10n     = array();
 	public static $dir_path;
 	public static $inc_path;
@@ -45,6 +46,7 @@ class AppPresser {
 	public static $dir_url;
 	public static $pg_url;
 	public static $pg_version;
+	public static $debug = null;
 	// public static $errorpath = '../php-error-log.php';
 
 	/**
@@ -80,11 +82,14 @@ class AppPresser {
 
 		self::$l10n = array(
 			'ajaxurl'                     => admin_url( 'admin-ajax.php' ),
-			'debug'                       => defined( 'WP_DEBUG' ) && WP_DEBUG || defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG,
+			'debug'                       => ( self::is_js_debug_mode() || ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ),
 			'home_url'                    => home_url(),
 			'mobile_browser_theme_switch' => appp_get_setting( 'mobile_browser_theme_switch' ),
 			'admin_theme_switch'          => appp_get_setting( 'admin_theme_switch' ),
 			'is_appp_true'                => self::is_app(),
+			'noGoBackFlags'				  => array(),
+			'ver'						  => self::get_apv(),
+			'alert_pop_title'			  => apply_filters('alert_pop_title', get_bloginfo( 'name' ) )
 		);
 
 		// Load translations
@@ -107,9 +112,10 @@ class AppPresser {
 		require_once( self::$inc_path . 'plugin-updater.php' );
 		require_once( self::$inc_path . 'AppPresser_Theme_Customizer.php' );
 		require_once( self::$inc_path . 'AppPresser_Ajax_Extras.php' );
+
 		if( ! is_multisite() ) {
-		require_once( self::$inc_path . 'AppPresser_Log_Admin.php' );
-		require_once( self::$inc_path . 'AppPresser_Logger.php' );
+			require_once( self::$inc_path . 'AppPresser_Log_Admin.php' );
+			require_once( self::$inc_path . 'AppPresser_Logger.php' );
 		}
 		$this->theme_customizer = new AppPresser_Theme_Customizer();
 
@@ -120,8 +126,14 @@ class AppPresser {
 	 * @since  1.0.3
 	 */
 	function do_appp_script() {
-		// Only use minified files if SCRIPT_DEBUG is off
-		$min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
+
+		if( self::is_min_ver( 2 ) ) { // v2 or higher
+			wp_localize_script( 'jquery', 'apppCore', self::$l10n );
+			return;
+		}
+
+		// Only use minified files if not debugging scripts
+		$min = self::is_js_debug_mode() ? '' : '.min';
 
 		// If PHP can read the cookie, we'll enqueue the standard way
 		if ( is_user_logged_in() || self::is_app() ) {
@@ -191,7 +203,7 @@ class AppPresser {
 
 		// Enqueue cordova scripts if we have an app
 
-		if ( self::is_app() ) {
+		if ( self::get_apv( 1 ) ) { // only v1
 			if ( appp_is_ios() ) {
 				wp_enqueue_script( 'cordova-core', self::$pg_url .'ios/cordova.js', null, filemtime( self::$dir_path .'pg/' . self::$pg_version . '/ios/cordova_plugins.js' ) );
 			} elseif ( appp_is_android() ) {
@@ -206,8 +218,10 @@ class AppPresser {
 	 */
 	function deactivate() {
 
-		// code to execute when plugin is deactivated
-
+		// AppPresser_Logger may not exist if mulit-site
+		if( class_exists('AppPresser_Logger') ) {
+			AppPresser_Logger::remove_usermeta();
+		}
 	}
 
 	/**
@@ -244,6 +258,26 @@ class AppPresser {
 		return self::$settings;
 	}
 
+
+	/**
+	 * Set the cookie
+	 * @since 2.0.0
+	 * 
+	 * @param int $ver version number
+	 */
+	public static function set_app_cookie( $ver = 1 ) {
+		$ver = ( $ver == 1 ) ? '' : $ver;
+		setcookie( 'AppPresser_Appp'.$ver, 'true', time() + ( DAY_IN_SECONDS * 30 ) );
+	}
+
+	/**
+	 * Set the cookie for debugging scripts
+	 * @since 2.0.0
+	 */
+	public static function set_debug_cookie() {
+		setcookie( 'AppPresser_Debug_Scripts', 'true', time() + ( DAY_IN_SECONDS * 30 ) );
+	}
+
 	/**
 	 * Checks if WP install is displaying the NEW WordPress style (previously the MP6 plugin)
 	 * @since  1.0.0
@@ -255,17 +289,95 @@ class AppPresser {
 	}
 
 	/**
-	 * Gets the app_is_app variable
+	 * A wrapper for get_apv which returns an integer of the current version number or zero if not found,
+	 * this converts it to a boolean; updated in 2.0 for backwards compatiblity.
 	 * @since  1.0.0
 	 * @return boolean Variable value
 	 */
 	public static function is_app() {
-		if ( self::$is_app !== null )
-			return self::$is_app;
+		return (self::get_apv());
+	}
 
-		self::$is_app = isset( $_GET['appp'] ) && $_GET['appp'] == 1 || isset( $_COOKIE['AppPresser_Appp'] ) && $_COOKIE['AppPresser_Appp'] === 'true';
+	/**
+	 * Gets the appp=1 value whether set by url param or cookie
+	 * @since  2.0.0
+	 * @return boolean value
+	 */
+	public static function read_app_version() {
+		if ( self::$is_apppv !== null )
+			return self::$is_apppv;
 
-		return self::$is_app;
+		if( isset( $_GET['appp'] ) && $_GET['appp'] == 2 || isset( $_COOKIE['AppPresser_Appp2'] ) && $_COOKIE['AppPresser_Appp2'] === 'true' ) {
+			self::$is_apppv = 2;
+		} else if( ( isset( $_GET['appp'] ) && $_GET['appp'] == 1 ) || isset( $_COOKIE['AppPresser_Appp'] ) && $_COOKIE['AppPresser_Appp'] === 'true' ) {
+			self::$is_apppv = 1;
+		} else {
+			self::$is_apppv = 0;
+		}
+
+		return self::$is_apppv;
+	}
+
+	/**
+	 * Gets or compares the app version from the appp=X url param or cookie
+	 * get_apv() will return an integer of the exact version
+	 * get_apv(2) will return boolean if it's an exact match
+	 * get_apv(1, true) will return boolean if app is x >= 
+	 * @since 2.0.0
+	 * @param int $is_ver the version to check against
+	 * @param boolean $min_ver to check if the current version is >= $is_ver
+	 * @return int|boolean Variable value
+	 */
+	public static function get_apv( $is_ver = 0, $min_ver = false ) {
+
+		if( $is_ver && $min_ver ) {
+
+			// Compare a minimum version
+
+			return ( self::read_app_version() >= $is_ver );
+		} else if( $is_ver ) {
+			
+			// Compare exact version in $is_ver
+			
+			if( self::read_app_version() == $is_ver ) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			
+			// Return the exact version
+			
+			return self::read_app_version();
+		}
+	}
+
+	/**
+	 * A wrapper for get_apv when getting the minimum version
+	 */
+	public static function is_min_ver( $is_ver ) {
+		return self::get_apv( $is_ver, true );
+	}
+
+	/**
+	 * Checks for debug settings either by
+	 * - defined constant 'SCRIPT_DEBUG' or
+	 * - url parameter 'apppdebug' or 
+	 * - cookie 'AppPresser_Debug_Scripts'
+	 * @since 2.0
+	 * @return boolean value
+	 */
+	public static function is_js_debug_mode() {
+		if( self::$debug === null) {
+			if( isset( $_GET['apppdebug'] ) ) {
+				self::set_debug_cookie();
+			}
+			self::$debug = (( isset( $_GET['apppdebug'] ) ) || 
+						    ( isset( $_COOKIE['AppPresser_Debug_Scripts'] ) && $_COOKIE['AppPresser_Debug_Scripts'] === 'true' ) ||
+						    ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ));
+		}
+
+		return self::$debug;
 	}
 
 }
