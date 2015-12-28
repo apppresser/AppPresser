@@ -385,7 +385,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 
 		self::add_setting( 'appp_theme', __( 'App-only theme', 'apppresser' ), array(
 			'type' => 'select',
-			'options' => $this->themes,
+			'options' => apply_filters( 'filter_appthemes', $this->themes ),
 			'helptext' => __( 'Select which theme you want to be loaded inside the app, such as the AppPresser theme.', 'apppresser' ),
 			'description' => __( 'Must be enabled above.', 'apppresser' ),
 		) );
