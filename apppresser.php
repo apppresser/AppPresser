@@ -267,7 +267,7 @@ class AppPresser {
 	 */
 	public static function set_app_cookie( $ver = 1 ) {
 		$ver = ( $ver == 1 ) ? '' : $ver;
-		setcookie( 'AppPresser_Appp'.$ver, 'true', time() + ( DAY_IN_SECONDS * 30 ) );
+		setcookie( 'AppPresser_Appp'.$ver, 'true', time() + ( DAY_IN_SECONDS * 30 ), '/' );
 	}
 
 	/**
@@ -275,7 +275,7 @@ class AppPresser {
 	 * @since 2.0.0
 	 */
 	public static function set_debug_cookie() {
-		setcookie( 'AppPresser_Debug_Scripts', 'true', time() + ( DAY_IN_SECONDS * 30 ) );
+		setcookie( 'AppPresser_Debug_Scripts', 'true', time() + ( DAY_IN_SECONDS * 30 ), '/' );
 	}
 
 	/**
