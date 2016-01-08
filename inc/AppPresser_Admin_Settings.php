@@ -416,6 +416,18 @@ class AppPresser_Admin_Settings extends AppPresser {
 			'description' => __( 'Start typing to search for a page, or enter a page ID.', 'apppresser' ),
 		) );
 
+		self::add_setting( 'appp_offline_mode', __( 'Enable offline mode.', 'apppresser' ), array(
+			'type' => 'checkbox',
+			'helptext' => __( 'When the app disconnects from the internet, the app uses this option to switch to a customized offline.html file located in the app.', 'apppresser' ),
+			'description' => __( 'In offline mode, the app uses the offline.html file located in the app.', 'apppresser' ),
+		) );
+
+		self::add_setting( 'appp_offline_resume', __( 'Display button to return offline.', 'apppresser' ), array(
+			'type' => 'checkbox',
+			'helptext' => __( 'When app goes offline this options will display a button to give the user the option to return to online viewing when a connection to the phone returns.  Without this option selected, the switch back to online mode will be automatic.', 'apppresser' ),
+			'description' => __( 'Display a button when going back online.', 'apppresser' ),
+		) );
+
 		/*$menus = array( 'option-none' => __( '-- select --', 'apppresser' ) );
 		foreach ( (array) $this->nav_menus as $menu ) {
 			$menus[ $menu->term_id ] = $menu->name;
