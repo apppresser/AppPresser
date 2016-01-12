@@ -401,13 +401,13 @@ class AppPresser_Admin_Settings extends AppPresser {
 			'type' => 'select',
 			'options' => $this->phonegap_versions(),
 			'helptext' => __( 'Select the Phonegap Version of your app.', 'apppresser' ),
-			'description' => __( 'Select Phonegap Version.', 'apppresser' ),
+			'description' => __( 'Select Phonegap Version. <b>For AppPresser 1 only</b>', 'apppresser' ),
 		) );
 
 		self::add_setting( 'appp_show_on_front', __( 'Use a unique homepage for your app.', 'apppresser' ), array(
 			'type' => 'radio',
 			'options' => array('latest_posts' => 'Your latest posts', 'static_page' => 'A static page (select below)' ),
-			'helptext' => __( 'SAllows you to specify which page users will see first when they load up you AppPresser app.', 'apppresser' ),
+			'helptext' => __( 'Allows you to specify which page users will see first when they load up you AppPresser app.', 'apppresser' ),
 			'description' => __( 'Select homepage option.', 'apppresser' ),
 		) );
 
@@ -416,16 +416,10 @@ class AppPresser_Admin_Settings extends AppPresser {
 			'description' => __( 'Start typing to search for a page, or enter a page ID.', 'apppresser' ),
 		) );
 
-		self::add_setting( 'appp_offline_mode', __( 'Enable offline mode.', 'apppresser' ), array(
+		self::add_setting( 'app_offline_toggle', __( 'Display offline toggle buttons?', 'apppresser' ), array(
 			'type' => 'checkbox',
-			'helptext' => __( 'When the app disconnects from the internet, the app uses this option to switch to a customized offline.html file located in the app.', 'apppresser' ),
-			'description' => __( 'In offline mode, the app uses the offline.html file located in the app.', 'apppresser' ),
-		) );
-
-		self::add_setting( 'appp_offline_resume', __( 'Display button to return offline.', 'apppresser' ), array(
-			'type' => 'checkbox',
-			'helptext' => __( 'When app goes offline this options will display a button to give the user the option to return to online viewing when a connection to the phone returns.  Without this option selected, the switch back to online mode will be automatic.', 'apppresser' ),
-			'description' => __( 'Display a button when going back online.', 'apppresser' ),
+			'helptext' => __( 'When the app disconnects from the internet, the app will display buttons that allows the user to switch to a customized offline.html file located in the app or return to the WordPress site. AppPresser 2 only.', 'apppresser' ),
+			'description' => __( 'Allow the user to switch between online and offline mode when connection is lost.', 'apppresser' ),
 		) );
 
 		/*$menus = array( 'option-none' => __( '-- select --', 'apppresser' ) );
