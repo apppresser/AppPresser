@@ -149,6 +149,11 @@ class AppPresser {
 		// Otherwise we want to include the script ASAP to redirect the page if need be.
 
 		foreach ( self::$l10n as $key => $value ) {
+
+			if (is_array($value)) {
+				$value = implode(',', $value);
+				AppPresser_Logger::log( 'array to string conversion', $value, __FILE__, __METHOD__, __LINE__ );
+			}
 			$l10n[$key] = html_entity_decode( (string) $value, ENT_QUOTES, 'UTF-8');
 		}
 
