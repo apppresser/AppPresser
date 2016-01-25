@@ -26,8 +26,9 @@ class AppPresser_License_Check {
 		if(self::DEBUG) {
 			self::$check_frequency = 10;
 			self::$admin_lic_nag_length = 10;
-			if(isset($_GET['appp_debug'])) {
-				delete_transient( $transient );
+			if(self::DEBUG && isset($_GET['appp_debug'])) {
+				delete_transient( 'appp_license_' . $_GET['appp_debug'] );
+				delete_transient( self::ADMIN_LIC_NAG . $_GET['appp_debug'] );
 			}
 		}
 		$this->hooks();
@@ -111,7 +112,13 @@ class AppPresser_License_Check {
 
 			if( $_key ) {
 
+				// AppTheme
 				$theme_name = ( defined('AppPresser_Theme_Setup::THEME_SLUG') ) ? AppPresser_Theme_Setup::THEME_SLUG : false;
+
+				// IonTheme
+				if( $theme_name === false ) {
+					$theme_name = ( defined('AppPresser_Ion_Theme_Setup::THEME_SLUG') ) ? AppPresser_Ion_Theme_Setup::THEME_SLUG : false;
+				}
 
 				// apptheme or plugin
 				$is_plugin = ( $theme_name === false || $dir_file != $theme_name );
@@ -119,9 +126,7 @@ class AppPresser_License_Check {
 				$status = self::get_license_status( $_key, $dir_file, $is_plugin );
 
 				// valid or ( invalid, compare expired date )
-				if( self::DEBUG && ( $status->license == 'valid' && isset($status->expires) && strtotime($status->expires) > strtotime('now') ) ||
-					( $status->license == 'invalid' && isset($status->expires) && strtotime($status->expires) > strtotime('now') ) ) {
-					
+				if( self::DEBUG && isset($status->expires) || ( $status->license == 'invalid' && isset($status->expires) && strtotime($status->expires) < strtotime('now') ) ) {
 					if($is_plugin) {
 						// Expired plugin
 						$plugin_name = dirname($dir_file);
@@ -177,13 +182,15 @@ class AppPresser_License_Check {
 	}
 
 	public function show_notices() {
+
+		global $blog_id;
 		
 		if( ! get_user_meta( get_current_user_id(), self::ADMIN_LIC_NAG, true ) ) {
 
 			$expired_licenses = array_keys( self::$expired_licenses );
 			$msg_expired_liceses = implode(', ', $expired_licenses);
 						
-			$error  = '<p>' . sprintf( __( 'The license for <b>%s</b> has expired.', 'The licenses for <b>%s</b> has expired.', count($expired_licenses), 'apppresser' ), '<a href="/wp-admin/admin.php?page=apppresser_settings">'.$msg_expired_liceses.'</a>' ) . '</p>';
+			$error  = '<p>' . sprintf( __( 'The license for <b>%s</b> has expired.', 'The licenses for <b>%s</b> has expired.', count($expired_licenses), 'apppresser' ), '<a href="'.get_admin_url( $blog_id, 'admin.php?page=apppresser_settings' ).'">'.$msg_expired_liceses.'</a>' ) . '</p>';
 			$error .= (self::DEBUG) ? '<p>Debugging</p>':'';
 
 			echo '<div class="error notice is-dismissible license-expired">
