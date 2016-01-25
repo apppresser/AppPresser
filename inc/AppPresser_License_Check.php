@@ -66,25 +66,27 @@ class AppPresser_License_Check {
 
 		global $current_user;
 
+		$user_id = $current_user->ID;
+
 		if( ! is_admin() || ! user_can( $current_user, 'manage_options' ) ) {
 			return;
 		}
 
-		$user_id = $current_user->ID;
-
-		// 
 		if ( get_transient(self::ADMIN_LIC_NAG . $user_id) ) {
+			// wait to nag the admin
 			return;
 		}
 
-		$transient = 'appp_license_' . $user_id;
-
-		if( get_transient( $transient ) ) {
-			// too soon to check
+		if( get_transient( 'appp_license_' . $user_id ) ) {
+			// too soon to check licenses
 			return;
-		} else if( empty( $this->get_expired_appp_licenses() ) ) {
+		}
+
+		$this->get_expired_appp_licenses();
+
+		if( empty( self::$expired_licenses ) ) {
 			// still valid
-			set_transient( $transient, 'valid', self::$check_frequency );
+			set_transient( 'appp_license_' . $user_id, 'valid', self::$check_frequency );
 		} else {
 			// not valid, notify
 			add_action( 'admin_notices', array( $this, 'show_notices' ) );
