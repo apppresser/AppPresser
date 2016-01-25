@@ -66,7 +66,7 @@ class EDD_SL_Theme_Updater {
 
 			echo '<div id="update-nag">';
 			printf(
-				$strings['update-available'],
+				$notice_msg,
 				$theme->get( 'Name' ),
 				$api_response->new_version,
 				'#TB_inline?width=640&amp;inlineId=' . $this->theme_slug . '_changelog',
