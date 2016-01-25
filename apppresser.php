@@ -102,6 +102,7 @@ class AppPresser {
 
 		// Hook in all our important pieces
 		add_action( 'plugins_loaded', array( $this, 'includes' ) );
+		add_action( 'admin_init', array( $this, 'check_appp_licenses' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts' ), 8 );
 		add_action( 'wp_head', array( $this, 'do_appp_script' ), 1 );
 
@@ -120,6 +121,15 @@ class AppPresser {
 		}
 		$this->theme_customizer = new AppPresser_Theme_Customizer();
 
+	}
+
+	/**
+	 * AppPresser licenses admin notification
+	 * @since 2.0.0
+	 */
+	public function check_appp_licenses() {
+		require_once( self::$inc_path . 'AppPresser_License_Check.php' );
+		AppPresser_License_Check::run();
 	}
 
 	/**
