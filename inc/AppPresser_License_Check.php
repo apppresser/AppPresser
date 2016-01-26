@@ -127,15 +127,7 @@ class AppPresser_License_Check {
 
 				// valid or ( invalid, compare expired date )
 				if( self::DEBUG && isset($status->expires) || ( $status->license == 'invalid' && isset($status->expires) && strtotime($status->expires) < strtotime('now') ) ) {
-					if($is_plugin) {
-						// Expired plugin
-						$plugin_name = dirname($dir_file);
-						self::$expired_licenses[$plugin_name] = array('expired'=>$status->expires);
-					} else if( defined('AppPresser_Theme_Setup::THEME_NAME') ) {
-						// Expired theme
-						$theme_name = AppPresser_Theme_Setup::THEME_NAME;
-						self::$expired_licenses[$theme_name] = array('expired'=>$status->expires);
-					}
+					self::$expired_licenses[$status->item_name] = array('expired'=>$status->expires);
 				}
 			}
 		}
@@ -164,7 +156,7 @@ class AppPresser_License_Check {
 
 		// Call the custom API.
 		$response = wp_remote_post( esc_url_raw( add_query_arg( array(
-			'edd_action'=> 'activate_license',
+			'edd_action'=> 'check_license',
 			'license' 	=> $license,
 			// 'the_title' filter needed to match EDD's check
 			'item_name' => urlencode( apply_filters( 'the_title', $updater->public['item_name'], 0 ) ),
@@ -187,11 +179,13 @@ class AppPresser_License_Check {
 		
 		if( ! get_user_meta( get_current_user_id(), self::ADMIN_LIC_NAG, true ) ) {
 
-			$expired_licenses = array_keys( self::$expired_licenses );
-			$msg_expired_liceses = implode(', ', $expired_licenses);
-						
-			$error  = '<p>' . sprintf( __( 'The license for <b>%s</b> has expired.', 'The licenses for <b>%s</b> has expired.', count($expired_licenses), 'apppresser' ), '<a href="'.get_admin_url( $blog_id, 'admin.php?page=apppresser_settings' ).'">'.$msg_expired_liceses.'</a>' ) . '</p>';
-			$error .= (self::DEBUG) ? '<p>Debugging</p>':'';
+			$error  = '<p>' . sprintf( __( 'Your AppPresser license has expired, %sclick here to renew now for critical updates%s', 'apppresser' ), '<a href="http://docs.apppresser.com/article/211-how-to-renew-your-license">', '</a>' ) . '</p>';
+			
+			if( self::DEBUG ) {
+				$expired_licenses = array_keys( self::$expired_licenses );
+				$msg_expired_liceses = implode(', ', $expired_licenses);
+				$error .=  '<p><b>Debugging</b> Expired licenses: '. $msg_expired_liceses . '</p>';
+			}
 
 			echo '<div class="error notice is-dismissible license-expired">
 					'.$error.'
