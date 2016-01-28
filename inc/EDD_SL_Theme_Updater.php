@@ -95,6 +95,10 @@ class EDD_SL_Theme_Updater {
 
 	function check_for_update() {
 
+		if( empty( $this->license ) ) {
+			return false;
+		}
+
 		$update_data = get_transient( $this->response_key );
 
 		if ( false === $update_data ) {
