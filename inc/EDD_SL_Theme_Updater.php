@@ -56,11 +56,11 @@ class EDD_SL_Theme_Updater {
 			return;
 		}
 
-		// @TODO: $string['update-notice'] is sometimes empty
 		$notice_msg = ( isset( $strings['update-notice'] ) ) ? esc_js( $strings['update-notice'] ) : __( 'There is an update available for AppTheme', 'apppresser' );
 
 		$update_url = wp_nonce_url( 'update.php?action=upgrade-theme&amp;theme=' . urlencode( $this->theme_slug ), 'upgrade-theme_' . $this->theme_slug );
-		$update_onclick = ' onclick="if ( confirm(\'' . $notice_msg . '\') ) {return true;}return false;"';
+		$update_onclick = ' onclick="if ( confirm(\'' . esc_js( $notice_msg ) . '\') ) {return true;}return false;"';
+
 
 		if ( version_compare( $this->version, $api_response->new_version, '<' ) ) {
 
