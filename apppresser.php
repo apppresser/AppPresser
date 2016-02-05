@@ -86,7 +86,7 @@ class AppPresser {
 			'home_url'                    => home_url(),
 			'mobile_browser_theme_switch' => appp_get_setting( 'mobile_browser_theme_switch' ),
 			'admin_theme_switch'          => appp_get_setting( 'admin_theme_switch' ),
-			'app_offline_toggle'           => ( appp_get_setting( 'app_offline_toggle' ) == 'on' ) ? '1' : '',
+			'app_offline_toggle'           => ( appp_get_setting( 'app_offline_toggle' ) == 'on' ) ? '' : '1', // on mean it's disabled
 			'is_appp_true'                => self::is_app(),
 			'noGoBackFlags'				  => array(),
 			'ver'						  => self::get_apv(),

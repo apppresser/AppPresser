@@ -416,10 +416,10 @@ class AppPresser_Admin_Settings extends AppPresser {
 			'description' => __( 'Start typing to search for a page, or enter a page ID.', 'apppresser' ),
 		) );
 
-		self::add_setting( 'app_offline_toggle', __( 'Display offline toggle buttons?', 'apppresser' ), array(
+		self::add_setting( 'app_offline_toggle', __( 'Disable offline toggle buttons?', 'apppresser' ), array(
 			'type' => 'checkbox',
 			'helptext' => __( 'When the app disconnects from the internet, the app will display buttons that allows the user to switch to a customized offline.html file located in the app or return to the WordPress site. AppPresser 2 only.', 'apppresser' ),
-			'description' => __( 'Allow the user to switch between online and offline mode when connection is lost.', 'apppresser' ),
+			'description' => __( 'Don\'t allow the user to switch between online and offline mode when connection is lost.', 'apppresser' ),
 		) );
 
 		/*$menus = array( 'option-none' => __( '-- select --', 'apppresser' ) );
