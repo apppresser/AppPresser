@@ -149,6 +149,8 @@ class AppPresser_Admin_Settings extends AppPresser {
 			add_action( 'admin_print_scripts-' . $slug, array( $this, 'admin_scripts' ) );
 		}
 
+		add_action('admin_head', array( $this, 'apppush_admin_css' ) );
+
 		// Add notification bubble if any notifications
 		if ( $notifications = $this->notification_badge() ) {
 
@@ -174,6 +176,13 @@ class AppPresser_Admin_Settings extends AppPresser {
 		wp_enqueue_style( 'jquery-ui-smoothness', self::$css_url . 'smoothness/smoothness.custom.min.css' );
 		wp_enqueue_style( 'appp-admin-styles', self::$css_url . 'appp-admin-styles.css', null, self::VERSION );
 		wp_enqueue_media();
+	}
+
+	function apppush_admin_css() {
+		global $post_type;
+		if (( isset( $_GET['post_type'] ) && $_GET['post_type'] == 'apppush') || ($post_type == 'apppush')) {		
+			echo "<link type='text/css' rel='stylesheet' href='" . self::$css_url . "appp-admin-styles.css' />";
+		}
 	}
 
 	/**
@@ -823,7 +832,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 	 * @since  1.0.6
 	 */
 	public static function clear_cookie() {
-		setcookie( 'AppPresser_Appp', 'true', time() - DAY_IN_SECONDS );
+		setcookie( 'AppPresser_Appp', 'false', time() - DAY_IN_SECONDS );
 	}
 
 }

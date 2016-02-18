@@ -95,3 +95,8 @@
 		margin-right: 0;
 	}
 }
+
+/* apppush */
+#notify_url {
+    width: 99%;
+}
