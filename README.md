@@ -45,6 +45,11 @@ We are happy to accept contributions, but also want to maintain high quality doc
 
 ## Changelog
 
+#### 2.0.0
+* New features to enable offline app capabilities
+* Moves cordova files from the website to the device
+* Bug fixes
+
 #### 1.4.0
 * Include phonegap files for 3.7.0
 * Add 3.7.0 option to admin settings

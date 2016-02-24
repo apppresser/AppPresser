@@ -3,7 +3,7 @@ Contributors: apppresser, webdevstudios, williamsba1, scottopolis, jtsternberg, 
 Donate link: http://apppresser.com/
 Tags: mobile, app, ios, android, application, phonegap, iphone app, android app, mobile app, native app, wordpress mobile, ipad app, iOS app
 Requires at least: 3.5
-Tested up to: 4.4.1
+Tested up to: 4.4.2
 Stable tag: 1.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -88,6 +88,11 @@ Technically you can do anything with an AppPresser app that you can do with Phon
 
 
 == Changelog ==
+
+= 2.0.0 =
+* New features to enable offline app capabilities
+* Moves cordova files from the website to the device
+* Bug fixes
 
 = 1.4.0 =
 * Include phonegap files for 3.7.0
