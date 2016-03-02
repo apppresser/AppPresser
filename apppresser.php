@@ -105,6 +105,7 @@ class AppPresser {
 		add_action( 'admin_init', array( $this, 'check_appp_licenses' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts' ), 8 );
 		add_action( 'wp_head', array( $this, 'do_appp_script' ), 1 );
+		add_action( 'init', array( $this, 'ajax_login_init' ) );
 
 		// remove wp version param from cordova enqueued scripts (so script loading doesn't break)
 		// This will mean that it's harder to break caching on the cordova script
@@ -394,6 +395,53 @@ class AppPresser {
 		}
 
 		return self::$debug;
+	}
+
+	/**
+	 * Adds ajax for form#loginform modal in apptheme 2.1.3 and ion 1.0.1
+	 * @since 2.0.1
+	 */
+	public function appp_ajax_login() {
+			
+		// check_ajax_referer( 'ajax-login-nonce', 'security' );
+
+		$info = array();
+	    $info['user_login'] = $_POST['username'];
+	    $info['user_password'] = $_POST['password'];
+	    $info['remember'] = true;
+	    
+	    $user_signon = wp_signon( $info, false );
+	    
+		if( is_wp_error( $user_signon ) ) {
+		
+			$return = array(
+				'message' =>  __('The log in you have entered is not valid.', 'apptheme'),
+				'success' => false
+			);
+			wp_send_json_error( $return );
+			
+		} else {
+
+			$return = array(
+				'message' => sprintf( __('Welcome %s, you are now logged in.', 'apptheme'), $user_signon->display_name),
+			);
+			wp_send_json_success( $return );	
+			
+		}
+	}
+
+	/**
+	 * Adds language textdomain options for form#loginform modal in apptheme 2.1.3 and ion 1.0.1
+	 * @since 2.0.1
+	 */
+	public function ajax_login_init(){
+	    wp_localize_script( 'jquery', 'appp_ajax_login', array( 
+	        'processing' => __('Logging in....', 'apptheme'),
+	        'required'   => __('Fields are required', 'apptheme'),
+	        'error'      => __('Error Logging in', 'apptheme'),
+	    ));
+
+	    add_action( 'wp_ajax_nopriv_apppajaxlogin', array( $this, 'appp_ajax_login' ) );
 	}
 
 }
