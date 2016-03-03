@@ -105,7 +105,8 @@ class AppPresser {
 		add_action( 'admin_init', array( $this, 'check_appp_licenses' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts' ), 8 );
 		add_action( 'wp_head', array( $this, 'do_appp_script' ), 1 );
-		add_action( 'init', array( $this, 'ajax_login_init' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'ajax_login_init' ) );
+		add_action( 'wp_ajax_nopriv_apppajaxlogin', array( $this, 'appp_ajax_login' ) );
 
 		// remove wp version param from cordova enqueued scripts (so script loading doesn't break)
 		// This will mean that it's harder to break caching on the cordova script
@@ -440,8 +441,6 @@ class AppPresser {
 	        'required'   => __('Fields are required', 'apptheme'),
 	        'error'      => __('Error Logging in', 'apptheme'),
 	    ));
-
-	    add_action( 'wp_ajax_nopriv_apppajaxlogin', array( $this, 'appp_ajax_login' ) );
 	}
 
 }
