@@ -9,6 +9,7 @@ class AppPresser_Remote_Scripts {
 	public static $instance = null;
 	public static $tab_slug = 'appp-cordova-addons';
 	public static $pre_setting_key = 'cordova-remote-js-';
+	private static $public_nonce_key = 'apg-js-nonce';
 
 	public static function run() {
 		if ( self::$instance === null )
@@ -22,14 +23,10 @@ class AppPresser_Remote_Scripts {
 	 * @since  2.1.0
 	 */
 	public function __construct() {
-
-		if( defined('CORDOVA_JS_ADDONS') && is_numeric( CORDOVA_JS_ADDONS ) ) {
-			add_action( 'apppresser_add_settings', array( $this, 'add_settings_tab' ), 60 );
-			add_action( 'apppresser_tab_bottom_'.self::$tab_slug, array( $this, 'add_settings' ) );
-			add_filter( 'apppresser_sanitize_setting', array( $this, 'appp_sanitize_custom_type' ), 10, 3 );
-			add_action( 'apppresser_tab_top_'.self::$tab_slug, array( $this, 'appp_add_some_text' ) );
-			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ), 8 );
-		}
+		add_action( 'apppresser_tab_bottom_general', array( $this, 'file_upload_admin_setting' ) );
+		add_action( 'apppresser_tab_top_'.self::$tab_slug, array( $this, 'appp_add_some_text' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ), 8 );
+		add_action( 'init', array( $this, 'handle_upload' ) );
 	}
 
 	/**
@@ -47,59 +44,100 @@ class AppPresser_Remote_Scripts {
 	 * 
 	 * @since 2.1.0
 	 */
-	public function add_settings($apppresser) {
+	public function file_upload_admin_setting($apppresser) {
 		
-		$label = __('JavaScript URL', 'apppresser');
-		$args = array(
-			'tab' => self::$tab_slug,
-			'description' => __( 'Enter the full URL to the JavaScript you need loaded into your app.', 'apppresser' ),
-			'echo' => true,
-		);
+		
+		?>
+		<tr valign="top" class="apppresser-facebook-connect">
+			<th colspan="2" scope="row" class="appp-section-title">
+				<h3>Upload Extra Cordova JavaScripts</h3>
+			</th>
+		</tr>
+		<tr>
+			<th scope="row">
+				<label for="apppresser-appfbconnect_appid">JS file upload</label>
+				<a class="help" href="#" title="This is a featured for v2.0+">?</a>
+			</th>
+			<td>
+				<p>
+					<label for="apg-js-file">
+						Select File To Upload:
+					</label>
+					<input type="file" id="apg-js-file" name="apg-js-file" value="" />
+					<?php wp_nonce_field( plugin_basename( __FILE__ ), self::$public_nonce_key ); ?>
+					<p class="description">Read our docs for more detail on how to <a href="#" target="_blank">add cordova plugins and JavaScript</a> to your app.</p>
+				</p>
+				<script type="text/javascript">
+					jQuery('form').attr('enctype', 'multipart/form-data');
+				</script>
+			</td>
+		</tr>
+		<?php
+	}
 
-		for ( $i=1; $i <= CORDOVA_JS_ADDONS; $i++) {
-			$key = self::$pre_setting_key.$i;
-			$apppresser->add_setting( $key, $label, $args );
+	public function handle_upload() {
+
+		$file_id = 'apg-js-file';
+
+		if( $this->validate_upload( $file_id, self::$public_nonce_key ) ) {
+			add_filter('upload_mimes', array( $this, 'add_upload_mimes' ) );
+			$file = wp_upload_bits( $_FILES[$file_id]['name'], null, @file_get_contents( $_FILES[$file_id]['tmp_name'] ) );
+			remove_filter('upload_mimes', array( $this, 'add_upload_mimes' ) );
+
+			if( $file['error'] ) {
+				$this->handle_upload_error();
+			} else {
+				$this->set_upload_settings( $file['url'] );
+			}
 		}
 	}
 
-	/**
-	 * Sanitize the input fields
-	 * 
-	 * @since 2.1.0
-	 */
-	public function appp_sanitize_custom_type( $sanitized_value, $key, $value ) {
+	public function set_upload_settings( $url ) {
+		$options = $this->get_upload_settings();
 
-		$keys = array();
-
-		for ( $i=1; $i <= CORDOVA_JS_ADDONS; $i++) {
-			array_push($keys, self::$pre_setting_key.$i);
+		if( is_array($options) && !empty($options) ) {
+			array_push($options, $url);
+		} else {
+			$options = array( $url );
 		}
 
-		if ( in_array($key, $keys) ) {
-			$sanitized_value = esc_url_raw( $value, array('http', 'https') );
+		update_option( 'ap2-remote-js', serialize( $options ) );
+
+	}
+
+	public function get_upload_settings() {
+		$options = get_option('ap2-remote-js');
+
+		if( is_string($options) ) {
+			return unserialize($options);
 		}
 
-		return $sanitized_value;
+		return false;
+	}
+
+	public function handle_upload_error() {
+		// @TODO:
+	}
+
+	public function add_upload_mimes( $mimes ) {
+		$mimes['js'] = 'application/x-javascript';
+
+		return $mimes;
 	}
 
 	/**
-	 * Enqueue the remote js files
+	 * Validates both the $_FILES and nonce
 	 * 
-	 * The js files will get enqueued and there will be a localized appp_remote_addon_js array
-	 * with the URLs for the enqueued files
-	 * 
-	 * @since 2.1.0
+	 * @param string $file_id indexed name for the file upload field
+	 * @param string $nonce Nonce key
+	 * @param string $nonce_action Nonce action to verify
 	 */
-	public function appp_add_some_text() {
+	function validate_upload( $file_id, $public_nonce_key ) {
 
-	    $link = sprintf( '<a href="%1$s" target="_blank">%2$s</a>', esc_url( 'http://docs.apppresser.com/article/162-adding-apppresser-settings' ), __( 'AppPresser docs', 'appp' ) );
-	    ?>
-	    <tr>
-	        <td colspan="2">
-	            <?php printf( __( 'This provides the ability to add JavaScript to the index.html file on your app. Read more at %s.', 'appp' ), $link ); ?>
-	        </td>
-	    </tr>
-	    <?php
+		$is_valid_nonce = ( isset( $_POST[ $public_nonce_key ] ) && wp_verify_nonce( $_POST[ $public_nonce_key ], plugin_basename( __FILE__ ) ) );
+		$is_valid_upload = ( ! empty( $_FILES ) ) && isset( $_FILES[ $file_id ] );
+
+		return ( $is_valid_upload && $is_valid_nonce );
 	}
 
 	/**
@@ -112,20 +150,12 @@ class AppPresser_Remote_Scripts {
 	 */
 	public function enqueue_scripts() {
 
-		$js_urls = array();
+		$js_urls = $this->get_upload_settings();
 
-		for ( $i=1; $i <= CORDOVA_JS_ADDONS; $i++) {
-
-			$src_url = appp_get_setting(self::$pre_setting_key.$i);
-			if( $src_url ) {
-				if ( AppPresser::get_apv( 1 ) ) {
-					wp_enqueue_script( 'cordova-addons-'.$i, $src_url );
-				}
-				array_push($js_urls, $src_url);
-			}
+		if( !empty($js_urls) ) {
+			wp_localize_script( 'jquery', 'appp_remote_addon_js', $js_urls );
 		}
 
-		wp_localize_script( 'jquery', 'appp_remote_addon_js', $js_urls );
 	}
 }
 AppPresser_Remote_Scripts::run();
