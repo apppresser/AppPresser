@@ -100,6 +100,12 @@ class AppPresser {
 		register_activation_hook( __FILE__, array( $this, 'activate' ) );
 		register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
 
+		// Welcom activation
+		add_action( 'admin_init', array( $this, 'welcome_screen_do_activation_redirect' ) );
+		add_action('admin_menu', array( $this, 'welcome_screen_pages' ) );
+		add_action( 'admin_head', array( $this, 'welcome_screen_remove_menus' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'welcome_screen_assets' ) );
+
 		// Hook in all our important pieces
 		add_action( 'plugins_loaded', array( $this, 'includes' ) );
 		add_action( 'admin_init', array( $this, 'check_appp_licenses' ) );
@@ -209,6 +215,118 @@ class AppPresser {
 
 		// @TODO: Define default settings upon activation
 
+		set_transient( '_welcome_screen_activation_redirect', true, 30 );
+
+	}
+
+	function welcome_screen_do_activation_redirect() {
+	  // Bail if no activation redirect
+		if ( ! get_transient( '_welcome_screen_activation_redirect' ) ) {
+		return;
+	  }
+
+	  // Delete the redirect transient
+	  delete_transient( '_welcome_screen_activation_redirect' );
+
+	  // Bail if activating from network, or bulk
+	  if ( is_network_admin() || isset( $_GET['activate-multi'] ) ) {
+		return;
+	  }
+
+	  // Redirect to Apppresser about page
+	  wp_safe_redirect( add_query_arg( array( 'page' => 'welcome-to-apppresser' ), admin_url( 'index.php' ) ) );
+
+	}
+
+	/**
+	 * 
+	 * @since 2.1.2
+	 */
+	public function welcome_screen_pages() {
+	  add_dashboard_page(
+		'Welcome To Apppresser',
+		'Welcome To Apppresser',
+		'read',
+		'welcome-to-apppresser',
+		array( $this, 'welcome_screen_content' )
+	  );
+	}
+
+	/**
+	 * 
+	 * @since 2.1.2
+	 */
+	public function welcome_screen_content() {
+	  ?>
+	  <div class="wrap apppresser-welcome">
+		
+		<div class="appp-logo"><img src="https://apppresser.com/wp-content/themes/apppresser/images/logo.png" alt="Apppresser"></div>
+
+		<h1><?php _e('Welcome to', 'apppresser' )?> Apppresser <?php echo self::VERSION ?></h1>
+		<div class="about-text"><?php _e('Build iOS/Android mobile apps out of WordPress sites simply and quickly', 'apppresser'); ?></div>
+
+		<h2 class="nav-tab-wrapper">
+		  <a class="nav-tab nav-tab-active" href="#"><?php _e('Quick Start Guide', 'apppresser') ?></a>
+		  <a class="nav-tab" href="#"><?php _e('Features For Developers', 'apppresser') ?></a>
+		</h2>
+
+		<div id='sections'>
+			<section>
+				<p><?php _e('We have created extensive documentation so you can easily walk through the steps to get your app up and running:', 'apppresser'); ?></p>
+
+				<ul>
+					<li><a href="http://docs.apppresser.com/article/123-overview" target="_blank"><?php _e('AppPresser Overview', 'apppresser'); ?></a></li>
+					<li><a href="http://docs.apppresser.com/article/145-a-quick-start-guide" target="_blank"><?php _e('A Quick Start Guide', 'apppresser'); ?></a></li>
+				</ul>
+
+				<h3>AppTheme</h3>
+				<p><?php echo sprintf( __('Get going even faster. Accelerate your app launch with %s. The mobile ready theme the is designed and tested to work well on both Android and iOS.', 'apppresser'), '<a href="https://apppresser.com/extensions/apptheme/" target="_blank">AppTheme</a>'); ?></p>
+
+				<h3><?php _e('Extend the functionality', 'apppresser'); ?></h3>
+				<p><?php _e('Yes, it gets even better with extensions.'); ?> <a href="<?php echo admin_url( 'admin.php?page=apppresser_sub_extensions' ) ?>"><?php _e('See all the extensions.'); ?></a></p>
+			</section>
+
+			<section>
+				<h3><?php _e('Developers', 'apppresser'); ?></h3>
+
+				<p><?php _e('AppPresser is like adding the features of a mobile device to a WordPress site. If you could access the <b>device camera, contacts, geolocation, push notifications, and more</b> through WordPress, what could you build? What couldn’t you build?', 'apppresser'); ?></p>
+
+				<h3><?php _e('Make money with Apppresser', 'apppresser'); ?></h3>
+				<p><?php _e('Make mobile apps for your clients, adding revenue to your business, right away.', 'apppresser'); ?></p>
+
+				<p><a href="https://apppresser.com/developers/" target="_blank"><?php _e('Use device features through Phonegap', 'apppresser'); ?></a></p>
+				<ul>
+					<li><?php _e('Full WordPress integration', 'apppresser'); ?></li>
+					<li><?php _e('Update site &amp; app at the same time', 'apppresser'); ?></li>
+					<li><?php _e('You own &amp; host the app', 'apppresser'); ?></li>
+					<li><?php _e('No monthly fees', 'apppresser'); ?></li>
+				</ul>
+
+				<p><?php _e('AppPresser is fun and you’ll make more money.', 'apppresser'); ?> <a href="https://apppresser.com/developers/" target="_blank"><?php _e('Learn more', 'apppresser'); ?></a></p>
+			</section>
+		</div>
+
+	  </div>
+	  <?php
+	}
+
+	/**
+	 * 
+	 * @since 2.1.2
+	 */
+	public function welcome_screen_remove_menus() {
+		remove_submenu_page( 'index.php', 'welcome-to-apppresser' );
+	}
+
+	/**
+	 * 
+	 * @since 2.1.2
+	 */
+	function welcome_screen_assets( $hook ) {
+	  if( 'dashboard_page_welcome-to-apppresser' == $hook ) {
+		wp_enqueue_script( 'welcome_screen_js', plugin_dir_url( __FILE__ ) . '/js/welcome-script.js', array( 'jquery' ), self::VERSION, true );
+		wp_enqueue_style( 'welcome_screen_css', plugin_dir_url( __FILE__ ) . '/css/welcome-styles.css' );
+	  }
 	}
 
 	/**
@@ -392,8 +510,8 @@ class AppPresser {
 				self::set_debug_cookie();
 			}
 			self::$debug = (( isset( $_GET['apppdebug'] ) ) || 
-						    ( isset( $_COOKIE['AppPresser_Debug_Scripts'] ) && $_COOKIE['AppPresser_Debug_Scripts'] === 'true' ) ||
-						    ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ));
+							( isset( $_COOKIE['AppPresser_Debug_Scripts'] ) && $_COOKIE['AppPresser_Debug_Scripts'] === 'true' ) ||
+							( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ));
 		}
 
 		return self::$debug;
@@ -408,12 +526,12 @@ class AppPresser {
 		// check_ajax_referer( 'ajax-login-nonce', 'security' );
 
 		$info = array();
-	    $info['user_login'] = $_POST['username'];
-	    $info['user_password'] = $_POST['password'];
-	    $info['remember'] = true;
-	    
-	    $user_signon = wp_signon( $info, false );
-	    
+		$info['user_login'] = $_POST['username'];
+		$info['user_password'] = $_POST['password'];
+		$info['remember'] = true;
+		
+		$user_signon = wp_signon( $info, false );
+		
 		if( is_wp_error( $user_signon ) ) {
 		
 			$return = array(
@@ -437,11 +555,11 @@ class AppPresser {
 	 * @since 2.0.1
 	 */
 	public function ajax_login_init(){
-	    wp_localize_script( 'jquery', 'appp_ajax_login', array( 
-	        'processing' => __('Logging in....', 'apptheme'),
-	        'required'   => __('Fields are required', 'apptheme'),
-	        'error'      => __('Error Logging in', 'apptheme'),
-	    ));
+		wp_localize_script( 'jquery', 'appp_ajax_login', array( 
+			'processing' => __('Logging in....', 'apptheme'),
+			'required'   => __('Fields are required', 'apptheme'),
+			'error'      => __('Error Logging in', 'apptheme'),
+		));
 	}
 
 }
