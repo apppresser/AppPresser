@@ -260,10 +260,10 @@ class AppPresser {
 	  ?>
 	  <div class="wrap apppresser-welcome">
 		
-		<div class="appp-logo"><img src="https://apppresser.com/wp-content/themes/apppresser/images/logo.png" alt="Apppresser"></div>
+		<div class="appp-logo"><img src="https://apppresser.com/wp-content/themes/apppresser/images/logo.png" alt="AppPresser"></div>
 
-		<h1><?php _e('Welcome to', 'apppresser' )?> Apppresser <?php echo self::VERSION ?></h1>
-		<div class="about-text"><?php _e('Build iOS/Android mobile apps out of WordPress sites simply and quickly', 'apppresser'); ?></div>
+		<h1><?php _e('Welcome to', 'apppresser' )?> AppPresser <?php echo self::VERSION ?></h1>
+		<div class="about-text"><?php _e('Easily Make a Mobile App From Any WordPress Website', 'apppresser'); ?></div>
 
 		<h2 class="nav-tab-wrapper">
 		  <a class="nav-tab nav-tab-active" href="#"><?php _e('Quick Start Guide', 'apppresser') ?></a>
@@ -272,6 +272,12 @@ class AppPresser {
 
 		<div id='sections'>
 			<section>
+				<h3><?php _e('How it works', 'apppresser'); ?></h3>
+
+				<p><?php _e('AppPresser is a suite of WordPress plugins and theme that you install on your site, customize, then package into an app and submit to the app stores.', 'apppresser'); ?></p>
+
+				<p><?php _e('You have activated the core plugin, which is the first step. Next, you will need to purchase some <a href="https://apppresser.com/pricing" target="_blank">extensions</a> to create your app.', 'apppresser'); ?></p>
+
 				<p><?php _e('We have created extensive documentation so you can easily walk through the steps to get your app up and running:', 'apppresser'); ?></p>
 
 				<ul>
@@ -279,11 +285,6 @@ class AppPresser {
 					<li><a href="http://docs.apppresser.com/article/145-a-quick-start-guide" target="_blank"><?php _e('A Quick Start Guide', 'apppresser'); ?></a></li>
 				</ul>
 
-				<h3>AppTheme</h3>
-				<p><?php echo sprintf( __('Get going even faster. Accelerate your app launch with %s. The mobile ready theme the is designed and tested to work well on both Android and iOS.', 'apppresser'), '<a href="https://apppresser.com/extensions/apptheme/" target="_blank">AppTheme</a>'); ?></p>
-
-				<h3><?php _e('Extend the functionality', 'apppresser'); ?></h3>
-				<p><?php _e('Yes, it gets even better with extensions.'); ?> <a href="<?php echo admin_url( 'admin.php?page=apppresser_sub_extensions' ) ?>"><?php _e('See all the extensions.'); ?></a></p>
 			</section>
 
 			<section>
@@ -291,7 +292,7 @@ class AppPresser {
 
 				<p><?php _e('AppPresser is like adding the features of a mobile device to a WordPress site. If you could access the <b>device camera, contacts, geolocation, push notifications, and more</b> through WordPress, what could you build? What couldn’t you build?', 'apppresser'); ?></p>
 
-				<h3><?php _e('Make money with Apppresser', 'apppresser'); ?></h3>
+				<h3><?php _e('Make money with AppPresser', 'apppresser'); ?></h3>
 				<p><?php _e('Make mobile apps for your clients, adding revenue to your business, right away.', 'apppresser'); ?></p>
 
 				<p><a href="https://apppresser.com/developers/" target="_blank"><?php _e('Use device features through Phonegap', 'apppresser'); ?></a></p>
@@ -302,7 +303,7 @@ class AppPresser {
 					<li><?php _e('No monthly fees', 'apppresser'); ?></li>
 				</ul>
 
-				<p><?php _e('AppPresser is fun and you’ll make more money.', 'apppresser'); ?> <a href="https://apppresser.com/developers/" target="_blank"><?php _e('Learn more', 'apppresser'); ?></a></p>
+				<p><?php _e('Build apps for your clients with AppPresser.', 'apppresser'); ?> <a href="https://apppresser.com/developers/" target="_blank"><?php _e('Learn more', 'apppresser'); ?></a></p>
 			</section>
 		</div>
 
