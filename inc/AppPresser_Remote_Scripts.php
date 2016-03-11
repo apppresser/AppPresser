@@ -74,12 +74,13 @@ class AppPresser_Remote_Scripts {
 
 				if( $files ) : ?>
 
-				<h4>Remote Files</h4>
-				<p>
+				<h4>Uploaded File</h4>
+				
 				<?php foreach ($files as $file) : ?>
-					<li><label for="remotefiles[]">remove <input type="checkbox" name="remotefiles[]" value="<?php echo $file ?>" /></label> <a href="<?php echo $file ?>" target="_blank"><?php echo $file ?></a></li>	
+					<p class="description">Check and save to remove</p>
+					<p><label for="remotefiles[]"><input type="checkbox" name="remotefiles[]" value="<?php echo $file ?>" /></label>	<a href="<?php echo $file ?>" target="_blank"><?php echo $file ?></a></p>
 				<?php endforeach; ?>
-				</p>
+				
 
 				<?php endif; ?>
 				<script type="text/javascript">
