@@ -27,6 +27,7 @@ class AppPresser_Remote_Scripts {
 		add_action( 'apppresser_tab_top_'.self::$tab_slug, array( $this, 'appp_add_some_text' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ), 8 );
 		add_action( 'init', array( $this, 'handle_upload' ) );
+		add_action( 'init', array( $this, 'remove_files' ) );
 	}
 
 	/**
@@ -67,6 +68,20 @@ class AppPresser_Remote_Scripts {
 					<?php wp_nonce_field( plugin_basename( __FILE__ ), self::$public_nonce_key ); ?>
 					<p class="description">This file will be added to your app, where it can access PhoneGap/Cordova features. Learn more in <a href="http://docs.apppresser.com/article/163-adding-phonegap-plugins" target="_blank">our documentation.</a></p>
 				</p>
+				<?php
+
+				$files = $this->get_upload_settings();
+
+				if( $files ) : ?>
+
+				<h4>Remote Files</h4>
+				<p>
+				<?php foreach ($files as $file) : ?>
+					<li><label for="remotefiles[]">remove <input type="checkbox" name="remotefiles[]" value="<?php echo $file ?>" /></label> <a href="<?php echo $file ?>" target="_blank"><?php echo $file ?></a></li>	
+				<?php endforeach; ?>
+				</p>
+
+				<?php endif; ?>
 				<script type="text/javascript">
 					jQuery('form').attr('enctype', 'multipart/form-data');
 				</script>
@@ -123,6 +138,30 @@ class AppPresser_Remote_Scripts {
 		$mimes['js'] = 'application/x-javascript';
 
 		return $mimes;
+	}
+
+	public function remove_files() {
+
+		if( isset( $_POST[ self::$public_nonce_key ] ) && wp_verify_nonce( $_POST[ self::$public_nonce_key ], plugin_basename( __FILE__ ) ) ) {
+			
+			if( isset( $_POST['remotefiles'] ) ) {
+
+				$remote_files = $this->get_upload_settings();
+				$keepers = array();
+
+				foreach ( $remote_files as $file ) {
+					if( ! in_array($file, $_POST['remotefiles'] ) ) {
+						array_push( $keepers, $file );
+					}
+				}
+
+				if( !empty( $keepers ) ) {
+					update_option( 'ap2-remote-js', serialize( $keepers ) );
+				} else {
+					delete_option( 'ap2-remote-js' );
+				}
+			}
+		}
 	}
 
 	/**
