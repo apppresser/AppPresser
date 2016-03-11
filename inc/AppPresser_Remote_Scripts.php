@@ -56,16 +56,16 @@ class AppPresser_Remote_Scripts {
 		<tr>
 			<th scope="row">
 				<label for="apppresser-appfbconnect_appid">Upload .js file</label>
-				<a class="help" href="#" title="AppPresser 2.0+ only">?</a>
+				<a class="help" href="#" title="Upload a JavaScript file here only if you need to use Cordova features. Theme or plugin level JS can be enqueued through WordPress normally.">?</a>
 			</th>
 			<td>
 				<p>
 					<label for="apg-js-file">
-						Select .js file to upload:
+						Select .js file:
 					</label>
 					<input type="file" id="apg-js-file" name="apg-js-file" value="" />
 					<?php wp_nonce_field( plugin_basename( __FILE__ ), self::$public_nonce_key ); ?>
-					<p class="description">Learn more in <a href="http://docs.apppresser.com" target="_blank">our documentation.</a></p>
+					<p class="description">This file will be added to your app, where it can access PhoneGap/Cordova features. Learn more in <a href="http://docs.apppresser.com/article/163-adding-phonegap-plugins" target="_blank">our documentation.</a></p>
 				</p>
 				<script type="text/javascript">
 					jQuery('form').attr('enctype', 'multipart/form-data');
