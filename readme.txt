@@ -4,7 +4,7 @@ Donate link: http://apppresser.com/
 Tags: mobile, app, ios, android, application, phonegap, iphone app, android app, mobile app, native app, wordpress mobile, ipad app, iOS app
 Requires at least: 3.5
 Tested up to: 4.4.2
-Stable tag: 2.0.0
+Stable tag: 2.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -88,6 +88,13 @@ Technically you can do anything with an AppPresser app that you can do with Phon
 
 
 == Changelog ==
+
+= 2.1.0 =
+* Give developers the ability to uploads custom js files for the app in the WP Admin
+* Add AJAX login to #loginform modal (requires also updating AppTheme and Ion theme)
+* Add js to recognize css class 'system' to set a link's target to '_system' so links open in Safari or Chrome
+* Fix external links that should open in the In-App Browser
+* Other bug fixes
 
 = 2.0.0 =
 * New features to enable offline app capabilities

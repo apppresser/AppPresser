@@ -36,6 +36,13 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+#### 2.1.0
+* Give developers the ability to uploads custom js files for the app in the WP Admin
+* Add AJAX login to #loginform modal (requires also updating AppTheme and Ion theme)
+* Add js to recognize css class 'system' to set a link's target to '_system' so links open in Safari or Chrome
+* Fix external links that should open in the In-App Browser
+* Other bug fixes
+
 #### 2.0.0
 * New features to enable offline app capabilities
 * Moves cordova files from the website to the device
