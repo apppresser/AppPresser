@@ -5,7 +5,7 @@ Plugin URI: http://apppresser.com
 Description: A mobile app development framework for WordPress.
 Text Domain: apppresser
 Domain Path: /languages
-Version: 2.0.0
+Version: 2.1.0
 Author: AppPresser Team
 Author URI: http://apppresser.com
 License: GPLv2
@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class AppPresser {
 
-	const VERSION           = '2.0.0';
+	const VERSION           = '2.1.0';
 	const SETTINGS_NAME     = 'appp_settings';
 	public static $settings = 'false';
 	public static $instance = null;
@@ -86,7 +86,7 @@ class AppPresser {
 			'home_url'                    => home_url(),
 			'mobile_browser_theme_switch' => appp_get_setting( 'mobile_browser_theme_switch' ),
 			'admin_theme_switch'          => appp_get_setting( 'admin_theme_switch' ),
-			'app_offline_toggle'           => ( appp_get_setting( 'app_offline_toggle' ) == 'on' ) ? '1' : '',
+			'app_offline_toggle'           => ( appp_get_setting( 'app_offline_toggle' ) == 'on' ) ? '' : '1', // on mean it's disabled
 			'is_appp_true'                => self::is_app(),
 			'noGoBackFlags'				  => array(),
 			'ver'						  => self::get_apv(),
@@ -100,11 +100,19 @@ class AppPresser {
 		register_activation_hook( __FILE__, array( $this, 'activate' ) );
 		register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
 
+		// Welcom activation
+		add_action( 'admin_init', array( $this, 'welcome_screen_do_activation_redirect' ) );
+		add_action( 'admin_menu', array( $this, 'welcome_screen_pages' ) );
+		add_action( 'admin_head', array( $this, 'welcome_screen_remove_menus' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'welcome_screen_assets' ) );
+
 		// Hook in all our important pieces
 		add_action( 'plugins_loaded', array( $this, 'includes' ) );
 		add_action( 'admin_init', array( $this, 'check_appp_licenses' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts' ), 8 );
 		add_action( 'wp_head', array( $this, 'do_appp_script' ), 1 );
+		add_action( 'wp_enqueue_scripts', array( $this, 'ajax_login_init' ) );
+		add_action( 'wp_ajax_nopriv_apppajaxlogin', array( $this, 'appp_ajax_login' ) );
 
 		// remove wp version param from cordova enqueued scripts (so script loading doesn't break)
 		// This will mean that it's harder to break caching on the cordova script
@@ -114,6 +122,7 @@ class AppPresser {
 		require_once( self::$inc_path . 'plugin-updater.php' );
 		require_once( self::$inc_path . 'AppPresser_Theme_Customizer.php' );
 		require_once( self::$inc_path . 'AppPresser_Ajax_Extras.php' );
+		require_once( self::$inc_path . 'AppPresser_Remote_Scripts.php' );
 
 		if( ! is_multisite() ) {
 			require_once( self::$inc_path . 'AppPresser_Log_Admin.php' );
@@ -206,6 +215,119 @@ class AppPresser {
 
 		// @TODO: Define default settings upon activation
 
+		set_transient( '_welcome_screen_activation_redirect', true, 30 );
+
+	}
+
+	function welcome_screen_do_activation_redirect() {
+	  // Bail if no activation redirect
+		if ( ! get_transient( '_welcome_screen_activation_redirect' ) ) {
+		return;
+	  }
+
+	  // Delete the redirect transient
+	  delete_transient( '_welcome_screen_activation_redirect' );
+
+	  // Bail if activating from network, or bulk
+	  if ( is_network_admin() || isset( $_GET['activate-multi'] ) ) {
+		return;
+	  }
+
+	  // Redirect to Apppresser about page
+	  wp_safe_redirect( add_query_arg( array( 'page' => 'welcome-to-apppresser' ), admin_url( 'index.php' ) ) );
+
+	}
+
+	/**
+	 * 
+	 * @since 2.1.2
+	 */
+	public function welcome_screen_pages() {
+	  add_dashboard_page(
+		'Welcome To Apppresser',
+		'Welcome To Apppresser',
+		'read',
+		'welcome-to-apppresser',
+		array( $this, 'welcome_screen_content' )
+	  );
+	}
+
+	/**
+	 * 
+	 * @since 2.1.2
+	 */
+	public function welcome_screen_content() {
+	  ?>
+	  <div class="wrap apppresser-welcome">
+		
+		<div class="appp-logo"><img src="https://apppresser.com/wp-content/themes/apppresser/images/logo.png" alt="AppPresser"></div>
+
+		<h1><?php _e('Welcome to', 'apppresser' )?> AppPresser <?php echo self::VERSION ?></h1>
+		<div class="about-text"><?php _e('Easily Make a Mobile App From Any WordPress Website', 'apppresser'); ?></div>
+
+		<h2 class="nav-tab-wrapper">
+		  <a class="nav-tab nav-tab-active" href="#"><?php _e('Quick Start Guide', 'apppresser') ?></a>
+		  <a class="nav-tab" href="#"><?php _e('Features For Developers', 'apppresser') ?></a>
+		</h2>
+
+		<div id='sections'>
+			<section>
+				<h3><?php _e('How it works', 'apppresser'); ?></h3>
+
+				<p><?php _e('AppPresser is a suite of WordPress plugins and theme that you install on your site, customize, then package into an app and submit to the app stores.', 'apppresser'); ?></p>
+
+				<p><?php _e('You have activated the core plugin, which is the first step. Next, you will need to purchase some <a href="https://apppresser.com/pricing" target="_blank">extensions</a> to create your app.', 'apppresser'); ?></p>
+
+				<p><?php _e('We have created extensive documentation so you can easily walk through the steps to get your app up and running:', 'apppresser'); ?></p>
+
+				<ul>
+					<li><a href="http://docs.apppresser.com/article/123-overview" target="_blank"><?php _e('AppPresser Overview', 'apppresser'); ?></a></li>
+					<li><a href="http://docs.apppresser.com/article/145-a-quick-start-guide" target="_blank"><?php _e('A Quick Start Guide', 'apppresser'); ?></a></li>
+				</ul>
+
+			</section>
+
+			<section>
+				<h3><?php _e('Developers', 'apppresser'); ?></h3>
+
+				<p><?php _e('AppPresser is like adding the features of a mobile device to a WordPress site. If you could access the <b>device camera, contacts, geolocation, push notifications, and more</b> through WordPress, what could you build? What couldn’t you build?', 'apppresser'); ?></p>
+
+				<h3><?php _e('Make money with AppPresser', 'apppresser'); ?></h3>
+				<p><?php _e('Make mobile apps for your clients, adding revenue to your business, right away.', 'apppresser'); ?></p>
+
+				<p><a href="https://apppresser.com/developers/" target="_blank"><?php _e('Use device features through Phonegap', 'apppresser'); ?></a></p>
+				<ul>
+					<li><?php _e('Full WordPress integration', 'apppresser'); ?></li>
+					<li><?php _e('Update site &amp; app at the same time', 'apppresser'); ?></li>
+					<li><?php _e('You own &amp; host the app', 'apppresser'); ?></li>
+					<li><?php _e('No monthly fees', 'apppresser'); ?></li>
+				</ul>
+
+				<p><?php _e('Build apps for your clients with AppPresser.', 'apppresser'); ?> <a href="https://apppresser.com/developers/" target="_blank"><?php _e('Learn more', 'apppresser'); ?></a></p>
+			</section>
+		</div>
+
+	  </div>
+	  <?php
+	}
+
+	/**
+	 * 
+	 * @since 2.1.2
+	 */
+	public function welcome_screen_remove_menus() {
+		remove_submenu_page( 'index.php', 'welcome-to-apppresser' );
+	}
+
+	/**
+	 * 
+	 * @since 2.1.2
+	 */
+	function welcome_screen_assets( $hook ) {
+	  if( 'dashboard_page_welcome-to-apppresser' == $hook ) {
+		wp_enqueue_script( 'welcome_screen_js', plugin_dir_url( __FILE__ ) . '/js/welcome-script.js', array( 'jquery' ), self::VERSION, true );
+		wp_enqueue_style( 'welcome_screen_css', plugin_dir_url( __FILE__ ) . '/css/welcome-styles.css' );
+	  }
 	}
 
 	/**
@@ -389,11 +511,56 @@ class AppPresser {
 				self::set_debug_cookie();
 			}
 			self::$debug = (( isset( $_GET['apppdebug'] ) ) || 
-						    ( isset( $_COOKIE['AppPresser_Debug_Scripts'] ) && $_COOKIE['AppPresser_Debug_Scripts'] === 'true' ) ||
-						    ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ));
+							( isset( $_COOKIE['AppPresser_Debug_Scripts'] ) && $_COOKIE['AppPresser_Debug_Scripts'] === 'true' ) ||
+							( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ));
 		}
 
 		return self::$debug;
+	}
+
+	/**
+	 * Adds ajax for form#loginform modal in apptheme 2.1.3 and ion 1.0.1
+	 * @since 2.0.1
+	 */
+	public function appp_ajax_login() {
+			
+		// check_ajax_referer( 'ajax-login-nonce', 'security' );
+
+		$info = array();
+		$info['user_login'] = $_POST['username'];
+		$info['user_password'] = $_POST['password'];
+		$info['remember'] = true;
+		
+		$user_signon = wp_signon( $info, false );
+		
+		if( is_wp_error( $user_signon ) ) {
+		
+			$return = array(
+				'message' =>  __('The log in you have entered is not valid.', 'apptheme'),
+				'success' => false
+			);
+			wp_send_json_error( $return );
+			
+		} else {
+
+			$return = array(
+				'message' => sprintf( __('Welcome %s, you are now logged in.', 'apptheme'), $user_signon->display_name),
+			);
+			wp_send_json_success( $return );	
+			
+		}
+	}
+
+	/**
+	 * Adds language textdomain options for form#loginform modal in apptheme 2.1.3 and ion 1.0.1
+	 * @since 2.0.1
+	 */
+	public function ajax_login_init(){
+		wp_localize_script( 'jquery', 'appp_ajax_login', array( 
+			'processing' => __('Logging in....', 'apptheme'),
+			'required'   => __('Fields are required', 'apptheme'),
+			'error'      => __('Error Logging in', 'apptheme'),
+		));
 	}
 
 }

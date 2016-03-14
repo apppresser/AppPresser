@@ -224,7 +224,7 @@ apppCore.isApp = function( name ) {
 		var cookie = apppCore.ReadCookie(apppCore.cookieName);
 		apppCore.log( 'isApp: '+ apppCore.cookieName, cookie );
 
-		apppCore._isApp = cookie === true;
+		apppCore._isApp = cookie === 'true';
 
 	}
 

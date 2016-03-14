@@ -149,6 +149,8 @@ class AppPresser_Admin_Settings extends AppPresser {
 			add_action( 'admin_print_scripts-' . $slug, array( $this, 'admin_scripts' ) );
 		}
 
+		add_action('admin_head', array( $this, 'apppush_admin_css' ) );
+
 		// Add notification bubble if any notifications
 		if ( $notifications = $this->notification_badge() ) {
 
@@ -174,6 +176,13 @@ class AppPresser_Admin_Settings extends AppPresser {
 		wp_enqueue_style( 'jquery-ui-smoothness', self::$css_url . 'smoothness/smoothness.custom.min.css' );
 		wp_enqueue_style( 'appp-admin-styles', self::$css_url . 'appp-admin-styles.css', null, self::VERSION );
 		wp_enqueue_media();
+	}
+
+	function apppush_admin_css() {
+		global $post_type;
+		if (( isset( $_GET['post_type'] ) && $_GET['post_type'] == 'apppush') || ($post_type == 'apppush')) {		
+			echo "<link type='text/css' rel='stylesheet' href='" . self::$css_url . "appp-admin-styles.css' />";
+		}
 	}
 
 	/**
@@ -416,10 +425,10 @@ class AppPresser_Admin_Settings extends AppPresser {
 			'description' => __( 'Start typing to search for a page, or enter a page ID.', 'apppresser' ),
 		) );
 
-		self::add_setting( 'app_offline_toggle', __( 'Display offline toggle buttons?', 'apppresser' ), array(
+		self::add_setting( 'app_offline_toggle', __( 'Disable offline toggle buttons?', 'apppresser' ), array(
 			'type' => 'checkbox',
 			'helptext' => __( 'When the app disconnects from the internet, the app will display buttons that allows the user to switch to a customized offline.html file located in the app or return to the WordPress site. AppPresser 2 only.', 'apppresser' ),
-			'description' => __( 'Allow the user to switch between online and offline mode when connection is lost.', 'apppresser' ),
+			'description' => __( 'Don\'t allow the user to switch between online and offline mode when connection is lost.', 'apppresser' ),
 		) );
 
 		/*$menus = array( 'option-none' => __( '-- select --', 'apppresser' ) );
@@ -823,7 +832,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 	 * @since  1.0.6
 	 */
 	public static function clear_cookie() {
-		setcookie( 'AppPresser_Appp', 'true', time() - DAY_IN_SECONDS );
+		setcookie( 'AppPresser_Appp', 'false', time() - DAY_IN_SECONDS );
 	}
 
 }

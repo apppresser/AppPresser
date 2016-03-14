@@ -272,7 +272,7 @@ class AppPresser_Logger {
 		die();
 	}
 
-	public function remove_usermeta() {
+	public static function remove_usermeta() {
 		global $wpdb;
 
 		// Delete any nag user_meta

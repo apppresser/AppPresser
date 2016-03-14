@@ -4,7 +4,7 @@
 
 AppPresser is the first native mobile app development framework for WordPress.
 
-[AppPresser](http://apppresser.com/ "AppPresser mobile apps with WordPress") allows you to use a WordPress site as an app, including access to device features such as the camera, contacts, and more. You can create your app completely in WordPress, using themes, plugins, and all the stuff you already know.
+[AppPresser](https://apppresser.com/ "AppPresser mobile apps with WordPress") allows you to use a WordPress site as an app, including access to device features such as the camera, contacts, and more. You can create your app completely in WordPress, using themes, plugins, and all the stuff you already know.
 
 Developers can use this plugin to make custom apps, or custom extensions for AppPresser. If you are not a developer, please see our website for more information about creating an app with WordPress.
 
@@ -16,7 +16,7 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ### What this plugin does:
 
-*   Integrates Phonegap with WordPress, which exposes the [Phonegap API](http://docs.phonegap.com/en/3.2.0/index.html "Phonegap docs")
+*   Integrates Phonegap with WordPress, which exposes the [Phonegap API](http://docs.phonegap.com/plugin-apis/ "Phonegap docs")
 *   Allows you to use javascript (using the Phonegap API) to use native device features
 *   Allows you to use other AppPresser plugins and themes to create an app
 *   Adds a settings page with app-only homepage, menus, and theme settings
@@ -24,8 +24,7 @@ Note: This repository is for code contributors. To use this plugin on your websi
 ### What this plugin DOES NOT do:
 
 *   It does not automatically create an app for you, or give you a WYSIWYG app creator
-*   It does not change your site aesthetically
-*   It does not allow you to test any app features in the browser, (you need Xcode or Eclipse for that)
+*   It does not change your desktop site
 *   It does not build the app for you
 
 ### How do I use it?
@@ -35,15 +34,19 @@ Note: This repository is for code contributors. To use this plugin on your websi
 *   Build your app yourself with Phonegap, or with our build service
 *   Distribute to the iOS/Android app stores
 
-## AppPresser Documentation
-
-AppPresser Documentation is powered by [Markdown](http://daringfireball.net/projects/markdown/) files, that will be integrated with [Pico](https://github.com/gilbitron/Pico).
-
-If you would like to contribute to the documentation, please fork the [AppPresser Documentation GitHub Repo](https://github.com/WebDevStudios/AppPresser-Documenation), make your changes, and submit a Pull Request. We will review the changes and let you know if there are any issues, and if not, we'll accept the request.
-
-We are happy to accept contributions, but also want to maintain high quality documentation so that everyone benefits in the end, so we'll work with you to make your contributions top-notch.
-
 ## Changelog
+
+#### 2.1.0
+* Give developers the ability to uploads custom js files for the app in the WP Admin
+* Add AJAX login to #loginform modal (requires also updating AppTheme and Ion theme)
+* Add js to recognize css class 'system' to set a link's target to '_system' so links open in Safari or Chrome
+* Fix external links that should open in the In-App Browser
+* Other bug fixes
+
+#### 2.0.0
+* New features to enable offline app capabilities
+* Moves cordova files from the website to the device
+* Bug fixes
 
 #### 1.4.0
 * Include phonegap files for 3.7.0
