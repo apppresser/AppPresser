@@ -142,7 +142,7 @@ class AppPresser_Logger {
 	public function expire_logging() {
 		$this->toggle_logging( 'off' );
 		//wp_clear_scheduled_hook(self::$expire_logging);
-		wp_mail( get_bloginfo('admin_email'), __('ApppPresser Logging', 'apppresser'), __('AppPresser logging has been turned off.', 'apppresser' ) );
+		wp_mail( get_bloginfo('admin_email'), __('AppPresser Logging', 'apppresser'), __('AppPresser logging has been turned off.', 'apppresser' ) );
 	}
 
 	/**
