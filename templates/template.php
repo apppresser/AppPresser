@@ -31,6 +31,7 @@
 		</div>
 		<?php if( $file_exists ) : ?>
 				<p><a href="<?php echo AppPresser_Logger::$log_url ?>" target="_blank"><?php echo AppPresser_Logger::$log_url ?></a></p>
+				<p><a class="button" href="<?php echo admin_url( 'admin.php?page=apppresser_settings&tab=tab-log&apppclearlog=1' ); ?>">Clear Log</a></p>
 		<?php endif; ?>
 	</div>
 </div>

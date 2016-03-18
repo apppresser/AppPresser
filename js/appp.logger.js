@@ -16,7 +16,7 @@ apppLogger.adminToggleLogging = function(checkbox) {
         success: function (response) {
             if( response.status ){
             	if( response.status == 'on' ) {
-            		response.status += '. Logging will automatically be turned off in 24 hours and a notice will be emailed to <b>'+response.admin_email+'</b>';
+            		response.status += '. Logging will automatically be turned off in 1 hour and a notice will be emailed to <b>'+response.admin_email+'</b>';
             		console.log(response.expire_logging);
             	}
             	jQuery('<div id="message" class="updated notice new-log-status"><p>Logging is now '+response.status+'.</p></div>').insertBefore( jQuery('.tab-log div.wrap h3:first') );

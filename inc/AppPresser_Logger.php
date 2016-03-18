@@ -29,12 +29,12 @@ class AppPresser_Logger {
 
 		$upload_dir = wp_upload_dir();
 
-		self::$log_url        = $upload_dir['baseurl'] . DIRECTORY_SEPARATOR . self::$log_dir_path . DIRECTORY_SEPARATOR . self::$log_filename;
+		self::$log_url = $upload_dir['baseurl'] . DIRECTORY_SEPARATOR . self::$log_dir_path . DIRECTORY_SEPARATOR . self::$log_filename;
 
 		self::$uploads_dir_path = $upload_dir['basedir'];
 		self::$log_dir_path = $upload_dir['basedir'] . DIRECTORY_SEPARATOR . self::$log_dir_path;
 
-		self::$log_filepath   = self::$log_dir_path . DIRECTORY_SEPARATOR . self::$log_filename;
+		self::$log_filepath = self::$log_dir_path . DIRECTORY_SEPARATOR . self::$log_filename;
 		
 		$this->hooks();
 	}
@@ -43,12 +43,12 @@ class AppPresser_Logger {
 		add_action( 'wp_ajax_' . $this->ajax_action, array( $this, 'toggle_logging_callback' ) );
 		add_action( 'wp_ajax_nopriv_' . $this->ajax_action, array( $this, 'toggle_logging_callback' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-		add_action( self::$expire_logging, array( $this, 'expire_logging') );
 		add_action( 'wp_ajax_log_dismiss', array( $this, 'log_dismiss' ) );
 		add_action( 'wp_ajax_nopriv_log_dismiss', array( $this, 'log_dismiss' ) );
 
 		// Log dir and file
 		add_action('admin_notices', array( $this, 'log_dir_exists' ) );
+		add_action('init', array( $this, 'force_logging_off' ) );
 	}
 
 	public function enqueue_scripts() {
@@ -72,6 +72,11 @@ class AppPresser_Logger {
 	 * @since  1.3.0
 	 */
 	public static function log( $title, $var, $file = 'file', $function = 'function', $line = 'line' ) {
+
+		if( self::get_logging_timeout() < 0 ) {
+			self::toggle_logging( 'off' );
+		}
+
 		$logfile = fopen(self::$log_filepath, "a") or die("Unable to open file!");
 
 		$txt = ( is_string( $var ) ) ? $var : print_r($var, true);
@@ -82,11 +87,18 @@ class AppPresser_Logger {
 		fclose($logfile);
 	}
 
+	public static function clear_log() {
+		$logfile = fopen(self::$log_filepath, "w") or die("Unable to open file!");
+
+		fwrite($logfile, '' );
+		fclose($logfile);
+	}
+
 	/**
 	 * Turns logging off site wide from the admin setting log tab
 	 * @since  1.3.0
 	 */
-	public function toggle_logging( $new_status = null ) {
+	public static function toggle_logging( $new_status = null ) {
 		if( $new_status == null ) {
 			$current_status = get_option( self::$logging_status_option, 'on' );
 			$new_status = ( $current_status == 'on' ) ? 'off' : 'on';
@@ -97,29 +109,32 @@ class AppPresser_Logger {
 		self::$logging_status = $new_status;
 
 		if( $new_status == 'on' ) {
-			$this->set_logging_cron();
+			self::set_logging_timeout();
 		} else {
-			$this->clear_logging_cron();
+			delete_option( 'appp_logging_timeout' );
 		}
 	}
 
-	/**
-	 * Sets up the cron that will exprire the logging.  This is to avoid the log file growing out of control.
-	 * @since  1.3.0
-	 */
-	public function set_logging_cron() {
-		if ( ! wp_next_scheduled( self::$expire_logging ) ) {
-			$one_day = (24 * 60 * 60);
-			wp_schedule_single_event( time()+$one_day, self::$expire_logging );
+	public static function get_logging_timeout() {
+		$timeout = get_option( 'appp_logging_timeout' );
+
+		if( $timeout ) {
+
+			if ( (int)$timeout - time() < 0 ) {
+				// timed out
+				self::expire_logging();
+				return (int)$timeout - time() < 0;
+			}
 		}
+
+		return 0;
 	}
 
-	/**
-	 * Clears the log on plugin deactivation
-	 * @since 1.3.0
-	 */
-	public function clear_logging_cron() {
-		wp_clear_scheduled_hook(self::$expire_logging);
+	public static function set_logging_timeout() {
+		$one_hour = (60 * 60);
+		$timeout = time() + $one_hour;
+
+		update_option( 'appp_logging_timeout', $timeout );
 	}
 
 	/**
@@ -128,7 +143,7 @@ class AppPresser_Logger {
 	 */
 	public function toggle_logging_callback() {
 		if( isset( $_POST['status'] ) ) {
-			$this->toggle_logging( $_POST['status'] );
+			self::toggle_logging( $_POST['status'] );
 			echo json_encode( array( 'status' => $_POST['status'], 'admin_email' => get_bloginfo('admin_email'), 'expire_logging' => wp_next_scheduled( self::$expire_logging ) ) );
 		}
 
@@ -139,8 +154,8 @@ class AppPresser_Logger {
 	 * Turns off logging and email the admin to let them know
 	 * @since 1.3.0
 	 */
-	public function expire_logging() {
-		$this->toggle_logging( 'off' );
+	public static function expire_logging() {
+		self::toggle_logging( 'off' );
 		//wp_clear_scheduled_hook(self::$expire_logging);
 		wp_mail( get_bloginfo('admin_email'), __('AppPresser Logging', 'apppresser'), __('AppPresser logging has been turned off.', 'apppresser' ) );
 	}
@@ -277,6 +292,16 @@ class AppPresser_Logger {
 
 		// Delete any nag user_meta
 		$wpdb->query( "DELETE FROM {$wpdb->prefix}usermeta WHERE meta_key = '".self::USER_META_LOG_NAG."';" );
+	}
+
+	public function force_logging_off() {
+		if( isset( $_GET['forceloggingoff']) ) {
+			self::toggle_logging( 'off' );
+		}
+
+		if( isset( $_GET['apppclearlog'] ) ) {
+			self::clear_log();
+		}
 	}
 }
 
