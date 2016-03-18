@@ -171,7 +171,9 @@ class AppPresser {
 
 			if (is_array($value)) {
 				$value = implode(',', $value);
-				AppPresser_Logger::log( 'array to string conversion', $value, __FILE__, __METHOD__, __LINE__ );
+				if( class_exists('AppPresser_Logger') ) {
+					AppPresser_Logger::log( 'array to string conversion', $value, __FILE__, __METHOD__, __LINE__ );
+				}
 			}
 			$l10n[$key] = html_entity_decode( (string) $value, ENT_QUOTES, 'UTF-8');
 		}
