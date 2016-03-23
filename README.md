@@ -36,6 +36,10 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+
+#### 2.2.1
+* fix links with the 'external' class that have the same domain as the site to open in the InAppBrowser.
+
 #### 2.2.0
 * fix go back button for Android
 * add filter for Facebook graph fields
