@@ -36,6 +36,12 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+#### 2.2.0
+* fix go back button for Android
+* add filter for Facebook graph fields
+* fix AppPresser_Logger error for multisite
+* remove wp_cron for AppPresser_Logger and use alternate method to turn off logging
+
 #### 2.1.0
 * Give developers the ability to uploads custom js files for the app in the WP Admin
 * Add AJAX login to #loginform modal (requires also updating AppTheme and Ion theme)
