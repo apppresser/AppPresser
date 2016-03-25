@@ -56,7 +56,7 @@
 }
 
 .appp-subtab.subnav-tab-active {
-	display: block;
+	display: table;
 }
 
 .license_key.description span {
@@ -113,6 +113,132 @@
 		float: none;
 		margin-right: 0;
 	}
+}
+
+.appp-quickstart td {
+	border:1px solid white;
+	background-color:white;
+	position: relative;
+	padding: 0 16px 16px;
+	margin-top: 16px;
+}
+.appp-quickstart .close-button {
+	background-color: #666;
+	float:right;
+	padding:12px;
+	margin-right: 12px;
+	line-height: 3px;
+}
+
+.appp-quickstart h2 {
+	text-align: center;
+	margin: 10px 0 0;
+	font-size: 1.6em;
+}
+
+.appp-quickstart-content h3 {
+	margin: 6px 0;
+}
+
+.appp-quickstart-content td {
+	vertical-align: top;
+	position: relative;
+}
+
+.appp-quickstart-content .control {
+	position: absolute;
+	width: 100%;
+	bottom: 0;
+	left: 50%;
+	margin-left: -50%;
+	margin-bottom: -24px;
+	height: 30px;
+}
+
+.about-description {
+	margin-top: 36px !important;
+}
+
+#the-plugin-appp-quickstart .close-button {
+	position: absolute;
+	margin: 0 2px;
+	right: 4px;
+	top: 6px;
+	border-radius: 2px;
+	padding: 4px 8px;
+	text-decoration: none;
+	border: none;
+	-webkit-border-radius: 2px;
+	border-radius: 32px;
+	text-shadow: none;
+	font-weight: 600;
+	font-size: 10px;
+	height: 24px;
+	cursor: pointer;
+	width: 24px;
+	
+	border: 1px solid #fafafa;
+	background-color: #eee;
+	color: #aaa;
+}
+
+#the-plugin-appp-quickstart .close-button:focus {
+	outline:none;
+}
+
+#the-plugin-appp-quickstart .close-button:hover {
+	border: 1px solid #ddd;
+	background: #fafafa;
+	color: #777;
+}
+
+@media screen and (max-width: 782px) {
+
+	#the-plugin-appp-quickstart {
+		padding: 12px;
+	}
+
+	.appp-quickstart-content .control {
+		position: relative;
+		width: 100%;
+		bottom: auto;
+		left: auto;
+		margin: 0 10px 0 20px;
+	}
+
+	.about-description {
+		margin-top: 0px !important;
+	}
+}
+
+.appp-quickstart .appp-quickstart-close {
+	position:absolute;
+	top:5px;
+	right:10px;
+	padding:8px 3px;
+	font-size:13px;
+	text-decoration:none;
+	line-height:1
+}
+
+.appp-quickstart .appp-quickstart-close:before {
+	content:' ';
+	position:absolute;
+	left:-12px;
+	width:10px;
+	height:100%;
+	background:url("../../../../wp-admin/images/xit.gif") 0 17% no-repeat;
+}
+.appp-quickstart .appp-quickstart-close:hover:before {
+	background-position:100% 17%;
+}
+
+.appp-quickstart table {
+	width: 100%;
+}
+
+.appp-quickstart td {
+	text-align: center;
 }
 
 /* apppush */

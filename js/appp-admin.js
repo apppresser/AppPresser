@@ -14,6 +14,8 @@ jQuery(document).ready(function($) {
 	var $tabs        = $context.find( '.appp-tabs' );
 	var $navsubtabs  = $context.find( '.subnav-tab' );
 	var $subtabs     = $context.find( '.appp-subtab' );
+	var $quickTheme  = $context.find( '#apppresser-theme-quickstart' ); // select tag
+	var $themeDD     = $context.find( '#apppresser--appp_theme' ); // select tag
 	var $ajaxinput   = $('#apppresser--appp_home_page');
 	var $ajaxcontext = $ajaxinput.parents('tr');
 	var $ajaxresults = $ajaxcontext.find('.appp-ajax-results-posts');
@@ -104,6 +106,22 @@ jQuery(document).ready(function($) {
 			}
 
 			return true;
+		}).on( 'change', '#apppresser-theme-quickstart', function(event) {
+			event.preventDefault();
+
+			$themeDD.val( $quickTheme.val() );
+		}).on( 'click', '#the-plugin-appp-quickstart .close-button', function(event) {
+			event.preventDefault();
+
+			jQuery.post(ajaxurl,
+				{
+					action:'appp_hide_quickstart',
+					appp_quickstart_panelnonce:jQuery('#appp_quickstart_panelnonce').val()
+				},
+				function(data) {
+					if(data == 1) $('tr.appp-quickstart').hide();
+				}
+			);
 		});
 
 	// Set the initial state of the static home_page field as disabled if lastest posts is selected
@@ -168,6 +186,10 @@ jQuery(document).ready(function($) {
 	    }
 	}
 
+	function onReadSetThemeChoice() {
+		$quickTheme.val( $themeDD.val() );
+	}
+
 	$('.custom_media_upload').click(function() {
 
         var send_attachment_bkp = wp.media.editor.send.attachment;
@@ -197,5 +219,6 @@ jQuery(document).ready(function($) {
     }
 
     onReadySelectSubTab();
+    onReadSetThemeChoice();
 
 });
