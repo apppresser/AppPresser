@@ -393,6 +393,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 						// License Tab
 						if( $has_lic_subtab ) {
 							echo '<table class="appp-subtab license-subtab subtab-'.$tab.'">';
+							echo '<tr valign="top" class="apppresser-apppresser-core-settings"><th colspan="2" scope="row" class="appp-section-title"><h3>'.__('AppPresser Licenses','apppresser').'</h3></th></tr>';
 							do_action( "apppresser_tab_general_subtab_license_top", $appp_settings, self::settings() );
 							foreach (self::$license_fields as $key => $subtab_licenses) {
 								echo implode( "\n",  $subtab_licenses );
