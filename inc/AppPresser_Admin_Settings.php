@@ -344,16 +344,16 @@ class AppPresser_Admin_Settings extends AppPresser {
 					$subtab_links = array();
 
 					if( $has_gen_subtab ) {
-						$subtab_links[] = '<li><a href="?page=apppresser_settings&tab=tab-'.$tab.'&subnav=general" class="subnav-tab current" data-selector="general-subtab.subtab-'.$tab.'">' . __('General', 'apppresser') . '</a>'
+						$subtab_links[] = '<li><a href="?page=apppresser_settings&tab=tab-'.$tab.'&subnav=general" class="subnav-tab current" id="tab-'.$tab.'-subnav-general" data-selector="general-subtab.subtab-'.$tab.'">' . __('General', 'apppresser') . '</a>'
 							. ( ($has_adv_subtab || $has_lic_subtab)?' | ':'' ) . '</li>';
 
 					}
 					if( $has_adv_subtab ) {
-						$subtab_links[] = '<li><a href="?page=apppresser_settings&tab=tab-'.$tab.'&subnav=advance" class="subnav-tab" data-selector="advance-subtab.subtab-'.$tab.'">' . __('Advance', 'apppresser') . '</a>'
+						$subtab_links[] = '<li><a href="?page=apppresser_settings&tab=tab-'.$tab.'&subnav=advance" class="subnav-tab" id="tab-'.$tab.'-subnav-advance"  data-selector="advance-subtab.subtab-'.$tab.'">' . __('Advance', 'apppresser') . '</a>'
 							. ( ($has_lic_subtab)?' | ':'' ) . '</li>';
 					}
 					if( $has_lic_subtab ) {
-						$subtab_links[] = '<li><a href="?page=apppresser_settings&tab=tab-'.$tab.'&subnav=license" class="subnav-tab" data-selector="license-subtab.subtab-'.$tab.'">' . __('Licenses', 'apppresser') . '</a></li>';
+						$subtab_links[] = '<li><a href="?page=apppresser_settings&tab=tab-'.$tab.'&subnav=license" class="subnav-tab" id="tab-'.$tab.'-subnav-license"  data-selector="license-subtab.subtab-'.$tab.'">' . __('Licenses', 'apppresser') . '</a></li>';
 					}
 
 					echo '<table class="appp-tabs form-table tab-'. $tab . $current_class .'">';

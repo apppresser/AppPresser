@@ -159,6 +159,15 @@ jQuery(document).ready(function($) {
 		}
 	}
 
+	function onReadySelectSubTab() {
+		if( $.urlParam('subnav') ) {
+			var tab    = $.urlParam('tab');
+			var subtab = $.urlParam('subnav');
+
+	    	$('#'+tab+'-subnav-'+subtab).click();
+	    }
+	}
+
 	$('.custom_media_upload').click(function() {
 
         var send_attachment_bkp = wp.media.editor.send.attachment;
@@ -176,5 +185,17 @@ jQuery(document).ready(function($) {
 
         return false;
     });
+
+    $.urlParam = function(name){
+        var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+        if (results==null){
+           return null;
+        }
+        else{
+           return results[1] || 0;
+        }
+    }
+
+    onReadySelectSubTab();
 
 });
