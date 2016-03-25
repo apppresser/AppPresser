@@ -40,6 +40,25 @@
 .appp-tabs.nav-tab-active {
 	display: inline;
 }
+
+.subtabs-wrapper > td {
+	padding: 0 10px;
+}
+
+.subtabs-wrapper ul {
+	padding: 10px 15px 0 0;
+	line-height: 1.3;
+	vertical-align: middle;
+}
+
+.appp-subtab {
+	display: none;
+}
+
+.appp-subtab.subnav-tab-active {
+	display: block;
+}
+
 .license_key.description span {
 	color: white;
 	display: block;

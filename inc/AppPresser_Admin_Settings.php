@@ -25,6 +25,9 @@ class AppPresser_Admin_Settings extends AppPresser {
 	public static $field_args      = array();
 	public static $admin_tabs      = array();
 	public static $license_keys    = array();
+	public static $license_fields  = array();
+	public static $general_fields  = array();
+	public static $advance_fields  = array();
 
 	/**
 	 * Creates or returns an instance of this class.
@@ -335,12 +338,74 @@ class AppPresser_Admin_Settings extends AppPresser {
 				foreach ( self::$admin_tabs as $tab => $name ) {
 					$current_class = $tab == $current_tab ? ' nav-tab-active' : '';
 
+					$has_gen_subtab = ( isset( self::$general_fields[ $tab ] ) );
+					$has_adv_subtab = ( isset( self::$advance_fields[ $tab ] ) );
+					$has_lic_subtab = ( $tab == 'general' && isset( self::$license_fields[ $tab ] ) );
+					$subtab_links = array();
+
+					if( $has_gen_subtab ) {
+						$subtab_links[] = '<li><a href="?page=apppresser_settings&tab=tab-'.$tab.'&subnav=general" class="subnav-tab current" data-selector="general-subtab.subtab-'.$tab.'">' . __('General', 'apppresser') . '</a>'
+							. ( ($has_adv_subtab || $has_lic_subtab)?' | ':'' ) . '</li>';
+
+					}
+					if( $has_adv_subtab ) {
+						$subtab_links[] = '<li><a href="?page=apppresser_settings&tab=tab-'.$tab.'&subnav=advance" class="subnav-tab" data-selector="advance-subtab.subtab-'.$tab.'">' . __('Advance', 'apppresser') . '</a>'
+							. ( ($has_lic_subtab)?' | ':'' ) . '</li>';
+					}
+					if( $has_lic_subtab ) {
+						$subtab_links[] = '<li><a href="?page=apppresser_settings&tab=tab-'.$tab.'&subnav=license" class="subnav-tab" data-selector="license-subtab.subtab-'.$tab.'">' . __('Licenses', 'apppresser') . '</a></li>';
+					}
+
 					echo '<table class="appp-tabs form-table tab-'. $tab . $current_class .'">';
 						// A hook for adding additional data to the top of each tabbed area
 						do_action( "apppresser_tab_top_$tab", $appp_settings, self::settings() );
-						if ( isset( self::$all_fields[ $tab ] ) ) {
-							echo implode( "\n", self::$all_fields[ $tab ] );
+
+						if( $has_gen_subtab || $has_adv_subtab || $has_lic_subtab ) {
+							echo '<tr class="subtabs-wrapper">';
+							echo '<td colspan="2">';
+							echo '<ul class="subsubsub">';
+							echo implode("\n", $subtab_links);
+							echo '</ul><div style="clear:both"></div>';
 						}
+						
+						// Tab main content or General subtab content
+						if ( isset( self::$all_fields[ $tab ] ) ) {
+							if( $has_gen_subtab ) {
+								echo '<table class="appp-subtab general-subtab subtab-'.$tab.' subnav-tab-active">';
+								do_action( "apppresser_tab_".$tab."_subtab_general_bottom", $appp_settings, self::settings() );
+							}
+							echo implode( "\n", self::$all_fields[ $tab ] );
+							if( $has_gen_subtab ) {
+								do_action( "apppresser_tab_".$tab."_subtab_general_bottom", $appp_settings, self::settings() );
+								echo '</table>';
+							}
+						}
+
+						// Advanced Tab
+						if( $has_adv_subtab ) {
+							echo '<table class="appp-subtab advance-subtab subtab-'.$tab.'">';
+							do_action( "apppresser_tab_".$tab."_subtab_advance_top", $appp_settings, self::settings() );
+							echo implode( "\n", self::$advance_fields[ $tab ] );
+							do_action( "apppresser_tab_".$tab."_subtab_advance_bottom", $appp_settings, self::settings() );
+							echo '</table>';
+						}
+
+						// License Tab
+						if( $has_lic_subtab ) {
+							echo '<table class="appp-subtab license-subtab subtab-'.$tab.'">';
+							do_action( "apppresser_tab_general_subtab_license_top", $appp_settings, self::settings() );
+							foreach (self::$license_fields as $key => $subtab_licenses) {
+								echo implode( "\n",  $subtab_licenses );
+							}
+							do_action( "apppresser_tab_general_subtab_license_bottom", $appp_settings, self::settings() );
+							echo '</table>';
+						}
+
+						if( $has_gen_subtab || $has_adv_subtab || $has_lic_subtab ) {
+							echo '</td>';
+							echo '</tr>';
+						}
+
 						// A hook for adding additional data to the bottom of each tabbed area
 						do_action( "apppresser_tab_bottom_$tab", $appp_settings, self::settings() );
 					echo '</table>';
@@ -378,25 +443,12 @@ class AppPresser_Admin_Settings extends AppPresser {
 		self::add_setting_tab( __( 'AppPresser', 'apppresser' ), 'general' );
 		self::add_setting_label( __( 'AppPresser Core Settings', 'apppresser' ) );
 
-		// For now...
-		if ( appp_get_setting( 'mobile_browser_theme_switch' ) ) {
-			self::add_setting( 'mobile_browser_theme_switch', __( 'Load AppPresser for mobile browsers', 'apppresser' ), array(
-				'type' => 'checkbox',
-				'helptext' => __( 'Display AppPresser in mobile browsers such as Safari and Chrome, instead of your normal theme.', 'apppresser' ),
-			) );
-		}
-
-		self::add_setting( 'admin_theme_switch', __( 'Load AppPresser for Admins Only', 'apppresser' ), array(
-			'type' => 'checkbox',
-			'helptext' => __( 'Check this if you want to test your AppPresser app without loading it for visitors to your site.', 'apppresser' ),
-			'description' => __( '(for testing purposes)', 'apppresser' ),
-		) );
-
 		self::add_setting( 'appp_theme', __( 'App-only theme', 'apppresser' ), array(
 			'type' => 'select',
 			'options' => apply_filters( 'filter_appthemes', $this->themes ),
 			'helptext' => __( 'Select which theme you want to be loaded inside the app, such as the AppPresser theme.', 'apppresser' ),
 			'description' => __( 'Must be enabled above.', 'apppresser' ),
+			'subtab' => 'general',
 		) );
 
 		self::add_setting( 'customizer_link', __( 'App Design', 'apppresser' ), array(
@@ -404,13 +456,6 @@ class AppPresser_Admin_Settings extends AppPresser {
 			'helptext' => __( 'Opens the customizer to customize the look of your app.', 'apppresser' ),
 			'value' => __( '<span></span>', 'apppresser' ),
 			'description' => __( 'Click here to customize app colors, menus, homepage & more.', 'apppresser' ),
-		) );
-
-		self::add_setting( 'appp_pg_version', __( 'Phonegap Version', 'apppresser' ), array(
-			'type' => 'select',
-			'options' => $this->phonegap_versions(),
-			'helptext' => __( 'Select the Phonegap Version of your app.', 'apppresser' ),
-			'description' => __( 'Select Phonegap Version. <b>For AppPresser 1 only</b>', 'apppresser' ),
 		) );
 
 		self::add_setting( 'appp_show_on_front', __( 'Use a unique homepage for your app.', 'apppresser' ), array(
@@ -425,10 +470,39 @@ class AppPresser_Admin_Settings extends AppPresser {
 			'description' => __( 'Start typing to search for a page, or enter a page ID.', 'apppresser' ),
 		) );
 
+		self::add_setting_label( __( 'Advanced Settings', 'apppresser' ), array(
+			'subtab' => 'advance'
+		) );
+
 		self::add_setting( 'app_offline_toggle', __( 'Disable offline toggle buttons?', 'apppresser' ), array(
 			'type' => 'checkbox',
 			'helptext' => __( 'When the app disconnects from the internet, the app will display buttons that allows the user to switch to a customized offline.html file located in the app or return to the WordPress site. AppPresser 2 only.', 'apppresser' ),
 			'description' => __( 'Don\'t allow the user to switch between online and offline mode when connection is lost.', 'apppresser' ),
+			'subtab' => 'advance',
+		) );
+
+		// For now...
+		if ( appp_get_setting( 'mobile_browser_theme_switch' ) ) {
+			self::add_setting( 'mobile_browser_theme_switch', __( 'Load AppPresser for mobile browsers', 'apppresser' ), array(
+				'type' => 'checkbox',
+				'helptext' => __( 'Display AppPresser in mobile browsers such as Safari and Chrome, instead of your normal theme.', 'apppresser' ),
+				'subtab' => 'advance',
+			) );
+		}
+
+		self::add_setting( 'admin_theme_switch', __( 'Load AppPresser for Admins Only', 'apppresser' ), array(
+			'type' => 'checkbox',
+			'helptext' => __( 'Check this if you want to test your AppPresser app without loading it for visitors to your site.', 'apppresser' ),
+			'description' => __( '(for testing purposes)', 'apppresser' ),
+			'subtab' => 'advance',
+		) );
+
+		self::add_setting( 'appp_pg_version', __( 'Phonegap Version', 'apppresser' ), array(
+			'type' => 'select',
+			'options' => $this->phonegap_versions(),
+			'helptext' => __( 'Select the Phonegap Version of your app.', 'apppresser' ),
+			'description' => __( 'Select Phonegap Version. <b>For AppPresser 1 only</b>', 'apppresser' ),
+			'subtab' => 'advance',
 		) );
 
 		/*$menus = array( 'option-none' => __( '-- select --', 'apppresser' ) );
@@ -500,6 +574,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 			'options'     => array(),
 			'tab'         => isset( $args['echo'] ) && $args['echo'] ? 'echoed' : array_shift( $keys ),
 			'echo'        => false,
+			'subtab'      => '',
 		);
 		$args = wp_parse_args( $args, $defaults );
 
@@ -623,7 +698,22 @@ class AppPresser_Admin_Settings extends AppPresser {
 		</tr>
 		';
 
-		self::$all_fields[ $args['tab'] ][ $key ] = $_field;
+		if( $type == 'license_key' ) {
+			self::$license_fields[ $args['tab'] ][ $key ] = $_field;
+			return;
+		}
+
+		if( $args['subtab'] == 'general' ) {
+			self::$general_fields[ $args['tab'] ][ $key ] = $_field;
+		}
+
+		if( $args['subtab'] == 'advance' ) {
+			self::$advance_fields[ $args['tab'] ][ $key ] = $_field;
+			return;
+		} else {
+			self::$all_fields[ $args['tab'] ][ $key ] = $_field;
+		}
+
 		self::$field_args[ $key ] = array( 'args' => $args );
 
 		if ( $args['echo'] )

@@ -23,7 +23,7 @@ class AppPresser_Remote_Scripts {
 	 * @since  2.1.0
 	 */
 	public function __construct() {
-		add_action( 'apppresser_tab_bottom_general', array( $this, 'file_upload_admin_setting' ) );
+		add_action( 'apppresser_tab_general_subtab_advance_bottom', array( $this, 'file_upload_admin_setting' ) );
 		add_action( 'apppresser_tab_top_'.self::$tab_slug, array( $this, 'appp_add_some_text' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ), 8 );
 		add_action( 'init', array( $this, 'handle_upload' ) );

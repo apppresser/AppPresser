@@ -12,6 +12,8 @@ jQuery(document).ready(function($) {
 	var $arrow       = $show.next('span').css({'display':'inline-block'}).rotate(deg);
 	var $navtabs     = $context.find( '.nav-tab' );
 	var $tabs        = $context.find( '.appp-tabs' );
+	var $navsubtabs  = $context.find( '.subnav-tab' );
+	var $subtabs     = $context.find( '.appp-subtab' );
 	var $ajaxinput   = $('#apppresser--appp_home_page');
 	var $ajaxcontext = $ajaxinput.parents('tr');
 	var $ajaxresults = $ajaxcontext.find('.appp-ajax-results-posts');
@@ -42,6 +44,25 @@ jQuery(document).ready(function($) {
 			// Set new current tab
 			$( '.' + $self.data('selector') ).fadeIn('fast');
 			$self.addClass( 'nav-tab-active' );
+
+			// Set referrer to current tab
+	    	$referrer.val( newurl );
+			if ( typeof window.history.pushState == 'function' ) {
+			    window.history.pushState( '','', newurl );
+			}
+
+		})
+		.on( 'click', '.subnav-tab', function( event ) {
+			event.preventDefault();
+			var $self = $(this);
+			var newurl = $self.attr( 'href' );
+
+			$subtabs.hide();
+			$navsubtabs.removeClass( 'current' );
+
+			// Set new current tab
+			$( '.' + $self.data('selector') ).fadeIn('fast');
+			$self.addClass( 'current' );
 
 			// Set referrer to current tab
 	    	$referrer.val( newurl );
