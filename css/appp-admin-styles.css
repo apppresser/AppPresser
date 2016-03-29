@@ -132,9 +132,23 @@
 
 .appp-quickstart h2 {
 	text-align: center;
-	margin: 10px 0 0;
+	margin: 10px 0 16px;
 	font-size: 1.6em;
 }
+
+.appp-quickstart table {
+	width: 100%;
+}
+
+.appp-quickstart table td {
+	width: 33%;
+}
+@media screen and (max-width: 782px) {
+	.appp-quickstart table td {
+		width: 92%;
+	}	
+}
+
 
 .appp-quickstart-content h3 {
 	margin: 6px 0;
@@ -156,7 +170,7 @@
 }
 
 .about-description {
-	margin-top: 36px !important;
+	margin-top: 50px !important;
 }
 
 #the-plugin-appp-quickstart .close-button {

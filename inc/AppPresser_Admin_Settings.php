@@ -866,11 +866,11 @@ class AppPresser_Admin_Settings extends AppPresser {
 				<div class="appp-quickstart-content">
 					<h2>AppPresser Quick Start</h2>
 
-					<table style="width:100%">
+					<table>
 						<tr>
 							<td>
-								<h3><?php _e('Choose your app only theme') ?></h3>
-								<p><?php _e('This theme will only be used for your app.', 'apppresser') ?></p>
+								<h3><?php _e('1. Choose your app only theme') ?></h3>
+								<p><?php _e('This theme will only be used for your app. Choose a theme and save.', 'apppresser') ?></p>
 								<div class="control">
 									<select id="apppresser-theme-quickstart">
 										<?php 
@@ -883,7 +883,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 								</div>
 							</td>
 							<td>
-								<h3><?php _e('Customize your app', 'apppresser') ?></h3>
+								<h3><?php _e('2. Customize your app', 'apppresser') ?></h3>
 								<p><?php _e('Customize your app menus, colors, and more.', 'apppresser') ?></p>
 								<div class="control">
 									<?php
@@ -902,7 +902,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 								</div>
 							</td>
 							<td>
-								<h3><?php _e('Preview your app', 'apppresser') ?></h3>
+								<h3><?php _e('3. Preview your app', 'apppresser') ?></h3>
 								<p><?php _e('Download our preview app, and enter your site url.', 'apppresser') ?></p>
 								<div class="control">
 									<a href="http://docs.apppresser.com/article/236-apppresser-preview-app" target="_blank">Download</a>
