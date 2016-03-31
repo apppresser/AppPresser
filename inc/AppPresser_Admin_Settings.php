@@ -701,18 +701,14 @@ class AppPresser_Admin_Settings extends AppPresser {
 		</tr>
 		';
 
-		if( $type == 'license_key' ) {
-			self::$license_fields[ $args['tab'] ][ $key ] = $_field;
-			return;
-		}
-
 		if( $args['subtab'] == 'general' ) {
 			self::$general_fields[ $args['tab'] ][ $key ] = $_field;
 		}
 
-		if( $args['subtab'] == 'advanced' ) {
+		if( $type == 'license_key' ) {
+			self::$license_fields[ $args['tab'] ][ $key ] = $_field;
+		} else if( $args['subtab'] == 'advanced' ) {
 			self::$advanced_fields[ $args['tab'] ][ $key ] = $_field;
-			return;
 		} else {
 			self::$all_fields[ $args['tab'] ][ $key ] = $_field;
 		}
