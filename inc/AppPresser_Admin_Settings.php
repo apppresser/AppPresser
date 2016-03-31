@@ -27,7 +27,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 	public static $license_keys    = array();
 	public static $license_fields  = array();
 	public static $general_fields  = array();
-	public static $advance_fields  = array();
+	public static $advanced_fields  = array();
 
 	/**
 	 * Creates or returns an instance of this class.
@@ -341,7 +341,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 					$current_class = $tab == $current_tab ? ' nav-tab-active' : '';
 
 					$has_gen_subtab = ( isset( self::$general_fields[ $tab ] ) );
-					$has_adv_subtab = ( isset( self::$advance_fields[ $tab ] ) );
+					$has_adv_subtab = ( isset( self::$advanced_fields[ $tab ] ) );
 					$has_lic_subtab = ( $tab == 'general' && isset( self::$license_fields[ $tab ] ) );
 					$subtab_links = array();
 
@@ -351,7 +351,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 
 					}
 					if( $has_adv_subtab ) {
-						$subtab_links[] = '<li><a href="?page=apppresser_settings&tab=tab-'.$tab.'&subnav=advance" class="subnav-tab" id="tab-'.$tab.'-subnav-advance"  data-selector="advance-subtab.subtab-'.$tab.'">' . __('Advance', 'apppresser') . '</a>'
+						$subtab_links[] = '<li><a href="?page=apppresser_settings&tab=tab-'.$tab.'&subnav=advanced" class="subnav-tab" id="tab-'.$tab.'-subnav-advanced"  data-selector="advanced-subtab.subtab-'.$tab.'">' . __('Advanced', 'apppresser') . '</a>'
 							. ( ($has_lic_subtab)?' | ':'' ) . '</li>';
 					}
 					if( $has_lic_subtab ) {
@@ -385,10 +385,10 @@ class AppPresser_Admin_Settings extends AppPresser {
 
 						// Advanced Tab
 						if( $has_adv_subtab ) {
-							echo '<table class="appp-subtab advance-subtab subtab-'.$tab.'">';
-							do_action( "apppresser_tab_".$tab."_subtab_advance_top", $appp_settings, self::settings() );
-							echo implode( "\n", self::$advance_fields[ $tab ] );
-							do_action( "apppresser_tab_".$tab."_subtab_advance_bottom", $appp_settings, self::settings() );
+							echo '<table class="appp-subtab advanced-subtab subtab-'.$tab.'">';
+							do_action( "apppresser_tab_".$tab."_subtab_advanced_top", $appp_settings, self::settings() );
+							echo implode( "\n", self::$advanced_fields[ $tab ] );
+							do_action( "apppresser_tab_".$tab."_subtab_advanced_bottom", $appp_settings, self::settings() );
 							echo '</table>';
 						}
 
@@ -474,14 +474,14 @@ class AppPresser_Admin_Settings extends AppPresser {
 		) );
 
 		self::add_setting_label( __( 'Advanced Settings', 'apppresser' ), array(
-			'subtab' => 'advance'
+			'subtab' => 'advanced'
 		) );
 
 		self::add_setting( 'app_offline_toggle', __( 'Disable offline toggle buttons?', 'apppresser' ), array(
 			'type' => 'checkbox',
 			'helptext' => __( 'When the app disconnects from the internet, the app will display buttons that allows the user to switch to a customized offline.html file located in the app or return to the WordPress site. AppPresser 2 only.', 'apppresser' ),
 			'description' => __( 'Don\'t allow the user to switch between online and offline mode when connection is lost.', 'apppresser' ),
-			'subtab' => 'advance',
+			'subtab' => 'advanced',
 		) );
 
 		// For now...
@@ -489,7 +489,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 			self::add_setting( 'mobile_browser_theme_switch', __( 'Load AppPresser for mobile browsers', 'apppresser' ), array(
 				'type' => 'checkbox',
 				'helptext' => __( 'Display AppPresser in mobile browsers such as Safari and Chrome, instead of your normal theme.', 'apppresser' ),
-				'subtab' => 'advance',
+				'subtab' => 'advanced',
 			) );
 		}
 
@@ -497,7 +497,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 			'type' => 'checkbox',
 			'helptext' => __( 'Check this if you want to test your AppPresser app without loading it for visitors to your site.', 'apppresser' ),
 			'description' => __( '(for testing purposes)', 'apppresser' ),
-			'subtab' => 'advance',
+			'subtab' => 'advanced',
 		) );
 
 		self::add_setting( 'appp_pg_version', __( 'Phonegap Version', 'apppresser' ), array(
@@ -505,7 +505,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 			'options' => $this->phonegap_versions(),
 			'helptext' => __( 'Select the Phonegap Version of your app.', 'apppresser' ),
 			'description' => __( 'Select Phonegap Version. <b>For AppPresser 1 only</b>', 'apppresser' ),
-			'subtab' => 'advance',
+			'subtab' => 'advanced',
 		) );
 
 		/*$menus = array( 'option-none' => __( '-- select --', 'apppresser' ) );
@@ -710,8 +710,8 @@ class AppPresser_Admin_Settings extends AppPresser {
 			self::$general_fields[ $args['tab'] ][ $key ] = $_field;
 		}
 
-		if( $args['subtab'] == 'advance' ) {
-			self::$advance_fields[ $args['tab'] ][ $key ] = $_field;
+		if( $args['subtab'] == 'advanced' ) {
+			self::$advanced_fields[ $args['tab'] ][ $key ] = $_field;
 			return;
 		} else {
 			self::$all_fields[ $args['tab'] ][ $key ] = $_field;
