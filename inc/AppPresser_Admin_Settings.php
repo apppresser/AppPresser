@@ -897,7 +897,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 										} else {
 											// This button is disabled and displays an alert to select a theme first
 											echo sprintf( '<button class="button button-primary button-large">%s</button>', __( 'Open Customizer', 'apppresser' ) );
-											echo '<script type="text/javascript">var appp_no_theme_msg = "' . __( 'Please select a theme first', 'apppresser' ) . '";</script>';
+											echo '<script type="text/javascript">var appp_no_theme_msg = "' . __( 'Please select an app only theme and save.', 'apppresser' ) . '";</script>';
 										}
 
 
@@ -917,9 +917,9 @@ class AppPresser_Admin_Settings extends AppPresser {
 					<p class="about-description">
 						<?php 
 							echo sprintf( __('What\'s next? Check out our docs on %s, %s, and %s.', 'apppresser'), 
-								'<a href="#">'.__('configuring your extensions', 'apppresser').'</a>',
-								'<a href="#">'.__('building for the app store','apppresser') .'</a>',
-								'<a href="#">'.__('more','apppresser').'</a>');
+								'<a href="http://docs.apppresser.com/collection/81-extensions">'.__('configuring your extensions', 'apppresser').'</a>',
+								'<a href="http://docs.apppresser.com/article/118-introduction-to-app-store-submission">'.__('building for the app store','apppresser') .'</a>',
+								'<a href="http://docs.apppresser.com/">'.__('more','apppresser').'</a>');
 						?>
 					</p>
 				</div>
