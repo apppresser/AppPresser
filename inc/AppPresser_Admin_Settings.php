@@ -61,6 +61,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 		add_action( 'admin_menu', array( $this, 'plugin_menu' ), 9 );
 		add_filter( 'sanitize_option_'. AppPresser::SETTINGS_NAME, array( $this, 'maybe_reset_license_statuses' ), 99 );
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
+		add_action( 'admin_init', array( $this, 'verify_apptheme_slug' ) );
 		add_action( 'apppresser_add_settings', array( $this, 'add_settings' ), 6 ); // Higher priority
 		add_filter( 'apppresser_field_markup_text', array( $this, 'ajax_container' ), 10, 2 );
 		add_action( 'wp_ajax_appp_search_post_handler', array( $this, 'ajax_post_results' ) );
@@ -890,8 +891,14 @@ class AppPresser_Admin_Settings extends AppPresser {
 										// Get the customizer url
 										$url = esc_url( add_query_arg( array( 'appp_theme' => 1, 'theme' => $appp_theme ), admin_url( 'customize.php' ) ) );
 
-										// Add url to description
-										echo sprintf( '<a class="button button-primary button-large" href="%s">%s</a>', $url, __( 'Open Customizer', 'apppresser' ) );
+										if( self::settings( 'appp_theme' ) ) {
+											// Add url to description
+											echo sprintf( '<a class="button button-primary button-large" href="%s">%s</a>', $url, __( 'Open Customizer', 'apppresser' ) );
+										} else {
+											// This button is disabled and displays an alert to select a theme first
+											echo sprintf( '<button class="button button-primary button-large">%s</button>', __( 'Open Customizer', 'apppresser' ) );
+											echo '<script type="text/javascript">var appp_no_theme_msg = "' . __( 'Please select a theme first', 'apppresser' ) . '";</script>';
+										}
 
 
 									?>
@@ -1004,6 +1011,20 @@ class AppPresser_Admin_Settings extends AppPresser {
 	 */
 	public static function clear_cookie() {
 		setcookie( 'AppPresser_Appp', 'false', time() - DAY_IN_SECONDS );
+	}
+
+	public function verify_apptheme_slug() {
+		if( class_exists('AppPresser_Theme_Setup') && AppPresser_Theme_Setup::THEME_SLUG == 'apppresser' ) {
+			add_action( 'admin_notices', array($this, 'apptheme_update_admin_notice' ) );
+		}
+	}
+
+	public function apptheme_update_admin_notice() {
+		?>
+		<div class="notice notice-warning">
+			<p><?php echo sprintf( __( 'Your version of AppTheme has a programming error that will cause updates to fail.  Read about the simple fix in our <a href="%s" target="_blank">docs</a>.', 'apppresser' ), 'http://docs.apppresser.com/article/243-older-versions-of-apptheme-fail-to-update' ); ?></p>
+		</div>
+		<?php
 	}
 
 }

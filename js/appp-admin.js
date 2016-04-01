@@ -122,6 +122,9 @@ jQuery(document).ready(function($) {
 					if(data == 1) $('tr.appp-quickstart').hide();
 				}
 			);
+		}).on( 'click', '.appp-quickstart-content button', function(event) {
+			event.preventDefault();
+			alert(appp_no_theme_msg);
 		});
 
 	// Set the initial state of the static home_page field as disabled if lastest posts is selected
