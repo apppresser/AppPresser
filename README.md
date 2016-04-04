@@ -37,6 +37,12 @@ Note: This repository is for code contributors. To use this plugin on your websi
 ## Changelog
 
 
+#### 2.3.0
+* Quick start admin settings
+* Verify THEME_SLUG
+* Add external-media class to open URLs using the Google Docs previewer
+* Kill videos on Android pause event
+
 #### 2.2.1
 * fix links with the 'external' class that have the same domain as the site to open in the InAppBrowser.
 
