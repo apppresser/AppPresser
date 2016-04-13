@@ -37,6 +37,9 @@ Note: This repository is for code contributors. To use this plugin on your websi
 ## Changelog
 
 
+#### 2.3.1
+* AppGeo bug fix for empty lat and long on checkin
+
 #### 2.3.0
 * Quick start admin settings
 * Verify THEME_SLUG
