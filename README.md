@@ -36,6 +36,11 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+#### 2.3.2
+* Fix events triggering prior to iframe not yet ready
+* Clear iOS badges on app launch
+* Fix iOS bug for URL target for _system when target is IMG
+* Bail AdMob init when no ad codes are set in wp-admin
 
 #### 2.3.1
 * AppGeo bug fix for empty lat and long on checkin
