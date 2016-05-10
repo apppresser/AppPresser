@@ -36,6 +36,9 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+#### 2.3.3
+* Enqueue jQuery to fix missing localized variable ajaxurl for AppTheme and Ion theme
+
 #### 2.3.2
 * Fix events triggering prior to iframe not yet ready
 * Clear iOS badges on app launch
