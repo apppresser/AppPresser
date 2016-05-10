@@ -349,6 +349,8 @@ class AppPresser {
 			} elseif ( appp_is_android() ) {
 				wp_enqueue_script( 'cordova-core', self::$pg_url .'android/cordova.js', null, filemtime( self::$dir_path .'pg/' . self::$pg_version . '/android/cordova_plugins.js' ) );
 			}
+		} else {
+			wp_enqueue_script( 'jquery' ); // localized vars are attached to this in v2
 		}
 	}
 
