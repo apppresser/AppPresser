@@ -36,6 +36,10 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+#### 2.4.0
+* Add the ability to use AdMob ads in the AppAds plugin
+* Bug fix: improve logic of comparing domains when opening the InApp browser
+
 #### 2.3.3
 * Enqueue jQuery to fix missing localized variable ajaxurl for AppTheme and Ion theme
 
