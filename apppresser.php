@@ -421,6 +421,17 @@ class AppPresser {
 	}
 
 	/**
+	 * Set the cookie for bypass session
+	 * @since 2.0.0
+	 */
+	public static function set_bypass_cookie( $end_of_session = true ) {
+
+		$timeout = ($end_of_session) ? 0 : time()-86400; // timeout after session or immediately (yesterday)
+
+		setcookie( 'AppPresser_Bypass', 'true', $timeout, '/' );
+	}
+
+	/**
 	 * Checks if WP install is displaying the NEW WordPress style (previously the MP6 plugin)
 	 * @since  1.0.0
 	 * @return boolean Whether admin has new style
@@ -448,6 +459,15 @@ class AppPresser {
 	public static function read_app_version() {
 		if ( self::$is_apppv !== null )
 			return self::$is_apppv;
+
+		if( isset( $_GET['appp_bypass'] ) && $_GET['appp_bypass'] == 'false' ) {
+			self::set_bypass_cookie(false);
+		} else if( ( isset( $_GET['appp_bypass'] ) && $_GET['appp_bypass'] == 'true' ) || ( isset( $_COOKIE['AppPresser_Bypass'] ) && $_COOKIE['AppPresser_Bypass'] == 'true' ) ) {
+			if( isset( $_GET['appp_bypass'] ) )
+				self::set_bypass_cookie();
+
+			return self::$is_apppv = 0;
+		}
 
 		if( isset( $_GET['appp'] ) && $_GET['appp'] == 2 || isset( $_COOKIE['AppPresser_Appp2'] ) && $_COOKIE['AppPresser_Appp2'] === 'true' ) {
 			self::$is_apppv = 2;
