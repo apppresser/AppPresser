@@ -36,6 +36,15 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+#### 2.5.0
+* Add options to IAB window.open
+* Optionally allow external links to not show the app theme, forces a page reload on return
+* Improve logic when using In-App browser for external URLs to decifer relative links, tel: and mail: 
+* Fix click events related to the .swiper-container for AppSwiper
+* Read device id whether it is a string or object
+* Make AppAds check each OS separately for existing ad settings
+* Fix expired license message
+
 #### 2.4.0
 * Add the ability to use AdMob ads in the AppAds plugin
 * Bug fix: improve logic of comparing domains when opening the InApp browser

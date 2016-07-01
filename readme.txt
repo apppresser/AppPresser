@@ -3,8 +3,8 @@ Contributors: apppresser, webdevstudios, williamsba1, scottopolis, jtsternberg, 
 Donate link: http://apppresser.com/
 Tags: mobile, app, ios, android, application, phonegap, iphone app, android app, mobile app, native app, wordpress mobile, ipad app, iOS app
 Requires at least: 3.5
-Tested up to: 4.5.2
-Stable tag: 2.4.0
+Tested up to: 4.5.3
+Stable tag: 2.5.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -88,6 +88,15 @@ Technically you can do anything with an AppPresser app that you can do with Phon
 
 
 == Changelog ==
+
+= 2.5.0 =
+* Add options to IAB window.open
+* Optionally allow external links to not show the app theme, forces a page reload on return
+* Improve logic when using In-App browser for external URLs to decifer relative links, tel: and mail: 
+* Fix click events related to the .swiper-container for AppSwiper
+* Read device id whether it is a string or object
+* Make AppAds check each OS separately for existing ad settings
+* Fix expired license message
 
 = 2.4.0 =
 * Add the ability to use AdMob ads in the AppAds plugin
