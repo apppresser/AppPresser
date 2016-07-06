@@ -560,7 +560,8 @@ class AppPresser {
 		if( is_wp_error( $user_signon ) ) {
 		
 			$return = array(
-				'message' =>  __('The log in you have entered is not valid.', 'apptheme'),
+				'message' =>  __('The log in you have entered is not valid.', 'apppresser'),
+				'line' => __LINE__,
 				'success' => false
 			);
 			wp_send_json_error( $return );
@@ -568,7 +569,7 @@ class AppPresser {
 		} else {
 
 			$return = array(
-				'message' => sprintf( __('Welcome %s, you are now logged in.', 'apptheme'), $user_signon->display_name),
+				'message' => sprintf( __('594 Welcome %s, you are now logged in.', 'apppresser'), $user_signon->display_name),
 			);
 			wp_send_json_success( $return );	
 			
@@ -581,9 +582,9 @@ class AppPresser {
 	 */
 	public function ajax_login_init(){
 		wp_localize_script( 'jquery', 'appp_ajax_login', array( 
-			'processing' => __('Logging in....', 'apptheme'),
-			'required'   => __('Fields are required', 'apptheme'),
-			'error'      => __('Error Logging in', 'apptheme'),
+			'processing' => __('Logging in....', 'apppresser'),
+			'required'   => __('Fields are required', 'apppresser'),
+			'error'      => __('Error Logging in', 'apppresser'),
 		));
 	}
 
