@@ -203,7 +203,7 @@ class AppPresser_Theme_Switcher extends AppPresser {
  * @return true if device is running iOS
  */
 function appp_is_ios() {
-	$ua = strtolower( $_SERVER['HTTP_USER_AGENT'] );
+	$ua = isset( $_SERVER['HTTP_USER_AGENT'] ) ? strtolower( $_SERVER['HTTP_USER_AGENT'] ) : '';
 	return ( strstr( $ua, 'iphone' ) || strstr( $ua, 'ipod' ) || strstr( $ua, 'ipad' )
 	);
 }
