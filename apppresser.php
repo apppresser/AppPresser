@@ -569,9 +569,9 @@ class AppPresser {
 		} else {
 
 			$return = array(
-				'message' => sprintf( __('594 Welcome %s, you are now logged in.', 'apppresser'), $user_signon->display_name),
+				'message' => sprintf( __('Welcome %s, you are now logged in.', 'apppresser'), $user_signon->display_name),
 			);
-			wp_send_json_success( $return );	
+			wp_send_json_success( $return );
 			
 		}
 	}
