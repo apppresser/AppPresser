@@ -36,6 +36,13 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+#### 2.6.0
+* Bug fixes
+* Allow translatable text
+* Show the KeyboardAccessaryBar on iOS
+* Add fb_id param for AppFBConnect
+* Add a custom callback for fb login
+
 #### 2.5.0
 * Add options to IAB window.open
 * Optionally allow external links to not show the app theme, forces a page reload on return

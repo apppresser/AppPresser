@@ -3,8 +3,8 @@ Contributors: apppresser, webdevstudios, williamsba1, scottopolis, jtsternberg, 
 Donate link: http://apppresser.com/
 Tags: mobile, app, ios, android, application, phonegap, iphone app, android app, mobile app, native app, wordpress mobile, ipad app, iOS app
 Requires at least: 3.5
-Tested up to: 4.5.3
-Stable tag: 2.5.0
+Tested up to: 4.6.1
+Stable tag: 2.6.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -88,6 +88,13 @@ Technically you can do anything with an AppPresser app that you can do with Phon
 
 
 == Changelog ==
+
+= 2.6.0 =
+* Bug fixes
+* Allow translatable text
+* Show the KeyboardAccessaryBar on iOS
+* Add fb_id param for AppFBConnect
+* Add a custom callback for fb login
 
 = 2.5.0 =
 * Add options to IAB window.open
