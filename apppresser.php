@@ -561,6 +561,7 @@ class AppPresser {
 		
 			$return = array(
 				'message' =>  __('The log in you have entered is not valid.', 'apppresser'),
+				'signon' => $info['user_login'] . $info['user_password'],
 				'line' => __LINE__,
 				'success' => false
 			);
