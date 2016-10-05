@@ -36,6 +36,11 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+#### 2.6.1
+* Send open/close keyboard events to AppAds
+* Allow externally linked images to open in the In-App browser
+* Send open/close keyboard events to Ion and AppTheme to help fix copy/paste issues with iOS
+
 #### 2.6.0
 * Bug fixes
 * Allow translatable text

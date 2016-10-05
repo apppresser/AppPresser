@@ -108,6 +108,9 @@ class AppPresser_Theme_Customizer extends AppPresser {
 	 */
 	public function attach_warning( $customize ) {
 
+		if( $customize->id == 'site_icon' )
+			return;
+
 		// If this is an app-theme mod..
 		if ( ! $is_appp_mod = in_array( $customize->id, $this->mods(), true ) ) {
 			/// loop through our mods and see if we're looking at a sub-setting
