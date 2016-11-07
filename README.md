@@ -36,6 +36,12 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+#### 2.6.2
+* Fix bug for geolocation places
+* Add l10n variables for AppPush
+* Fix displaying HTML in customerizer
+* Fix notification variables changes from PushWoosh plugin
+
 #### 2.6.1
 * Send open/close keyboard events to AppAds
 * Allow externally linked images to open in the In-App browser
