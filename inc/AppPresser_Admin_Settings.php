@@ -57,7 +57,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 			self::$deprecate_ver = (int)$_GET['appp_settings_ver'];
 			update_option( 'appp_settings_ver', self::$deprecate_ver, true );
 		} else {
-			self::$deprecate_ver = get_option( 'appp_settings_ver', 0 );
+			self::$deprecate_ver = get_option( 'appp_settings_ver', self::$deprecate_ver );
 		}
 
 		// Get all themes
