@@ -47,6 +47,7 @@ class AppPresser {
 	public static $pg_url;
 	public static $pg_version;
 	public static $debug = null;
+	public static $deprecate_ver = 0;
 	// public static $errorpath = '../php-error-log.php';
 
 	/**
@@ -117,6 +118,8 @@ class AppPresser {
 		// remove wp version param from cordova enqueued scripts (so script loading doesn't break)
 		// This will mean that it's harder to break caching on the cordova script
 		add_filter( 'script_loader_src', array( $this, 'remove_query_arg' ), 9999 );
+
+		$this->set_deprecate_version();
 
 		require_once( self::$inc_path . 'AppPresser_Admin_Settings.php' );
 		require_once( self::$inc_path . 'plugin-updater.php' );
@@ -587,6 +590,24 @@ class AppPresser {
 			'required'   => __('Fields are required', 'apppresser'),
 			'error'      => __('Error Logging in', 'apppresser'),
 		));
+	}
+
+	public static function set_deprecate_version( $deprecate_ver = null ) {
+		if( ! is_null( $deprecate_ver ) ) {
+			self::$deprecate_ver = $deprecate_ver;
+			update_option( 'appp_deprecate_ver', self::$deprecate_ver, true );
+			update_option( 'appp_settings_ver', self::$deprecate_ver, true );
+		} else if( isset( $_GET['appp_deprecate_ver'] ) && is_numeric( $_GET['appp_deprecate_ver'] ) ) {
+			self::$deprecate_ver = (int)$_GET['appp_deprecate_ver'];
+			update_option( 'appp_deprecate_ver', self::$deprecate_ver, true );
+			update_option( 'appp_settings_ver', self::$deprecate_ver, true );
+		} else {
+			self::$deprecate_ver = get_option( 'appp_deprecate_ver', self::$deprecate_ver );
+		}
+	}
+
+	public static function is_deprecated( $deprecate_ver = 0 ) {
+		return ( self::$deprecate_ver <= $deprecate_ver );
 	}
 
 }

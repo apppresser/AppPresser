@@ -53,12 +53,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 			self::clear_cookie();
 		}
 
-		if( isset( $_GET['appp_settings_ver'] ) && is_numeric( $_GET['appp_settings_ver'] ) ) {
-			self::$deprecate_ver = (int)$_GET['appp_settings_ver'];
-			update_option( 'appp_settings_ver', self::$deprecate_ver, true );
-		} else {
-			self::$deprecate_ver = get_option( 'appp_settings_ver', self::$deprecate_ver );
-		}
+		$this->set_deprecate_version();
 
 		// Get all themes
 		$this->themes    = wp_get_themes();
@@ -480,7 +475,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 		// Main tab
 		self::add_setting_tab( __( 'AppPresser', 'apppresser' ), 'general' );
 		
-		if( self::$deprecate_ver >= 2 )
+		if( self::is_deprecated( 2 ) )
 			self::add_setting_label( __( 'AppPresser Core Settings', 'apppresser' ), array(
 				'subtab' => 'general',
 			) );
@@ -1089,6 +1084,19 @@ class AppPresser_Admin_Settings extends AppPresser {
 			<p><?php echo sprintf( __( 'Your version of AppTheme has a programming error that will cause updates to fail.  Read about the simple fix in our <a href="%s" target="_blank">docs</a>.', 'apppresser' ), 'http://docs.apppresser.com/article/243-older-versions-of-apptheme-fail-to-update' ); ?></p>
 		</div>
 		<?php
+	}
+
+	public static function set_deprecate_version( $deprecate_ver = null ) {
+		if( isset( $_GET['appp_settings_ver'] ) && is_numeric( $_GET['appp_settings_ver'] ) ) {
+			self::$deprecate_ver = (int)$_GET['appp_settings_ver'];
+			update_option( 'appp_settings_ver', self::$deprecate_ver, true );
+		} else {
+			self::$deprecate_ver = get_option( 'appp_settings_ver', self::$deprecate_ver );
+		}
+	}
+
+	public static function is_deprecated( $deprecate_ver = 0 ) {
+		return ( $deprecate_ver <= self::$deprecate_ver );
 	}
 
 }
