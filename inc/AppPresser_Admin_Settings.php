@@ -27,7 +27,8 @@ class AppPresser_Admin_Settings extends AppPresser {
 	public static $license_keys    = array();
 	public static $license_fields  = array();
 	public static $general_fields  = array();
-	public static $advanced_fields  = array();
+	public static $advanced_fields = array();
+	public static $v2only_fields   = array();
 
 	/**
 	 * Creates or returns an instance of this class.
@@ -344,11 +345,12 @@ class AppPresser_Admin_Settings extends AppPresser {
 					$has_gen_subtab = ( isset( self::$general_fields[ $tab ] ) );
 					$has_adv_subtab = ( isset( self::$advanced_fields[ $tab ] ) );
 					$has_lic_subtab = ( $tab == 'general' && isset( self::$license_fields[ $tab ] ) );
+					$has_v2_subtab  = ( isset( self::$v2only_fields[ $tab ] ) );
 					$subtab_links = array();
 
 					if( $has_gen_subtab ) {
 						$subtab_links[] = '<li><a href="?page=apppresser_settings&tab=tab-'.$tab.'&subnav=general" class="subnav-tab current" id="tab-'.$tab.'-subnav-general" data-selector="general-subtab.subtab-'.$tab.'">' . __('General', 'apppresser') . '</a>'
-							. ( ($has_adv_subtab || $has_lic_subtab)?' | ':'' ) . '</li>';
+							. ( ($has_adv_subtab || $has_lic_subtab || $has_v2_subtab)?' | ':'' ) . '</li>';
 
 					}
 					if( $has_adv_subtab ) {
@@ -358,12 +360,15 @@ class AppPresser_Admin_Settings extends AppPresser {
 					if( $has_lic_subtab ) {
 						$subtab_links[] = '<li><a href="?page=apppresser_settings&tab=tab-'.$tab.'&subnav=license" class="subnav-tab" id="tab-'.$tab.'-subnav-license"  data-selector="license-subtab.subtab-'.$tab.'">' . __('Licenses', 'apppresser') . '</a></li>';
 					}
+					if( $has_v2_subtab ) {
+						$subtab_links[] = '<li><a href="?page=apppresser_settings&tab=tab-'.$tab.'&subnav=v2-only" class="subnav-tab" id="tab-'.$tab.'-subnav-v2-only"  data-selector="v2-only-subtab.subtab-'.$tab.'">' . __('AppPresser 2.0', 'apppresser') . '</a></li>';
+					}
 
 					echo '<table class="appp-tabs form-table tab-'. $tab . $current_class .'">';
 						// A hook for adding additional data to the top of each tabbed area
 						do_action( "apppresser_tab_top_$tab", $appp_settings, self::settings() );
 
-						if( $has_gen_subtab || $has_adv_subtab || $has_lic_subtab ) {
+						if( $has_gen_subtab || $has_adv_subtab || $has_lic_subtab || $has_v2_subtab ) {
 							echo '<tr class="subtabs-wrapper">';
 							echo '<td colspan="2">';
 							echo '<ul class="subsubsub">';
@@ -405,7 +410,19 @@ class AppPresser_Admin_Settings extends AppPresser {
 							echo '</table>';
 						}
 
-						if( $has_gen_subtab || $has_adv_subtab || $has_lic_subtab ) {
+						// v2 Tab
+						if( $has_v2_subtab ) {
+							echo '<table class="appp-subtab v2-only-subtab subtab-'.$tab.'">';
+							echo '<tr valign="top" class="apppresser-apppresser-core-settings"><th colspan="2" scope="row" class="appp-section-title"><h3>'.__('AppPresser 2.0 only','apppresser').'</h3></th></tr>';
+							// do_action( "apppresser_tab_".$tab."_subtab_v2_top", $appp_settings, self::settings() );
+							foreach (self::$v2only_fields as $key => $subtab_v2) {
+								echo implode( "\n",  $subtab_v2 );
+							}
+							// do_action( "apppresser_tab_".$tab."_subtab_v2_bottom", $appp_settings, self::settings() );
+							echo '</table>';
+						}
+
+						if( $has_gen_subtab || $has_adv_subtab || $has_lic_subtab || $has_v2_subtab ) {
 							echo '</td>';
 							echo '</tr>';
 						}
@@ -715,6 +732,8 @@ class AppPresser_Admin_Settings extends AppPresser {
 			self::$license_fields[ $args['tab'] ][ $key ] = $_field;
 		} else if( $args['subtab'] == 'advanced' ) {
 			self::$advanced_fields[ $args['tab'] ][ $key ] = $_field;
+		} else if( $args['subtab'] == 'v2-only' ) {
+			self::$v2only_fields[ $args['tab'] ][ $key ] = $_field;
 		} else {
 			self::$all_fields[ $args['tab'] ][ $key ] = $_field;
 		}
