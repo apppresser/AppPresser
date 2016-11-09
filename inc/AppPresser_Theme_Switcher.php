@@ -52,6 +52,10 @@ class AppPresser_Theme_Switcher extends AppPresser {
 			self::set_app_cookie( 2 );
 		}
 
+		if ( self::get_apv( 3 ) ) { // only v3
+			self::set_app_cookie( 3 );
+		}
+
 		$do_switch = appp_get_setting( 'appp_theme' ) && (
 			// check if user is running native app
 			( self::is_app() )
