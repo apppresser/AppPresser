@@ -77,13 +77,29 @@ class AppPresser_Theme_Switcher extends AppPresser {
 		if ( ! $do_switch )
 			return;
 
-		// Get the saved setting's theme object
-		$this->appp_theme = wp_get_theme( appp_get_setting( 'appp_theme' ) );
+		
+		$this->appp_theme = $this->get_app_theme();
 
 		// switch the current theme to use the AppPresser theme
 		add_filter( 'option_template', array( $this, 'template_request' ), 5 );
 		add_filter( 'option_stylesheet', array( $this, 'stylesheet_request' ), 5 );
 		add_filter( 'template', array( $this, 'maybe_switch' ) );
+	}
+
+	public function get_app_theme_slug() {
+
+		if( self::is_min_ver( 3 ) ) {
+			$theme = apply_filters( 'appp_theme', 'ap3-ion-theme' );
+		} else {
+			// Get the saved setting's theme object
+			$theme = appp_get_setting( 'appp_theme' );
+		}
+
+		return $theme;
+	}
+
+	public function get_app_theme() {
+		return wp_get_theme( $this->get_app_theme_slug() );
 	}
 
 	/**
@@ -152,7 +168,7 @@ class AppPresser_Theme_Switcher extends AppPresser {
 		// Ok, do the template switch
 		$template = $stylesheet_request
 			// If a request for the stylesheet dir name, give back our setting
-			? appp_get_setting( 'appp_theme' )
+			? $this->get_app_theme_slug()
 			// Otherwise, give back our saved settings parent theme dir (if it has one)
 			: $this->appp_theme->get_template();
 
