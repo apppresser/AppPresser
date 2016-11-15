@@ -70,8 +70,8 @@ class AppPresser_Admin_Settings extends AppPresser {
 		add_filter( 'apppresser_field_markup_text', array( $this, 'ajax_container' ), 10, 2 );
 		add_action( 'wp_ajax_appp_search_post_handler', array( $this, 'ajax_post_results' ) );
 		add_action( 'admin_head', array( $this, 'icon_styles' ) );
-		add_action( 'apppresser_tab_general_subtab_general_top', array( $this, 'quick_start' ) );
-		add_action( 'wp_ajax_appp_hide_quickstart', array( $this, 'ajax_hide_quickstart' ) );
+		// add_action( 'apppresser_tab_general_subtab_general_top', array( $this, 'quick_start' ) );
+		// add_action( 'wp_ajax_appp_hide_quickstart', array( $this, 'ajax_hide_quickstart' ) );
 
 	}
 
