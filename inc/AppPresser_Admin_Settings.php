@@ -350,16 +350,6 @@ class AppPresser_Admin_Settings extends AppPresser {
 					$has_v2_subtab  = ( isset( self::$v2only_fields[ $tab ] ) );
 					$subtab_links = array();
 
-					// Deprecating the advance tab . . .
-					// merge advanced tab into the v2-only tab
-					// if( $has_adv_subtab ) {
-					// 	$has_v2_subtab = true;
-					// 	$has_adv_subtab = false;
-					// 	self::$v2only_fields = array_merge_recursive(self::$v2only_fields, self::$advanced_fields);
-					// 	self::$advanced_fields = array();
-					// }
-
-
 					// If the only tab is general, don't show it
 					if ( ! $has_adv_subtab && ! $has_lic_subtab && ! $has_v2_subtab ) {
 						$has_gen_subtab = false;
@@ -436,10 +426,8 @@ class AppPresser_Admin_Settings extends AppPresser {
 								<h4>'. __('These settings are only for AppPresser 2', 'apppresser') .'</h4>
 								</th></tr>';
 								// do_action( "apppresser_tab_".$tab."_subtab_v2_top", $appp_settings, self::settings() );
-								// do_action( "apppresser_tab_".$tab."_subtab_advanced_top", $appp_settings, self::settings() );
 								echo implode( "\n", self::$v2only_fields[ $tab ] );
 								// do_action( "apppresser_tab_".$tab."_subtab_v2_bottom", $appp_settings, self::settings() );
-								// do_action( "apppresser_tab_".$tab."_subtab_advanced_bottom", $appp_settings, self::settings() );
 								echo '</table>';
 							}
 						}
@@ -573,12 +561,14 @@ class AppPresser_Admin_Settings extends AppPresser {
 			'deprecated' => 1,
 		) );
 
-		self::add_setting( 'apppresser_deprecate', __( 'Version 2', 'apppresser' ), array(
-			'type' => 'paragraph',
-			'value' => $this->toggle_deprecated_version(),
-			'helptext' => __( 'Disable/Enable all functionality for version 2', 'apppresser' ),
-			'subtab' => 'general',
-		) );
+		if( self::$deprecate_ver ) {
+			self::add_setting( 'apppresser_deprecate', __( 'Version 2', 'apppresser' ), array(
+				'type' => 'paragraph',
+				'value' => $this->toggle_deprecated_version(),
+				'helptext' => __( 'Disable/Enable all functionality for version 2', 'apppresser' ),
+				'subtab' => 'general',
+			) );
+		}
 
 		/*$menus = array( 'option-none' => __( '-- select --', 'apppresser' ) );
 		foreach ( (array) $this->nav_menus as $menu ) {
@@ -1041,7 +1031,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 	}
 
 }
-$GLOBALS['AppPresser_Admin_Settings'] = AppPresser_Admin_Settings::run();
+AppPresser_Admin_Settings::run();
 
 /**
  * Function helper. Adds a setting section to AppPresser's settings.
