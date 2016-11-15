@@ -70,8 +70,6 @@ class AppPresser_Admin_Settings extends AppPresser {
 		add_filter( 'apppresser_field_markup_text', array( $this, 'ajax_container' ), 10, 2 );
 		add_action( 'wp_ajax_appp_search_post_handler', array( $this, 'ajax_post_results' ) );
 		add_action( 'admin_head', array( $this, 'icon_styles' ) );
-		// add_action( 'apppresser_tab_general_subtab_general_top', array( $this, 'quick_start' ) );
-		// add_action( 'wp_ajax_appp_hide_quickstart', array( $this, 'ajax_hide_quickstart' ) );
 
 	}
 
@@ -907,94 +905,6 @@ class AppPresser_Admin_Settings extends AppPresser {
 				'<a href="http://twitter.com/tw2113" target="_blank">Michael "Venkman" Beckwith</a>' ); ?>.</p>
 		</div>
 		<?php
-	}
-
-	public function quick_start() { 
-
-		$option = get_user_meta( get_current_user_id(), 'appp_quickstart_panel', true );
-
-		if( $option != 'hide') :
-		?>
-		<tr class="appp-quickstart"><td colspan="2">
-			<div id="the-plugin-appp-quickstart">
-				<?php wp_nonce_field('appp-quickstart-nonce', 'appp_quickstart_panelnonce', false);?>
-				<button class="close-button">X</button>
-				<div class="appp-quickstart-content">
-					<h2>AppPresser Quick Start</h2>
-
-					<table>
-						<tr>
-							<td>
-								<h3><?php _e('1. Choose your app only theme') ?></h3>
-								<p><?php _e('This theme will only be used for your app. Choose a theme and save.', 'apppresser') ?></p>
-								<div class="control">
-									<select id="apppresser-theme-quickstart">
-										<?php 
-											$themes = apply_filters( 'filter_appthemes', $this->themes );
-											foreach ($themes as $key => $value) {
-												echo '<option value="'.$key.'">'.$value.'</option>'."\n";
-											}
-										?>
-									</select>
-								</div>
-							</td>
-							<td>
-								<h3><?php _e('2. Customize your app', 'apppresser') ?></h3>
-								<p><?php _e('Customize your app menus, colors, and more.', 'apppresser') ?></p>
-								<div class="control">
-									<?php
-
-										$appp_theme = appp_get_setting( 'appp_theme' );
-										
-
-										// Get the customizer url
-										$url = esc_url( add_query_arg( array( 'appp_theme' => 1, 'theme' => $appp_theme ), admin_url( 'customize.php' ) ) );
-
-										if( self::settings( 'appp_theme' ) ) {
-											// Add url to description
-											echo sprintf( '<a class="button button-primary button-large" href="%s">%s</a>', $url, __( 'Open Customizer', 'apppresser' ) );
-										} else {
-											// This button is disabled and displays an alert to select a theme first
-											echo sprintf( '<button class="button button-primary button-large">%s</button>', __( 'Open Customizer', 'apppresser' ) );
-											echo '<script type="text/javascript">var appp_no_theme_msg = "' . __( 'Please select an app only theme and save.', 'apppresser' ) . '";</script>';
-										}
-
-
-									?>
-								</div>
-							</td>
-							<td>
-								<h3><?php _e('3. Preview your app', 'apppresser') ?></h3>
-								<p><?php _e('Download our preview app, and enter your site url.', 'apppresser') ?></p>
-								<div class="control">
-									<a href="http://docs.apppresser.com/article/236-apppresser-preview-app" target="_blank">Download</a>
-								</div>
-							</td>
-						</tr>
-					</table>
-
-					<p class="about-description">
-						<?php 
-							echo sprintf( __('What\'s next? Check out our docs on %s, %s, and %s.', 'apppresser'), 
-								'<a href="http://docs.apppresser.com/collection/81-extensions">'.__('configuring your extensions', 'apppresser').'</a>',
-								'<a href="http://docs.apppresser.com/article/118-introduction-to-app-store-submission">'.__('building for the app store','apppresser') .'</a>',
-								'<a href="http://docs.apppresser.com/">'.__('more','apppresser').'</a>');
-						?>
-					</p>
-				</div>
-			</div>
-		</td></tr>
-	<?php endif;
-
-	}
-
-	public function ajax_hide_quickstart() {
-
-		if( wp_verify_nonce( $_POST['appp_quickstart_panelnonce'], 'appp-quickstart-nonce' ) ) {
-			update_user_meta(get_current_user_id(), 'appp_quickstart_panel', 'hide');
-			wp_die(1);
-		}
-		wp_die(-1);
 	}
 
 	/**
