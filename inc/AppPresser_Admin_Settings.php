@@ -350,6 +350,16 @@ class AppPresser_Admin_Settings extends AppPresser {
 					$has_v2_subtab  = ( isset( self::$v2only_fields[ $tab ] ) );
 					$subtab_links = array();
 
+					// Deprecating the advance tab . . .
+					// merge advanced tab into the v2-only tab
+					// if( $has_adv_subtab ) {
+					// 	$has_v2_subtab = true;
+					// 	$has_adv_subtab = false;
+					// 	self::$v2only_fields = array_merge_recursive(self::$v2only_fields, self::$advanced_fields);
+					// 	self::$advanced_fields = array();
+					// }
+
+
 					// If the only tab is general, don't show it
 					if ( ! $has_adv_subtab && ! $has_lic_subtab && ! $has_v2_subtab ) {
 						$has_gen_subtab = false;
@@ -426,8 +436,10 @@ class AppPresser_Admin_Settings extends AppPresser {
 								<h4>'. __('These settings are only for AppPresser 2', 'apppresser') .'</h4>
 								</th></tr>';
 								// do_action( "apppresser_tab_".$tab."_subtab_v2_top", $appp_settings, self::settings() );
+								// do_action( "apppresser_tab_".$tab."_subtab_advanced_top", $appp_settings, self::settings() );
 								echo implode( "\n", self::$v2only_fields[ $tab ] );
 								// do_action( "apppresser_tab_".$tab."_subtab_v2_bottom", $appp_settings, self::settings() );
+								// do_action( "apppresser_tab_".$tab."_subtab_advanced_bottom", $appp_settings, self::settings() );
 								echo '</table>';
 							}
 						}
@@ -561,6 +573,13 @@ class AppPresser_Admin_Settings extends AppPresser {
 			'deprecated' => 1,
 		) );
 
+		self::add_setting( 'apppresser_deprecate', __( 'Version 2', 'apppresser' ), array(
+			'type' => 'paragraph',
+			'value' => $this->toggle_deprecated_version(),
+			'helptext' => __( 'Disable/Enable all functionality for version 2', 'apppresser' ),
+			'subtab' => 'general',
+		) );
+
 		/*$menus = array( 'option-none' => __( '-- select --', 'apppresser' ) );
 		foreach ( (array) $this->nav_menus as $menu ) {
 			$menus[ $menu->term_id ] = $menu->name;
@@ -589,6 +608,14 @@ class AppPresser_Admin_Settings extends AppPresser {
 	 */
 	public function help_link() {
 		echo '<a href="'. esc_url( add_query_arg( 'page', self::$help_slug, admin_url( 'admin.php' ) ) ) .'">'. __( 'Help/Support', 'apppresser' ) .'</a>';
+	}
+
+	public function toggle_deprecated_version() {
+		if( ! AppPresser::$deprecate_ver ) {
+			return '<p><a href="'. esc_url( add_query_arg( 'appp_deprecate_ver', '2', add_query_arg( 'page', self::$page_slug, admin_url( 'admin.php' ) ) ) ) .'">'. __( 'Deprecate AppPresser 2', 'apppresser' ) .'</a></p>';
+		} else {
+			return '<p><a href="'. esc_url( add_query_arg( 'appp_deprecate_ver', '0', add_query_arg( 'page', self::$page_slug, admin_url( 'admin.php' ) ) ) ) .'">'. __( 'Enable AppPresser 2', 'apppresser' ) .'</a></p>';
+		}
 	}
 
 	/**
@@ -826,6 +853,10 @@ class AppPresser_Admin_Settings extends AppPresser {
 	 * @param  array   $args    Array of possible options
 	 */
 	public static function add_setting_label( $title, $args = array() ) {
+
+		if( isset( $args['deprecated'] ) && $args['deprecated'] <= self::$deprecate_ver )
+			return;
+
 		self::add_setting( sanitize_title( $title ), $title, wp_parse_args( $args, array( 'type' => 'h3' ) ) );
 	}
 
@@ -1010,7 +1041,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 	}
 
 }
-AppPresser_Admin_Settings::run();
+$GLOBALS['AppPresser_Admin_Settings'] = AppPresser_Admin_Settings::run();
 
 /**
  * Function helper. Adds a setting section to AppPresser's settings.
