@@ -89,7 +89,23 @@ class AppPresser_Theme_Switcher extends AppPresser {
 	public function get_app_theme_slug() {
 
 		if( self::is_min_ver( 3 ) ) {
-			$theme = apply_filters( 'appp_theme', 'ap3-ion-theme' );
+
+			/**
+			 * Child theme:  ion-ap3-child
+			 * Parent theme: ap3-ion-theme
+			 * Filter:       appp_theme
+			 */
+
+			$child_theme_slug = 'ion-ap3-child';
+
+			$child_theme = wp_get_theme( $child_theme_slug );
+
+			if ( $child_theme->exists() ) {
+				$theme = $child_theme_slug;
+			} else {
+				$theme = apply_filters( 'appp_theme', 'ap3-ion-theme' );
+			}
+
 		} else {
 			// Get the saved setting's theme object
 			$theme = appp_get_setting( 'appp_theme' );
