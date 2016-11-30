@@ -580,12 +580,31 @@ class AppPresser {
 	 * Adds language textdomain options for form#loginform modal in apptheme 2.1.3 and ion 1.0.1
 	 * @since 2.0.1
 	 */
-	public function ajax_login_init(){
-		wp_localize_script( 'jquery', 'appp_ajax_login', array( 
+	public function ajax_login_init() {
+
+		$l10n = array( 
 			'processing' => __('Logging in....', 'apppresser'),
 			'required'   => __('Fields are required', 'apppresser'),
 			'error'      => __('Error Logging in', 'apppresser'),
-		));
+		);
+
+		$l10n = $this->custom_login_redirect( $l10n );
+
+		wp_localize_script( 'jquery', 'appp_ajax_login', $l10n );
+	}
+
+	/**
+	 * Adds custom login redirect for form#loginform modal in apptheme 2.5.0 and ion 1.4.0
+	 * @since 2.7.0
+	 * @param array $l10n
+	 * @return array $l10n
+	 */
+	public function custom_login_redirect( $l10n ) {
+		if( has_filter( 'appp_login_redirect' ) ) {
+			$l10n['login_redirect'] = apply_filters( 'appp_login_redirect', '' );
+		}
+
+		return $l10n;
 	}
 
 }
