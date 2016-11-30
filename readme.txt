@@ -89,6 +89,9 @@ Technically you can do anything with an AppPresser app that you can do with Phon
 
 == Changelog ==
 
+= 3.0.0 =
+* A whole new experience: [AppPresser 3.0](https://apppresser.com/3-announcement/)
+
 = 2.6.2 =
 * Fix bug for geolocation places
 * Add l10n variables for AppPush

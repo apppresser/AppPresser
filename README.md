@@ -36,6 +36,9 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+#### 3.0.0
+* A whole new experience: [AppPresser 3.0](https://apppresser.com/3-announcement/)
+
 #### 2.6.2
 * Fix bug for geolocation places
 * Add l10n variables for AppPush
