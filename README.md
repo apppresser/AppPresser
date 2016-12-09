@@ -36,6 +36,12 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+#### 2.7.0
+* Add filters for custom login/logout redirects
+* Add class for links to open In-App Browser and close it on pause to force stop audio/video on Android
+* Fix custom links for PushWoosh notifications for Android
+* Fix opening external media on touch events
+
 #### 2.6.2
 * Fix bug for geolocation places
 * Add l10n variables for AppPush

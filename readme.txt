@@ -3,8 +3,8 @@ Contributors: apppresser, webdevstudios, williamsba1, scottopolis, jtsternberg, 
 Donate link: http://apppresser.com/
 Tags: mobile, app, ios, android, application, phonegap, iphone app, android app, mobile app, native app, wordpress mobile, ipad app, iOS app
 Requires at least: 3.5
-Tested up to: 4.6.1
-Stable tag: 2.6.2
+Tested up to: 4.7.0
+Stable tag: 2.7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -88,6 +88,12 @@ Technically you can do anything with an AppPresser app that you can do with Phon
 
 
 == Changelog ==
+
+= 2.7.0 =
+* Add filters for custom login/logout redirects
+* Add class for links to open In-App Browser and close it on pause to force stop audio/video on Android
+* Fix custom links for PushWoosh notifications for Android
+* Fix opening external media on touch events
 
 = 2.6.2 =
 * Fix bug for geolocation places
