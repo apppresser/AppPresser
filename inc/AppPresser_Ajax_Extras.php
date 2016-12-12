@@ -29,6 +29,44 @@ class AppPresser_Ajax_Extras extends AppPresser {
 	public function hooks() {
 		add_action( 'wp_ajax_nopriv_app-lost-password', array( $this, 'appp_reset_password' ) );
 		add_action('wp_ajax_nopriv_app-validate-password', array( $this, 'appp_validate_password_code') );
+
+		add_action( 'wp_ajax_appp_load_more', array( $this, 'appp_load_more' ) );
+		add_action( 'wp_ajax_nopriv_appp_load_more', array( $this, 'appp_load_more' ) );
+
+	}
+
+	/**
+	 * AJAX Load More
+	 * @link http://www.billerickson.net/infinite-scroll-in-wordpress
+	 */
+	public function appp_load_more() {
+
+		check_ajax_referer( 'app-load-more-nonce', 'nonce' );
+    
+		$args = isset( $_POST['query'] ) ? array_map( 'esc_attr', $_POST['query'] ) : array();
+		$args['post_type'] = isset( $args['post_type'] ) ? esc_attr( $args['post_type'] ) : 'post';
+		$args['paged'] = esc_attr( $_POST['page'] );
+		$args['post_status'] = 'publish';
+		ob_start();
+		$loop = new WP_Query( $args );
+		if( $loop->have_posts() ): while( $loop->have_posts() ): $loop->the_post();
+			echo '<li class="post-list-item">';
+			echo '<a class="item item-thumbnail-left item-text-wrap" href="' . get_the_permalink() . '">';
+			if ( has_post_thumbnail() ) {
+				the_post_thumbnail( 'thumbnail' );
+			} else { ?>
+				<img src="<?php echo get_stylesheet_directory_uri() . '/images/thumbnail.jpg'; ?>">
+				<?php
+			}
+			echo '<div class="item-title">' . get_the_title() . '</div>';
+			echo '<div class="item-text"><p>' . get_the_excerpt() . '</p></div>';
+			echo '</a>';
+			echo '</li>';
+		endwhile; endif; wp_reset_postdata();
+		$data = ob_get_clean();
+		wp_send_json_success( $data );
+		wp_die();
+		
 	}
 
 	/*

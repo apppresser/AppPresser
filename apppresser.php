@@ -5,7 +5,7 @@ Plugin URI: http://apppresser.com
 Description: A mobile app development framework for WordPress.
 Text Domain: apppresser
 Domain Path: /languages
-Version: 2.7.0
+Version: 3.0.0.beta2
 Author: AppPresser Team
 Author URI: http://apppresser.com
 License: GPLv2
@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class AppPresser {
 
-	const VERSION           = '2.7.0';
+	const VERSION           = '3.0.0.beta2';
 	const SETTINGS_NAME     = 'appp_settings';
 	public static $settings = 'false';
 	public static $instance = null;
@@ -47,6 +47,7 @@ class AppPresser {
 	public static $pg_url;
 	public static $pg_version;
 	public static $debug = null;
+	public static $deprecate_ver = 0;
 	// public static $errorpath = '../php-error-log.php';
 
 	/**
@@ -121,6 +122,8 @@ class AppPresser {
 		// remove wp version param from cordova enqueued scripts (so script loading doesn't break)
 		// This will mean that it's harder to break caching on the cordova script
 		add_filter( 'script_loader_src', array( $this, 'remove_query_arg' ), 9999 );
+
+		$this->set_deprecate_version();
 
 		require_once( self::$inc_path . 'AppPresser_Admin_Settings.php' );
 		require_once( self::$inc_path . 'plugin-updater.php' );
@@ -473,7 +476,9 @@ class AppPresser {
 			return self::$is_apppv = 0;
 		}
 
-		if( isset( $_GET['appp'] ) && $_GET['appp'] == 2 || isset( $_COOKIE['AppPresser_Appp2'] ) && $_COOKIE['AppPresser_Appp2'] === 'true' ) {
+		if( isset( $_GET['appp'] ) && $_GET['appp'] == 3 || isset( $_COOKIE['AppPresser_Appp3'] ) && $_COOKIE['AppPresser_Appp3'] === 'true' ) {
+			self::$is_apppv = 3;
+		} else if( isset( $_GET['appp'] ) && $_GET['appp'] == 2 || isset( $_COOKIE['AppPresser_Appp2'] ) && $_COOKIE['AppPresser_Appp2'] === 'true' ) {
 			self::$is_apppv = 2;
 		} else if( ( isset( $_GET['appp'] ) && $_GET['appp'] == 1 ) || isset( $_COOKIE['AppPresser_Appp'] ) && $_COOKIE['AppPresser_Appp'] === 'true' ) {
 			self::$is_apppv = 1;
@@ -565,6 +570,7 @@ class AppPresser {
 		
 			$return = array(
 				'message' =>  __('The log in you have entered is not valid.', 'apppresser'),
+				'signon' => $info['user_login'] . $info['user_password'],
 				'line' => __LINE__,
 				'success' => false
 			);
@@ -624,6 +630,24 @@ class AppPresser {
 		}
 
 		return $theme;
+	}
+
+	public static function set_deprecate_version( $deprecate_ver = null ) {
+		if( ! is_null( $deprecate_ver ) ) {
+			self::$deprecate_ver = $deprecate_ver;
+			update_option( 'appp_deprecate_ver', self::$deprecate_ver, true );
+			update_option( 'appp_settings_ver', self::$deprecate_ver, true );
+		} else if( isset( $_GET['appp_deprecate_ver'] ) && is_numeric( $_GET['appp_deprecate_ver'] ) ) {
+			self::$deprecate_ver = (int)$_GET['appp_deprecate_ver'];
+			update_option( 'appp_deprecate_ver', self::$deprecate_ver, true );
+			update_option( 'appp_settings_ver', self::$deprecate_ver, true );
+		} else {
+			self::$deprecate_ver = get_option( 'appp_deprecate_ver', self::$deprecate_ver );
+		}
+	}
+
+	public static function is_deprecated( $deprecate_ver = 0 ) {
+		return ( self::$deprecate_ver <= $deprecate_ver );
 	}
 
 }

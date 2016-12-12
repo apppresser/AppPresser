@@ -27,7 +27,9 @@ class AppPresser_Admin_Settings extends AppPresser {
 	public static $license_keys    = array();
 	public static $license_fields  = array();
 	public static $general_fields  = array();
-	public static $advanced_fields  = array();
+	public static $advanced_fields = array();
+	public static $v2only_fields   = array();
+	public static $deprecate_ver   = 0;
 
 	/**
 	 * Creates or returns an instance of this class.
@@ -51,6 +53,8 @@ class AppPresser_Admin_Settings extends AppPresser {
 			self::clear_cookie();
 		}
 
+		$this->set_deprecate_version();
+
 		// Get all themes
 		$this->themes    = wp_get_themes();
 		// Get all nav menus
@@ -66,8 +70,6 @@ class AppPresser_Admin_Settings extends AppPresser {
 		add_filter( 'apppresser_field_markup_text', array( $this, 'ajax_container' ), 10, 2 );
 		add_action( 'wp_ajax_appp_search_post_handler', array( $this, 'ajax_post_results' ) );
 		add_action( 'admin_head', array( $this, 'icon_styles' ) );
-		add_action( 'apppresser_tab_general_subtab_general_top', array( $this, 'quick_start' ) );
-		add_action( 'wp_ajax_appp_hide_quickstart', array( $this, 'ajax_hide_quickstart' ) );
 
 	}
 
@@ -339,20 +341,31 @@ class AppPresser_Admin_Settings extends AppPresser {
 				settings_fields( 'appp_settings_group' );
 				// Our tabbed areas
 				foreach ( self::$admin_tabs as $tab => $name ) {
+
 					$current_class = $tab == $current_tab ? ' nav-tab-active' : '';
 
 					$has_gen_subtab = ( isset( self::$general_fields[ $tab ] ) );
 					$has_adv_subtab = ( isset( self::$advanced_fields[ $tab ] ) );
 					$has_lic_subtab = ( $tab == 'general' && isset( self::$license_fields[ $tab ] ) );
+					$has_v2_subtab  = ( isset( self::$v2only_fields[ $tab ] ) );
 					$subtab_links = array();
+
+					// If the only tab is general, don't show it
+					if ( ! $has_adv_subtab && ! $has_lic_subtab && ! $has_v2_subtab ) {
+						$has_gen_subtab = false;
+					}
 
 					if( $has_gen_subtab ) {
 						$subtab_links[] = '<li><a href="?page=apppresser_settings&tab=tab-'.$tab.'&subnav=general" class="subnav-tab current" id="tab-'.$tab.'-subnav-general" data-selector="general-subtab.subtab-'.$tab.'">' . __('General', 'apppresser') . '</a>'
-							. ( ($has_adv_subtab || $has_lic_subtab)?' | ':'' ) . '</li>';
+							. ( ($has_adv_subtab || $has_lic_subtab || $has_v2_subtab)?' | ':'' ) . '</li>';
 
 					}
 					if( $has_adv_subtab ) {
 						$subtab_links[] = '<li><a href="?page=apppresser_settings&tab=tab-'.$tab.'&subnav=advanced" class="subnav-tab" id="tab-'.$tab.'-subnav-advanced"  data-selector="advanced-subtab.subtab-'.$tab.'">' . __('Advanced', 'apppresser') . '</a>'
+							. ( ($has_lic_subtab || $has_v2_subtab)?' | ':'' ) . '</li>';
+					}
+					if( $has_v2_subtab ) {
+						$subtab_links[] = '<li><a href="?page=apppresser_settings&tab=tab-'.$tab.'&subnav=v2-only" class="subnav-tab" id="tab-'.$tab.'-subnav-v2-only"  data-selector="v2-only-subtab.subtab-'.$tab.'">' . __('AppPresser 2', 'apppresser') . '</a>'
 							. ( ($has_lic_subtab)?' | ':'' ) . '</li>';
 					}
 					if( $has_lic_subtab ) {
@@ -363,7 +376,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 						// A hook for adding additional data to the top of each tabbed area
 						do_action( "apppresser_tab_top_$tab", $appp_settings, self::settings() );
 
-						if( $has_gen_subtab || $has_adv_subtab || $has_lic_subtab ) {
+						if( $has_gen_subtab || $has_adv_subtab || $has_lic_subtab || $has_v2_subtab ) {
 							echo '<tr class="subtabs-wrapper">';
 							echo '<td colspan="2">';
 							echo '<ul class="subsubsub">';
@@ -405,7 +418,21 @@ class AppPresser_Admin_Settings extends AppPresser {
 							echo '</table>';
 						}
 
-						if( $has_gen_subtab || $has_adv_subtab || $has_lic_subtab ) {
+						if ( isset( self::$all_fields[ $tab ] ) ) {
+							// v2 Tab
+							if( $has_v2_subtab ) {
+								echo '<table class="appp-subtab v2-only-subtab subtab-'.$tab.'">';
+								echo '<tr valign="top" class="apppresser-apppresser-core-settings"><th colspan="2" scope="row" class="appp-section-title"><h3>'.__('AppPresser 2 only','apppresser').'</h3>
+								<h4>'. __('These settings are only for AppPresser 2', 'apppresser') .'</h4>
+								</th></tr>';
+								// do_action( "apppresser_tab_".$tab."_subtab_v2_top", $appp_settings, self::settings() );
+								echo implode( "\n", self::$v2only_fields[ $tab ] );
+								// do_action( "apppresser_tab_".$tab."_subtab_v2_bottom", $appp_settings, self::settings() );
+								echo '</table>';
+							}
+						}
+
+						if( $has_gen_subtab || $has_adv_subtab || $has_lic_subtab || $has_v2_subtab ) {
 							echo '</td>';
 							echo '</tr>';
 						}
@@ -445,14 +472,19 @@ class AppPresser_Admin_Settings extends AppPresser {
 
 		// Main tab
 		self::add_setting_tab( __( 'AppPresser', 'apppresser' ), 'general' );
-		self::add_setting_label( __( 'AppPresser Core Settings', 'apppresser' ) );
+		
+		if( self::is_deprecated( 2 ) )
+			self::add_setting_label( __( 'AppPresser Core Settings', 'apppresser' ), array(
+				'subtab' => 'general',
+			) );
 
 		self::add_setting( 'appp_theme', __( 'App-only theme', 'apppresser' ), array(
 			'type' => 'select',
 			'options' => apply_filters( 'filter_appthemes', $this->themes ),
 			'helptext' => __( 'Select which theme you want to be loaded inside the app, such as the AppPresser theme.', 'apppresser' ),
 			'description' => __( 'Must be enabled above.', 'apppresser' ),
-			'subtab' => 'general',
+			'subtab' => 'v2-only',
+			'deprecated' => 2,
 		) );
 
 		self::add_setting( 'customizer_link', __( 'App Design', 'apppresser' ), array(
@@ -460,6 +492,8 @@ class AppPresser_Admin_Settings extends AppPresser {
 			'helptext' => __( 'Opens the customizer to customize the look of your app.', 'apppresser' ),
 			'value' => __( '<span></span>', 'apppresser' ),
 			'description' => __( 'Click here to customize app colors, menus, homepage & more.', 'apppresser' ),
+			'subtab' => 'v2-only',
+			'deprecated' => 2,
 		) );
 
 		self::add_setting( 'appp_show_on_front', __( 'Use a unique homepage for your app.', 'apppresser' ), array(
@@ -467,22 +501,37 @@ class AppPresser_Admin_Settings extends AppPresser {
 			'options' => array('latest_posts' => 'Your latest posts', 'static_page' => 'A static page (select below)' ),
 			'helptext' => __( 'Allows you to specify which page users will see first when they load up you AppPresser app.', 'apppresser' ),
 			'description' => __( 'Select homepage option.', 'apppresser' ),
+			'subtab' => 'v2-only',
+			'deprecated' => 2,
 		) );
 
 		self::add_setting( 'appp_home_page', '', array(
 			// 'helptext' => __( 'Allows you to specify which page users will see first when they load up you AppPresser app.', 'apppresser' ),
 			'description' => __( 'Start typing to search for a page, or enter a page ID.', 'apppresser' ),
+			'subtab' => 'v2-only',
+			'deprecated' => 2,
 		) );
 
+		if( self::$deprecate_ver < 2 ) {
+			self::add_setting_label( __( 'AppPresser 3 Settings', 'apppresser' ), array(
+				'subtab' => 'general',
+			) );
+		}
+
+		self::add_setting( 'ap3_site_slug', __( 'Site slug', 'appp_ion' ), array( 'type' => 'text', 'helptext' => __( 'Find this by logging into your My AppPresser dashboard, go to My App => Push Notifications.', 'appp_ion' ) ) );
+		self::add_setting( 'ap3_app_id', __( 'App ID', 'appp_ion' ), array( 'type' => 'text', 'helptext' => __( 'Find this by logging into your My AppPresser dashboard, go to My App => Push Notifications.', 'appp_ion' ) ) );
+
 		self::add_setting_label( __( 'Advanced Settings', 'apppresser' ), array(
-			'subtab' => 'advanced'
+			'subtab' => 'v2-only',
+			'deprecated' => 2,
 		) );
 
 		self::add_setting( 'app_offline_toggle', __( 'Disable offline toggle buttons?', 'apppresser' ), array(
 			'type' => 'checkbox',
 			'helptext' => __( 'When the app disconnects from the internet, the app will display buttons that allows the user to switch to a customized offline.html file located in the app or return to the WordPress site. AppPresser 2 only.', 'apppresser' ),
 			'description' => __( 'Don\'t allow the user to switch between online and offline mode when connection is lost.', 'apppresser' ),
-			'subtab' => 'advanced',
+			'subtab' => 'v2-only',
+			'deprecated' => 2,
 		) );
 
 		// For now...
@@ -490,7 +539,8 @@ class AppPresser_Admin_Settings extends AppPresser {
 			self::add_setting( 'mobile_browser_theme_switch', __( 'Load AppPresser for mobile browsers', 'apppresser' ), array(
 				'type' => 'checkbox',
 				'helptext' => __( 'Display AppPresser in mobile browsers such as Safari and Chrome, instead of your normal theme.', 'apppresser' ),
-				'subtab' => 'advanced',
+				'subtab' => 'v2-only',
+				'deprecated' => 2,
 			) );
 		}
 
@@ -498,7 +548,8 @@ class AppPresser_Admin_Settings extends AppPresser {
 			'type' => 'checkbox',
 			'helptext' => __( 'Check this if you want to test your AppPresser app without loading it for visitors to your site.', 'apppresser' ),
 			'description' => __( '(for testing purposes)', 'apppresser' ),
-			'subtab' => 'advanced',
+			'subtab' => 'v2-only',
+			'deprecated' => 2,
 		) );
 
 		self::add_setting( 'appp_pg_version', __( 'Phonegap Version', 'apppresser' ), array(
@@ -506,8 +557,18 @@ class AppPresser_Admin_Settings extends AppPresser {
 			'options' => $this->phonegap_versions(),
 			'helptext' => __( 'Select the Phonegap Version of your app.', 'apppresser' ),
 			'description' => __( 'Select Phonegap Version. <b>For AppPresser 1 only</b>', 'apppresser' ),
-			'subtab' => 'advanced',
+			'subtab' => 'v2-only',
+			'deprecated' => 1,
 		) );
+
+		if( self::$deprecate_ver ) {
+			self::add_setting( 'apppresser_deprecate', __( 'Version 2', 'apppresser' ), array(
+				'type' => 'paragraph',
+				'value' => $this->toggle_deprecated_version(),
+				'helptext' => __( 'Disable/Enable all functionality for version 2', 'apppresser' ),
+				'subtab' => 'general',
+			) );
+		}
 
 		/*$menus = array( 'option-none' => __( '-- select --', 'apppresser' ) );
 		foreach ( (array) $this->nav_menus as $menu ) {
@@ -539,6 +600,14 @@ class AppPresser_Admin_Settings extends AppPresser {
 		echo '<a href="'. esc_url( add_query_arg( 'page', self::$help_slug, admin_url( 'admin.php' ) ) ) .'">'. __( 'Help/Support', 'apppresser' ) .'</a>';
 	}
 
+	public function toggle_deprecated_version() {
+		if( ! AppPresser::$deprecate_ver ) {
+			return '<p><a href="'. esc_url( add_query_arg( 'appp_deprecate_ver', '2', add_query_arg( 'page', self::$page_slug, admin_url( 'admin.php' ) ) ) ) .'">'. __( 'Deprecate AppPresser 2', 'apppresser' ) .'</a></p>';
+		} else {
+			return '<p><a href="'. esc_url( add_query_arg( 'appp_deprecate_ver', '0', add_query_arg( 'page', self::$page_slug, admin_url( 'admin.php' ) ) ) ) .'">'. __( 'Enable AppPresser 2', 'apppresser' ) .'</a></p>';
+		}
+	}
+
 	/**
 	 * Add ajax spinner/results container to homepage selector field
 	 * @since  1.0.0
@@ -566,6 +635,9 @@ class AppPresser_Admin_Settings extends AppPresser {
 	 * @return mixed   $_field  Setting.
 	 */
 	public static function add_setting( $key, $label, $args = array() ) {
+
+		if( isset( $args['deprecated'] ) && $args['deprecated'] <= self::$deprecate_ver )
+			return;
 
 		$appp_settings = self::run();
 		$value = self::settings( $key );
@@ -710,6 +782,8 @@ class AppPresser_Admin_Settings extends AppPresser {
 			self::$license_fields[ $args['tab'] ][ $key ] = $_field;
 		} else if( $args['subtab'] == 'advanced' ) {
 			self::$advanced_fields[ $args['tab'] ][ $key ] = $_field;
+		} else if( $args['subtab'] == 'v2-only' ) {
+			self::$v2only_fields[ $args['tab'] ][ $key ] = $_field;
 		} else {
 			self::$all_fields[ $args['tab'] ][ $key ] = $_field;
 		}
@@ -769,6 +843,10 @@ class AppPresser_Admin_Settings extends AppPresser {
 	 * @param  array   $args    Array of possible options
 	 */
 	public static function add_setting_label( $title, $args = array() ) {
+
+		if( isset( $args['deprecated'] ) && $args['deprecated'] <= self::$deprecate_ver )
+			return;
+
 		self::add_setting( sanitize_title( $title ), $title, wp_parse_args( $args, array( 'type' => 'h3' ) ) );
 	}
 
@@ -848,94 +926,6 @@ class AppPresser_Admin_Settings extends AppPresser {
 				'<a href="http://twitter.com/tw2113" target="_blank">Michael "Venkman" Beckwith</a>' ); ?>.</p>
 		</div>
 		<?php
-	}
-
-	public function quick_start() { 
-
-		$option = get_user_meta( get_current_user_id(), 'appp_quickstart_panel', true );
-
-		if( $option != 'hide') :
-		?>
-		<tr class="appp-quickstart"><td colspan="2">
-			<div id="the-plugin-appp-quickstart">
-				<?php wp_nonce_field('appp-quickstart-nonce', 'appp_quickstart_panelnonce', false);?>
-				<button class="close-button">X</button>
-				<div class="appp-quickstart-content">
-					<h2>AppPresser Quick Start</h2>
-
-					<table>
-						<tr>
-							<td>
-								<h3><?php _e('1. Choose your app only theme') ?></h3>
-								<p><?php _e('This theme will only be used for your app. Choose a theme and save.', 'apppresser') ?></p>
-								<div class="control">
-									<select id="apppresser-theme-quickstart">
-										<?php 
-											$themes = apply_filters( 'filter_appthemes', $this->themes );
-											foreach ($themes as $key => $value) {
-												echo '<option value="'.$key.'">'.$value.'</option>'."\n";
-											}
-										?>
-									</select>
-								</div>
-							</td>
-							<td>
-								<h3><?php _e('2. Customize your app', 'apppresser') ?></h3>
-								<p><?php _e('Customize your app menus, colors, and more.', 'apppresser') ?></p>
-								<div class="control">
-									<?php
-
-										$appp_theme = appp_get_setting( 'appp_theme' );
-										
-
-										// Get the customizer url
-										$url = esc_url( add_query_arg( array( 'appp_theme' => 1, 'theme' => $appp_theme ), admin_url( 'customize.php' ) ) );
-
-										if( self::settings( 'appp_theme' ) ) {
-											// Add url to description
-											echo sprintf( '<a class="button button-primary button-large" href="%s">%s</a>', $url, __( 'Open Customizer', 'apppresser' ) );
-										} else {
-											// This button is disabled and displays an alert to select a theme first
-											echo sprintf( '<button class="button button-primary button-large">%s</button>', __( 'Open Customizer', 'apppresser' ) );
-											echo '<script type="text/javascript">var appp_no_theme_msg = "' . __( 'Please select an app only theme and save.', 'apppresser' ) . '";</script>';
-										}
-
-
-									?>
-								</div>
-							</td>
-							<td>
-								<h3><?php _e('3. Preview your app', 'apppresser') ?></h3>
-								<p><?php _e('Download our preview app, and enter your site url.', 'apppresser') ?></p>
-								<div class="control">
-									<a href="http://docs.apppresser.com/article/236-apppresser-preview-app" target="_blank">Download</a>
-								</div>
-							</td>
-						</tr>
-					</table>
-
-					<p class="about-description">
-						<?php 
-							echo sprintf( __('What\'s next? Check out our docs on %s, %s, and %s.', 'apppresser'), 
-								'<a href="http://docs.apppresser.com/collection/81-extensions">'.__('configuring your extensions', 'apppresser').'</a>',
-								'<a href="http://docs.apppresser.com/article/118-introduction-to-app-store-submission">'.__('building for the app store','apppresser') .'</a>',
-								'<a href="http://docs.apppresser.com/">'.__('more','apppresser').'</a>');
-						?>
-					</p>
-				</div>
-			</div>
-		</td></tr>
-	<?php endif;
-
-	}
-
-	public function ajax_hide_quickstart() {
-
-		if( wp_verify_nonce( $_POST['appp_quickstart_panelnonce'], 'appp-quickstart-nonce' ) ) {
-			update_user_meta(get_current_user_id(), 'appp_quickstart_panel', 'hide');
-			wp_die(1);
-		}
-		wp_die(-1);
 	}
 
 	/**
@@ -1025,6 +1015,19 @@ class AppPresser_Admin_Settings extends AppPresser {
 			<p><?php echo sprintf( __( 'Your version of AppTheme has a programming error that will cause updates to fail.  Read about the simple fix in our <a href="%s" target="_blank">docs</a>.', 'apppresser' ), 'http://docs.apppresser.com/article/243-older-versions-of-apptheme-fail-to-update' ); ?></p>
 		</div>
 		<?php
+	}
+
+	public static function set_deprecate_version( $deprecate_ver = null ) {
+		if( isset( $_GET['appp_settings_ver'] ) && is_numeric( $_GET['appp_settings_ver'] ) ) {
+			self::$deprecate_ver = (int)$_GET['appp_settings_ver'];
+			update_option( 'appp_settings_ver', self::$deprecate_ver, true );
+		} else {
+			self::$deprecate_ver = get_option( 'appp_settings_ver', self::$deprecate_ver );
+		}
+	}
+
+	public static function is_deprecated( $deprecate_ver = 0 ) {
+		return ( $deprecate_ver <= self::$deprecate_ver );
 	}
 
 }
