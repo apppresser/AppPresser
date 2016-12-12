@@ -20,6 +20,7 @@ class AppPresser_Theme_Switcher extends AppPresser {
 	 */
 	public function __construct() {
 		add_action( 'plugins_loaded', array( $this, 'switch_theme' ), 9999 );
+		add_action( 'plugins_loaded', array( $this, 'clear_cookies_if_not_app' ), 99999 );
 		add_filter( 'pre_option_show_on_front', array( $this, 'pre_show_on_front' ) );
 		add_filter( 'pre_option_page_on_front', array( $this, 'pre_page_on_front' ) );
 
@@ -88,6 +89,23 @@ class AppPresser_Theme_Switcher extends AppPresser {
 		add_filter( 'option_template', array( $this, 'template_request' ), 5 );
 		add_filter( 'option_stylesheet', array( $this, 'stylesheet_request' ), 5 );
 		add_filter( 'template', array( $this, 'maybe_switch' ) );
+	}
+
+	/*
+	 * Clear cookie if not in app or preview. Prevents AP3 theme from being shown to admin after customizing in myapppresser.com. Clears cookie, but requires refresh to show desktop theme.
+	 */
+	public function clear_cookies_if_not_app() {
+		$referrer = ( $_SERVER['HTTP_REFERER'] ? $_SERVER['HTTP_REFERER'] : null );
+
+		// if myapppresser is the referrer, we are in the preview
+		if( $referrer && preg_match('/myapppresser/g', $referrer ) )
+			return;
+
+		// if not on mobile, and using v3, clear cookie and refresh
+		if( !wp_is_mobile() && self::get_apv() === 3 && $_COOKIE["AppPresser_Appp3"] == "true" ) {
+			setcookie( 'AppPresser_Appp3', '', time()-300, '/' );
+			header("Refresh:0");
+		}
 	}
 
 	public function get_app_theme_slug() {
