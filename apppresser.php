@@ -114,6 +114,10 @@ class AppPresser {
 		add_action( 'wp_enqueue_scripts', array( $this, 'ajax_login_init' ) );
 		add_action( 'wp_ajax_nopriv_apppajaxlogin', array( $this, 'appp_ajax_login' ) );
 
+		// @since WP 4.7
+		add_filter( 'stylesheet', array( $this, 'use_appp_theme_in_customizer') );
+		add_filter( 'template', array( $this, 'use_appp_theme_in_customizer') );
+
 		// remove wp version param from cordova enqueued scripts (so script loading doesn't break)
 		// This will mean that it's harder to break caching on the cordova script
 		add_filter( 'script_loader_src', array( $this, 'remove_query_arg' ), 9999 );
@@ -605,6 +609,21 @@ class AppPresser {
 		}
 
 		return $l10n;
+	}
+
+	// @since WP 4.7
+	public function use_appp_theme_in_customizer( $theme ) {
+
+		if( strpos( $_SERVER['REQUEST_URI'], 'customize.php' ) && isset( $_GET['theme'] ) ) {
+			
+			$appp_theme = appp_get_setting( 'appp_theme' );
+			
+			if( $appp_theme ) {
+				return $appp_theme;
+			}
+		}
+
+		return $theme;
 	}
 
 }

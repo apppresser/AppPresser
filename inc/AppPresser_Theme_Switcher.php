@@ -27,6 +27,10 @@ class AppPresser_Theme_Switcher extends AppPresser {
 		$this->theme = wp_get_theme();
 	}
 
+	public function is_theme_customizer() {
+		return isset( $_GET['customize_theme'] );
+	}
+
 	/**
 	 * AppPresser theme switcher for admins
 	 * @since  1.0.0
@@ -36,7 +40,7 @@ class AppPresser_Theme_Switcher extends AppPresser {
 
 		$dont_switch = (
 			// If viewing the appp_theme customizer, we need the theme to be switched so the theme mods save properly
-			is_admin() && ! $this->is_appp_theme_customizer()
+			( $this->is_theme_customizer() || is_admin() ) && ! $this->is_appp_theme_customizer()
 		);
 
 		if ( $dont_switch ) {
