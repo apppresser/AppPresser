@@ -98,7 +98,7 @@ class AppPresser_Theme_Switcher extends AppPresser {
 		$referrer = ( $_SERVER['HTTP_REFERER'] ? $_SERVER['HTTP_REFERER'] : null );
 
 		// if myapppresser is the referrer, we are in the preview
-		if( $referrer && preg_match('/myapppresser/g', $referrer ) )
+		if( $referrer && preg_match('/myapppresser/', $referrer ) )
 			return;
 
 		// if not on mobile, and using v3, clear cookie and refresh
