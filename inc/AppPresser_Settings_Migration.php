@@ -157,7 +157,7 @@ class AppPresser_Settings_Migration {
 	}
 
 	private function save_settings() {
-		update_option( 'appp_settings_2', $this->appp_settings );
+		update_option( 'appp_settings', $this->appp_settings );
 	}
 
 }
