@@ -188,8 +188,10 @@ class AppPresser_Settings_Migration {
 	private function save_settings() {
 		update_option( 'appp_settings', $this->appp_settings );
 
-		// Reload the page to refill the fields with these new settings.
-		echo '<script type="text/javascript">location.reload()</script>';
+		if( isset( $this->appp_settings['theme_mods_'.$this->stylesheet] ) ) {
+			// Reload the page to refill the fields with these new settings.
+			echo '<script type="text/javascript">location.reload()</script>';
+		}
 	}
 
 }
