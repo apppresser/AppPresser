@@ -330,6 +330,11 @@ class AppPresser_Admin_Settings extends AppPresser {
 				case 'admin_theme_switch':
 					$cleaninput[ $key ] = isset( $settings[ $key ] ) && $settings[ $key ] == 'on' ? 'on' : '';
 					break;
+				case 'theme_mods_' . appp_get_setting('appp_theme'):
+					if( is_array( $value ) ) {
+						$cleaninput[ $key ] = $value;
+					}
+					break;
 				default:
 					// Allow sanitization override
 					$filtered_value = apply_filters( "apppresser_sanitize_setting_$key", null, $value, $settings, $appp_settings );
@@ -338,11 +343,6 @@ class AppPresser_Admin_Settings extends AppPresser {
 					// And fallback sanitization hook (mostly for backwards compatibility)
 					$cleaninput[ $key ] = apply_filters( 'apppresser_sanitize_setting', $filtered_value, $key, $value, $settings, $appp_settings );
 					break;
-			}
-
-			if( strpos($key, 'theme_mods_') !== false ) {
-				// OK to save the theme_mod as an array
-				$cleaninput[ $key ] = $value;
 			}
 
 			// Check for registered license option keys
