@@ -36,6 +36,9 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+#### 2.7.1
+* fix redirect on settings page
+
 #### 2.7.0
 * Fix customizer compatibility issues with WordPress 4.7
 * Add filters for custom login/logout redirects
