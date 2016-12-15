@@ -201,36 +201,40 @@ class AppPresser_Admin_Settings extends AppPresser {
 				}
 
 				if( isset( $appp_settings['menu'] ) ) {
-					$theme_mod['nav_menu_locations']['primary-menu'] = $appp_settings['menu']; // ion
-					$theme_mod['nav_menu_locations']['primary'] = $appp_settings['menu'];      // apptheme
+					$theme_mod['nav_menu_locations']['primary-menu'] = (int)$appp_settings['menu']; // ion
+					$theme_mod['nav_menu_locations']['primary'] = (int)$appp_settings['menu'];      // apptheme
 				}
 
 				if( isset( $appp_settings['secondary_menu'] ) ) {
-					$theme_mod['nav_menu_locations']['footer-menu'] = $appp_settings['secondary_menu'];
+					$theme_mod['nav_menu_locations']['footer-menu'] = (int)$appp_settings['secondary_menu'];
 				}
 
 				if( isset( $appp_settings['top_menu'] ) ) {
-					$theme_mod['nav_menu_locations']['top'] = $appp_settings['top_menu']; // apptheme
+					$theme_mod['nav_menu_locations']['top'] = (int)$appp_settings['top_menu']; // apptheme
 				}
 
 				if( isset( $appp_settings['top_2_menu'] ) ) {
-					$theme_mod['nav_menu_locations']['top2'] = $appp_settings['top_2_menu']; // apptheme
+					$theme_mod['nav_menu_locations']['top2'] = (int)$appp_settings['top_2_menu']; // apptheme
 				}
 			}
 
 			$settings_keys = array(
-				'list_control',
-				'ab_color_mod',
-				'ab_image_mod',
-				'ab_text_mod',
-				'ap_color_mod',
-				'slider_control',
-				'slider_category_control',
+				'list_control' => '',
+				'ab_color_mod' => '',
+				'ab_image_mod' => '',
+				'ab_text_mod' => '',
+				'ap_color_mod' => '',
+				'slider_control' => 'int',
+				'slider_category_control' => '',
 			);
 
-			foreach ($settings_keys as $key) {
+			foreach ($settings_keys as $key => $type) {
 				if( isset( $appp_settings[$key] ) ) {
-					$theme_mod[$key] = $appp_settings[$key];
+					if($type == 'int') {
+						$theme_mod[$key] = (int)$appp_settings[$key];
+					} else {
+						$theme_mod[$key] = $appp_settings[$key];
+					}
 				}
 			}
 
@@ -684,10 +688,30 @@ class AppPresser_Admin_Settings extends AppPresser {
 				'subtab' => 'customize',
 			) );
 
-			self::add_setting('homepage_slider', __('Add Slider to homepage', 'apppresser'), array(
+			self::add_setting('slider_control', __('Add slider to homepage?', 'apppresser'), array(
 				'type' => 'checkbox',
 				'subtab' => 'customize',
 			) );
+
+
+			// AppSwiper Category dropdown
+			$categories = get_categories( array(
+			    'orderby' => 'name',
+			    'order'   => 'ASC'
+			) );
+
+			$_cats = array('all'=>'All');
+
+			foreach ( $categories as $cat ) {
+				$_cats[$cat->slug] = $cat->name;
+			}
+
+			self::add_setting( 'slider_category_control', __( 'What category?', 'appp_ion' ), array(
+				'type' => 'select',
+				'options' => $_cats,
+				'subtab' => 'customize',
+			) );
+			
 		}
 
 		if( class_exists( 'AppBuddy' ) ) {
@@ -1090,11 +1114,11 @@ class AppPresser_Admin_Settings extends AppPresser {
 
 										// Get the customizer url
 										// $url = esc_url( add_query_arg( array( 'appp_theme' => 1, 'theme' => $appp_theme ), admin_url( 'customize.php' ) ) );
-										$url = esc_url( add_query_arg( array( 'page' => 'apppresser_settings', 'tab' => 'tab-general', 'subnav' => 'custimize' ), admin_url( 'admin.php' ) ) );
+										$url = esc_url( add_query_arg( array( 'page' => 'apppresser_settings', 'tab' => 'tab-general', 'subnav' => 'customize' ), admin_url( 'admin.php' ) ) );
 
 										if( self::settings( 'appp_theme' ) ) {
 											// Add url to description
-											echo sprintf( '<a class="button button-primary button-large" href="%s">%s</a>', $url, __( 'Open Customizer', 'apppresser' ) );
+											echo sprintf( '<a class="button button-primary button-large" href="%s">%s</a>', $url, __( 'Customize your theme', 'apppresser' ) );
 										} else {
 											// This button is disabled and displays an alert to select a theme first
 											echo sprintf( '<button class="button button-primary button-large">%s</button>', __( 'Open Customizer', 'apppresser' ) );

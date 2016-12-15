@@ -628,7 +628,7 @@ class AppPresser {
 
 	public static function get_theme_mod( $key, $default = '' ) {
 		$appp_theme = self::settings( 'appp_theme' );
-		$theme_settings = self::settings('theme_mod_' . $appp_theme );
+		$theme_settings = self::settings('theme_mods_' . $appp_theme );
 
 		if( isset( $theme_settings, $theme_settings[$key] ) && ! empty( $theme_settings[$key] ) ) {
 			return $theme_settings[$key];
