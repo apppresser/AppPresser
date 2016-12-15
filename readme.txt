@@ -90,6 +90,7 @@ Technically you can do anything with an AppPresser app that you can do with Phon
 == Changelog ==
 
 = 2.7.0 =
+* Fix customizer compatibility issues with WordPress 4.7
 * Add filters for custom login/logout redirects
 * Add class for links to open In-App Browser and close it on pause to force stop audio/video on Android
 * Fix custom links for PushWoosh notifications for Android

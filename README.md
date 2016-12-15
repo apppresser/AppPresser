@@ -37,6 +37,7 @@ Note: This repository is for code contributors. To use this plugin on your websi
 ## Changelog
 
 #### 2.7.0
+* Fix customizer compatibility issues with WordPress 4.7
 * Add filters for custom login/logout redirects
 * Add class for links to open In-App Browser and close it on pause to force stop audio/video on Android
 * Fix custom links for PushWoosh notifications for Android
