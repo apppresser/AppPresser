@@ -36,6 +36,10 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+#### 2.7.2
+* Display a message when the getCurrentPosition timesout when getting GPS location
+* Fix notification alert for iOS
+
 #### 2.7.1
 * fix redirect on settings page
 
