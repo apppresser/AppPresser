@@ -59,6 +59,10 @@ class AppPresser_Admin_Settings extends AppPresser {
 		$this->themes    = wp_get_themes();
 		// Get all nav menus
 		$this->nav_menus = wp_get_nav_menus();
+
+		// Adds the license field to settings
+		add_filter('apppresser_theme_settings_file', function() { return get_theme_root() . '/ap3-ion-theme/appp-settings.php'; });
+
 		// include theme settings file if it exists
 		$this->get_theme_settings_file();
 
@@ -106,10 +110,11 @@ class AppPresser_Admin_Settings extends AppPresser {
 				// Let themes override the location/name of the file
 				$file_override = apply_filters( 'apppresser_theme_settings_file', '' );
 				if ( $file_override && file_exists( $file_override ) ) {
-					return require_once( $file_override );
+					require_once( $file_override );
 				}
 				// Check child theme directory first
 				$dir = $this->themes[ $appp_theme ]->get_stylesheet_directory();
+
 				// If there is a 'appp-settings.php' file,
 				if ( file_exists( $dir .'/appp-settings.php' ) ) {
 					// include it
