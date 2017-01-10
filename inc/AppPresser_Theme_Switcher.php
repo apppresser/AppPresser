@@ -20,6 +20,7 @@ class AppPresser_Theme_Switcher extends AppPresser {
 	 */
 	public function __construct() {
 		add_action( 'plugins_loaded', array( $this, 'switch_theme' ), 9999 );
+		add_action( 'plugins_loaded', array( $this, 'clear_cookies_if_not_app' ), 99999 );
 		add_filter( 'pre_option_show_on_front', array( $this, 'pre_show_on_front' ) );
 		add_filter( 'pre_option_page_on_front', array( $this, 'pre_page_on_front' ) );
 
@@ -56,6 +57,10 @@ class AppPresser_Theme_Switcher extends AppPresser {
 			self::set_app_cookie( 2 );
 		}
 
+		if ( self::get_apv( 3 ) ) { // only v3
+			self::set_app_cookie( 3 );
+		}
+
 		$do_switch = appp_get_setting( 'appp_theme' ) && (
 			// check if user is running native app
 			( self::is_app() )
@@ -77,13 +82,65 @@ class AppPresser_Theme_Switcher extends AppPresser {
 		if ( ! $do_switch )
 			return;
 
-		// Get the saved setting's theme object
-		$this->appp_theme = wp_get_theme( appp_get_setting( 'appp_theme' ) );
+		
+		$this->appp_theme = $this->get_app_theme();
 
 		// switch the current theme to use the AppPresser theme
 		add_filter( 'option_template', array( $this, 'template_request' ), 5 );
 		add_filter( 'option_stylesheet', array( $this, 'stylesheet_request' ), 5 );
 		add_filter( 'template', array( $this, 'maybe_switch' ) );
+	}
+
+	/*
+	 * Clear cookie if not in app or preview. Prevents AP3 theme from being shown to admin after customizing in myapppresser.com. Clears cookie, but requires refresh to show desktop theme.
+	 */
+	public function clear_cookies_if_not_app() {
+
+		$referrer = ( isset( $_SERVER['HTTP_REFERER'] ) ? $_SERVER['HTTP_REFERER'] : null );
+
+		// if myapppresser is the referrer, we are in the preview. Set cookie so links to other pages stay with AP3 theme
+		if( $referrer && preg_match('/myapppresser/', $referrer ) ) {
+			setcookie("AppPresser_Preview", "true", time() + (5 * 60), "/");
+			return;
+		}
+
+		// if not on mobile, and using v3, and not in preview, clear AP3 cookie to show desktop theme
+		if( !wp_is_mobile() && self::get_apv() === 3 && isset( $_COOKIE["AppPresser_Appp3"] ) && !isset( $_COOKIE["AppPresser_Preview"] ) ) {
+			setcookie( 'AppPresser_Appp3', '', time()-300, '/' );
+			header("Refresh:0");
+		}
+	}
+
+	public function get_app_theme_slug() {
+
+		if( self::is_min_ver( 3 ) ) {
+
+			/**
+			 * Child theme:  ion-ap3-child
+			 * Parent theme: ap3-ion-theme
+			 * Filter:       appp_theme
+			 */
+
+			$child_theme_slug = 'ion-ap3-child';
+
+			$child_theme = wp_get_theme( $child_theme_slug );
+
+			if ( $child_theme->exists() ) {
+				$theme = $child_theme_slug;
+			} else {
+				$theme = apply_filters( 'appp_theme', 'ap3-ion-theme' );
+			}
+
+		} else {
+			// Get the saved setting's theme object
+			$theme = appp_get_setting( 'appp_theme' );
+		}
+
+		return $theme;
+	}
+
+	public function get_app_theme() {
+		return wp_get_theme( $this->get_app_theme_slug() );
 	}
 
 	/**
@@ -152,7 +209,7 @@ class AppPresser_Theme_Switcher extends AppPresser {
 		// Ok, do the template switch
 		$template = $stylesheet_request
 			// If a request for the stylesheet dir name, give back our setting
-			? appp_get_setting( 'appp_theme' )
+			? $this->get_app_theme_slug()
 			// Otherwise, give back our saved settings parent theme dir (if it has one)
 			: $this->appp_theme->get_template();
 

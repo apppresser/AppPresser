@@ -41,11 +41,15 @@ jQuery(document).ready(function($) {
 			var newurl = $self.attr( 'href' );
 
 			$tabs.hide();
+			$('.apppresser_settings .nav-tab-active .nav-tab').hide();
 			$navtabs.removeClass( 'nav-tab-active' );
 
 			// Set new current tab
 			$( '.' + $self.data('selector') ).fadeIn('fast');
 			$self.addClass( 'nav-tab-active' );
+
+			// Select the first subtab
+			$('.' + $self.data('selector')).find('.subsubsub li:first-child a').click();
 
 			// Set referrer to current tab
 	    	$referrer.val( newurl );
