@@ -127,16 +127,15 @@ class AppPresser {
 
 		require_once( self::$inc_path . 'AppPresser_Admin_Settings.php' );
 		require_once( self::$inc_path . 'plugin-updater.php' );
-		require_once( self::$inc_path . 'AppPresser_Theme_Customizer.php' );
 		require_once( self::$inc_path . 'AppPresser_Ajax_Extras.php' );
 		require_once( self::$inc_path . 'AppPresser_Remote_Scripts.php' );
+		require_once( self::$inc_path . 'AppPresser_AppGeo.php' );
 		require_once( self::$inc_path . 'AppPresser_WPAPI_Mods.php' );
 
 		if( ! is_multisite() ) {
 			require_once( self::$inc_path . 'AppPresser_Log_Admin.php' );
 			require_once( self::$inc_path . 'AppPresser_Logger.php' );
 		}
-		$this->theme_customizer = new AppPresser_Theme_Customizer();
 
 	}
 
@@ -651,6 +650,17 @@ class AppPresser {
 		return ( self::$deprecate_ver <= $deprecate_ver );
 	}
 
+	public static function get_theme_mod( $key, $default = '' ) {
+		$appp_theme = self::settings( 'appp_theme' );
+		$theme_settings = self::settings('theme_mods_' . $appp_theme );
+
+		if( isset( $theme_settings, $theme_settings[$key] ) && ! empty( $theme_settings[$key] ) ) {
+			return $theme_settings[$key];
+		}
+		
+		return $default;
+	}
+
 }
 
 // Singleton rather than a global.. If they want access, they can use:
@@ -665,4 +675,8 @@ AppPresser::get();
  */
 function appp_get_setting( $key = false, $fallback = false ) {
 	return AppPresser::settings( $key, $fallback );
+}
+
+function appp_get_theme_mod( $key, $default = '' ) {
+	return AppPresser::get_theme_mod( $key, $default );
 }

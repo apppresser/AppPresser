@@ -20,6 +20,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 	public static $menu_slug       = '';
 	public static $extn_menu_slug  = '';
 	public static $help_menu_slug  = '';
+	public static $setting_menu_slug = '';
 	public static $image_inputs    = array();
 	public static $all_fields      = array();
 	public static $field_args      = array();
@@ -27,6 +28,8 @@ class AppPresser_Admin_Settings extends AppPresser {
 	public static $license_keys    = array();
 	public static $license_fields  = array();
 	public static $general_fields  = array();
+	public static $customize_fields = array();
+	public static $color_fields     = array();
 	public static $advanced_fields  = array();
 	public static $v2only_fields   = array();
 	public static $deprecate_ver   = 0;
@@ -68,12 +71,15 @@ class AppPresser_Admin_Settings extends AppPresser {
 
 		add_action( 'admin_menu', array( $this, 'plugin_menu' ), 9 );
 		add_filter( 'sanitize_option_'. AppPresser::SETTINGS_NAME, array( $this, 'maybe_reset_license_statuses' ), 99 );
+		add_action( 'update_option_' . AppPresser::SETTINGS_NAME, array( $this, 'save_theme_mods'), 99, 2 );
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 		add_action( 'admin_init', array( $this, 'verify_apptheme_slug' ) );
 		add_action( 'apppresser_add_settings', array( $this, 'add_settings' ), 6 ); // Higher priority
 		add_filter( 'apppresser_field_markup_text', array( $this, 'ajax_container' ), 10, 2 );
 		add_action( 'wp_ajax_appp_search_post_handler', array( $this, 'ajax_post_results' ) );
 		add_action( 'admin_head', array( $this, 'icon_styles' ) );
+		add_action( 'wp_ajax_appp_hide_quickstart', array( $this, 'ajax_hide_quickstart' ) );
+		add_action( 'after_appp_add_settings', array( $this, 'migrate_theme_mods' ) );
 
 	}
 
@@ -147,7 +153,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 		self::$menu_slug = add_menu_page( $page_title, $page_title, 'manage_options', self::$page_slug, array( $this, 'settings_page' ) );
 
 		// Settings page submenu item
-		self::$extn_menu_slug = add_submenu_page( self::$page_slug, __( 'Settings', 'apppresser' ), __( 'Settings', 'apppresser' ), 'manage_options', self::$page_slug, array( $this, 'settings_page' ) );
+		self::$setting_menu_slug = add_submenu_page( self::$page_slug, __( 'Settings', 'apppresser' ), __( 'Settings', 'apppresser' ), 'manage_options', self::$page_slug, array( $this, 'settings_page' ) );
 
 		// Extensions page submenu item
 		self::$extn_menu_slug = add_submenu_page( self::$page_slug, __( 'Extensions', 'apppresser' ), __( 'Extensions', 'apppresser' ), 'manage_options', self::$extensions_slug, array( $this, 'extensions_page' ) );
@@ -158,7 +164,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 		add_action( 'admin_head-' . self::$menu_slug, array( $this, 'admin_head' ) );
 
 		// enqueue
-		foreach ( array( self::$menu_slug, self::$extn_menu_slug, self::$help_menu_slug ) as $slug ) {
+		foreach ( array( self::$menu_slug, self::$extn_menu_slug, self::$help_menu_slug, self::$setting_menu_slug ) as $slug ) {
 			add_action( 'admin_print_scripts-' . $slug, array( $this, 'admin_scripts' ) );
 		}
 
@@ -176,7 +182,90 @@ class AppPresser_Admin_Settings extends AppPresser {
 			}
 		}
 
+	}
 
+	/**
+	 * Even though we are no longer using the customizer for appp_settings, we
+	 * still need the menu choices saved into the theme_mods_{theme_slug} option
+	 * 
+	 * hooks into the update_option_{appp_settings}
+	 * 
+	 * @since 2.7.0
+	 */
+	public function save_theme_mods($old_appp_settings, $appp_settings) {
+
+		if( isset( $appp_settings['appp_theme'] ) ) {
+
+			$stylesheet = $appp_settings['appp_theme'];
+
+			// get our existing theme_mods
+			$theme_mod = get_option( 'theme_mods_' . $stylesheet );
+
+			// Menus
+			if( isset( $appp_settings['menu'] ) || isset( $appp_settings['secondary_menu'] ) ) {
+				// nav_menu_locations ?
+				if( $theme_mod === false || ! isset( $theme_mod['nav_menu_locations'] ) ) {
+					$theme_mod['nav_menu_locations'] = array();
+				}
+
+				if( isset( $appp_settings['menu'] ) ) {
+					$theme_mod['nav_menu_locations']['primary-menu'] = (int)$appp_settings['menu']; // ion
+					$theme_mod['nav_menu_locations']['primary'] = (int)$appp_settings['menu'];      // apptheme
+				}
+
+				if( isset( $appp_settings['secondary_menu'] ) ) {
+					$theme_mod['nav_menu_locations']['footer-menu'] = (int)$appp_settings['secondary_menu'];
+				}
+
+				if( isset( $appp_settings['top_menu'] ) ) {
+					$theme_mod['nav_menu_locations']['top'] = (int)$appp_settings['top_menu']; // apptheme
+				}
+
+				if( isset( $appp_settings['top_2_menu'] ) ) {
+					$theme_mod['nav_menu_locations']['top2'] = (int)$appp_settings['top_2_menu']; // apptheme
+				}
+			}
+
+			$settings_keys = array(
+				'list_control' => '',
+				'ab_color_mod' => '',
+				'ab_image_mod' => '',
+				'ab_text_mod' => '',
+				'ap_color_mod' => '',
+				'slider_control' => 'int',
+				'slider_category_control' => '',
+			);
+
+			foreach ($settings_keys as $key => $type) {
+				if( isset( $appp_settings[$key] ) ) {
+					if($type == 'int') {
+						$theme_mod[$key] = (int)$appp_settings[$key];
+					} else {
+						$theme_mod[$key] = $appp_settings[$key];
+					}
+				}
+			}
+
+			if( isset( $appp_settings['theme_mods_'.$stylesheet]) ) {
+				foreach ( $appp_settings['theme_mods_'.$stylesheet] as $color_key => $color_value ) {
+					$theme_mod[$color_key] = $color_value;
+				}
+			}
+
+			update_option( 'theme_mods_' . $stylesheet, $theme_mod );
+		}
+
+	}
+
+	/**
+	 * This runs pretty late because we need to wait until the color settings
+	 * are loaded by the theme's customer class
+	 * @since 2.7.0
+	 */
+	public function migrate_theme_mods() {
+		require_once( self::$inc_path . 'AppPresser_Settings_Migration.php' );
+		$migrate = new AppPresser_Settings_Migration();
+		$migrate->migrate_check();
 	}
 
 	/**
@@ -185,6 +274,9 @@ class AppPresser_Admin_Settings extends AppPresser {
 	 */
 	function admin_scripts() {
 		// admin scripts and styles
+		wp_enqueue_style( 'wp-color-picker' );
+		wp_enqueue_script( 'app-color-picker', plugins_url('js/app-color-picker.js', dirname( __FILE__ ) ), array( 'wp-color-picker' ), false, true );
+		wp_enqueue_script( 'appp-admin', self::$js_url . 'appp-admin.js', array( 'jquery', 'jquery-ui-core', 'jquery-ui-tooltip', 'wp-color-picker' ), self::VERSION );
 		wp_enqueue_script( 'appp-admin', self::$js_url . 'appp-admin.js', array( 'jquery', 'jquery-ui-core', 'jquery-ui-tooltip' ), self::VERSION );
 		wp_enqueue_style( 'jquery-ui-smoothness', self::$css_url . 'smoothness/smoothness.custom.min.css' );
 		wp_enqueue_style( 'appp-admin-styles', self::$css_url . 'appp-admin-styles.css', null, self::VERSION );
@@ -246,6 +338,11 @@ class AppPresser_Admin_Settings extends AppPresser {
 					break;
 				case 'admin_theme_switch':
 					$cleaninput[ $key ] = isset( $settings[ $key ] ) && $settings[ $key ] == 'on' ? 'on' : '';
+					break;
+				case 'theme_mods_' . appp_get_setting('appp_theme'):
+					if( is_array( $value ) ) {
+						$cleaninput[ $key ] = $value;
+					}
 					break;
 				default:
 					// Allow sanitization override
@@ -351,6 +448,8 @@ class AppPresser_Admin_Settings extends AppPresser {
 
 					$has_gen_subtab = ( isset( self::$general_fields[ $tab ] ) );
 					$has_adv_subtab = ( isset( self::$advanced_fields[ $tab ] ) );
+					$has_cst_subtab = ( isset( self::$customize_fields[ $tab ] ) );
+					$has_clr_subtab = ( isset( self::$color_fields[ $tab ] ) );
 					$has_lic_subtab = ( $tab == 'general' && isset( self::$license_fields[ $tab ] ) );
 					$has_v2_subtab  = ( isset( self::$v2only_fields[ $tab ] ) );
 					$subtab_links = array();
@@ -364,6 +463,14 @@ class AppPresser_Admin_Settings extends AppPresser {
 						$subtab_links[] = '<li><a href="?page=apppresser_settings&tab=tab-'.$tab.'&subnav=general" class="subnav-tab current" id="tab-'.$tab.'-subnav-general" data-selector="general-subtab.subtab-'.$tab.'">' . __('General', 'apppresser') . '</a>'
 							. ( ($has_adv_subtab || $has_lic_subtab || $has_v2_subtab)?' | ':'' ) . '</li>';
 
+					}
+					if( $has_cst_subtab ) {
+						$subtab_links[] = '<li><a href="?page=apppresser_settings&tab=tab-'.$tab.'&subnav=customize" class="subnav-tab" id="tab-'.$tab.'-subnav-customize"  data-selector="customize-subtab.subtab-'.$tab.'">' . __('Customize', 'apppresser') . '</a>'
+							. ( ($has_clr_subtab || $has_adv_subtab || $has_lic_subtab)?' | ':'' ) . '</li>';
+					}
+					if( $has_clr_subtab ) {
+						$subtab_links[] = '<li><a href="?page=apppresser_settings&tab=tab-'.$tab.'&subnav=color" class="subnav-tab" id="tab-'.$tab.'-subnav-color"  data-selector="color-subtab.subtab-'.$tab.'">' . __('Colors', 'apppresser') . '</a>'
+							. ( ($has_adv_subtab || $has_lic_subtab)?' | ':'' ) . '</li>';
 					}
 					if( $has_adv_subtab ) {
 						$subtab_links[] = '<li><a href="?page=apppresser_settings&tab=tab-'.$tab.'&subnav=advanced" class="subnav-tab" id="tab-'.$tab.'-subnav-advanced"  data-selector="advanced-subtab.subtab-'.$tab.'">' . __('Advanced', 'apppresser') . '</a>'
@@ -381,7 +488,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 						// A hook for adding additional data to the top of each tabbed area
 						do_action( "apppresser_tab_top_$tab", $appp_settings, self::settings() );
 
-						if( $has_gen_subtab || $has_adv_subtab || $has_lic_subtab || $has_v2_subtab ) {
+						if( $has_gen_subtab || $has_v2_subtab || $has_lic_subtab || $has_cst_subtab ) {
 							echo '<tr class="subtabs-wrapper">';
 							echo '<td colspan="2">';
 							echo '<ul class="subsubsub">';
@@ -437,7 +544,32 @@ class AppPresser_Admin_Settings extends AppPresser {
 							}
 						}
 
-						if( $has_gen_subtab || $has_adv_subtab || $has_lic_subtab || $has_v2_subtab ) {
+
+						// Customize Tab
+						if( $has_cst_subtab ) {
+							echo '<table class="appp-subtab customize-subtab subtab-'.$tab.'">';
+							echo '<tr valign="top" class="apppresser-apppresser-core-settings"><th colspan="2" scope="row" class="appp-section-title"><h3>'.__('Customize Your App Theme (v2 only)','apppresser').'</h3></th></tr>';
+							do_action( "apppresser_tab_general_subtab_customize_top", $appp_settings, self::settings() );
+							foreach (self::$customize_fields as $key => $subtab_customize) {
+								echo implode( "\n",  $subtab_customize );
+							}
+							do_action( "apppresser_tab_general_subtab_customize_bottom", $appp_settings, self::settings() );
+							echo '</table>';
+						}
+
+						// Color Tab
+						if( $has_clr_subtab ) {
+							echo '<table class="appp-subtab color-subtab subtab-'.$tab.'">';
+							echo '<tr valign="top" class="apppresser-apppresser-core-settings"><th colspan="2" scope="row" class="appp-section-title"><h3>'.__('App Colors','apppresser').'</h3></th></tr>';
+							do_action( "apppresser_tab_general_subtab_color_top", $appp_settings, self::settings() );
+							foreach (self::$color_fields as $key => $subtab_color) {
+								echo implode( "\n",  $subtab_color );
+							}
+							do_action( "apppresser_tab_general_subtab_color_bottom", $appp_settings, self::settings() );
+							echo '</table>';
+						}
+
+						if( $has_gen_subtab || $has_adv_subtab || $has_lic_subtab || $has_v2_subtab || $has_cst_subtab || $has_clr_subtab ) {
 							echo '</td>';
 							echo '</tr>';
 						}
@@ -492,14 +624,15 @@ class AppPresser_Admin_Settings extends AppPresser {
 			'deprecated' => 2,
 		) );
 
-		self::add_setting( 'customizer_link', __( 'App Design', 'apppresser' ), array(
+		// Deprecated in 2.7.0
+		/*self::add_setting( 'customizer_link', __( 'App Design', 'apppresser' ), array(
 			'type' => 'paragraph',
 			'helptext' => __( 'Opens the customizer to customize the look of your app.', 'apppresser' ),
 			'value' => __( '<span></span>', 'apppresser' ),
 			'description' => __( 'Click here to customize app colors, menus, homepage & more.', 'apppresser' ),
 			'subtab' => 'v2-only',
 			'deprecated' => 2,
-		) );
+		) );*/
 
 		self::add_setting( 'appp_show_on_front', __( 'Use a unique homepage for your app.', 'apppresser' ), array(
 			'type' => 'radio',
@@ -522,6 +655,8 @@ class AppPresser_Admin_Settings extends AppPresser {
 				'subtab' => 'general',
 			) );
 		}
+
+		self::add_setting_label( __( 'AppPresser 3 Settings', 'apppresser' ) );
 
 		self::add_setting( 'ap3_site_slug', __( 'Site slug', 'appp_ion' ), array( 'type' => 'text', 'helptext' => __( 'Find this by logging into your My AppPresser dashboard, go to My App => Push Notifications.', 'appp_ion' ) ) );
 		self::add_setting( 'ap3_app_id', __( 'App ID', 'appp_ion' ), array( 'type' => 'text', 'helptext' => __( 'Find this by logging into your My AppPresser dashboard, go to My App => Push Notifications.', 'appp_ion' ) ) );
@@ -565,7 +700,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 			'subtab' => 'v2-only',
 			'deprecated' => 1,
 		) );
-
+		
 		if( self::$deprecate_ver ) {
 			self::add_setting( 'apppresser_deprecate', __( 'Version 2', 'apppresser' ), array(
 				'type' => 'paragraph',
@@ -575,7 +710,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 		) );
 		}
 
-		/*$menus = array( 'option-none' => __( '-- select --', 'apppresser' ) );
+		$menus = array( 'option-none' => __( '-- select --', 'apppresser' ) );
 		foreach ( (array) $this->nav_menus as $menu ) {
 			$menus[ $menu->term_id ] = $menu->name;
 		}
@@ -585,16 +720,98 @@ class AppPresser_Admin_Settings extends AppPresser {
 			'type' => 'select',
 			'options' => $menus,
 			'helptext' => __( 'Use a custom main menu inside your app, different from your main site.', 'apppresser' ),
+			'subtab' => 'customize',
 		) );
+
 		// Register secondary  menu setting
 		self::add_setting( 'secondary_menu', __( 'Secondary App Menu', 'apppresser' ), array(
 			'type' => 'select',
 			'options' => $menus,
 			'helptext' => __( 'Use a custom secondary menu inside your app (the top right dropdown in the header).', 'apppresser' ),
-		) );*/
+			'subtab' => 'customize',
+		) );
+
+		// Let apptheme and child themes add more menu settings here.
+		// Also, be sure to hook into the options_update_{appp_settings} to
+		// copy the menus appp_settings to the theme_mods_{$stylesheet} options
+		do_action( 'appp_custom_menu_settings', $this, $menus );
+
+		self::add_setting( 'appp_logo', __( 'App Logo', 'apppresser' ), array(
+			'type' => 'file',
+			'helptext' => '',
+			'description' => 'URL to image',
+			'subtab' => 'customize',
+		) );
+
+		self::add_setting( 'mobile_list_style', __( 'List Style', 'apppresser' ), array(
+			'type' => 'select',
+			'options' => array(
+				'Thumbnail list',
+				'No thumbnails',
+				'Card List',
+			),
+			'subtab' => 'customize',
+		) );
+
+		if( class_exists( 'AppPresser_Swipers' ) ) {
+			self::add_setting_label( __( 'AppSwiper Settings', 'apppresser' ), array(
+				'subtab' => 'customize',
+			) );
+
+			self::add_setting('slider_control', __('Add slider to homepage?', 'apppresser'), array(
+				'type' => 'checkbox',
+				'subtab' => 'customize',
+			) );
+
+
+			// AppSwiper Category dropdown
+			$categories = get_categories( array(
+			    'orderby' => 'name',
+			    'order'   => 'ASC'
+			) );
+
+			$_cats = array('all'=>'All');
+
+			foreach ( $categories as $cat ) {
+				$_cats[$cat->slug] = $cat->name;
+			}
+
+			self::add_setting( 'slider_category_control', __( 'What category?', 'appp_ion' ), array(
+				'type' => 'select',
+				'options' => $_cats,
+				'subtab' => 'customize',
+			) );
+			
+		}
+
+		if( class_exists( 'AppBuddy' ) ) {
+
+			self::add_setting_label( __( 'AppBuddy Settings', 'apppresser' ), array(
+				'subtab' => 'customize',
+			) );
+
+			self::add_setting('ab_color_mod', __('Login Screen Background Color', 'apppresser'), array(
+				'type' => 'color',
+				'default' => apply_filters( 'appp_ab_color_mod', '#FFFFFF' ),
+				'subtab' => 'customize',
+			) );
+
+			self::add_setting('ab_image_mod', __('Login Screen Background Image', 'apppresser'), array(
+				'type' => 'file',
+				'subtab' => 'customize',
+			) );
+
+			self::add_setting('ab_text_mod', __('Login Screen Text', 'apppresser'), array(
+				'type' => 'text',
+				'subtab' => 'customize',
+			) );
+		}
+
 
 		add_action( 'apppresser_tab_buttons_general', array( $this, 'help_link' ) );
 
+		// Allow other plugins or themes to add more settings
+		do_action( 'after_appp_add_settings', $this );
 	}
 
 	/**
@@ -753,6 +970,15 @@ class AppPresser_Admin_Settings extends AppPresser {
 				$field .= '<p>' . $args['value'] . '</p>';
 				break;
 
+			case 'color':
+
+				$default = ( isset( $args['default'] ) && !empty( $args['default']) ) ? str_replace('##', '#', '#'.$args['default']) : '';
+				$value = appp_get_theme_mod( $key, $default ); // i.e. #000a7c
+				$appp_theme = appp_get_setting( 'appp_theme' ); // i.e. 'ion'
+
+				$field .= sprintf('<input type="text" value="%1$s" name="appp_settings[theme_mods_%2$s][%3$s]" class="app-color-field" data-default-color="%4$s" />', $value, $appp_theme, $key, $default );
+				break;
+
 			case 'file':
 				$field .= sprintf( '<input class="custom_media_url" id="apppresser--%1$s" type="text" name="appp_settings[%2$s]" value="%3$s" style="margin-bottom:10px; clear:right;"><a href="#" class="button-primary custom_media_upload">Choose File</a>'."\n", $key, $key, $value );
 				if ( $args['description'] )
@@ -787,6 +1013,10 @@ class AppPresser_Admin_Settings extends AppPresser {
 			self::$license_fields[ $args['tab'] ][ $key ] = $_field;
 		} else if( $args['subtab'] == 'advanced' ) {
 			self::$advanced_fields[ $args['tab'] ][ $key ] = $_field;
+		} else if( $args['subtab'] == 'customize' ) {
+			self::$customize_fields[ $args['tab'] ][ $key ] = $_field;
+		} else if( $args['subtab'] == 'color' ) {
+			self::$color_fields[ $args['tab'] ][ $key ] = $_field;
 		} else if( $args['subtab'] == 'v2-only' ) {
 			self::$v2only_fields[ $args['tab'] ][ $key ] = $_field;
 		} else {
