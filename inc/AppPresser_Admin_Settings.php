@@ -560,7 +560,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 						// Color Tab
 						if( $has_clr_subtab ) {
 							echo '<table class="appp-subtab color-subtab subtab-'.$tab.'">';
-							echo '<tr valign="top" class="apppresser-apppresser-core-settings"><th colspan="2" scope="row" class="appp-section-title"><h3>'.__('App Colors','apppresser').'</h3></th></tr>';
+							echo '<tr valign="top" class="apppresser-apppresser-core-settings"><th colspan="2" scope="row" class="appp-section-title"><h3>'.__('App Colors (v2 only)','apppresser').'</h3></th></tr>';
 							do_action( "apppresser_tab_general_subtab_color_top", $appp_settings, self::settings() );
 							foreach (self::$color_fields as $key => $subtab_color) {
 								echo implode( "\n",  $subtab_color );
