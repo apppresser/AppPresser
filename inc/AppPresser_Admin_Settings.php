@@ -15,7 +15,6 @@ class AppPresser_Admin_Settings extends AppPresser {
 	// A single instance of this class.
 	public static $instance        = null;
 	public static $page_slug       = 'apppresser_settings';
-	public static $extensions_slug = 'apppresser_sub_extensions';
 	public static $help_slug       = 'apppresser_sub_help_support';
 	public static $menu_slug       = '';
 	public static $extn_menu_slug  = '';
@@ -155,16 +154,13 @@ class AppPresser_Admin_Settings extends AppPresser {
 		// Settings page submenu item
 		self::$setting_menu_slug = add_submenu_page( self::$page_slug, __( 'Settings', 'apppresser' ), __( 'Settings', 'apppresser' ), 'manage_options', self::$page_slug, array( $this, 'settings_page' ) );
 
-		// Extensions page submenu item
-		self::$extn_menu_slug = add_submenu_page( self::$page_slug, __( 'Extensions', 'apppresser' ), __( 'Extensions', 'apppresser' ), 'manage_options', self::$extensions_slug, array( $this, 'extensions_page' ) );
-
 		// Help page submenu item
 		self::$help_menu_slug = add_submenu_page( self::$page_slug, __( 'Help / Support', 'apppresser' ), __( 'Help / Support', 'apppresser' ), 'manage_options', self::$help_slug, array( $this, 'help_support_page' ) );
 
 		add_action( 'admin_head-' . self::$menu_slug, array( $this, 'admin_head' ) );
 
 		// enqueue
-		foreach ( array( self::$menu_slug, self::$extn_menu_slug, self::$help_menu_slug, self::$setting_menu_slug ) as $slug ) {
+		foreach ( array( self::$menu_slug, self::$help_menu_slug, self::$setting_menu_slug ) as $slug ) {
 			add_action( 'admin_print_scripts-' . $slug, array( $this, 'admin_scripts' ) );
 		}
 
@@ -537,9 +533,9 @@ class AppPresser_Admin_Settings extends AppPresser {
 								echo '<tr valign="top" class="apppresser-apppresser-core-settings"><th colspan="2" scope="row" class="appp-section-title"><h3>'.__('AppPresser 2 only','apppresser').'</h3>
 								<h4>'. __('These settings are only for AppPresser 2', 'apppresser') .'</h4>
 								</th></tr>';
-								// do_action( "apppresser_tab_".$tab."_subtab_v2_top", $appp_settings, self::settings() );
+								do_action( "apppresser_tab_".$tab."_subtab_v2-only_top", $appp_settings, self::settings() );
 								echo implode( "\n", self::$v2only_fields[ $tab ] );
-								// do_action( "apppresser_tab_".$tab."_subtab_v2_bottom", $appp_settings, self::settings() );
+								do_action( "apppresser_tab_".$tab."_subtab_v2-only_bottom", $appp_settings, self::settings() );
 								echo '</table>';
 							}
 						}
@@ -1161,46 +1157,6 @@ class AppPresser_Admin_Settings extends AppPresser {
 				'<a href="http://twitter.com/tw2113" target="_blank">Michael "Venkman" Beckwith</a>' ); ?>.</p>
 		</div>
 		<?php
-	}
-
-	/**
-	 * AppPresser extensions page output
-	 * @since  1.0.4
-	 */
-	function extensions_page() {
-		$class = self::$page_slug;
-		$class .= self::is_mp6() ? ' mp6' : '';
-		?>
-		<div class="wrap <?php echo $class; ?>">
-			<h2><?php printf( 'AppPresser ' .__( 'Extensions &nbsp;&mdash;&nbsp; %s', 'apppresser' ), '<a href="http://apppresser.com/extensions/?ref=appp" class="button-primary" target="_blank">' . __( 'Browse All Extensions', 'apppresser' ) . '</a>' ); ?></h2>
-			<p><?php _e( 'These extensions extend the functionality of AppPresser.', 'apppresser' ); ?></p>
-
-         <?php
-			// Attempt to pull back our cached feed
-			$feed = get_transient( 'appp_extensions_feed' );
-			$fallback = '<div class="error"><p>' . __( 'There was an error retrieving the extensions list. Please try again later.', 'apppresser' ) . '</div>';
-
-			// If we don't have a cached feed, pull back fresh data
-			if ( empty( $feed ) ) {
-				// Retrieve and parse our feed
-				$feed = wp_remote_get( 'http://apppresser.com/?feed=addons', array( 'sslverify' => false ) );
-				if ( ! is_wp_error( $feed ) ) {
-					if ( isset( $feed['body'] ) && strlen( $feed['body'] ) > 0 ) {
-						$feed = wp_remote_retrieve_body( $feed );
-
-						$feed = str_ireplace( array( '<html>', '<body>', '</html>', '</body>'), '', $feed );
-						// Cache our feed for 1 hour
-						set_transient( 'appp_extensions_feed', $feed, HOUR_IN_SECONDS );
-					}
-				}
-			}
-
-			// display the feed or error message
-			echo $feed && ! is_wp_error( $feed ) ? $feed : $fallback;
-			?>
-     </div>
-     <?php
-
 	}
 
 	/**
