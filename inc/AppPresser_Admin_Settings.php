@@ -1145,7 +1145,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 		?>
 		<div class="wrap <?php echo $class; ?>">
 			<h2>AppPresser <?php _e( 'Help and Support', 'apppresser' ); ?></h2>
-			<p><strong><?php _e( 'Resources', 'apppresser' ); ?>:</strong> <a href="https://github.com/WebDevStudios/AppPresser/" target="_blank">AppPresser <?php _e( 'Core on Github', 'apppresser' ); ?></a> | <a href="http://wordpress.org/support/plugin/apppresser" target="_blank"><?php _e( 'Support Forums', 'apppresser' ); ?></a> | <a href="http://apppresser.com/docs/" target="_blank">AppPresser <?php _e( 'Documentation', 'apppresser' ); ?></a></p>
+			<p><strong><?php _e( 'Resources', 'apppresser' ); ?>:</strong> <a href="https://github.com/apppresser/" target="_blank">AppPresser <?php _e( 'Core on Github', 'apppresser' ); ?></a> | <a href="http://v3docs.apppresser.com/" target="_blank">AppPresser <?php _e( 'Documentation', 'apppresser' ); ?></a></p>
 			<p><strong>AppPresser <?php _e( 'Online', 'apppresser' ); ?>:</strong> <a href="http://apppresser.com" target="_blank"><?php _e( 'Web', 'apppresser' ); ?></a> |  <a href="http://twitter.com/apppresser" target="_blank"><?php _e( 'Twitter', 'apppresser' ); ?></a> | <a href="http://facebook.com/apppresser" target="_blank"><?php _e( 'Facebook', 'apppresser' ); ?></a> | <a href="http://youtube.com/user/apppresser" target="_blank"><?php _e( 'YouTube', 'apppresser' ); ?></a></p>
 			<h3><?php _e( 'About', 'apppresser' ); ?> AppPresser</h3>
 			<p><?php printf( __( '%s was created by %s, %s, %s, and %s', 'apppresser' ),
