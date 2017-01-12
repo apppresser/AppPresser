@@ -537,9 +537,9 @@ class AppPresser_Admin_Settings extends AppPresser {
 								echo '<tr valign="top" class="apppresser-apppresser-core-settings"><th colspan="2" scope="row" class="appp-section-title"><h3>'.__('AppPresser 2 only','apppresser').'</h3>
 								<h4>'. __('These settings are only for AppPresser 2', 'apppresser') .'</h4>
 								</th></tr>';
-								// do_action( "apppresser_tab_".$tab."_subtab_v2_top", $appp_settings, self::settings() );
+								do_action( "apppresser_tab_".$tab."_subtab_v2-only_top", $appp_settings, self::settings() );
 								echo implode( "\n", self::$v2only_fields[ $tab ] );
-								// do_action( "apppresser_tab_".$tab."_subtab_v2_bottom", $appp_settings, self::settings() );
+								do_action( "apppresser_tab_".$tab."_subtab_v2-only_bottom", $appp_settings, self::settings() );
 								echo '</table>';
 							}
 						}
