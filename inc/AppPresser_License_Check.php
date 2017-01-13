@@ -120,6 +120,11 @@ class AppPresser_License_Check {
 					$theme_name = ( defined('AppPresser_Ion_Theme_Setup::THEME_SLUG') ) ? AppPresser_Ion_Theme_Setup::THEME_SLUG : false;
 				}
 
+				// AP3 IonTheme
+				if( $theme_name === false ) {
+					$theme_name = ( defined('AppPresser_3_Theme_Setup::THEME_SLUG') ) ? AppPresser_3_Theme_Setup::THEME_SLUG : false;
+				}
+
 				// apptheme or plugin
 				$is_plugin = ( $theme_name === false || $dir_file != $theme_name );
 
