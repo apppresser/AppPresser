@@ -354,7 +354,12 @@ class AppPresser_Admin_Settings extends AppPresser {
 			if ( array_key_exists( $key, self::license_keys() ) ) {
 				// Get old value for comparison
 				$old = appp_get_setting( $key );
-				if ( ! $old || $old != $value ) {
+
+				// we'll do a license check if the old value was either:
+				// empty, different, or the license status was not valid
+				if ( ! $old || $old != $value 
+					|| ( isset( $settings[$key.'_status'] ) && $settings[$key.'_status'] !== 'valid' ) ) {
+					
 					// if updated, trigger a status check
 					$this->reset_status[] = $key;
 				}
