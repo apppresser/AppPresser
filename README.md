@@ -36,6 +36,9 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+### 3.0.2
+* Bug fixes to help activating licenses
+
 ### 3.0.1
 * Add back javascript upload settings for v2
 * Remove extensions feed page
