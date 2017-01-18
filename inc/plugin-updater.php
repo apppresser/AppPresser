@@ -28,7 +28,7 @@ class AppPresser_Updater extends AppPresser {
 			self::$included['plugin'] = true;
 		} else {
 			// load theme updater
-			if ( ! self::$included['theme'] && ! class_exists( 'EDD_SL_Theme_Updater' ) )
+			if ( ! self::$included['theme'] && ! class_exists( 'EDD_Theme_Updater' ) )
 				include( self::$inc_path . 'EDD_SL_Theme_Updater.php' );
 
 			self::$included['theme'] = true;
@@ -39,6 +39,31 @@ class AppPresser_Updater extends AppPresser {
 		// Include the updater if we haven't
 		self::include_updater( false );
 
+		$strings = array(
+			'theme-license'             => __( 'Theme License', 'apppresser' ),
+			'enter-key'                 => __( 'Enter your theme license key.', 'apppresser' ),
+			'license-key'               => __( 'License Key', 'apppresser' ),
+			'license-action'            => __( 'License Action', 'apppresser' ),
+			'deactivate-license'        => __( 'Deactivate License', 'apppresser' ),
+			'activate-license'          => __( 'Activate License', 'apppresser' ),
+			'status-unknown'            => __( 'License status is unknown.', 'apppresser' ),
+			'renew'                     => __( 'Renew?', 'apppresser' ),
+			'unlimited'                 => __( 'unlimited', 'apppresser' ),
+			'license-key-is-active'     => __( 'License key is active.', 'apppresser' ),
+			'expires%s'                 => __( 'Expires %s.', 'apppresser' ),
+			'expires-never'             => __( 'Lifetime License.', 'apppresser' ),
+			'%1$s/%2$-sites'            => __( 'You have %1$s / %2$s sites activated.', 'apppresser' ),
+			'license-key-expired-%s'    => __( 'License key expired %s.', 'apppresser' ),
+			'license-key-expired'       => __( 'License key has expired.', 'apppresser' ),
+			'license-keys-do-not-match' => __( 'License keys do not match.', 'apppresser' ),
+			'license-is-inactive'       => __( 'License is inactive.', 'apppresser' ),
+			'license-key-is-disabled'   => __( 'License key is disabled.', 'apppresser' ),
+			'site-is-inactive'          => __( 'Site is inactive.', 'apppresser' ),
+			'license-status-unknown'    => __( 'License status is unknown.', 'apppresser' ),
+			'update-notice'             => __( "Updating this theme will lose any customizations you have made. 'Cancel' to stop, 'OK' to update.", 'apppresser' ),
+			'update-available'          => __('<strong>%1$s %2$s</strong> is available. <a href="%3$s" class="thickbox" title="%4s">Check out what\'s new</a> or <a href="%5$s"%6$s>update now</a>.', 'apppresser' ),
+		);
+
 		if ( $option_key ) {
 			// Add to the list of keys to save license statuses
 			AppPresser_Admin_Settings::$license_keys[ $option_key ] = $theme_slug;
@@ -48,9 +73,10 @@ class AppPresser_Updater extends AppPresser {
 			'author'         => self::AUTHOR,
 			'remote_api_url' => self::STORE_URL,
 			'license'        => trim( appp_get_setting( $option_key ) ),
-			'theme_slug'     => $theme_slug
+			'theme_slug'     => $theme_slug,
+			'beta'           => false,
 		) );
-		$updater = new EDD_SL_Theme_Updater( $api_data );
+		$updater = new EDD_Theme_Updater( $api_data, $strings );
 
 		// Add passed-in vars to the object since the vars are private (derp).
 		$updater->public = $api_data + array( 'api_url' => $api_data['remote_api_url'], 'theme_slug' => $theme_slug );
@@ -85,6 +111,7 @@ class AppPresser_Updater extends AppPresser {
 			'author'  => self::AUTHOR,
 			'url'     => self::STORE_URL,
 			'license' => trim( appp_get_setting( $option_key ) ),
+			'beta'		=> false,
 		) );
 
 		$api_url = $api_data['url'];
