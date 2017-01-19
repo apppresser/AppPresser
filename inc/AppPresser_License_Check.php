@@ -131,7 +131,7 @@ class AppPresser_License_Check {
 				$status = self::get_license_status( $_key, $dir_file, $is_plugin );
 
 				// valid or ( invalid, compare expired date )
-				if( self::DEBUG && isset($status->expires) || ( $status->license == 'expired' && isset($status->expires) && gettype($status->expires) == 'string' && strtotime($status->expires) < strtotime('now') ) ) {
+				if( self::DEBUG && isset($status->expires) || ( isset($status->license, $status->expires) && $status->license == 'expired' && gettype($status->expires) == 'string' && strtotime($status->expires) < strtotime('now') ) ) {
 					self::$expired_licenses[$status->item_name] = array('expired'=>$status->expires);
 				}
 			}
