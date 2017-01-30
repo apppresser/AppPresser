@@ -8,7 +8,7 @@ Stable tag: 3.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Your WordPress site in an App.
+Connect your WordPress site to a native mobile app.
 
 == Description ==
 
