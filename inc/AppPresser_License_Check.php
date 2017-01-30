@@ -120,13 +120,18 @@ class AppPresser_License_Check {
 					$theme_name = ( defined('AppPresser_Ion_Theme_Setup::THEME_SLUG') ) ? AppPresser_Ion_Theme_Setup::THEME_SLUG : false;
 				}
 
+				// AP3 IonTheme
+				if( $theme_name === false ) {
+					$theme_name = ( defined('AppPresser_3_Theme_Setup::THEME_SLUG') ) ? AppPresser_3_Theme_Setup::THEME_SLUG : false;
+				}
+
 				// apptheme or plugin
 				$is_plugin = ( $theme_name === false || $dir_file != $theme_name );
 
 				$status = self::get_license_status( $_key, $dir_file, $is_plugin );
 
 				// valid or ( invalid, compare expired date )
-				if( self::DEBUG && isset($status->expires) || ( $status->license == 'expired' && isset($status->expires) && gettype($status->expires) == 'string' && strtotime($status->expires) < strtotime('now') ) ) {
+				if( self::DEBUG && isset($status->expires) || ( isset($status->license, $status->expires) && $status->license == 'expired' && gettype($status->expires) == 'string' && strtotime($status->expires) < strtotime('now') ) ) {
 					self::$expired_licenses[$status->item_name] = array('expired'=>$status->expires);
 				}
 			}

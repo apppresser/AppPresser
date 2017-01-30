@@ -139,6 +139,16 @@ class AppPresser_Admin_Settings extends AppPresser {
 			// include it
 			return require_once( get_stylesheet_directory_uri() .'/appp-settings.php' );
 		}
+
+		/**
+		 * @since 3.0.2
+		 * If not upgrading from AP2, new installs may not have 
+		 * appp_theme setting so include AP3 theme settings here
+		 */
+		$file_override = apply_filters( 'apppresser_theme_settings_file', '' );
+		if ( $file_override && file_exists( $file_override ) ) {
+			require_once( $file_override );
+		}
 	}
 
 	/**
@@ -354,7 +364,12 @@ class AppPresser_Admin_Settings extends AppPresser {
 			if ( array_key_exists( $key, self::license_keys() ) ) {
 				// Get old value for comparison
 				$old = appp_get_setting( $key );
-				if ( ! $old || $old != $value ) {
+
+				// we'll do a license check if the old value was either:
+				// empty, different, or the license status was not valid
+				if ( ! $old || $old != $value 
+					|| ( isset( $settings[$key.'_status'] ) && $settings[$key.'_status'] !== 'valid' ) ) {
+					
 					// if updated, trigger a status check
 					$this->reset_status[] = $key;
 				}

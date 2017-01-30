@@ -89,7 +89,7 @@ class AppPresser_Ajax_Extras extends AppPresser {
 
 			$time = current_time( 'mysql' );
 			// create a unique code to use one time
-			$hash = hash( 'md5', $email . $time );
+			$hash = $this->get_short_reset_code();
 
 			update_user_meta( $user->ID, 'app_hash', $hash );
 
@@ -110,6 +110,20 @@ class AppPresser_Ajax_Extras extends AppPresser {
 			wp_send_json_error( $return );
 
 		}
+	}
+
+	public function get_short_reset_code() {
+		
+		$symbols = str_split('!@#$%^&*');
+		shuffle($symbols);
+		$numbers = str_split('1234567890');
+		shuffle($numbers);
+		$letters = str_split('abcdefghijklmnopqrstuvwxyz');
+		shuffle($letters);
+
+		$code = $numbers[1].$numbers[1].strtoupper($letters[1]).$letters[1].$letters[1].$symbols[1].$symbols[1];
+
+		return $code;
 	}
 
 	/**
