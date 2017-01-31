@@ -115,6 +115,8 @@ class AppPresser {
 		add_action( 'wp_enqueue_scripts', array( $this, 'ajax_login_init' ) );
 		add_action( 'wp_ajax_nopriv_apppajaxlogin', array( $this, 'appp_ajax_login' ) );
 
+		add_action('wp_ajax_nopriv_apppajaxlogout', array( $this, 'appp_ajax_logout' ) );
+
 		// @since WP 4.7
 		add_filter( 'stylesheet', array( $this, 'use_appp_theme_in_customizer') );
 		add_filter( 'template', array( $this, 'use_appp_theme_in_customizer') );
@@ -579,11 +581,23 @@ class AppPresser {
 		} else {
 
 			$return = array(
-				'message' => sprintf( __('Welcome %s, you are now logged in.', 'apppresser'), $user_signon->display_name),
+				'message' => sprintf( __('Welcome back %s!', 'apppresser'), $user_signon->display_name),
+				'username' => $info['user_login'],
+				'avatar' => get_avatar_url( $user_signon->ID )
 			);
 			wp_send_json_success( $return );
 			
 		}
+	}
+
+	/**
+	 * Logout, used via postmessage in AP3 apps
+	 * @since 3.0.2
+	 */
+	public function appp_ajax_logout() {
+
+		wp_logout();
+
 	}
 
 	/**
