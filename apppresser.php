@@ -115,7 +115,7 @@ class AppPresser {
 		add_action( 'wp_enqueue_scripts', array( $this, 'ajax_login_init' ) );
 		add_action( 'wp_ajax_nopriv_apppajaxlogin', array( $this, 'appp_ajax_login' ) );
 
-		add_action('wp_ajax_nopriv_apppajaxlogout', array( $this, 'appp_ajax_logout' ) );
+		add_action('wp_ajax_apppajaxlogout', array( $this, 'appp_ajax_logout' ) );
 
 		// @since WP 4.7
 		add_filter( 'stylesheet', array( $this, 'use_appp_theme_in_customizer') );
@@ -562,8 +562,8 @@ class AppPresser {
 		// check_ajax_referer( 'ajax-login-nonce', 'security' );
 
 		$info = array();
-		$info['user_login'] = $_POST['username'];
-		$info['user_password'] = $_POST['password'];
+		$info['user_login'] = ( $_POST['username'] ? $_POST['username'] : $_SERVER['PHP_AUTH_USER'] );
+		$info['user_password'] = ( $_POST['password'] ? $_POST['password'] : $_SERVER['PHP_AUTH_PW'] );
 		$info['remember'] = true;
 		
 		$user_signon = wp_signon( $info, false );
@@ -598,6 +598,8 @@ class AppPresser {
 
 		wp_logout();
 
+		wp_send_json_success('Logout success.');
+
 	}
 
 	/**
@@ -615,6 +617,7 @@ class AppPresser {
 		$l10n = $this->custom_login_redirect( $l10n );
 
 		wp_localize_script( 'jquery', 'appp_ajax_login', $l10n );
+
 	}
 
 	/**
