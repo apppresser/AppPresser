@@ -910,9 +910,11 @@ class AppPresser_Admin_Settings extends AppPresser {
 		if ( '' === $field ) : // No custom type added
 		switch ( $type ) {
 			case 'checkbox':
+				$field .= ( $args['description'] ) ? '<table class="description-tbl" cellpadding="0" cellspacing="0"><tr><td>' : ''; // help align the description
 				$field .= '<input type="checkbox" id="apppresser--'. $key .'" name="appp_settings['. $key .']" '. checked( $value, 'on', false ) .' />'."\n";
-				if ( $args['description'] )
-					$field .= '&nbsp; <span class="description">'. $args['description'] .'</span>';
+				$field .= ( $args['description'] ) ? '</td><td>' : '';
+				$field .= ( $args['description'] ) ? '&nbsp; <span class="description">'. $args['description'] .'</span>' : '';
+				$field .= ( $args['description'] ) ? '</td></tr></table>' : '';
 				break;
 
 			case 'select':

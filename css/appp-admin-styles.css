@@ -259,3 +259,14 @@
 #notify_url {
     width: 99%;
 }
+
+.apppresser_settings .description-tbl td {
+	margin-bottom: 0;
+	padding: 0;
+	vertical-align: top;
+}
+
+.apppresser_settings ul.checkbox-description {
+	margin: 0;
+	display: inline-block;
+}
