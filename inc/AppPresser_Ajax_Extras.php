@@ -46,27 +46,19 @@ class AppPresser_Ajax_Extras extends AppPresser {
 		$args = isset( $_POST['query'] ) ? array_map( 'esc_attr', $_POST['query'] ) : array();
 		$args['post_type'] = isset( $args['post_type'] ) ? esc_attr( $args['post_type'] ) : 'post';
 		$args['paged'] = esc_attr( $_POST['page'] );
+		$args['posts_per_page'] = isset( $_POST['posts_per_page'] ) ? $_POST['posts_per_page'] : 10;
 		$args['post_status'] = 'publish';
-		ob_start();
+		$data = array();
 		$loop = new WP_Query( $args );
 		if( $loop->have_posts() ): while( $loop->have_posts() ): $loop->the_post();
-			echo '<li class="post-list-item">';
-			echo '<a class="item item-thumbnail-left item-text-wrap" href="' . get_the_permalink() . '">';
-			if ( has_post_thumbnail() ) {
-				the_post_thumbnail( 'thumbnail' );
-			} else { ?>
-				<img src="<?php echo get_stylesheet_directory_uri() . '/images/thumbnail.jpg'; ?>">
-				<?php
-			}
-			echo '<div class="item-title">' . get_the_title() . '</div>';
-			echo '<div class="item-text"><p>' . get_the_excerpt() . '</p></div>';
-			echo '</a>';
-			echo '</li>';
+			$data[] = array( 
+				'permalink' => get_the_permalink(),
+				'title' => get_the_title(),
+				'excerpt' => get_the_excerpt(),
+				'thumbnail' => get_the_post_thumbnail_url( get_the_ID(), 'thumbnail' )
+				);
 		endwhile; endif; wp_reset_postdata();
-		$data = ob_get_clean();
-		wp_send_json_success( $data );
-		wp_die();
-		
+		wp_send_json_success( $data );		
 	}
 
 	/*
