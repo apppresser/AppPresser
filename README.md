@@ -36,6 +36,15 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+### 3.1.0
+* Improve infinite scroll
+* Make logout with ajax available
+* Add Avatar to ajax login response
+* Use mobile friendly password reset codes
+* Fix admin styling for checkboxes
+* Bug fixes
+* Update EDD SL
+
 ### 3.0.2
 * Bug fixes to help activating licenses
 
