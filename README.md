@@ -36,6 +36,9 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+### 3.1.1
+* Support for WMPL translations in apps
+
 ### 3.1.0
 * Improve infinite scroll
 * Make logout with ajax available

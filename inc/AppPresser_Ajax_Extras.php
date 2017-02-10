@@ -55,7 +55,8 @@ class AppPresser_Ajax_Extras extends AppPresser {
 				'permalink' => get_the_permalink(),
 				'title' => get_the_title(),
 				'excerpt' => get_the_excerpt(),
-				'thumbnail' => get_the_post_thumbnail_url( get_the_ID(), 'thumbnail' )
+				'thumbnail' => get_the_post_thumbnail_url( get_the_ID(), 'thumbnail' ),
+				'full' => get_the_post_thumbnail_url( get_the_ID(), 'full' )
 				);
 		endwhile; endif; wp_reset_postdata();
 		wp_send_json_success( $data );		

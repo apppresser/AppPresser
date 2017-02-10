@@ -5,7 +5,7 @@ Plugin URI: http://apppresser.com
 Description: A mobile app development framework for WordPress.
 Text Domain: apppresser
 Domain Path: /languages
-Version: 3.1.0
+Version: 3.1.1
 Author: AppPresser Team
 Author URI: http://apppresser.com
 License: GPLv2
@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class AppPresser {
 
-	const VERSION           = '3.1.0';
+	const VERSION           = '3.1.1';
 	const SETTINGS_NAME     = 'appp_settings';
 	public static $settings = 'false';
 	public static $instance = null;
@@ -155,6 +155,9 @@ class AppPresser {
 	 * @since  1.0.3
 	 */
 	function do_appp_script() {
+
+		// add WPML languages if applicable
+		self::$l10n['languages'] = self::get_langs();
 
 		if( self::is_min_ver( 2 ) ) { // v2 or higher
 			wp_localize_script( 'jquery', 'apppCore', self::$l10n );
@@ -676,6 +679,27 @@ class AppPresser {
 		}
 		
 		return $default;
+	}
+
+	/**
+	 * Gets WPML active language codes
+	 * @since 3.1.0
+	 */
+	public static function get_langs() {
+		
+		if( !function_exists('icl_get_languages') )
+			return '';
+
+		$languages = icl_get_languages('skip_missing=1');
+		foreach ($languages as $key => $value) {
+			$langs[] = array( 
+				'name' => $value['native_name'],
+				'code' => $value['code']
+				);
+		}
+
+		return $langs;
+
 	}
 
 }
