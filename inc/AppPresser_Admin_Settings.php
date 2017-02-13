@@ -669,8 +669,8 @@ class AppPresser_Admin_Settings extends AppPresser {
 
 		self::add_setting_label( __( 'AppPresser 3 Settings', 'apppresser' ) );
 
-		self::add_setting( 'ap3_site_slug', __( 'Site slug', 'appp_ion' ), array( 'type' => 'text', 'helptext' => __( 'Find this by logging into your My AppPresser dashboard, go to My App => Push Notifications.', 'appp_ion' ) ) );
-		self::add_setting( 'ap3_app_id', __( 'App ID', 'appp_ion' ), array( 'type' => 'text', 'helptext' => __( 'Find this by logging into your My AppPresser dashboard, go to My App => Push Notifications.', 'appp_ion' ) ) );
+		self::add_setting( 'ap3_site_slug', __( 'Site slug', 'appp_ion' ), array( 'type' => 'text', 'helptext' => __( 'Find this by logging into your myapppresser.com dashboard, choose your app, General tab => API Settings', 'appp_ion' ) ) );
+		self::add_setting( 'ap3_app_id', __( 'App ID', 'appp_ion' ), array( 'type' => 'text', 'helptext' => __( 'Find this by logging into your myapppresser.com dashboard, choose your app, General tab => API Settings', 'appp_ion' ) ) );
 
 		self::add_setting_label( __( 'Advanced Settings', 'apppresser' ), array(
 			'subtab' => 'v2-only',
