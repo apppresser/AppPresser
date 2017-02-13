@@ -48,6 +48,7 @@ class AppPresser_Ajax_Extras extends AppPresser {
 		$args['paged'] = esc_attr( $_POST['page'] );
 		$args['posts_per_page'] = isset( $_POST['posts_per_page'] ) ? $_POST['posts_per_page'] : 10;
 		$args['post_status'] = 'publish';
+		$this->parse_url_query_vars( $args );
 		$data = array();
 		$loop = new WP_Query( $args );
 		if( $loop->have_posts() ): while( $loop->have_posts() ): $loop->the_post();
@@ -60,6 +61,31 @@ class AppPresser_Ajax_Extras extends AppPresser {
 				);
 		endwhile; endif; wp_reset_postdata();
 		wp_send_json_success( $data );		
+	}
+
+	/**
+	 * When the URL looks similar to this: /app-list/?list_type=cardlist&cat=20&appp=3&num=1
+	 * custom.js will send the entire query as 'url_query' in a $_POST var, so
+	 * parse that info and add it to the existing $args
+	 */
+	public function parse_url_query_vars( &$args ) {
+		if( isset( $_POST['url_query'] ) ) {
+			$url_query = str_replace('?', '', $_POST['url_query']);
+			$url_query = explode('&', $url_query);
+			foreach ($url_query as $qv_pairs) {
+				$kv = explode('=', $qv_pairs);
+				if( isset( $kv[0] ) && !empty($kv[0]) &&
+				    isset( $kv[1] ) && !empty($kv[1]) &&
+				    ! in_array( $kv[0], array( 'appp', 'list_type' ) ) ) { // we can ignore these two: already handled
+
+					if( $kv[0] == 'num' ) {
+						$args['posts_per_page'] = $kv[1];
+					} else {
+						$args[$kv[0]] = $kv[1];
+					}
+				}
+			}
+		}
 	}
 
 	/*
