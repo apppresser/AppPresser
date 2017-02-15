@@ -690,15 +690,22 @@ class AppPresser {
 		if( !function_exists('icl_get_languages') )
 			return '';
 
+		$langs = [];
 		$languages = icl_get_languages('skip_missing=1');
-		foreach ($languages as $key => $value) {
-			$langs[] = array( 
-				'name' => $value['native_name'],
-				'code' => $value['code']
+
+		if( is_array( $languages ) ) {
+			foreach ($languages as $key => $value) {
+				$langs[] = array( 
+					'name' => $value['native_name'],
+					'code' => $value['code']
 				);
+			}
 		}
 
-		return $langs;
+		if( empty( $langs ) )
+			return '';
+		else
+			return $langs;
 
 	}
 
