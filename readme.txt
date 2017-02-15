@@ -47,6 +47,11 @@ This plugin is not an app-creator in itself, it helps connect your app to WordPr
 
 == Changelog ==
 
+= 3.1.1 =
+* Support for WMPL translations in apps
+* Fix Android deep linking for AppPush
+* Parse URL query from infinite scroll
+
 = 3.1.0 =
 * Improve infinite scroll
 * Make logout with ajax available

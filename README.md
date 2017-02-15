@@ -38,6 +38,8 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ### 3.1.1
 * Support for WMPL translations in apps
+* Fix Android deep linking for AppPush
+* Parse URL query from infinite scroll
 
 ### 3.1.0
 * Improve infinite scroll
