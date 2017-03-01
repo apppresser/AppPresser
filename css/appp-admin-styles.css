@@ -270,3 +270,13 @@
 	margin: 0;
 	display: inline-block;
 }
+
+textarea#appp-system-info {
+	background: none;
+	font-family: Menlo, Monaco, monospace;
+	display: block;
+	overflow: auto;
+	white-space: pre;
+	width: 800px;
+	height: 400px;
+}

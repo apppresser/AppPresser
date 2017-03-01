@@ -139,6 +139,10 @@ class AppPresser {
 			require_once( self::$inc_path . 'AppPresser_Logger.php' );
 		}
 
+		if( is_admin() ) {
+			require_once( self::$inc_path . 'AppPresser_SystemInfo.php' );
+		}
+
 	}
 
 	/**
