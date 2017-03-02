@@ -271,6 +271,9 @@
 	display: inline-block;
 }
 
+.apppresser_settings p.sysinfo-download {
+	margin-top: 1em;
+}
 textarea#appp-system-info {
 	background: none;
 	font-family: Menlo, Monaco, monospace;

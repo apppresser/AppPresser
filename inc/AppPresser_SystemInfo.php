@@ -190,12 +190,10 @@ class AppPresser_SystemInfo {
 				if( isset( $_GET['tab'] ) && $_GET['tab'] == 'tab-systeminfo' ) : ?>
 					<textarea readonly="readonly" onclick="this.focus();this.select()" id="appp-system-info" name="appp-sysinfo" title="<?php _e( 'To copy the system info, click below then press Ctrl + C (PC) or Cmd + C (Mac).', 'apppresser' ); ?>"><?php $this->the_system_info(); ?></textarea>
 					<input type="hidden" name="appp-action" value="download_sysinfo" />
-					<?php submit_button( 'Download System Info File', 'primary', 'appp-download-sysinfo', false ); ?>
+					<p class="sysinfo-download"><?php submit_button( 'Download System Info File', 'primary', 'appp-download-sysinfo', false ); ?></p>
 				<?php else: ?>
 					<?php submit_button( 'Get System Info', 'primary', 'appp-download-sysinfo', false ); ?>
 				<?php endif; ?>
-				<p>
-				</p>
 			</form>
 		</td>
 	</tr>
