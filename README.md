@@ -36,6 +36,11 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+### 3.1.2
+* Fix PushWoosh deep linking for Android
+* Add System Info to admin settings
+* Misc. bug fixes
+
 ### 3.1.1
 * Support for WMPL translations in apps
 * Fix Android deep linking for AppPush
