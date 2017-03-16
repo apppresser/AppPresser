@@ -160,9 +160,6 @@ class AppPresser {
 	 */
 	function do_appp_script() {
 
-		// add WPML languages if applicable
-		self::$l10n['languages'] = self::get_langs();
-
 		if( self::is_min_ver( 2 ) ) { // v2 or higher
 			wp_localize_script( 'jquery', 'apppCore', self::$l10n );
 			return;
@@ -683,37 +680,6 @@ class AppPresser {
 		}
 		
 		return $default;
-	}
-
-	/**
-	 * Gets WPML active language codes
-	 * @since 3.1.0
-	 */
-	public static function get_langs() {
-		
-		if( !function_exists('icl_get_languages') )
-			return '';
-
-		$langs = array();
-		$languages = icl_get_languages('skip_missing=1');
-
-		if( is_array( $languages ) ) {
-			foreach ($languages as $key => $value) {
-
-				if( isset( $value['native_name'], $value['code'] ) ) {
-					$langs[] = array( 
-						'name' => $value['native_name'],
-						'code' => $value['code']
-					);
-				}
-			}
-		}
-
-		if( empty( $langs ) )
-			return '';
-		else
-			return $langs;
-
 	}
 
 }
