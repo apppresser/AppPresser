@@ -40,7 +40,7 @@ class AppPresser_SystemInfo {
 
 
 	public function systeminfo_tab( $appp ) {
-		$appp->add_setting_tab( __( 'System Info', 'appppresser' ), 'systeminfo' );
+		$appp->add_setting_tab( __( 'System Info', 'apppresser' ), 'systeminfo' );
 	}
 
 	public function get_system_info() {

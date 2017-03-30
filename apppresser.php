@@ -305,7 +305,7 @@ class AppPresser {
 			<section>
 				<h3><?php _e('Developers', 'apppresser'); ?></h3>
 
-				<p><?php _e('AppPresser is like adding the features of a mobile device to a WordPress site. If you could access the <b>device camera, contacts, geolocation, push notifications, and more</b> through WordPress, what could you build? What couldn’t you build?', 'apppresser'); ?></p>
+				<p><?php _e("AppPresser is like adding the features of a mobile device to a WordPress site. If you could access the <b>device camera, contacts, geolocation, push notifications, and more</b> through WordPress, what could you build? What couldn't you build?", 'apppresser'); ?></p>
 
 				<h3><?php _e('Make money with AppPresser', 'apppresser'); ?></h3>
 				<p><?php _e('Make mobile apps for your clients, adding revenue to your business, right away.', 'apppresser'); ?></p>
