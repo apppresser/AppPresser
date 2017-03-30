@@ -36,6 +36,10 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+### 3.1.3
+* Fix Facebook connect removing app theme cookies
+* Update language .pot template
+
 ### 3.1.2
 * Fix PushWoosh deep linking for Android
 * Add System Info to admin settings
