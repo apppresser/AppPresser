@@ -149,6 +149,12 @@ class AppPresser_SystemInfo {
 
 		endif;
 
+		if( file_exists(ABSPATH . '.htaccess') ) {
+			$sysinfo['HTACCESS'] = array( '.htaccess' => file_get_contents(ABSPATH . '.htaccess') );
+		} else {
+			$sysinfo['htaccess'] = '.htaccess was not found.';
+		}
+
 		$sysinfo = apply_filters( 'appp_system_info', $sysinfo );
 		
 		return $sysinfo;
