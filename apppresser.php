@@ -587,11 +587,32 @@ class AppPresser {
 			$return = array(
 				'message' => sprintf( __('Welcome back %s!', 'apppresser'), $user_signon->display_name),
 				'username' => $info['user_login'],
-				'avatar' => get_avatar_url( $user_signon->ID )
+				'avatar' => $this->get_avatar_url( $user_signon->ID )
 			);
 			wp_send_json_success( $return );
 			
 		}
+	}
+
+	/**
+	 * Gets either the BuddyPress avatar if set or the avatar set by WordPress
+	 */
+	public function get_avatar_url( $user_id ) {
+		if(function_exists('bp_core_fetch_avatar') ) {
+			$avatar =  bp_core_fetch_avatar( array(
+								'item_id' => $user_id,
+								'html'    => false
+							) );
+		} else {
+			$avatar = get_avatar_url( $user_id );
+		}
+
+		// Gravatar leaves off the protocol, so we'll add https so it doesn't default to file:// on the app.
+		if( $avatar && strpos($avatar, '//') === 0 ) {
+			$avatar = 'https:' . $avatar;
+		}
+
+		return $avatar;
 	}
 
 	/**
