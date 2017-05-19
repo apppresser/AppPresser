@@ -3,3 +3,4 @@ node_modules/
 .DS_Store
 rsync*
 js/apppresser2-plugins.dev.js
+.svn
