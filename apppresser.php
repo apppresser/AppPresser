@@ -113,9 +113,6 @@ class AppPresser {
 		add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts' ), 8 );
 		add_action( 'wp_head', array( $this, 'do_appp_script' ), 1 );
 		add_action( 'wp_enqueue_scripts', array( $this, 'ajax_login_init' ) );
-		add_action( 'wp_ajax_nopriv_apppajaxlogin', array( $this, 'appp_ajax_login' ) );
-
-		add_action('wp_ajax_apppajaxlogout', array( $this, 'appp_ajax_logout' ) );
 
 		// @since WP 4.7
 		add_filter( 'stylesheet', array( $this, 'use_appp_theme_in_customizer') );
@@ -558,43 +555,6 @@ class AppPresser {
 	}
 
 	/**
-	 * Adds ajax for form#loginform modal in apptheme 2.1.3 and ion 1.0.1
-	 * @since 2.0.1
-	 */
-	public function appp_ajax_login() {
-			
-		// check_ajax_referer( 'ajax-login-nonce', 'security' );
-
-		$info = array();
-		$info['user_login'] = ( $_POST['username'] ? $_POST['username'] : $_SERVER['PHP_AUTH_USER'] );
-		$info['user_password'] = ( $_POST['password'] ? $_POST['password'] : $_SERVER['PHP_AUTH_PW'] );
-		$info['remember'] = true;
-		
-		$user_signon = wp_signon( $info, false );
-		
-		if( is_wp_error( $user_signon ) ) {
-		
-			$return = array(
-				'message' =>  __('The log in you have entered is not valid.', 'apppresser'),
-				'signon' => $info['user_login'] . $info['user_password'],
-				'line' => __LINE__,
-				'success' => false
-			);
-			wp_send_json_error( $return );
-			
-		} else {
-
-			$return = array(
-				'message' => sprintf( __('Welcome back %s!', 'apppresser'), $user_signon->display_name),
-				'username' => $info['user_login'],
-				'avatar' => $this->get_avatar_url( $user_signon->ID )
-			);
-			wp_send_json_success( $return );
-			
-		}
-	}
-
-	/**
 	 * Gets either the BuddyPress avatar if set or the avatar set by WordPress
 	 */
 	public function get_avatar_url( $user_id ) {
@@ -613,18 +573,6 @@ class AppPresser {
 		}
 
 		return $avatar;
-	}
-
-	/**
-	 * Logout, used via postmessage in AP3 apps
-	 * @since 3.0.2
-	 */
-	public function appp_ajax_logout() {
-
-		wp_logout();
-
-		wp_send_json_success('Logout success.');
-
 	}
 
 	/**

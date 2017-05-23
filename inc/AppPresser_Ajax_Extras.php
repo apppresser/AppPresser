@@ -33,6 +33,69 @@ class AppPresser_Ajax_Extras extends AppPresser {
 		add_action( 'wp_ajax_appp_load_more', array( $this, 'appp_load_more' ) );
 		add_action( 'wp_ajax_nopriv_appp_load_more', array( $this, 'appp_load_more' ) );
 
+		add_action( 'wp_ajax_nopriv_apppajaxlogin', array( $this, 'appp_ajax_login' ) );
+
+		add_action('wp_ajax_apppajaxlogout', array( $this, 'appp_ajax_logout' ) );
+		add_action('wp_ajax_nopriv_apppajaxlogout', array( $this, 'appp_ajax_logout' ) );
+
+	}
+
+	/**
+	 * Adds ajax for form#loginform modal in apptheme 2.1.3 and ion 1.0.1
+	 * @since 2.0.1
+	 */
+	public function appp_ajax_login() {
+			
+		// check_ajax_referer( 'ajax-login-nonce', 'security' );
+
+		$info = array();
+
+		if( !empty( $_GET['auth'] ) ) {
+			$auth = base64_decode( $_GET['auth'] );
+			$auth = explode( ":", $auth );
+			$info['user_login'] = $auth[0];
+			$info['user_password'] = $auth[1];
+		} else {
+			$info['user_login'] = ( $_POST['username'] ? $_POST['username'] : $_SERVER['PHP_AUTH_USER'] );
+			$info['user_password'] = ( $_POST['password'] ? $_POST['password'] : $_SERVER['PHP_AUTH_PW'] );
+		}
+		
+		$info['remember'] = true;
+		
+		$user_signon = wp_signon( $info, false );
+		
+		if( is_wp_error( $user_signon ) ) {
+		
+			$return = array(
+				'message' =>  __('The log in you have entered is not valid.', 'apppresser'),
+				'signon' => $info['user_login'] . $info['user_password'],
+				'line' => __LINE__,
+				'success' => false
+			);
+			wp_send_json_error( $return );
+			
+		} else {
+
+			$return = array(
+				'message' => sprintf( __('Welcome back %s!', 'apppresser'), $user_signon->display_name),
+				'username' => $info['user_login'],
+				'avatar' => get_avatar_url( $user_signon->ID )
+			);
+			wp_send_json_success( $return );
+			
+		}
+	}
+
+	/**
+	 * Logout, used via postmessage in AP3 apps
+	 * @since 3.0.2
+	 */
+	public function appp_ajax_logout() {
+
+		wp_logout();
+
+		wp_send_json_success('Logout success.');
+
 	}
 
 	/**
