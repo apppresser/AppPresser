@@ -36,6 +36,10 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+### 3.2.0
+* Make the BuddyPress avatar available to the app if it's set
+* Add more details to the system info
+
 ### 3.1.3
 * Fix Facebook connect removing app theme cookies
 * Update language .pot template
