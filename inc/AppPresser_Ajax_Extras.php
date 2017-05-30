@@ -50,15 +50,8 @@ class AppPresser_Ajax_Extras extends AppPresser {
 
 		$info = array();
 
-		if( !empty( $_GET['auth'] ) ) {
-			$auth = base64_decode( $_GET['auth'] );
-			$auth = explode( ":", $auth );
-			$info['user_login'] = $auth[0];
-			$info['user_password'] = $auth[1];
-		} else {
-			$info['user_login'] = ( $_POST['username'] ? $_POST['username'] : $_SERVER['PHP_AUTH_USER'] );
-			$info['user_password'] = ( $_POST['password'] ? $_POST['password'] : $_SERVER['PHP_AUTH_PW'] );
-		}
+		$info['user_login'] = ( $_POST['username'] ? $_POST['username'] : $_SERVER['PHP_AUTH_USER'] );
+		$info['user_password'] = ( $_POST['password'] ? $_POST['password'] : $_SERVER['PHP_AUTH_PW'] );
 		
 		$info['remember'] = true;
 		
