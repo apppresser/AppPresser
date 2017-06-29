@@ -72,7 +72,8 @@ class AppPresser_Ajax_Extras extends AppPresser {
 			$return = array(
 				'message' => sprintf( __('Welcome back %s!', 'apppresser'), $user_signon->display_name),
 				'username' => $info['user_login'],
-				'avatar' => get_avatar_url( $user_signon->ID )
+				'avatar' => get_avatar_url( $user_signon->ID ),
+				'success' => true
 			);
 			wp_send_json_success( $return );
 			
