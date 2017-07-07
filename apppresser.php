@@ -293,8 +293,8 @@ class AppPresser {
 				<p><?php _e('We have created extensive documentation so you can easily walk through the steps to get your app up and running:', 'apppresser'); ?></p>
 
 				<ul>
-					<li><a href="http://docs.apppresser.com/article/123-overview" target="_blank"><?php _e('AppPresser Overview', 'apppresser'); ?></a></li>
-					<li><a href="http://docs.apppresser.com/article/145-a-quick-start-guide" target="_blank"><?php _e('A Quick Start Guide', 'apppresser'); ?></a></li>
+					<li><a href="http://v2docs.apppresser.com/article/123-overview" target="_blank"><?php _e('AppPresser Overview', 'apppresser'); ?></a></li>
+					<li><a href="http://v2docs.apppresser.com/article/145-a-quick-start-guide" target="_blank"><?php _e('A Quick Start Guide', 'apppresser'); ?></a></li>
 				</ul>
 
 			</section>

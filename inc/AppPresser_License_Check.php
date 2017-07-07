@@ -184,7 +184,7 @@ class AppPresser_License_Check {
 		
 		if( ! get_user_meta( get_current_user_id(), self::ADMIN_LIC_NAG, true ) ) {
 
-			$error  = '<p>' . sprintf( __( 'Your AppPresser license has expired, %sclick here to renew now for critical updates%s', 'apppresser' ), '<a href="http://docs.apppresser.com/article/211-how-to-renew-your-license">', '</a>' ) . '</p>';
+			$error  = '<p>' . sprintf( __( 'Your AppPresser license has expired, %sclick here to renew now for critical updates%s', 'apppresser' ), '<a href="http://v2docs.apppresser.com/article/211-how-to-renew-your-license">', '</a>' ) . '</p>';
 			
 			if( self::DEBUG ) {
 				$expired_licenses = array_keys( self::$expired_licenses );

@@ -1158,7 +1158,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 		?>
 		<div class="wrap <?php echo $class; ?>">
 			<h2>AppPresser <?php _e( 'Help and Support', 'apppresser' ); ?></h2>
-			<p><strong><?php _e( 'Resources', 'apppresser' ); ?>:</strong> <a href="https://github.com/apppresser/" target="_blank">AppPresser <?php _e( 'Core on Github', 'apppresser' ); ?></a> | <a href="http://v3docs.apppresser.com/" target="_blank">AppPresser <?php _e( 'Documentation', 'apppresser' ); ?></a></p>
+			<p><strong><?php _e( 'Resources', 'apppresser' ); ?>:</strong> <a href="https://github.com/apppresser/" target="_blank">AppPresser <?php _e( 'Core on Github', 'apppresser' ); ?></a> | <a href="http://docs.apppresser.com/" target="_blank">AppPresser <?php _e( 'Documentation', 'apppresser' ); ?></a></p>
 			<p><strong>AppPresser <?php _e( 'Online', 'apppresser' ); ?>:</strong> <a href="http://apppresser.com" target="_blank"><?php _e( 'Web', 'apppresser' ); ?></a> |  <a href="http://twitter.com/apppresser" target="_blank"><?php _e( 'Twitter', 'apppresser' ); ?></a> | <a href="http://facebook.com/apppresser" target="_blank"><?php _e( 'Facebook', 'apppresser' ); ?></a> | <a href="http://youtube.com/user/apppresser" target="_blank"><?php _e( 'YouTube', 'apppresser' ); ?></a></p>
 			<h3><?php _e( 'About', 'apppresser' ); ?> AppPresser</h3>
 			<p><?php printf( __( '%s was created by %s, %s, %s, and %s', 'apppresser' ),
@@ -1220,7 +1220,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 	public function apptheme_update_admin_notice() {
 		?>
 		<div class="notice notice-warning">
-			<p><?php echo sprintf( __( 'Your version of AppTheme has a programming error that will cause updates to fail.  Read about the simple fix in our <a href="%s" target="_blank">docs</a>.', 'apppresser' ), 'http://docs.apppresser.com/article/243-older-versions-of-apptheme-fail-to-update' ); ?></p>
+			<p><?php echo sprintf( __( 'Your version of AppTheme has a programming error that will cause updates to fail.  Read about the simple fix in our <a href="%s" target="_blank">docs</a>.', 'apppresser' ), 'http://v2docs.apppresser.com/article/243-older-versions-of-apptheme-fail-to-update' ); ?></p>
 		</div>
 		<?php
 	}

@@ -66,7 +66,7 @@ class AppPresser_Remote_Scripts {
 					</label>
 					<input type="file" id="apg-js-file" name="apg-js-file" value="" />
 					<?php wp_nonce_field( plugin_basename( __FILE__ ), self::$public_nonce_key ); ?>
-					<p class="description">This file will be added to your app, where it can access PhoneGap/Cordova features. Learn more in <a href="http://docs.apppresser.com/article/163-adding-phonegap-plugins" target="_blank">our documentation.</a></p>
+					<p class="description">This file will be added to your app, where it can access PhoneGap/Cordova features. Learn more in <a href="http://v2docs.apppresser.com/article/163-adding-phonegap-plugins" target="_blank">our documentation.</a></p>
 				</p>
 				<?php
 
