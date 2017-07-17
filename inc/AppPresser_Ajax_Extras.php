@@ -73,11 +73,36 @@ class AppPresser_Ajax_Extras extends AppPresser {
 				'message' => sprintf( __('Welcome back %s!', 'apppresser'), $user_signon->display_name),
 				'username' => $info['user_login'],
 				'avatar' => get_avatar_url( $user_signon->ID ),
+				'login_redirect' => $this->get_login_redirect(), // v3 only
 				'success' => true
 			);
 			wp_send_json_success( $return );
 			
 		}
+	}
+
+	/**
+	 * Get the login redirect for the app's login modal
+	 * 
+	 * @since 3.2.1
+	 * @return string | array( 'url' => '', 'title' => '' )
+	 */
+	public function get_login_redirect() {
+
+		if( has_filter( 'appp_login_redirect' ) ) {
+			$redirect_to = apply_filters( 'appp_login_redirect', '' );
+			$post_id = url_to_postid( $redirect_to );
+
+			$redirect = array(
+				'url' => $redirect_to,
+				'title' => ($post_id) ? get_the_title( $post_id ) : '',
+			);	
+			
+		} else {
+			$redirect = '';
+		}
+
+		return $redirect;
 	}
 
 	/**
@@ -88,7 +113,7 @@ class AppPresser_Ajax_Extras extends AppPresser {
 
 		wp_logout();
 
-		wp_send_json_success('Logout success.');
+		wp_send_json_success( __('Logout success.', 'apppresser') );
 
 	}
 
