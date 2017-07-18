@@ -36,6 +36,13 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+### 3.2.1
+* Add: filter hook for login/logout strings
+* Fix: properly handle appp_login_redirect filter
+* Fix: URL updates to v3 docs
+# Fix: add success boolean in ajax login response
+* Fix: deprecate safe_mode from system info
+
 ### 3.2.0
 * Make the BuddyPress avatar available to the app if it's set
 * Add more details to the system info

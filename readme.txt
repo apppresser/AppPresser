@@ -3,8 +3,8 @@ Contributors: apppresser, webdevstudios, williamsba1, scottopolis, jtsternberg, 
 Donate link: http://apppresser.com/
 Tags: mobile, app, ios, android, application, phonegap, iphone app, android app, mobile app, native app, wordpress mobile, ipad app, iOS app
 Requires at least: 3.5
-Tested up to: 4.7.5
-Stable tag: 3.2.0
+Tested up to: 4.8.0
+Stable tag: 3.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -46,6 +46,13 @@ This plugin is not an app-creator in itself, it helps connect your app to WordPr
 
 
 == Changelog ==
+
+= 3.2.1 =
+* Add: filter hook for login/logout strings
+* Fix: properly handle appp_login_redirect filter
+* Fix: URL updates to v3 docs
+# Fix: add success boolean in ajax login response
+* Fix: deprecate safe_mode from system info
 
 = 3.2.0 =
 * Make the BuddyPress avatar available to the app if it's set
