@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: apppresser 2.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-29 15:40-0500\n"
+"POT-Creation-Date: 2017-07-18 10:30-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,58 +17,58 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: apppresser.php:280
+#: apppresser.php:277
 msgid "Welcome to"
 msgstr ""
 
-#: apppresser.php:281
+#: apppresser.php:278
 msgid "Easily Make a Mobile App From Any WordPress Website"
 msgstr ""
 
-#: apppresser.php:284
+#: apppresser.php:281
 msgid "Quick Start Guide"
 msgstr ""
 
-#: apppresser.php:285
+#: apppresser.php:282
 msgid "Features For Developers"
 msgstr ""
 
-#: apppresser.php:290
+#: apppresser.php:287
 msgid "How it works"
 msgstr ""
 
-#: apppresser.php:292
+#: apppresser.php:289
 msgid ""
 "AppPresser is a suite of WordPress plugins and theme that you install on "
 "your site, customize, then package into an app and submit to the app stores."
 msgstr ""
 
-#: apppresser.php:294
+#: apppresser.php:291
 msgid ""
 "You have activated the core plugin, which is the first step. Next, you will "
 "need to purchase some <a href=\"https://apppresser.com/pricing\" target="
 "\"_blank\">extensions</a> to create your app."
 msgstr ""
 
-#: apppresser.php:296
+#: apppresser.php:293
 msgid ""
 "We have created extensive documentation so you can easily walk through the "
 "steps to get your app up and running:"
 msgstr ""
 
-#: apppresser.php:299
+#: apppresser.php:296
 msgid "AppPresser Overview"
 msgstr ""
 
-#: apppresser.php:300
+#: apppresser.php:297
 msgid "A Quick Start Guide"
 msgstr ""
 
-#: apppresser.php:306
+#: apppresser.php:303
 msgid "Developers"
 msgstr ""
 
-#: apppresser.php:308
+#: apppresser.php:305
 msgid ""
 "AppPresser is like adding the features of a mobile device to a WordPress "
 "site. If you could access the <b>device camera, contacts, geolocation, push "
@@ -76,62 +76,53 @@ msgid ""
 "couldn't you build?"
 msgstr ""
 
-#: apppresser.php:310
+#: apppresser.php:307
 msgid "Make money with AppPresser"
 msgstr ""
 
-#: apppresser.php:311
+#: apppresser.php:308
 msgid ""
 "Make mobile apps for your clients, adding revenue to your business, right "
 "away."
 msgstr ""
 
-#: apppresser.php:313
+#: apppresser.php:310
 msgid "Use device features through Phonegap"
 msgstr ""
 
-#: apppresser.php:315
+#: apppresser.php:312
 msgid "Full WordPress integration"
 msgstr ""
 
-#: apppresser.php:316
+#: apppresser.php:313
 msgid "Update site &amp; app at the same time"
 msgstr ""
 
-#: apppresser.php:317
+#: apppresser.php:314
 msgid "You own &amp; host the app"
 msgstr ""
 
-#: apppresser.php:318
+#: apppresser.php:315
 msgid "No monthly fees"
 msgstr ""
 
-#: apppresser.php:321
+#: apppresser.php:318
 msgid "Build apps for your clients with AppPresser."
 msgstr ""
 
-#: apppresser.php:321
+#: apppresser.php:318
 msgid "Learn more"
 msgstr ""
 
-#: apppresser.php:578
-msgid "The log in you have entered is not valid."
-msgstr ""
-
-#: apppresser.php:588
-#, php-format
-msgid "Welcome back %s!"
-msgstr ""
-
-#: apppresser.php:616
+#: apppresser.php:585
 msgid "Logging in...."
 msgstr ""
 
-#: apppresser.php:617
+#: apppresser.php:586
 msgid "Fields are required"
 msgstr ""
 
-#: apppresser.php:618
+#: apppresser.php:587
 msgid "Error Logging in"
 msgstr ""
 
@@ -476,27 +467,40 @@ msgid ""
 "\">docs</a>."
 msgstr ""
 
-#: inc/AppPresser_Ajax_Extras.php:115
-msgid "App Password Reset"
+#: inc/AppPresser_Ajax_Extras.php:63
+msgid "The log in you have entered is not valid."
+msgstr ""
+
+#: inc/AppPresser_Ajax_Extras.php:73
+#, php-format
+msgid "Welcome back %s!"
 msgstr ""
 
 #: inc/AppPresser_Ajax_Extras.php:116
+msgid "Logout success."
+msgstr ""
+
+#: inc/AppPresser_Ajax_Extras.php:197
+msgid "App Password Reset"
+msgstr ""
+
+#: inc/AppPresser_Ajax_Extras.php:198
 msgid "Enter the code into the app to reset your password. Code: "
 msgstr ""
 
-#: inc/AppPresser_Ajax_Extras.php:120
+#: inc/AppPresser_Ajax_Extras.php:202
 msgid "Please check your email and enter the retrieval code below."
 msgstr ""
 
-#: inc/AppPresser_Ajax_Extras.php:127
+#: inc/AppPresser_Ajax_Extras.php:209
 msgid "The email you have entered is not valid."
 msgstr ""
 
-#: inc/AppPresser_Ajax_Extras.php:175
+#: inc/AppPresser_Ajax_Extras.php:257
 msgid "Password has been changed."
 msgstr ""
 
-#: inc/AppPresser_Ajax_Extras.php:183
+#: inc/AppPresser_Ajax_Extras.php:265
 msgid "The code you have entered is not valid."
 msgstr ""
 
@@ -556,11 +560,11 @@ msgstr ""
 msgid "System Info"
 msgstr ""
 
-#: inc/AppPresser_SystemInfo.php:184
+#: inc/AppPresser_SystemInfo.php:190
 msgid "System Information"
 msgstr ""
 
-#: inc/AppPresser_SystemInfo.php:191
+#: inc/AppPresser_SystemInfo.php:197
 msgid ""
 "To copy the system info, click below then press Ctrl + C (PC) or Cmd + C "
 "(Mac)."
