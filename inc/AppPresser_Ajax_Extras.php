@@ -60,7 +60,7 @@ class AppPresser_Ajax_Extras extends AppPresser {
 		if( is_wp_error( $user_signon ) ) {
 		
 			$return = array(
-				'message' =>  __('The log in you have entered is not valid.', 'apppresser'),
+				'message' =>  apply_filters( 'appp_login_error', __('The log in you have entered is not valid.', 'apppresser'), $info['user_login'] ),
 				'signon' => $info['user_login'] . $info['user_password'],
 				'line' => __LINE__,
 				'success' => false
@@ -70,7 +70,7 @@ class AppPresser_Ajax_Extras extends AppPresser {
 		} else {
 
 			$return = array(
-				'message' => sprintf( __('Welcome back %s!', 'apppresser'), $user_signon->display_name),
+				'message' => apply_filters( 'appp_login_success', sprintf( __('Welcome back %s!', 'apppresser'), $user_signon->display_name), $user_signon->ID ),
 				'username' => $info['user_login'],
 				'avatar' => get_avatar_url( $user_signon->ID ),
 				'login_redirect' => $this->get_login_redirect(), // v3 only
