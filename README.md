@@ -40,7 +40,7 @@ Note: This repository is for code contributors. To use this plugin on your websi
 * Add: filter hook for login/logout strings
 * Fix: properly handle appp_login_redirect filter
 * Fix: URL updates to v3 docs
-# Fix: add success boolean in ajax login response
+* Fix: add success boolean in ajax login response
 * Fix: deprecate safe_mode from system info
 * Fix: update language template apppressser.pot
 
