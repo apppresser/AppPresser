@@ -42,6 +42,7 @@ Note: This repository is for code contributors. To use this plugin on your websi
 * Fix: URL updates to v3 docs
 # Fix: add success boolean in ajax login response
 * Fix: deprecate safe_mode from system info
+* Fix: update language template apppressser.pot
 
 ### 3.2.0
 * Make the BuddyPress avatar available to the app if it's set

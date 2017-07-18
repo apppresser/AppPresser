@@ -53,6 +53,7 @@ This plugin is not an app-creator in itself, it helps connect your app to WordPr
 * Fix: URL updates to v3 docs
 # Fix: add success boolean in ajax login response
 * Fix: deprecate safe_mode from system info
+* Fix: update language template apppressser.pot
 
 = 3.2.0 =
 * Make the BuddyPress avatar available to the app if it's set
