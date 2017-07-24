@@ -465,7 +465,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 					$has_adv_subtab = ( isset( self::$advanced_fields[ $tab ] ) );
 					$has_cst_subtab = ( isset( self::$customize_fields[ $tab ] ) );
 					$has_clr_subtab = ( isset( self::$color_fields[ $tab ] ) );
-					$has_lic_subtab = ( $tab == 'general' && isset( self::$license_fields[ $tab ] ) );
+					$has_lic_subtab = ( $tab == 'general' && count( self::$license_fields ) );
 					$has_v2_subtab  = ( isset( self::$v2only_fields[ $tab ] ) );
 					$subtab_links = array();
 
@@ -481,11 +481,11 @@ class AppPresser_Admin_Settings extends AppPresser {
 					}
 					if( $has_cst_subtab ) {
 						$subtab_links[] = '<li><a href="?page=apppresser_settings&tab=tab-'.$tab.'&subnav=customize" class="subnav-tab" id="tab-'.$tab.'-subnav-customize"  data-selector="customize-subtab.subtab-'.$tab.'">' . __('Customize', 'apppresser') . '</a>'
-							. ( ($has_clr_subtab || $has_adv_subtab || $has_lic_subtab)?' | ':'' ) . '</li>';
+							. ( ($has_clr_subtab || $has_adv_subtab || $has_lic_subtab || $has_v2_subtab)?' | ':'' ) . '</li>';
 					}
 					if( $has_clr_subtab ) {
 						$subtab_links[] = '<li><a href="?page=apppresser_settings&tab=tab-'.$tab.'&subnav=color" class="subnav-tab" id="tab-'.$tab.'-subnav-color"  data-selector="color-subtab.subtab-'.$tab.'">' . __('Colors', 'apppresser') . '</a>'
-							. ( ($has_adv_subtab || $has_lic_subtab)?' | ':'' ) . '</li>';
+							. ( ($has_adv_subtab || $has_lic_subtab || $has_v2_subtab)?' | ':'' ) . '</li>';
 					}
 					if( $has_adv_subtab ) {
 						$subtab_links[] = '<li><a href="?page=apppresser_settings&tab=tab-'.$tab.'&subnav=advanced" class="subnav-tab" id="tab-'.$tab.'-subnav-advanced"  data-selector="advanced-subtab.subtab-'.$tab.'">' . __('Advanced', 'apppresser') . '</a>'
