@@ -3,7 +3,7 @@
  * Theme updater class.
  *
  * @package EDD Sample Theme
- * @version 1.0.2
+ * @version 1.0.3
  */
 
 class EDD_Theme_Updater {
@@ -46,7 +46,7 @@ class EDD_Theme_Updater {
 		$this->author         = $args['author'];
 		$this->beta           = $args['beta'];
 		$this->remote_api_url = $args['remote_api_url'];
-		$this->response_key   = $this->theme_slug . '-update-response';
+		$this->response_key   = $this->theme_slug . '-' . $this->beta . '-update-response';
 		$this->strings        = $strings;
 
 		add_filter( 'site_transient_update_themes',        array( $this, 'theme_update_transient' ) );
