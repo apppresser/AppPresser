@@ -354,7 +354,11 @@ class AppPresser_Admin_Settings extends AppPresser {
 					// Allow sanitization override
 					$filtered_value = apply_filters( "apppresser_sanitize_setting_$key", null, $value, $settings, $appp_settings );
 					// If no override, sanitize the value ourselves
-					$filtered_value = null === $filtered_value ? sanitize_text_field( $value ) : $filtered_value;
+					if( null === $filtered_value && is_string($value)) {
+						$filtered_value = sanitize_text_field( $value );
+					} else {
+						$filtered_value = $value;
+					}
 					// And fallback sanitization hook (mostly for backwards compatibility)
 					$cleaninput[ $key ] = apply_filters( 'apppresser_sanitize_setting', $filtered_value, $key, $value, $settings, $appp_settings );
 					break;
