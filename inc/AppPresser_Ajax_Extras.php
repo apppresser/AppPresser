@@ -128,13 +128,14 @@ class AppPresser_Ajax_Extras extends AppPresser {
 		$args = isset( $_POST['query'] ) ? array_map( 'esc_attr', $_POST['query'] ) : array();
 		$args['post_type'] = isset( $args['post_type'] ) ? esc_attr( $args['post_type'] ) : 'post';
 		$args['paged'] = esc_attr( $_POST['page'] );
-		$args['posts_per_page'] = isset( $_POST['posts_per_page'] ) ? $_POST['posts_per_page'] : 10;
+		$args['posts_per_page'] = isset( $_POST['posts_per_page'] ) ? $_POST['posts_per_page'] : get_option( 'posts_per_page' );
 		$args['post_status'] = 'publish';
 		$this->parse_url_query_vars( $args );
 		$data = array();
 		$loop = new WP_Query( $args );
 		if( $loop->have_posts() ): while( $loop->have_posts() ): $loop->the_post();
 			$data[] = array( 
+				'id' => get_the_ID(),
 				'permalink' => get_the_permalink(),
 				'title' => get_the_title(),
 				'excerpt' => get_the_excerpt(),
