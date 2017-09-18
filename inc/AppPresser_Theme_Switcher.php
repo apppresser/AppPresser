@@ -44,6 +44,9 @@ class AppPresser_Theme_Switcher extends AppPresser {
 			( $this->is_theme_customizer() || is_admin() ) && ! $this->is_appp_theme_customizer()
 		);
 
+		// developers may need to modify this
+		$dont_switch = apply_filters( 'appp_dont_switch_theme', $dont_switch );
+
 		if ( $dont_switch ) {
 			return;
 		}
@@ -78,6 +81,9 @@ class AppPresser_Theme_Switcher extends AppPresser {
 			// If we're previewing the app theme
 			|| $this->is_appp_theme_customizer()
 		);
+
+		// developers may need to modify this
+		$do_switch = apply_filters( 'appp_do_switch_theme', $do_switch );
 
 		if ( ! $do_switch )
 			return;
