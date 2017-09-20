@@ -123,6 +123,8 @@ class AppPresser_Ajax_Extras extends AppPresser {
 	 */
 	public function appp_load_more() {
 
+		global $wp_query;
+
 		check_ajax_referer( 'app-load-more-nonce', 'nonce' );
     
 		$args = isset( $_POST['query'] ) ? array_map( 'esc_attr', $_POST['query'] ) : array();
@@ -132,18 +134,97 @@ class AppPresser_Ajax_Extras extends AppPresser {
 		$args['post_status'] = 'publish';
 		$this->parse_url_query_vars( $args );
 		$data = array();
-		$loop = new WP_Query( $args );
-		if( $loop->have_posts() ): while( $loop->have_posts() ): $loop->the_post();
-			$data[] = array( 
-				'id' => get_the_ID(),
-				'permalink' => get_the_permalink(),
-				'title' => get_the_title(),
-				'excerpt' => get_the_excerpt(),
-				'thumbnail' => get_the_post_thumbnail_url( get_the_ID(), 'thumbnail' ),
-				'full' => get_the_post_thumbnail_url( get_the_ID(), 'full' )
-				);
-		endwhile; endif; wp_reset_postdata();
-		wp_send_json_success( $data );		
+		$wp_query = new WP_Query( $args );
+		$list_type = (isset( $_POST['list_type'] )) ? $_POST['list_type'] : 'medialist';
+		$custom_template = $this->get_childtheme_list_template($list_type);
+
+		/**
+		 * Only AP3 Ion Theme 1.3.0+ will send $args['list_type']
+		 * and will be able to handle $data['html'].
+		 * 
+		 * Now developers can use list type template from ion-ap3-child/content-{list_type}.php
+		 */
+		if( $custom_template && isset( $_POST['list_type'] )) {
+
+			ob_start();
+			if( have_posts() ): while( have_posts() ): the_post();
+				include( $custom_template );
+			endwhile; endif;
+			$data['html'] = ob_get_contents();
+			ob_end_clean();
+
+		} else {
+			if( have_posts() ): while( have_posts() ): the_post();
+
+				$data[] = array( 
+					'id' => get_the_ID(),
+					'permalink' => get_the_permalink(),
+					'title' => get_the_title(),
+					'excerpt' => get_the_excerpt(),
+					'thumbnail' => $this->get_thumbnail( get_the_ID() ),
+					'full' => get_the_post_thumbnail_url( get_the_ID(), 'full' )
+					);
+			endwhile; endif;
+		}
+
+		wp_reset_postdata();
+		wp_send_json_success( $data );
+	}
+
+	/**
+	 * Get a thumbnail:
+	 *   1. post thumbnail
+	 *   2. child theme default thumbnail
+	 *   3. parent theme default thumbnail
+	 */
+	public function get_thumbnail( $post_id ) {
+		$thumbnail = get_the_post_thumbnail_url( $post_id, 'thumbnail' );
+		if( empty( $thumbnail ) ) {
+
+			if( DOING_AJAX ) {
+				$theme = $this->get_app_theme();
+				switch_theme( $theme );
+			}
+
+			if(file_exists(get_stylesheet_directory() . '/images/thumbnail.jpg')) {
+				// child theme
+				$thumbnail = get_stylesheet_directory_uri() . '/images/thumbnail.jpg';
+			} else {
+				$thumbnail = get_template_directory_uri() . '/images/thumbnail.jpg';
+			}
+			
+		}
+
+		return $thumbnail;
+	}
+
+	/**
+	 * Checks if there is a list template in the child theme
+	 */
+	public function get_childtheme_list_template($list_type) {
+
+		$list_type = ($list_type == 'default') ? 'medialist' : $list_type;
+
+		$template_name = "content-$list_type.php";
+		
+		$theme = $this->get_app_theme();
+
+		$template = get_theme_root() . '/'.$theme.'/'.$template_name;
+		
+		return (file_exists($template)) ? $template : false;
+	}
+
+	public function get_app_theme() {
+		$child_theme_slug = 'ion-ap3-child';
+		$child_theme = wp_get_theme( $child_theme_slug );
+
+		if ( $child_theme->exists() ) {
+			$theme = $child_theme_slug;
+		} else {
+			$theme = apply_filters( 'appp_theme', 'ap3-ion-theme' );
+		}
+
+		return $theme;
 	}
 
 	/**
