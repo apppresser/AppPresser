@@ -76,6 +76,9 @@ class AppPresser_Ajax_Extras extends AppPresser {
 				'login_redirect' => $this->get_login_redirect(), // v3 only
 				'success' => true
 			);
+
+			if( defined('MYAPPPRESSER_DEV_DOMAIN') ) // local development only
+				@header( 'Access-Control-Allow-Origin: *' );
 			wp_send_json_success( $return );
 			
 		}
@@ -112,6 +115,9 @@ class AppPresser_Ajax_Extras extends AppPresser {
 	public function appp_ajax_logout() {
 
 		wp_logout();
+
+		if( defined('MYAPPPRESSER_DEV_DOMAIN') ) // local development only
+				@header( 'Access-Control-Allow-Origin: *' );
 
 		wp_send_json_success( __('Logout success.', 'apppresser') );
 
