@@ -651,6 +651,10 @@ class AppPresser {
 		return $default;
 	}
 
+	public static function has_curl_openssl_support() {
+		return stripos(curl_version()['ssl_version'], "openssl") !== false;
+	}
+
 }
 
 // Singleton rather than a global.. If they want access, they can use:
