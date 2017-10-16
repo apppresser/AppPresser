@@ -94,18 +94,55 @@ class AppPresser_Ajax_Extras extends AppPresser {
 
 		if( has_filter( 'appp_login_redirect' ) ) {
 			$redirect_to = apply_filters( 'appp_login_redirect', '' );
+
+			return $this->add_redirect_title( $redirect_to );
+			
+		} else {
+			return '';
+		}
+	}
+
+	/**
+	 * Get the login redirect for the app's login modal
+	 * 
+	 * @since 3.3.0
+	 * @return string | array( 'url' => '', 'title' => '' )
+	 */
+	public function get_logout_redirect() {
+
+		if( has_filter( 'appp_logout_redirect' ) ) {
+			$redirect_to = apply_filters( 'appp_logout_redirect', '' );
+
+			return $this->add_redirect_title( $redirect_to );
+			
+		} else {
+			return '';
+		}
+	}
+
+	/**
+	 * Use the URL to get title or just returns a string if it is a app custom page slug
+	 * 
+	 * @since 3.3.0
+	 * 
+	 * @return string | array( 'url' => '', 'title' => '' )
+	 */
+	public function add_redirect_title( $redirect_to ) {
+		if(strpos($redirect_to, 'http') !== false) {
+
+			// a URL
+
 			$post_id = url_to_postid( $redirect_to );
 
-			$redirect = array(
+			return array(
 				'url' => $redirect_to,
 				'title' => ($post_id) ? get_the_title( $post_id ) : '',
 			);	
-			
 		} else {
-			$redirect = '';
-		}
+			// An app custom page slug
 
-		return $redirect;
+			return $redirect_to;
+		}
 	}
 
 	/**
@@ -119,7 +156,17 @@ class AppPresser_Ajax_Extras extends AppPresser {
 		if( defined('MYAPPPRESSER_DEV_DOMAIN') ) // local development only
 				@header( 'Access-Control-Allow-Origin: *' );
 
-		wp_send_json_success( __('Logout success.', 'apppresser') );
+
+		$response = array(
+			'message' => __('Logout success.', 'apppresser')
+		);
+
+		$redirect = $this->get_logout_redirect();
+		if($redirect) {
+			$response['logout_redirect'] = $redirect;
+		}
+
+		wp_send_json_success( $response );
 
 	}
 
