@@ -113,7 +113,7 @@ class AppPresser_Ajax_Extras extends AppPresser {
 		if( has_filter( 'appp_logout_redirect' ) ) {
 			$redirect_to = apply_filters( 'appp_logout_redirect', '' );
 
-			return $this->add_redirect_title( $redirect_to );
+			return self::add_redirect_title( $redirect_to );
 			
 		} else {
 			return '';
@@ -127,7 +127,7 @@ class AppPresser_Ajax_Extras extends AppPresser {
 	 * 
 	 * @return string | array( 'url' => '', 'title' => '' )
 	 */
-	public function add_redirect_title( $redirect_to ) {
+	public static function add_redirect_title( $redirect_to ) {
 		if(strpos($redirect_to, 'http') !== false) {
 
 			// a URL
