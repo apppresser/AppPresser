@@ -3,8 +3,8 @@ Contributors: apppresser, webdevstudios, williamsba1, scottopolis, jtsternberg, 
 Donate link: http://apppresser.com/
 Tags: mobile, app, ios, android, application, phonegap, iphone app, android app, mobile app, native app, wordpress mobile, ipad app, iOS app
 Requires at least: 3.5
-Tested up to: 4.8.0
-Stable tag: 3.2.1
+Tested up to: 4.8.2
+Stable tag: 3.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -46,6 +46,13 @@ This plugin is not an app-creator in itself, it helps connect your app to WordPr
 
 
 == Changelog ==
+
+= 3.3.0 =
+* Support for both login_redirect and logout_redirect hooks including responding with both title and URL
+* Add CURL, Supports OpenSSL to system log
+* Add appp_x_switch_theme hooks to allow developers to add their own logic when to switch the app theme
+* Make infinite scroll to pull the number of posts which is set as default post_per_page amount
+* More content from infinite scroll posts now use templates from the app theme instead of hardcoded markup
 
 = 3.2.1 =
 * Add: filter hook for login/logout strings
