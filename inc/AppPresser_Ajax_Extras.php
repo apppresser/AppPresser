@@ -38,6 +38,9 @@ class AppPresser_Ajax_Extras extends AppPresser {
 		add_action('wp_ajax_apppajaxlogout', array( $this, 'appp_ajax_logout' ) );
 		add_action('wp_ajax_nopriv_apppajaxlogout', array( $this, 'appp_ajax_logout' ) );
 
+		add_action('wp_ajax_myappp_verify', array( $this, 'myappp_verify' ) );
+		add_action('wp_ajax_nopriv_myappp_verify', array( $this, 'myappp_verify' ) );
+
 	}
 
 	/**
@@ -400,6 +403,32 @@ class AppPresser_Ajax_Extras extends AppPresser {
 				'message' =>  __('The code you have entered is not valid.', 'apppresser')
 			);
 			wp_send_json_error( $return );
+		}
+	}
+
+	/**
+	 * This allows myapppresser.com to check this plugin is here or it can verify the AppPresser 3 settings
+	 */
+	public function myappp_verify() {
+
+		header('Access-Control-Allow-Origin: *');
+
+		$response = array(
+			'version' => AppPresser::VERSION,
+		);
+
+		if( isset( $_GET['ap3_site_slug'], $_GET['ap3_app_id'] ) ) {
+			$site_slug = appp_get_setting('ap3_site_slug');
+			$app_id    = appp_get_setting('ap3_app_id');
+
+			if($_GET['ap3_site_slug'] == $site_slug && $_GET['ap3_app_id'] == $app_id) {
+				wp_send_json_success( $response );
+			} else {
+				$response['error'] = 'On your WordPress site, ' . get_bloginfo( 'wpurl' ) . ', the AppPresser 3 Settings are not set correctly. Please visit the AppPresser settings page in your wp-admin to fix.';
+				wp_send_json_error( $response );
+			}
+		} else {
+			wp_send_json_success( $response );
 		}
 	}
 }
