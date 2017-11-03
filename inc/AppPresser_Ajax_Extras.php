@@ -131,7 +131,7 @@ class AppPresser_Ajax_Extras extends AppPresser {
 	 * @return string | array( 'url' => '', 'title' => '' )
 	 */
 	public static function add_redirect_title( $redirect_to ) {
-		if(strpos($redirect_to, 'http') !== false) {
+		if(is_string($redirect_to) && strpos($redirect_to, 'http') !== false) {
 
 			// a URL
 
