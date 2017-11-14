@@ -10,6 +10,7 @@
 class AppPresser_Ajax_Extras extends AppPresser {
 
 	public static $errorpath = '../php-error-log.php';
+	public static $default_thumbnail;
 
 	public static function run() {
 		if ( self::$instance === null )
@@ -234,24 +235,32 @@ class AppPresser_Ajax_Extras extends AppPresser {
 	 *   3. parent theme default thumbnail
 	 */
 	public function get_thumbnail( $post_id ) {
+
 		$thumbnail = get_the_post_thumbnail_url( $post_id, 'thumbnail' );
 		if( empty( $thumbnail ) ) {
-
-			if( DOING_AJAX ) {
-				$theme = $this->get_app_theme();
-				switch_theme( $theme );
-			}
-
-			if(file_exists(get_stylesheet_directory() . '/images/thumbnail.jpg')) {
-				// child theme
-				$thumbnail = get_stylesheet_directory_uri() . '/images/thumbnail.jpg';
-			} else {
-				$thumbnail = get_template_directory_uri() . '/images/thumbnail.jpg';
-			}
-			
+			return $this->get_default_thumbnail();
 		}
 
 		return $thumbnail;
+	}
+
+	public static function get_default_thumbnail() {
+		if( is_null( self::$default_thumbnail ) ) {
+			$app_theme = self::get_app_theme();
+
+			$stylesheet = str_replace( '%2F', '/', rawurlencode( $app_theme ) );
+			$theme_root_uri = get_theme_root_uri( $stylesheet );
+			$stylesheet_dir_uri = "$theme_root_uri/$stylesheet";	
+
+			if(file_exists(get_theme_root() . '/'. $app_theme . '/images/thumbnail.jpg')) {
+				// child theme
+				self::$default_thumbnail = $stylesheet_dir_uri . '/images/thumbnail.jpg';
+			} else {
+				self::$default_thumbnail = $theme_root_uri . '/ap3-ion-theme/images/thumbnail.jpg';
+			}
+		}
+
+		return self::$default_thumbnail;
 	}
 
 	/**
@@ -263,14 +272,14 @@ class AppPresser_Ajax_Extras extends AppPresser {
 
 		$template_name = "content-$list_type.php";
 		
-		$theme = $this->get_app_theme();
+		$theme = self::get_app_theme();
 
 		$template = get_theme_root() . '/'.$theme.'/'.$template_name;
 		
 		return (file_exists($template)) ? $template : false;
 	}
 
-	public function get_app_theme() {
+	public static function get_app_theme() {
 		$child_theme_slug = 'ion-ap3-child';
 		$child_theme = wp_get_theme( $child_theme_slug );
 
