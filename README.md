@@ -36,6 +36,16 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+### 3.3.1
+* Fix switch theme bug when using infinite scroll on list pages
+
+### 3.3.0
+* Support for both login_redirect and logout_redirect hooks including responding with both title and URL
+* Add CURL, Supports OpenSSL to system log
+* Add appp_x_switch_theme hooks to allow developers to add their own logic when to switch the app theme
+* Make infinite scroll to pull the number of posts which is set as default post_per_page amount
+* More content from infinite scroll posts now use templates from the app theme instead of hardcoded markup
+
 ### 3.2.1
 * Add: filter hook for login/logout strings
 * Update EDD plugin/theme updater
