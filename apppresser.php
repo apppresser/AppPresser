@@ -171,6 +171,10 @@ class AppPresser {
 			wp_localize_script( 'appp-core', 'apppCore', self::$l10n );
 			return;
 		}
+		if ( ! self::is_app() ) {
+			wp_enqueue_script( 'appp-no-app', self::$js_url ."no-app.js", null, self::VERSION );
+			return;
+		}
 
 		if ( ! self::$l10n['mobile_browser_theme_switch'] && ! self::$l10n['admin_theme_switch'] )
 			return;
