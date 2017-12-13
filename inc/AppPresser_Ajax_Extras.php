@@ -60,6 +60,8 @@ class AppPresser_Ajax_Extras extends AppPresser {
 		$info['remember'] = true;
 		
 		$user_signon = wp_signon( $info, false );
+
+		do_action( 'appp_ajax_login_header' );
 		
 		if( is_wp_error( $user_signon ) ) {
 		
@@ -83,6 +85,7 @@ class AppPresser_Ajax_Extras extends AppPresser {
 
 			if( defined('MYAPPPRESSER_DEV_DOMAIN') ) // local development only
 				@header( 'Access-Control-Allow-Origin: *' );
+				
 			wp_send_json_success( apply_filters( 'appp_login_data', $return, $user_signon->ID ) );
 			
 		}
@@ -154,6 +157,8 @@ class AppPresser_Ajax_Extras extends AppPresser {
 	 * @since 3.0.2
 	 */
 	public function appp_ajax_logout() {
+
+		do_action( 'appp_ajax_logout_header' );
 
 		wp_logout();
 
@@ -318,7 +323,7 @@ class AppPresser_Ajax_Extras extends AppPresser {
 	}
 
 	/*
-	 * Handles ajax lost password
+	 * Handles ajax lost password for the apptheme
 	 */
 	public function appp_reset_password() {
 
