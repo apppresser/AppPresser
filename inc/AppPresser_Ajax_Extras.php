@@ -83,7 +83,7 @@ class AppPresser_Ajax_Extras extends AppPresser {
 
 			if( defined('MYAPPPRESSER_DEV_DOMAIN') ) // local development only
 				@header( 'Access-Control-Allow-Origin: *' );
-			wp_send_json_success( $return );
+			wp_send_json_success( apply_filters( 'appp_login_data', $return, $user_signon->ID ) );
 			
 		}
 	}
@@ -318,7 +318,7 @@ class AppPresser_Ajax_Extras extends AppPresser {
 	}
 
 	/*
-	 * Handles ajax lost password for the apptheme
+	 * Handles ajax lost password
 	 */
 	public function appp_reset_password() {
 
