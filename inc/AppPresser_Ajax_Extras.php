@@ -312,7 +312,9 @@ class AppPresser_Ajax_Extras extends AppPresser {
 				    isset( $kv[1] ) && !empty($kv[1]) &&
 				    ! in_array( $kv[0], array( 'appp', 'list_type' ) ) ) { // we can ignore these two: already handled
 
-					if( $kv[0] == 'num' ) {
+					if( $kv[0] == 'type' ) {
+						$args['post_type'] = $kv[1];
+					} else if( $kv[0] == 'num' ) {
 						$args['posts_per_page'] = $kv[1];
 					} else {
 						$args[$kv[0]] = $kv[1];
