@@ -122,7 +122,11 @@ class AppPresser_Theme_Switcher extends AppPresser {
 
 	public function get_app_theme_slug() {
 
+		$theme = '';
+
 		if( self::is_min_ver( 3 ) ) {
+
+			global $wp_theme_directories;
 
 			/**
 			 * Child theme:  ion-ap3-child
@@ -131,13 +135,16 @@ class AppPresser_Theme_Switcher extends AppPresser {
 			 */
 
 			$child_theme_slug = 'ion-ap3-child';
+			$ap3_theme = 'ap3-ion-theme';
 
-			$child_theme = wp_get_theme( $child_theme_slug );
+			foreach( $wp_theme_directories as $dir ) {
+				if( file_exists( $dir . '/' . $child_theme_slug ) ) {
+					$theme = $child_theme_slug;
+				}
+			}
 
-			if ( $child_theme->exists() ) {
-				$theme = $child_theme_slug;
-			} else {
-				$theme = apply_filters( 'appp_theme', 'ap3-ion-theme' );
+			if ( empty( $theme ) ) {
+				$theme = apply_filters( 'appp_theme', $ap3_theme );
 			}
 
 		} else {
