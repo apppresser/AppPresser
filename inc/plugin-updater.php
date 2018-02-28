@@ -28,8 +28,8 @@ class AppPresser_Updater extends AppPresser {
 			self::$included['plugin'] = true;
 		} else {
 			// load theme updater
-			if ( ! self::$included['theme'] && ! class_exists( 'EDD_Theme_Updater' ) )
-				include( self::$inc_path . 'EDD_SL_Theme_Updater.php' );
+if ( ! self::$included['theme'] && ! class_exists( 'Appp_EDD_Theme_Updater' ) )
+	include( self::$inc_path . 'EDD_SL_Theme_Updater.php' );
 
 			self::$included['theme'] = true;
 		}
@@ -76,7 +76,7 @@ class AppPresser_Updater extends AppPresser {
 			'theme_slug'     => $theme_slug,
 			'beta'           => false,
 		) );
-		$updater = new EDD_Theme_Updater( $api_data, $strings );
+		$updater = new Appp_EDD_Theme_Updater( $api_data, $strings );
 
 		// Add passed-in vars to the object since the vars are private (derp).
 		$updater->public = $api_data + array( 'api_url' => $api_data['remote_api_url'], 'theme_slug' => $theme_slug );

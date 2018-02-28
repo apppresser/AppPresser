@@ -6,7 +6,7 @@
  * @version 1.0.3
  */
 
-class EDD_Theme_Updater {
+class Appp_EDD_Theme_Updater {
 
 	private $remote_api_url;
 	private $request_data;
