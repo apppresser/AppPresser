@@ -125,6 +125,7 @@ class AppPresser {
 		$this->set_deprecate_version();
 
 		require_once( self::$inc_path . 'AppPresser_Admin_Settings.php' );
+		require_once( self::$inc_path . 'AppPresser_Media_Settings.php' );
 		require_once( self::$inc_path . 'plugin-updater.php' );
 		require_once( self::$inc_path . 'AppPresser_Ajax_Extras.php' );
 		require_once( self::$inc_path . 'AppPresser_Remote_Scripts.php' );
