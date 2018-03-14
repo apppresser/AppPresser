@@ -18,15 +18,16 @@ class AppPresser_WPAPI_Mods {
 
 	public function hooks() {
 
-		add_action( 'rest_api_init', array( $this, 'add_featured_urls' ) );
+		add_action( 'rest_api_init', array( $this, 'add_api_fields' ) );
 
 	}
 
-	/***
-	* Add featured image urls to post response.
-	* Sample usage in the app files would be data.featured_image_urls.thumbnail
-	***/
-	public function add_featured_urls() {
+	public function add_api_fields() {
+
+		/***
+		* Add featured image urls to post response.
+		* Sample usage in the app files would be data.featured_image_urls.thumbnail
+		***/
 		register_rest_field( 'post',
 		    'featured_image_urls',
 		    array(
@@ -35,6 +36,20 @@ class AppPresser_WPAPI_Mods {
 	            'schema'          => null,
 		    )
 		);
+
+		// add urls for media
+		$post_types = appp_get_setting( 'media_post_types' );
+
+		foreach ($post_types as $type) {
+			register_rest_field( $type,
+			    'appp_media',
+			    array(
+			        'get_callback'    => array( $this, 'get_media_url' ),
+			        'update_callback' => null,
+		            'schema'          => null,
+			    )
+			);
+		}
 	}
 
 	public function image_sizes( $post ) {
@@ -63,6 +78,22 @@ class AppPresser_WPAPI_Mods {
 
 		return $size_data;
 	    
+	}
+
+	public function get_media_url( $post ) {
+
+		$value = get_post_meta( $post['id'], 'appp_media_url', true );
+
+		$data = [];
+
+		if( !empty( $value ) ) {
+			$data['media_url'] = $value;
+		} else {
+			return;
+		}
+
+		return $data;
+
 	}
 
 }
