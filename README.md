@@ -36,6 +36,13 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+### 3.4.0
+* Add support for file downloads
+* Additional support for custom post types
+* Add filter hook for login details
+* Fix app theme related bugs
+* Fix EDD naming conflict
+
 ### 3.3.1
 * Fix switch theme bug when using infinite scroll on list pages
 

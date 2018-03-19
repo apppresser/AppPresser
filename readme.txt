@@ -3,8 +3,8 @@ Contributors: apppresser, webdevstudios, williamsba1, scottopolis, jtsternberg, 
 Donate link: http://apppresser.com/
 Tags: mobile, app, ios, android, application, phonegap, iphone app, android app, mobile app, native app, wordpress mobile, ipad app, iOS app
 Requires at least: 3.5
-Tested up to: 4.8.3
-Stable tag: 3.3.1
+Tested up to: 4.9.4
+Stable tag: 3.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -47,8 +47,15 @@ This plugin is not an app-creator in itself, it helps connect your app to WordPr
 
 == Changelog ==
 
+= 3.4.0 =
+* Add support for file downloads
+* Additional support for custom post types
+* Add filter hook for login details
+* Fix app theme related bugs
+* Fix EDD naming conflict
+
 = 3.3.1 =
-Fix switch theme bug when using infinite scroll on list pages
+* Fix switch theme bug when using infinite scroll on list pages
 
 = 3.3.0 =
 * Support for both login_redirect and logout_redirect hooks including responding with both title and URL
