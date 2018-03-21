@@ -53,6 +53,10 @@ class AppPresser_Media_Settings extends AppPresser {
 
 		$post_types = appp_get_setting( 'media_post_types' );
 
+		if( empty( $post_types ) ) {
+			return;
+		}
+
 		if( in_array( $post->post_type, $post_types ) ) {
 			add_meta_box( 'appp_media_url_meta_box', __( 'AppPresser Media URL', 'apppresser' ), array( $this, 'media_url_meta_box_render' ) );
 		}
@@ -80,8 +84,12 @@ class AppPresser_Media_Settings extends AppPresser {
 
 		$post_types = appp_get_setting( 'media_post_types' );
 
+		if( empty( $post_types ) ) {
+			return $post_id;
+		}
+
 		if( !in_array( $post->post_type, $post_types ) ) {
-			return;
+			return $post_id;
 		}
  
         // Check if our nonce is set.
@@ -145,8 +153,15 @@ class AppPresser_Media_Settings extends AppPresser {
 		$saved         = appp_get_setting( 'media_post_types' );
 
 		foreach ( $post_types as $post_type => $object ) {
-			$checked = is_array( $saved ) && in_array( $post_type, $saved, true );
-			$field .= '<label><input '. checked( $checked, 1, 0 ).' type="checkbox" name="appp_settings[media_post_types][]" value="'. esc_attr( $post_type ) .'">&nbsp;'. $object->labels->name .'</label><br>'."\n";
+
+			$checked = '';
+
+			if( $saved ) {
+				$setting = is_array( $saved ) && in_array( $post_type, $saved, true );
+				$checked = checked( $setting, 1, 0 );
+			}
+
+			$field .= '<label><input '. $checked .' type="checkbox" name="appp_settings[media_post_types][]" value="'. esc_attr( $post_type ) .'">&nbsp;'. $object->labels->name .'</label><br>'."\n";
 		}
 
 		return $field;

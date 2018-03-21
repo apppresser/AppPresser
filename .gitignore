@@ -4,3 +4,5 @@ node_modules/
 rsync*
 js/apppresser2-plugins.dev.js
 .svn
+/apppresser-core.sublime-project
+/apppresser-core.sublime-workspace

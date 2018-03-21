@@ -40,16 +40,22 @@ class AppPresser_WPAPI_Mods {
 		// add urls for media
 		$post_types = appp_get_setting( 'media_post_types' );
 
-		foreach ($post_types as $type) {
-			register_rest_field( $type,
-			    'appp_media',
-			    array(
-			        'get_callback'    => array( $this, 'get_media_url' ),
-			        'update_callback' => null,
-		            'schema'          => null,
-			    )
-			);
+		if( !empty( $post_types ) ) {
+
+			foreach ($post_types as $type) {
+				register_rest_field( $type,
+				    'appp_media',
+				    array(
+				        'get_callback'    => array( $this, 'get_media_url' ),
+				        'update_callback' => null,
+			            'schema'          => null,
+				    )
+				);
+			}
+			
 		}
+
+		
 	}
 
 	public function image_sizes( $post ) {
