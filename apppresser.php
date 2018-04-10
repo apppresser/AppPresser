@@ -657,7 +657,18 @@ class AppPresser {
 	}
 
 	public static function has_curl_openssl_support() {
-		return stripos(curl_version()['ssl_version'], "openssl") !== false;
+		try {
+			if( function_exists('curl_version') ) {
+				$curl_version = curl_version();
+				if( isset( $curl_version, $curl_version['ssl_version'] ) && $curl_version['ssl_version'] ) {
+					return ( stripos($curl_version['ssl_version'], "openssl") !== false );
+				}
+			}
+		} catch( Exception $error ) {
+			return false;
+		}
+		
+		return false;
 	}
 
 }
