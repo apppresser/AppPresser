@@ -369,14 +369,12 @@ class AppPresser_Ajax_Extras extends AppPresser {
 
 	public function get_short_reset_code() {
 		
-		$symbols = str_split('!@#$%^&*');
-		shuffle($symbols);
 		$numbers = str_split('1234567890');
 		shuffle($numbers);
 		$letters = str_split('abcdefghijklmnopqrstuvwxyz');
 		shuffle($letters);
 
-		$code = $numbers[1].$numbers[1].strtoupper($letters[1]).$letters[1].$letters[1].$symbols[1].$symbols[1];
+		$code = $numbers[1].$letters[1].$letters[2].$numbers[3];
 
 		return $code;
 	}
