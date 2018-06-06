@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: apppresser 2.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-18 10:30-0500\n"
+"POT-Creation-Date: 2018-06-06 09:19-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,58 +17,58 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: apppresser.php:277
+#: apppresser.php:282
 msgid "Welcome to"
 msgstr ""
 
-#: apppresser.php:278
+#: apppresser.php:283
 msgid "Easily Make a Mobile App From Any WordPress Website"
 msgstr ""
 
-#: apppresser.php:281
+#: apppresser.php:286
 msgid "Quick Start Guide"
 msgstr ""
 
-#: apppresser.php:282
+#: apppresser.php:287
 msgid "Features For Developers"
 msgstr ""
 
-#: apppresser.php:287
+#: apppresser.php:292
 msgid "How it works"
 msgstr ""
 
-#: apppresser.php:289
+#: apppresser.php:294
 msgid ""
 "AppPresser is a suite of WordPress plugins and theme that you install on "
 "your site, customize, then package into an app and submit to the app stores."
 msgstr ""
 
-#: apppresser.php:291
+#: apppresser.php:296
 msgid ""
 "You have activated the core plugin, which is the first step. Next, you will "
 "need to purchase some <a href=\"https://apppresser.com/pricing\" target="
 "\"_blank\">extensions</a> to create your app."
 msgstr ""
 
-#: apppresser.php:293
+#: apppresser.php:298
 msgid ""
 "We have created extensive documentation so you can easily walk through the "
 "steps to get your app up and running:"
 msgstr ""
 
-#: apppresser.php:296
+#: apppresser.php:301
 msgid "AppPresser Overview"
 msgstr ""
 
-#: apppresser.php:297
+#: apppresser.php:302
 msgid "A Quick Start Guide"
 msgstr ""
 
-#: apppresser.php:303
+#: apppresser.php:308
 msgid "Developers"
 msgstr ""
 
-#: apppresser.php:305
+#: apppresser.php:310
 msgid ""
 "AppPresser is like adding the features of a mobile device to a WordPress "
 "site. If you could access the <b>device camera, contacts, geolocation, push "
@@ -76,57 +76,57 @@ msgid ""
 "couldn't you build?"
 msgstr ""
 
-#: apppresser.php:307
+#: apppresser.php:312
 msgid "Make money with AppPresser"
 msgstr ""
 
-#: apppresser.php:308
+#: apppresser.php:313
 msgid ""
 "Make mobile apps for your clients, adding revenue to your business, right "
 "away."
 msgstr ""
 
-#: apppresser.php:310
+#: apppresser.php:315
 msgid "Use device features through Phonegap"
 msgstr ""
 
-#: apppresser.php:312
+#: apppresser.php:317
 msgid "Full WordPress integration"
 msgstr ""
 
-#: apppresser.php:313
+#: apppresser.php:318
 msgid "Update site &amp; app at the same time"
 msgstr ""
 
-#: apppresser.php:314
+#: apppresser.php:319
 msgid "You own &amp; host the app"
 msgstr ""
 
-#: apppresser.php:315
+#: apppresser.php:320
 msgid "No monthly fees"
 msgstr ""
 
-#: apppresser.php:318
+#: apppresser.php:323
 msgid "Build apps for your clients with AppPresser."
 msgstr ""
 
-#: apppresser.php:318
+#: apppresser.php:323
 msgid "Learn more"
 msgstr ""
 
-#: apppresser.php:585
+#: apppresser.php:590
 msgid "Logging in...."
 msgstr ""
 
-#: apppresser.php:586
+#: apppresser.php:591
 msgid "Fields are required"
 msgstr ""
 
-#: apppresser.php:587
+#: apppresser.php:592
 msgid "Error Logging in"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:160 inc/AppPresser_Admin_Settings.php:622
+#: inc/AppPresser_Admin_Settings.php:160 inc/AppPresser_Admin_Settings.php:626
 msgid "AppPresser"
 msgstr ""
 
@@ -138,328 +138,323 @@ msgstr ""
 msgid "Help / Support"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:474
+#: inc/AppPresser_Admin_Settings.php:478
 msgid "General"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:479
+#: inc/AppPresser_Admin_Settings.php:483
 msgid "Customize"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:483
+#: inc/AppPresser_Admin_Settings.php:487
 msgid "Colors"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:487
+#: inc/AppPresser_Admin_Settings.php:491
 msgid "Advanced"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:491
+#: inc/AppPresser_Admin_Settings.php:495
 msgid "AppPresser 2"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:495
+#: inc/AppPresser_Admin_Settings.php:499
 msgid "Licenses"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:535
+#: inc/AppPresser_Admin_Settings.php:539
 msgid "AppPresser Licenses"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:548
+#: inc/AppPresser_Admin_Settings.php:552
 msgid "AppPresser 2 only"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:549
+#: inc/AppPresser_Admin_Settings.php:553
 msgid "These settings are only for AppPresser 2"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:562
+#: inc/AppPresser_Admin_Settings.php:566
 msgid "Customize Your App Theme (v2 only)"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:574
+#: inc/AppPresser_Admin_Settings.php:578
 msgid "App Colors (v2 only)"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:598
+#: inc/AppPresser_Admin_Settings.php:602
 msgid "Save Settings"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:625
+#: inc/AppPresser_Admin_Settings.php:629
 msgid "AppPresser Core Settings"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:629
+#: inc/AppPresser_Admin_Settings.php:633
 msgid "App-only theme"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:632
+#: inc/AppPresser_Admin_Settings.php:636
 msgid ""
 "Select which theme you want to be loaded inside the app, such as the "
 "AppPresser theme."
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:633
+#: inc/AppPresser_Admin_Settings.php:637
 msgid "Must be enabled above."
 msgstr ""
 
-#. /span>', 'apppresser' ),
-#. 'description' => __( 'Click here to customize app colors, menus, homepage & more.', 'apppresser' ),
-#. 'subtab' => 'v2-only',
-#. 'deprecated' => 2,
-#. ) );
-#: inc/AppPresser_Admin_Settings.php:648
+#: inc/AppPresser_Admin_Settings.php:652
 msgid "Use a unique homepage for your app."
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:651
+#: inc/AppPresser_Admin_Settings.php:655
 msgid ""
 "Allows you to specify which page users will see first when they load up you "
 "AppPresser app."
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:652
+#: inc/AppPresser_Admin_Settings.php:656
 msgid "Select homepage option."
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:659
+#: inc/AppPresser_Admin_Settings.php:663
 msgid "Start typing to search for a page, or enter a page ID."
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:665 inc/AppPresser_Admin_Settings.php:670
+#: inc/AppPresser_Admin_Settings.php:669 inc/AppPresser_Admin_Settings.php:674
 msgid "AppPresser 3 Settings"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:672
+#: inc/AppPresser_Admin_Settings.php:676
 msgid "Site slug"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:672 inc/AppPresser_Admin_Settings.php:673
+#: inc/AppPresser_Admin_Settings.php:676 inc/AppPresser_Admin_Settings.php:677
 msgid ""
 "Find this by logging into your myapppresser.com dashboard, choose your app, "
 "General tab => API Settings"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:673
+#: inc/AppPresser_Admin_Settings.php:677
 msgid "App ID"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:675
+#: inc/AppPresser_Admin_Settings.php:679
 msgid "Advanced Settings"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:680
+#: inc/AppPresser_Admin_Settings.php:684
 msgid "Disable offline toggle buttons?"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:682
+#: inc/AppPresser_Admin_Settings.php:686
 msgid ""
 "When the app disconnects from the internet, the app will display buttons "
 "that allows the user to switch to a customized offline.html file located in "
 "the app or return to the WordPress site. AppPresser 2 only."
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:683
+#: inc/AppPresser_Admin_Settings.php:687
 msgid ""
 "Don't allow the user to switch between online and offline mode when "
 "connection is lost."
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:690
+#: inc/AppPresser_Admin_Settings.php:694
 msgid "Load AppPresser for mobile browsers"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:692
+#: inc/AppPresser_Admin_Settings.php:696
 msgid ""
 "Display AppPresser in mobile browsers such as Safari and Chrome, instead of "
 "your normal theme."
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:698
+#: inc/AppPresser_Admin_Settings.php:702
 msgid "Load AppPresser for Admins Only"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:700
+#: inc/AppPresser_Admin_Settings.php:704
 msgid ""
 "Check this if you want to test your AppPresser app without loading it for "
 "visitors to your site."
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:701
+#: inc/AppPresser_Admin_Settings.php:705
 msgid "(for testing purposes)"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:706
+#: inc/AppPresser_Admin_Settings.php:710
 msgid "Phonegap Version"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:709
+#: inc/AppPresser_Admin_Settings.php:713
 msgid "Select the Phonegap Version of your app."
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:710
+#: inc/AppPresser_Admin_Settings.php:714
 msgid "Select Phonegap Version. <b>For AppPresser 1 only</b>"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:716
+#: inc/AppPresser_Admin_Settings.php:720
 msgid "Version 2"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:719
+#: inc/AppPresser_Admin_Settings.php:723
 msgid "Disable/Enable all functionality for version 2"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:724
+#: inc/AppPresser_Admin_Settings.php:728
 msgid "-- select --"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:730
+#: inc/AppPresser_Admin_Settings.php:734
 msgid "Main App Menu"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:733
+#: inc/AppPresser_Admin_Settings.php:737
 msgid "Use a custom main menu inside your app, different from your main site."
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:738
+#: inc/AppPresser_Admin_Settings.php:742
 msgid "Secondary App Menu"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:741
+#: inc/AppPresser_Admin_Settings.php:745
 msgid ""
 "Use a custom secondary menu inside your app (the top right dropdown in the "
 "header)."
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:750
+#: inc/AppPresser_Admin_Settings.php:754
 msgid "App Logo"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:757
+#: inc/AppPresser_Admin_Settings.php:761
 msgid "List Style"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:768
+#: inc/AppPresser_Admin_Settings.php:772
 msgid "AppSwiper Settings"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:772
+#: inc/AppPresser_Admin_Settings.php:776
 msgid "Add slider to homepage?"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:790
+#: inc/AppPresser_Admin_Settings.php:794
 msgid "What category?"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:800
+#: inc/AppPresser_Admin_Settings.php:804
 msgid "AppBuddy Settings"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:804
+#: inc/AppPresser_Admin_Settings.php:808
 msgid "Login Screen Background Color"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:810
+#: inc/AppPresser_Admin_Settings.php:814
 msgid "Login Screen Background Image"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:815
+#: inc/AppPresser_Admin_Settings.php:819
 msgid "Login Screen Text"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:833
+#: inc/AppPresser_Admin_Settings.php:837
 msgid "Help/Support"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:838
+#: inc/AppPresser_Admin_Settings.php:842
 msgid "Deprecate AppPresser 2"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:840
+#: inc/AppPresser_Admin_Settings.php:844
 msgid "Enable AppPresser 2"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:855
+#: inc/AppPresser_Admin_Settings.php:859
 msgid "Select a page:"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:963
+#: inc/AppPresser_Admin_Settings.php:967
 msgid "Active"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:967
+#: inc/AppPresser_Admin_Settings.php:971
 msgid "Invalid Key"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:967
+#: inc/AppPresser_Admin_Settings.php:971
 msgid "Get a license"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:1122
+#: inc/AppPresser_Admin_Settings.php:1126
 msgid "security check failed"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:1129
+#: inc/AppPresser_Admin_Settings.php:1133
 #: inc/cmb/helpers/cmb_Meta_Box_ajax.php:47
 msgid "Please Try Again"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:1136
+#: inc/AppPresser_Admin_Settings.php:1140
 msgid "No Results Found"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:1160
+#: inc/AppPresser_Admin_Settings.php:1164
 msgid "Help and Support"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:1161
+#: inc/AppPresser_Admin_Settings.php:1165
 msgid "Resources"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:1161
+#: inc/AppPresser_Admin_Settings.php:1165
 msgid "Core on Github"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:1161
+#: inc/AppPresser_Admin_Settings.php:1165
 msgid "Documentation"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:1162
+#: inc/AppPresser_Admin_Settings.php:1166
 msgid "Online"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:1162
+#: inc/AppPresser_Admin_Settings.php:1166
 msgid "Web"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:1162
+#: inc/AppPresser_Admin_Settings.php:1166
 msgid "Twitter"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:1162
+#: inc/AppPresser_Admin_Settings.php:1166
 msgid "Facebook"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:1162
+#: inc/AppPresser_Admin_Settings.php:1166
 msgid "YouTube"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:1163
+#: inc/AppPresser_Admin_Settings.php:1167
 msgid "About"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:1164
+#: inc/AppPresser_Admin_Settings.php:1168
 #, php-format
 msgid "%s was created by %s, %s, %s, and %s"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:1170
+#: inc/AppPresser_Admin_Settings.php:1174
 #, php-format
 msgid "Development props to %s, %s, %s, and %s"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:1223
+#: inc/AppPresser_Admin_Settings.php:1227
 #, php-format
 msgid ""
 "Your version of AppTheme has a programming error that will cause updates to "
@@ -467,40 +462,40 @@ msgid ""
 "\">docs</a>."
 msgstr ""
 
-#: inc/AppPresser_Ajax_Extras.php:63
+#: inc/AppPresser_Ajax_Extras.php:69
 msgid "The log in you have entered is not valid."
 msgstr ""
 
-#: inc/AppPresser_Ajax_Extras.php:73
+#: inc/AppPresser_Ajax_Extras.php:79
 #, php-format
 msgid "Welcome back %s!"
 msgstr ""
 
-#: inc/AppPresser_Ajax_Extras.php:116
+#: inc/AppPresser_Ajax_Extras.php:170
 msgid "Logout success."
 msgstr ""
 
-#: inc/AppPresser_Ajax_Extras.php:197
+#: inc/AppPresser_Ajax_Extras.php:351
 msgid "App Password Reset"
 msgstr ""
 
-#: inc/AppPresser_Ajax_Extras.php:198
+#: inc/AppPresser_Ajax_Extras.php:352
 msgid "Enter the code into the app to reset your password. Code: "
 msgstr ""
 
-#: inc/AppPresser_Ajax_Extras.php:202
+#: inc/AppPresser_Ajax_Extras.php:356
 msgid "Please check your email and enter the retrieval code below."
 msgstr ""
 
-#: inc/AppPresser_Ajax_Extras.php:209
+#: inc/AppPresser_Ajax_Extras.php:363
 msgid "The email you have entered is not valid."
 msgstr ""
 
-#: inc/AppPresser_Ajax_Extras.php:257
+#: inc/AppPresser_Ajax_Extras.php:409
 msgid "Password has been changed."
 msgstr ""
 
-#: inc/AppPresser_Ajax_Extras.php:265
+#: inc/AppPresser_Ajax_Extras.php:417
 msgid "The code you have entered is not valid."
 msgstr ""
 
@@ -528,7 +523,7 @@ msgstr ""
 msgid "Security check failed"
 msgstr ""
 
-#: inc/AppPresser_License_Check.php:235 inc/EDD_SL_Plugin_Updater.php:376
+#: inc/AppPresser_License_Check.php:235 inc/EDD_SL_Plugin_Updater.php:403
 msgid "Error"
 msgstr ""
 
@@ -552,6 +547,28 @@ msgstr ""
 msgid "file is not writable"
 msgstr ""
 
+#: inc/AppPresser_Media_Settings.php:61
+msgid "AppPresser Media URL"
+msgstr ""
+
+#: inc/AppPresser_Media_Settings.php:73
+msgid "Add the full URL to your media to use this post with a media list."
+msgstr ""
+
+#: inc/AppPresser_Media_Settings.php:135
+msgid "Media Settings"
+msgstr ""
+
+#: inc/AppPresser_Media_Settings.php:139
+msgid "Media post types"
+msgstr ""
+
+#: inc/AppPresser_Media_Settings.php:143
+msgid ""
+"Check post types to use with the app media list. Next, go to each post and "
+"add media urls to the meta box."
+msgstr ""
+
 #: inc/AppPresser_Remote_Scripts.php:39
 msgid "Cordova Add-ons"
 msgstr ""
@@ -560,11 +577,11 @@ msgstr ""
 msgid "System Info"
 msgstr ""
 
-#: inc/AppPresser_SystemInfo.php:190
+#: inc/AppPresser_SystemInfo.php:197
 msgid "System Information"
 msgstr ""
 
-#: inc/AppPresser_SystemInfo.php:197
+#: inc/AppPresser_SystemInfo.php:204
 msgid ""
 "To copy the system info, click below then press Ctrl + C (PC) or Cmd + C "
 "(Mac)."
@@ -593,29 +610,21 @@ msgid ""
 "will effect your desktop theme."
 msgstr ""
 
-#: inc/EDD_SL_Plugin_Updater.php:201
+#: inc/EDD_SL_Plugin_Updater.php:205
 #, php-format
 msgid ""
 "There is a new version of %1$s available. %2$sView version %3$s details%4$s."
 msgstr ""
 
-#: inc/EDD_SL_Plugin_Updater.php:209
+#: inc/EDD_SL_Plugin_Updater.php:213
 #, php-format
 msgid ""
 "There is a new version of %1$s available. %2$sView version %3$s details%4$s "
 "or %5$supdate now%6$s."
 msgstr ""
 
-#: inc/EDD_SL_Plugin_Updater.php:376
+#: inc/EDD_SL_Plugin_Updater.php:403
 msgid "You do not have permission to install plugin updates"
-msgstr ""
-
-#: inc/body-class-meta-box.php:27
-msgid "Page Transitions"
-msgstr ""
-
-#: inc/body-class-meta-box.php:46
-msgid "top or bottom, (default is right, use all lowercase)"
 msgstr ""
 
 #: inc/cmb/example-functions.php:28
@@ -1072,7 +1081,6 @@ msgstr ""
 msgid "Value 2"
 msgstr ""
 
-#. /title
 #: inc/sample.php:55
 msgid "More Options"
 msgstr ""
