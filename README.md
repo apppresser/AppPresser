@@ -36,6 +36,14 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+### 3.4.2
+* Simplify short reset code
+* Language POT file update
+* Minor bug fix: check curl_version exists
+
+### 3.4.1
+* Minor bug fix: check empty vars
+
 ### 3.4.0
 * Add support for file downloads
 * Additional support for custom post types
