@@ -72,7 +72,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 		add_filter( 'sanitize_option_'. AppPresser::SETTINGS_NAME, array( $this, 'maybe_reset_license_statuses' ), 99 );
 		add_action( 'update_option_' . AppPresser::SETTINGS_NAME, array( $this, 'save_theme_mods'), 99, 2 );
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
-		add_action( 'admin_init', array( $this, 'verify_apptheme_slug' ) );
+		add_action( 'admin_init', array( $this, 'admin_notices') );
 		add_action( 'apppresser_add_settings', array( $this, 'add_settings' ), 6 ); // Higher priority
 		add_filter( 'apppresser_field_markup_text', array( $this, 'ajax_container' ), 10, 2 );
 		add_action( 'wp_ajax_appp_search_post_handler', array( $this, 'ajax_post_results' ) );
@@ -675,7 +675,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 
 		self::add_setting( 'ap3_site_slug', __( 'Site slug', 'apppresser' ), array( 'type' => 'text', 'helptext' => __( 'Find this by logging into your myapppresser.com dashboard, choose your app, General tab => API Settings', 'apppresser' ) ) );
 		self::add_setting( 'ap3_app_id', __( 'App ID', 'apppresser' ), array( 'type' => 'text', 'helptext' => __( 'Find this by logging into your myapppresser.com dashboard, choose your app, General tab => API Settings', 'apppresser' ) ) );
-
+		
 		self::add_setting_label( __( 'Advanced Settings', 'apppresser' ), array(
 			'subtab' => 'v2-only',
 			'deprecated' => 2,
@@ -1215,9 +1215,17 @@ class AppPresser_Admin_Settings extends AppPresser {
 		setcookie( 'AppPresser_Appp', 'false', time() - DAY_IN_SECONDS );
 	}
 
-	public function verify_apptheme_slug() {
+	public function admin_notices() {
+
+		// Old bug fix
 		if( class_exists('AppPresser_Theme_Setup') && AppPresser_Theme_Setup::THEME_SLUG == 'apppresser' ) {
 			add_action( 'admin_notices', array($this, 'apptheme_update_admin_notice' ) );
+		}
+
+		// disabled css API from myapppresser
+		$myapp_disable_remote_updates = get_option( 'myapp_disable_remote_updates', false );
+		if( $myapp_disable_remote_updates ) {
+			add_action( 'admin_notices', array($this, 'disable_remote_updates_admin_notice' ) );
 		}
 	}
 
@@ -1227,6 +1235,15 @@ class AppPresser_Admin_Settings extends AppPresser {
 			<p><?php echo sprintf( __( 'Your version of AppTheme has a programming error that will cause updates to fail.  Read about the simple fix in our <a href="%s" target="_blank">docs</a>.', 'apppresser' ), 'http://v2docs.apppresser.com/article/243-older-versions-of-apptheme-fail-to-update' ); ?></p>
 		</div>
 		<?php
+	}
+
+	public function disable_remote_updates_admin_notice() {
+
+		if( isset( $_GET['page'] ) && $_GET['page'] == 'apppresser_settings' ) : ?>
+		<div class="notice notice-warning">
+			<p><?php _e( 'Use of the <b>myapp_disable_remote_updates</b> filter was found and your site will no longer pull design updates from myapppresser.com.', 'apppresser' ) ?></p>
+		</div>
+		<?php endif;
 	}
 
 	public static function set_deprecate_version( $deprecate_ver = null ) {
