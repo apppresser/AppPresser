@@ -14,11 +14,12 @@ class AppPresser_License_Check {
 	// A single instance of this class.
 	public static $instance = null;
 
+	const day = 86400; // 86400 = one day
 	const ADMIN_LIC_NAG = 'appp_license_nag';
 	const DEBUG = false;
 
-	public static $check_frequency = 86400;  // 86400 = one day to check license expiration
-	public static $admin_lic_nag_length = 1814400; // 1814400 = 21 days to silence the admin nag
+	public static $check_frequency = self::day * 14; // 2 weeks to check license expiration  
+	public static $admin_lic_nag_length = self::day * 21; // 21 days to silence the admin nag
 	public static $admin_dismiss = '';
 	public static $expired_licenses = array();
 
