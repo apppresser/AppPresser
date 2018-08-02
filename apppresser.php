@@ -5,7 +5,7 @@ Plugin URI: http://apppresser.com
 Description: A mobile app development framework for WordPress.
 Text Domain: apppresser
 Domain Path: /languages
-Version: 3.4.2
+Version: 3.5.0
 Author: AppPresser Team
 Author URI: http://apppresser.com
 License: GPLv2
@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class AppPresser {
 
-	const VERSION           = '3.4.2';
+	const VERSION           = '3.5.0';
 	const SETTINGS_NAME     = 'appp_settings';
 	public static $settings = 'false';
 	public static $instance = null;
@@ -160,6 +160,8 @@ class AppPresser {
 	 *  Access-Control-Allow-Origin: *
 	 * 
 	 * when the AppPresser admin setting is on.
+	 * 
+	 * @since 3.5.0
 	 */
 	public function myappp_cors() {
 		if( self::settings( 'ap3_enable_cors', false ) ) {
@@ -176,6 +178,8 @@ class AppPresser {
 	 *  Access-Control-Allow-Origin: *
 	 * 
 	 * Applies a filter 
+	 * 
+	 * @since 3.5.0
 	 */
 	public function app_cors_header() {
 

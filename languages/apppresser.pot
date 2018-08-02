@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: apppresser 2.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-06 09:19-0500\n"
+"POT-Creation-Date: 2018-08-02 12:17-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,58 +17,58 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: apppresser.php:282
+#: apppresser.php:323
 msgid "Welcome to"
 msgstr ""
 
-#: apppresser.php:283
+#: apppresser.php:324
 msgid "Easily Make a Mobile App From Any WordPress Website"
 msgstr ""
 
-#: apppresser.php:286
+#: apppresser.php:327
 msgid "Quick Start Guide"
 msgstr ""
 
-#: apppresser.php:287
+#: apppresser.php:328
 msgid "Features For Developers"
 msgstr ""
 
-#: apppresser.php:292
+#: apppresser.php:333
 msgid "How it works"
 msgstr ""
 
-#: apppresser.php:294
+#: apppresser.php:335
 msgid ""
 "AppPresser is a suite of WordPress plugins and theme that you install on "
 "your site, customize, then package into an app and submit to the app stores."
 msgstr ""
 
-#: apppresser.php:296
+#: apppresser.php:337
 msgid ""
 "You have activated the core plugin, which is the first step. Next, you will "
 "need to purchase some <a href=\"https://apppresser.com/pricing\" target="
 "\"_blank\">extensions</a> to create your app."
 msgstr ""
 
-#: apppresser.php:298
+#: apppresser.php:339
 msgid ""
 "We have created extensive documentation so you can easily walk through the "
 "steps to get your app up and running:"
 msgstr ""
 
-#: apppresser.php:301
+#: apppresser.php:342
 msgid "AppPresser Overview"
 msgstr ""
 
-#: apppresser.php:302
+#: apppresser.php:343
 msgid "A Quick Start Guide"
 msgstr ""
 
-#: apppresser.php:308
+#: apppresser.php:349
 msgid "Developers"
 msgstr ""
 
-#: apppresser.php:310
+#: apppresser.php:351
 msgid ""
 "AppPresser is like adding the features of a mobile device to a WordPress "
 "site. If you could access the <b>device camera, contacts, geolocation, push "
@@ -76,53 +76,53 @@ msgid ""
 "couldn't you build?"
 msgstr ""
 
-#: apppresser.php:312
+#: apppresser.php:353
 msgid "Make money with AppPresser"
 msgstr ""
 
-#: apppresser.php:313
+#: apppresser.php:354
 msgid ""
 "Make mobile apps for your clients, adding revenue to your business, right "
 "away."
 msgstr ""
 
-#: apppresser.php:315
+#: apppresser.php:356
 msgid "Use device features through Phonegap"
 msgstr ""
 
-#: apppresser.php:317
+#: apppresser.php:358
 msgid "Full WordPress integration"
 msgstr ""
 
-#: apppresser.php:318
+#: apppresser.php:359
 msgid "Update site &amp; app at the same time"
 msgstr ""
 
-#: apppresser.php:319
+#: apppresser.php:360
 msgid "You own &amp; host the app"
 msgstr ""
 
-#: apppresser.php:320
+#: apppresser.php:361
 msgid "No monthly fees"
 msgstr ""
 
-#: apppresser.php:323
+#: apppresser.php:364
 msgid "Build apps for your clients with AppPresser."
 msgstr ""
 
-#: apppresser.php:323
+#: apppresser.php:364
 msgid "Learn more"
 msgstr ""
 
-#: apppresser.php:590
+#: apppresser.php:631
 msgid "Logging in...."
 msgstr ""
 
-#: apppresser.php:591
+#: apppresser.php:632
 msgid "Fields are required"
 msgstr ""
 
-#: apppresser.php:592
+#: apppresser.php:633
 msgid "Error Logging in"
 msgstr ""
 
@@ -241,225 +241,247 @@ msgid "App ID"
 msgstr ""
 
 #: inc/AppPresser_Admin_Settings.php:679
+msgid "Enable CORS"
+msgstr ""
+
+#: inc/AppPresser_Admin_Settings.php:681
+msgid ""
+"CORS (Cross Origin Resource Sharing) is a common security settings to "
+"protect content from other website."
+msgstr ""
+
+#: inc/AppPresser_Admin_Settings.php:682
+msgid ""
+"Check if you are seeing <a href=\"https://docs.apppresser.com/article/409-"
+"blank-page-x-frame-options\" target=\"_blank\">blank pages</a> in the app"
+msgstr ""
+
+#: inc/AppPresser_Admin_Settings.php:685
 msgid "Advanced Settings"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:684
+#: inc/AppPresser_Admin_Settings.php:690
 msgid "Disable offline toggle buttons?"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:686
+#: inc/AppPresser_Admin_Settings.php:692
 msgid ""
 "When the app disconnects from the internet, the app will display buttons "
 "that allows the user to switch to a customized offline.html file located in "
 "the app or return to the WordPress site. AppPresser 2 only."
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:687
+#: inc/AppPresser_Admin_Settings.php:693
 msgid ""
 "Don't allow the user to switch between online and offline mode when "
 "connection is lost."
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:694
+#: inc/AppPresser_Admin_Settings.php:700
 msgid "Load AppPresser for mobile browsers"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:696
+#: inc/AppPresser_Admin_Settings.php:702
 msgid ""
 "Display AppPresser in mobile browsers such as Safari and Chrome, instead of "
 "your normal theme."
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:702
+#: inc/AppPresser_Admin_Settings.php:708
 msgid "Load AppPresser for Admins Only"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:704
+#: inc/AppPresser_Admin_Settings.php:710
 msgid ""
 "Check this if you want to test your AppPresser app without loading it for "
 "visitors to your site."
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:705
+#: inc/AppPresser_Admin_Settings.php:711
 msgid "(for testing purposes)"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:710
+#: inc/AppPresser_Admin_Settings.php:716
 msgid "Phonegap Version"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:713
+#: inc/AppPresser_Admin_Settings.php:719
 msgid "Select the Phonegap Version of your app."
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:714
+#: inc/AppPresser_Admin_Settings.php:720
 msgid "Select Phonegap Version. <b>For AppPresser 1 only</b>"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:720
+#: inc/AppPresser_Admin_Settings.php:726
 msgid "Version 2"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:723
+#: inc/AppPresser_Admin_Settings.php:729
 msgid "Disable/Enable all functionality for version 2"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:728
+#: inc/AppPresser_Admin_Settings.php:734
 msgid "-- select --"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:734
+#: inc/AppPresser_Admin_Settings.php:740
 msgid "Main App Menu"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:737
+#: inc/AppPresser_Admin_Settings.php:743
 msgid "Use a custom main menu inside your app, different from your main site."
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:742
+#: inc/AppPresser_Admin_Settings.php:748
 msgid "Secondary App Menu"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:745
+#: inc/AppPresser_Admin_Settings.php:751
 msgid ""
 "Use a custom secondary menu inside your app (the top right dropdown in the "
 "header)."
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:754
+#: inc/AppPresser_Admin_Settings.php:760
 msgid "App Logo"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:761
+#: inc/AppPresser_Admin_Settings.php:767
 msgid "List Style"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:772
+#: inc/AppPresser_Admin_Settings.php:778
 msgid "AppSwiper Settings"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:776
+#: inc/AppPresser_Admin_Settings.php:782
 msgid "Add slider to homepage?"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:794
+#: inc/AppPresser_Admin_Settings.php:800
 msgid "What category?"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:804
+#: inc/AppPresser_Admin_Settings.php:810
 msgid "AppBuddy Settings"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:808
+#: inc/AppPresser_Admin_Settings.php:814
 msgid "Login Screen Background Color"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:814
+#: inc/AppPresser_Admin_Settings.php:820
 msgid "Login Screen Background Image"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:819
+#: inc/AppPresser_Admin_Settings.php:825
 msgid "Login Screen Text"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:837
+#: inc/AppPresser_Admin_Settings.php:843
 msgid "Help/Support"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:842
+#: inc/AppPresser_Admin_Settings.php:848
 msgid "Deprecate AppPresser 2"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:844
+#: inc/AppPresser_Admin_Settings.php:850
 msgid "Enable AppPresser 2"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:859
+#: inc/AppPresser_Admin_Settings.php:865
 msgid "Select a page:"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:967
+#: inc/AppPresser_Admin_Settings.php:973
 msgid "Active"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:971
+#: inc/AppPresser_Admin_Settings.php:977
 msgid "Invalid Key"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:971
+#: inc/AppPresser_Admin_Settings.php:977
 msgid "Get a license"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:1126
+#: inc/AppPresser_Admin_Settings.php:1132
 msgid "security check failed"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:1133
+#: inc/AppPresser_Admin_Settings.php:1139
 #: inc/cmb/helpers/cmb_Meta_Box_ajax.php:47
 msgid "Please Try Again"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:1140
+#: inc/AppPresser_Admin_Settings.php:1146
 msgid "No Results Found"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:1164
+#: inc/AppPresser_Admin_Settings.php:1170
 msgid "Help and Support"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:1165
+#: inc/AppPresser_Admin_Settings.php:1171
 msgid "Resources"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:1165
+#: inc/AppPresser_Admin_Settings.php:1171
 msgid "Core on Github"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:1165
+#: inc/AppPresser_Admin_Settings.php:1171
 msgid "Documentation"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:1166
+#: inc/AppPresser_Admin_Settings.php:1172
 msgid "Online"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:1166
+#: inc/AppPresser_Admin_Settings.php:1172
 msgid "Web"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:1166
+#: inc/AppPresser_Admin_Settings.php:1172
 msgid "Twitter"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:1166
+#: inc/AppPresser_Admin_Settings.php:1172
 msgid "Facebook"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:1166
+#: inc/AppPresser_Admin_Settings.php:1172
 msgid "YouTube"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:1167
+#: inc/AppPresser_Admin_Settings.php:1173
 msgid "About"
-msgstr ""
-
-#: inc/AppPresser_Admin_Settings.php:1168
-#, php-format
-msgid "%s was created by %s, %s, %s, and %s"
 msgstr ""
 
 #: inc/AppPresser_Admin_Settings.php:1174
 #, php-format
+msgid "%s was created by %s, %s, %s, and %s"
+msgstr ""
+
+#: inc/AppPresser_Admin_Settings.php:1180
+#, php-format
 msgid "Development props to %s, %s, %s, and %s"
 msgstr ""
 
-#: inc/AppPresser_Admin_Settings.php:1227
+#: inc/AppPresser_Admin_Settings.php:1241
 #, php-format
 msgid ""
 "Your version of AppTheme has a programming error that will cause updates to "
 "fail.  Read about the simple fix in our <a href=\"%s\" target=\"_blank"
 "\">docs</a>."
+msgstr ""
+
+#: inc/AppPresser_Admin_Settings.php:1250
+msgid ""
+"Use of the <b>myapp_disable_remote_updates</b> filter was found and your "
+"site will no longer pull design updates from myapppresser.com."
 msgstr ""
 
 #: inc/AppPresser_Ajax_Extras.php:69
@@ -512,18 +534,18 @@ msgstr ""
 msgid "Try Again"
 msgstr ""
 
-#: inc/AppPresser_License_Check.php:187
+#: inc/AppPresser_License_Check.php:188
 #, php-format
 msgid ""
 "Your AppPresser license has expired, %sclick here to renew now for critical "
 "updates%s"
 msgstr ""
 
-#: inc/AppPresser_License_Check.php:235
+#: inc/AppPresser_License_Check.php:236
 msgid "Security check failed"
 msgstr ""
 
-#: inc/AppPresser_License_Check.php:235 inc/EDD_SL_Plugin_Updater.php:403
+#: inc/AppPresser_License_Check.php:236 inc/EDD_SL_Plugin_Updater.php:403
 msgid "Error"
 msgstr ""
 

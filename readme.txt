@@ -3,8 +3,8 @@ Contributors: apppresser, webdevstudios, williamsba1, scottopolis, jtsternberg, 
 Donate link: http://apppresser.com/
 Tags: mobile, app, ios, android, application, phonegap, iphone app, android app, mobile app, native app, wordpress mobile, ipad app, iOS app
 Requires at least: 3.5
-Tested up to: 4.9.6
-Stable tag: 3.4.2
+Tested up to: 4.9.7
+Stable tag: 3.5.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -46,6 +46,11 @@ This plugin is not an app-creator in itself, it helps connect your app to WordPr
 
 
 == Changelog ==
+
+= 3.5.0 =
+* Add Enable CORS admin setting
+* Add myapp_disable_remote_updates hook to allow developers to turn off API calls to myapppresser.com for styling updates which are used only during app development and modifications.
+* Extend plugin/theme license checking to two weeks
 
 = 3.4.2 =
 * Simplify short reset code

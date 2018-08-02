@@ -36,6 +36,11 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+### 3.5.0
+* Add Enable CORS admin setting
+* Add myapp_disable_remote_updates hook to allow developers to turn off API calls to myapppresser.com
+* Extend plugin/theme license checking to two weeks
+
 ### 3.4.2
 * Simplify short reset code
 * Language POT file update
