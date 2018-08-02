@@ -110,6 +110,8 @@ class AppPresser {
 		// Hook in all our important pieces
 		add_action( 'plugins_loaded', array( $this, 'includes' ) );
 		add_action( 'admin_init', array( $this, 'check_appp_licenses' ) );
+		add_action( 'init', array( $this, 'myappp_cors') );
+		add_action( 'send_headers', array( $this, 'app_cors_header' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts' ), 8 );
 		add_action( 'wp_head', array( $this, 'do_appp_script' ), 1 );
 		add_action( 'wp_enqueue_scripts', array( $this, 'ajax_login_init' ) );
@@ -150,6 +152,41 @@ class AppPresser {
 	public function check_appp_licenses() {
 		require_once( self::$inc_path . 'AppPresser_License_Check.php' );
 		AppPresser_License_Check::run();
+	}
+
+	/**
+	 * A filter to use:
+	 * 
+	 *  Access-Control-Allow-Origin: *
+	 * 
+	 * when the AppPresser admin setting is on.
+	 */
+	public function myappp_cors() {
+		if( self::settings( 'ap3_enable_cors', false ) ) {
+			add_filter( 'myappp_allow_origin', function() {
+				return '*';
+			} );
+		}
+		
+	}
+
+	/**
+	 * Use:
+	 * 
+	 *  Access-Control-Allow-Origin: *
+	 * 
+	 * Applies a filter 
+	 */
+	public function app_cors_header() {
+
+		if( self::is_app() ) {
+			$myappp_allow_origin = apply_filters( 'myappp_allow_origin', 'https://myapppresser.com' );
+
+			if( $myappp_allow_origin ) {
+				header("Access-Control-Allow-Origin: $myappp_allow_origin");
+			}
+		}
+
 	}
 
 	/**

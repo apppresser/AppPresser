@@ -676,6 +676,12 @@ class AppPresser_Admin_Settings extends AppPresser {
 		self::add_setting( 'ap3_site_slug', __( 'Site slug', 'apppresser' ), array( 'type' => 'text', 'helptext' => __( 'Find this by logging into your myapppresser.com dashboard, choose your app, General tab => API Settings', 'apppresser' ) ) );
 		self::add_setting( 'ap3_app_id', __( 'App ID', 'apppresser' ), array( 'type' => 'text', 'helptext' => __( 'Find this by logging into your myapppresser.com dashboard, choose your app, General tab => API Settings', 'apppresser' ) ) );
 		
+		self::add_setting( 'ap3_enable_cors', __( 'Enable CORS', 'apppresser' ), array( 
+			'type' => 'checkbox',
+			'helptext' => __( 'CORS (Cross Origin Resource Sharing) is a common security settings to protect content from other website.', 'apppresser' ),
+			'description' => __( 'Check if you are seeing <a href="https://docs.apppresser.com/article/409-blank-page-x-frame-options" target="_blank">blank pages</a> in the app', 'apppresser' ),
+		) );
+		
 		self::add_setting_label( __( 'Advanced Settings', 'apppresser' ), array(
 			'subtab' => 'v2-only',
 			'deprecated' => 2,
