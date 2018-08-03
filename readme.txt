@@ -2,7 +2,7 @@
 Contributors: apppresser, webdevstudios, williamsba1, scottopolis, jtsternberg, Messenlehner, LisaSabinWilson, modemlooper, stillatmylinux
 Donate link: http://apppresser.com/
 Tags: mobile, app, ios, android, application, phonegap, iphone app, android app, mobile app, native app, wordpress mobile, ipad app, iOS app
-Requires at least: 3.5
+Requires at least: 4.7.0
 Tested up to: 4.9.7
 Stable tag: 3.5.0
 License: GPLv2 or later
