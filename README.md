@@ -36,6 +36,9 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+### 3.5.1
+* Bug fix for older PHP causing syntax error
+
 ### 3.5.0
 * Add Enable CORS admin setting
 * Add myapp_disable_remote_updates hook to allow developers to turn off API calls to myapppresser.com
