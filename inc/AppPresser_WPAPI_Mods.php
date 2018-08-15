@@ -20,6 +20,9 @@ class AppPresser_WPAPI_Mods {
 
 		add_action( 'rest_api_init', array( $this, 'add_api_fields' ) );
 
+		// this is related to the verify_user() function below
+		add_filter( 'wp_authenticate_user', array( $this, 'check_app_unverified' ), 10, 2 );
+
 	}
 
 	public function add_api_fields() {
@@ -55,6 +58,7 @@ class AppPresser_WPAPI_Mods {
 			
 		}
 
+		$this->register_routes();
 		
 	}
 
@@ -99,6 +103,224 @@ class AppPresser_WPAPI_Mods {
 		}
 
 		return $data;
+
+	}
+
+	public function register_routes() {
+
+		// Bail early if no core rest support.
+		if ( ! class_exists( 'WP_REST_Controller' ) ) {
+			return;
+		}
+
+		register_rest_route( 'appp/v1', '/register', array(
+			array(
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => array( $this, 'register_user')
+			),
+		) );
+
+		register_rest_route( 'appp/v1', '/verify', array(
+			array(
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => array( $this, 'verify_user')
+			),
+		) );
+
+		register_rest_route( 'appp/v1', '/verify-resend', array(
+			array(
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => array( $this, 'send_verification_code')
+			),
+		) );
+
+	}
+
+	/**
+	 * Register user via API
+	 * First, we add the user to WordPress, and set a meta key of app_unverified to true
+	 * Next, we send them a key, which is a short hash
+	 * They have to grab the key and send it back to verify_user(), which logs them in and deletes the app_unverified meta
+	 *
+	 * @since 0.1.0
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 * @return WP_REST_Request List of activities object data.
+	 */
+	public function register_user( $request ) {
+
+		if( empty( $request['username'] ) || empty( $request['email'] ) ) {
+
+			return new WP_Error( 'rest_invalid_registration',
+				__( 'Missing required fields.', 'apppresser' ),
+				array(
+					'status' => 404,
+				)
+			);
+
+		}
+
+		if ( email_exists( $request['email'] ) ) {
+			return new WP_Error( 'rest_invalid_registration',
+				__( 'Email already exists.', 'apppresser' ),
+				array(
+					'status' => 404,
+				)
+			);
+		}
+
+		if( empty( $request['password'] ) ) {
+			$password = wp_generate_password( 8 );
+		} else {
+			$password = $request['password'];
+		}
+
+		$userdata = array(
+		    'user_login'  =>  $request['username'],
+		    'user_pass'   =>  $password,
+		    'user_email'  =>  $request['email'],
+		    'first_name'  =>  $request['first_name'],
+		    'last_name'   =>  $request['last_name']
+		);
+
+		$user_id = wp_insert_user( $userdata );
+
+		if ( is_wp_error( $user_id ) ) {
+			return new WP_Error( 'rest_invalid_registration',
+				__( 'Something went wrong with registration.', 'apppresser' ),
+				array(
+					'status' => 404,
+				)
+			);
+		}
+
+		update_user_meta( $user_id, 'app_unverified', true );
+
+		$mail_sent = $this->send_verification_code( $request );
+
+		if ( !$mail_sent ) {
+			return new WP_Error( 'rest_invalid_registration',
+				__( 'We could not send your verification code, please contact support.', 'apppresser' ),
+				array(
+					'status' => 404,
+				)
+			);
+		}
+
+		$retval = rest_ensure_response( "Your verification code has been sent, please check your email." );
+
+		return $retval;
+
+	}
+
+	public function send_verification_code( $request ) {
+
+		if( empty( $request['email'] ) || empty( $request['username'] ) ) {
+			return new WP_Error( 'rest_invalid_verification',
+				__( 'Missing required field.', 'apppresser' ),
+				array(
+					'status' => 404,
+				)
+			);
+		}
+
+		// now send verification code
+		$verification_code = hash( "md5", $request['username'] . $request['email'] );
+		// make it shorter
+		$verification_code = substr($verification_code, 1, 4);
+		$subject = __( 'Your Verification Code', 'apppresser' );
+
+		$content = sprintf( __( "Hi, thanks for registering! Here is your verification code: %s \n\nPlease enter this code in the app. \n\nThanks!", "apppresser" ), $verification_code );
+
+		$mail_sent = wp_mail( $request["email"], "Your Verification Code", $content );
+
+		return $mail_sent;
+	}
+
+	/*
+	 * Verify user, then log them in
+	 */
+	public function verify_user( $request ) {
+
+		if( empty( $request['email'] ) || empty( $request['verification'] ) ) {
+			return new WP_Error( 'rest_invalid_verification',
+				__( 'Missing required field.', 'apppresser' ),
+				array(
+					'status' => 404,
+				)
+			);
+		}
+
+		$verification_code = hash( "md5", $request['username'] . $request['email'] );
+		$verification_code = substr($verification_code, 1, 4);
+
+		if( $request['verification'] != strval( $verification_code ) ) {
+			// fail
+			return new WP_Error( 'rest_invalid_verification',
+				__( 'Verification code does not match.', 'apppresser' ),
+				array(
+					'status' => 404,
+				)
+			);
+		}
+
+		$user = get_user_by( 'email', $request['email'] );
+
+		delete_user_meta( $user->id, 'app_unverified' );
+
+		// log the user in
+		$info = array();
+		$info['user_login'] = $request['username'];
+		$info['user_password'] = $request['password'];
+		$info['remember'] = true;
+		
+		$user_signon = wp_signon( $info, false );
+
+		if ( is_wp_error( $user_signon ) || !$user ) {
+			return new WP_Error( 'rest_invalid_verification',
+				__( 'Verification succeeded, please login.', 'apppresser' ),
+				array(
+					'status' => 200,
+				)
+			);
+		}
+
+		$message = array(
+			'message' => apply_filters( 'appp_login_success', sprintf( __('Welcome back %s!', 'apppresser'), $user_signon->display_name), $user_signon->ID ),
+			'username' => $info['user_login'],
+			'avatar' => get_avatar_url( $user_signon->ID ), // v3 only
+			'success' => true
+		);
+
+		if( class_exists('APBPRest') ) {
+
+			$APBPRest = new APBPRest();
+
+			$message = $APBPRest->add_jwt_to_login_data( $message, $user_signon->ID );
+		}
+
+		$retval = rest_ensure_response( $message );
+
+		return $retval;
+
+	}
+
+	/*
+	 * Disallow login if user is unverified
+	 */
+	public function check_app_unverified( $user, $password ) {
+
+		if( get_user_meta( $user->id, 'app_unverified', 1 ) ) {
+
+			return new WP_Error( 'app_unverified_login',
+				__( 'You have not verified by email, please contact support.', 'apppresser' ),
+				array(
+					'status' => 404,
+				)
+			);
+		}
+
+		return $user;
 
 	}
 
