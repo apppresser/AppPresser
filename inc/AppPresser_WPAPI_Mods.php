@@ -113,6 +113,20 @@ class AppPresser_WPAPI_Mods {
 			return;
 		}
 
+		register_rest_route( 'appp/v1', '/login', array(
+			array(
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => array( $this, 'api_login' )
+			),
+		) );
+
+		register_rest_route( 'appp/v1', '/logout', array(
+			array(
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'api_logout' )
+			),
+		) );
+
 		register_rest_route( 'appp/v1', '/register', array(
 			array(
 				'methods'             => WP_REST_Server::CREATABLE,
@@ -133,6 +147,83 @@ class AppPresser_WPAPI_Mods {
 				'callback'            => array( $this, 'send_verification_code')
 			),
 		) );
+
+	}
+
+	public function api_login( $request ) {
+
+		$info['user_login'] = ( $_POST['username'] ? $_POST['username'] : $_SERVER['PHP_AUTH_USER'] );
+		$info['user_password'] = ( $_POST['password'] ? $_POST['password'] : $_SERVER['PHP_AUTH_PW'] );
+		$info['remember'] = true;
+
+		if( empty( $info['user_login'] ) || empty( $info['user_password'] ) ) {
+			return new WP_Error( 'rest_invalid_login',
+				__( 'Missing required fields.', 'apppresser' ),
+				array(
+					'status' => 404,
+				)
+			);
+		}
+		
+		$user_signon = wp_signon( $info, false );
+
+		do_action( 'appp_login_header' );
+		
+		if( is_wp_error( $user_signon ) ) {
+		
+			$msg = array(
+				'message' =>  apply_filters( 'appp_login_error', __('The log in you have entered is not valid.', 'apppresser'), $info['user_login'] ),
+				'signon' => $info['user_login'] . $info['user_password'],
+				'line' => __LINE__,
+				'success' => false
+			);
+			
+			return new WP_Error( 'rest_invalid_login',
+				__( $msg, 'apppresser' ),
+				array(
+					'status' => 404,
+				)
+			);
+			
+		} else {
+
+			$msg = array(
+				'message' => apply_filters( 'appp_login_success', sprintf( __('Welcome back %s!', 'apppresser'), $user_signon->display_name), $user_signon->ID ),
+				'username' => $info['user_login'],
+				'avatar' => get_avatar_url( $user_signon->ID ),
+				'login_redirect' => $this->get_login_redirect(), // v3 only
+				'success' => true
+			);
+			
+		}
+
+		$msg = apply_filters( 'appp_login_data', $msg, $user_signon->ID );
+
+		$retval = rest_ensure_response( $msg );
+
+		return $retval;
+
+	}
+
+	public function api_logout( $request ) {
+
+		do_action( 'appp_logout_header' );
+
+		wp_logout();
+
+		$response = array(
+			'message' => __('Logout success.', 'apppresser'),
+			'success' => true
+		);
+
+		$redirect = $this->get_logout_redirect();
+		if($redirect) {
+			$response['logout_redirect'] = $redirect;
+		}
+
+		$retval = rest_ensure_response( $response );
+
+		return $retval;
 
 	}
 
@@ -322,6 +413,42 @@ class AppPresser_WPAPI_Mods {
 
 		return $user;
 
+	}
+
+	/**
+	 * Get the login redirect for the app's login modal
+	 * 
+	 * @since 3.2.1
+	 * @return string | array( 'url' => '', 'title' => '' )
+	 */
+	public function get_login_redirect() {
+
+		if( has_filter( 'appp_login_redirect' ) ) {
+			$redirect_to = apply_filters( 'appp_login_redirect', '' );
+
+			return $this->add_redirect_title( $redirect_to );
+			
+		} else {
+			return '';
+		}
+	}
+
+	/**
+	 * Get the login redirect for the app's login modal
+	 * 
+	 * @since 3.3.0
+	 * @return string | array( 'url' => '', 'title' => '' )
+	 */
+	public function get_logout_redirect() {
+
+		if( has_filter( 'appp_logout_redirect' ) ) {
+			$redirect_to = apply_filters( 'appp_logout_redirect', '' );
+
+			return self::add_redirect_title( $redirect_to );
+			
+		} else {
+			return '';
+		}
 	}
 
 }
