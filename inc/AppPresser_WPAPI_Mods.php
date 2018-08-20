@@ -157,12 +157,7 @@ class AppPresser_WPAPI_Mods {
 		$info['remember'] = true;
 
 		if( empty( $info['user_login'] ) || empty( $info['user_password'] ) ) {
-			return new WP_Error( 'rest_invalid_login',
-				__( 'Missing required fields.', 'apppresser' ),
-				array(
-					'status' => 404,
-				)
-			);
+			wp_send_json_error( 'Missing required fields.' );
 		}
 		
 		$user_signon = wp_signon( $info, false );
@@ -178,12 +173,7 @@ class AppPresser_WPAPI_Mods {
 				'success' => false
 			);
 			
-			return new WP_Error( 'rest_invalid_login',
-				__( $msg, 'apppresser' ),
-				array(
-					'status' => 404,
-				)
-			);
+			wp_send_json_error( $msg );
 			
 		} else {
 
@@ -251,9 +241,9 @@ class AppPresser_WPAPI_Mods {
 
 		}
 
-		if ( email_exists( $request['email'] ) ) {
+		if ( email_exists( $request['email'] ) || username_exists( $request['username'] ) ) {
 			return new WP_Error( 'rest_invalid_registration',
-				__( 'Email already exists.', 'apppresser' ),
+				__( 'Email or username already exists.', 'apppresser' ),
 				array(
 					'status' => 404,
 				)
