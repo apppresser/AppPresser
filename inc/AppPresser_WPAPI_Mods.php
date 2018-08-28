@@ -22,7 +22,55 @@ class AppPresser_WPAPI_Mods {
 
 		// this is related to the verify_user() function below
 		add_filter( 'wp_authenticate_user', array( $this, 'check_app_unverified' ), 10, 2 );
+		
+		// CORS
+		add_action( 'rest_api_init', array( $this, 'appp_cors') );
 
+	}
+
+	/**
+	 * Use:
+	 * 
+	 *  Access-Control-Allow-Origin: *
+	 * 
+	 * Applies a filter 
+	 * 
+	 * @since 3.5.2
+	 */
+	public function app_cors_header() {
+		
+		$appp_allow_origin = apply_filters( 'appp_allow_api_origin', '*' );
+		$appp_allow_methods = apply_filters( 'appp_allow_api_methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS' );
+
+		if( $appp_allow_origin ) {
+			header("Access-Control-Allow-Origin: $appp_allow_origin");
+			header("Access-Control-Allow-Methods: $appp_allow_methods");
+		}
+	}
+
+	/**
+	 * A filter to use:
+	 * 
+	 *  Access-Control-Allow-Origin: *
+	 * 
+	 * when the AppPresser admin setting is on.
+	 * 
+	 * @since 3.5.2
+	 */
+	public function appp_cors() {
+
+		// Only add when setting is enabled
+		if( appp_get_setting( 'ap3_enable_cors', false ) ) {
+			add_filter( 'appp_allow_api_origin', function() {
+				return '*';
+			} );
+			$this->app_cors_header();
+		} else {
+			add_filter( 'appp_allow_api_origin', function() {
+				return false;
+			} );
+		}
+		
 	}
 
 	public function add_api_fields() {
@@ -347,7 +395,7 @@ class AppPresser_WPAPI_Mods {
 
 		$user = get_user_by( 'email', $request['email'] );
 
-		delete_user_meta( $user->id, 'app_unverified' );
+		delete_user_meta( $user->ID, 'app_unverified' );
 
 		// log the user in
 		$info = array();
@@ -391,7 +439,7 @@ class AppPresser_WPAPI_Mods {
 	 */
 	public function check_app_unverified( $user, $password ) {
 
-		if( get_user_meta( $user->id, 'app_unverified', 1 ) ) {
+		if( get_user_meta( $user->ID, 'app_unverified', 1 ) ) {
 
 			return new WP_Error( 'app_unverified_login',
 				__( 'You have not verified by email, please contact support.', 'apppresser' ),
