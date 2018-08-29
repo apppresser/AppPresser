@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: apppresser 2.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-29 08:11-0500\n"
+"POT-Creation-Date: 2018-08-29 10:42-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -485,6 +485,7 @@ msgid ""
 msgstr ""
 
 #: inc/AppPresser_Ajax_Extras.php:69 inc/AppPresser_WPAPI_Mods.php:228
+#: inc/AppPresser_WPAPI_Mods.php:234
 msgid "The log in you have entered is not valid."
 msgstr ""
 
