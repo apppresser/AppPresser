@@ -19,6 +19,7 @@ class AppPresser_Theme_Switcher extends AppPresser {
 	 * @since 1.0.0
 	 */
 	public function __construct() {
+		add_action( 'plugins_loaded', array( $this, 'test_app_theme_is_active' ) );
 		add_action( 'plugins_loaded', array( $this, 'switch_theme' ), 9999 );
 		add_action( 'plugins_loaded', array( $this, 'clear_cookies_if_not_app' ), 99999 );
 		add_filter( 'pre_option_show_on_front', array( $this, 'pre_show_on_front' ) );
@@ -270,6 +271,22 @@ class AppPresser_Theme_Switcher extends AppPresser {
 	  	}
 
 		return false;
+	}
+
+	/**
+	 * Test the active theme before the theme switch to an app theme.
+	 * If the active theme (before the switch) is one of our app themes,
+	 * we don't want to display a notice about it not be viewable by others,
+	 * because it is! Used with AP3 Ion Theme 1.5.0+
+	 * 
+	 * @since 3.6.0
+	 */
+	public function test_app_theme_is_active() {
+
+		$current_theme = wp_get_theme();
+
+		if( in_array($current_theme->get( 'Name' ), array( 'Ion AP3', 'Ion Child Theme' ) ) )
+			add_filter( 'show_appp_theme_notice', '__return_false' );
 	}
 
 }
