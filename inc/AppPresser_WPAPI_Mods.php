@@ -231,7 +231,7 @@ class AppPresser_WPAPI_Mods {
 				'success' => false
 			);
 			
-			wp_send_json_error( $msg );
+			wp_send_json_error( 'The log in you have entered is not valid.' );
 			
 		} else {
 
