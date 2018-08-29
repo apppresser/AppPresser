@@ -36,6 +36,11 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+### 3.6.0
+* Add API login and registration for better in-app experience
+* Add CORS access rules to API responses
+* Update language template .pot file
+
 ### 3.5.1
 * Bug fix for older PHP causing syntax error
 

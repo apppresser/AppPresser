@@ -35,7 +35,7 @@ class AppPresser_WPAPI_Mods {
 	 * 
 	 * Applies a filter 
 	 * 
-	 * @since 3.5.2
+	 * @since 3.6.0
 	 */
 	public function app_cors_header() {
 		
@@ -55,7 +55,7 @@ class AppPresser_WPAPI_Mods {
 	 * 
 	 * when the AppPresser admin setting is on.
 	 * 
-	 * @since 3.5.2
+	 * @since 3.6.0
 	 */
 	public function appp_cors() {
 
@@ -154,6 +154,11 @@ class AppPresser_WPAPI_Mods {
 
 	}
 
+	/**
+	 * API routes for in-app login and registration
+	 * 
+	 * @since 3.6.0
+	 */
 	public function register_routes() {
 
 		// Bail early if no core rest support.
@@ -198,6 +203,11 @@ class AppPresser_WPAPI_Mods {
 
 	}
 
+	/**
+	 * Login via API
+	 * 
+	 * @since 3.6.0
+	 */
 	public function api_login( $request ) {
 
 		$info['user_login'] = ( $_POST['username'] ? $_POST['username'] : $_SERVER['PHP_AUTH_USER'] );
@@ -243,6 +253,11 @@ class AppPresser_WPAPI_Mods {
 
 	}
 
+	/**
+	 * Logout via API
+	 * 
+	 * @since 3.6.0
+	 */
 	public function api_logout( $request ) {
 
 		do_action( 'appp_logout_header' );
@@ -271,7 +286,7 @@ class AppPresser_WPAPI_Mods {
 	 * Next, we send them a key, which is a short hash
 	 * They have to grab the key and send it back to verify_user(), which logs them in and deletes the app_unverified meta
 	 *
-	 * @since 0.1.0
+	 * @since 3.6.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Request List of activities object data.
@@ -342,6 +357,11 @@ class AppPresser_WPAPI_Mods {
 
 	}
 
+	/**
+	 * Emails a verification code
+	 * 
+	 * @since 3.6.0
+	 */
 	public function send_verification_code( $request ) {
 
 		if( empty( $request['email'] ) || empty( $request['username'] ) ) {
@@ -366,8 +386,10 @@ class AppPresser_WPAPI_Mods {
 		return $mail_sent;
 	}
 
-	/*
+	/**
 	 * Verify user, then log them in
+	 * 
+	 * @since 3.6.0
 	 */
 	public function verify_user( $request ) {
 
@@ -434,8 +456,10 @@ class AppPresser_WPAPI_Mods {
 
 	}
 
-	/*
+	/**
 	 * Disallow login if user is unverified
+	 * 
+	 * @since 3.6.0
 	 */
 	public function check_app_unverified( $user, $password ) {
 

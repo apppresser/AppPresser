@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: apppresser 2.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-02 12:17-0500\n"
+"POT-Creation-Date: 2018-08-29 08:11-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -484,16 +484,17 @@ msgid ""
 "site will no longer pull design updates from myapppresser.com."
 msgstr ""
 
-#: inc/AppPresser_Ajax_Extras.php:69
+#: inc/AppPresser_Ajax_Extras.php:69 inc/AppPresser_WPAPI_Mods.php:228
 msgid "The log in you have entered is not valid."
 msgstr ""
 
-#: inc/AppPresser_Ajax_Extras.php:79
+#: inc/AppPresser_Ajax_Extras.php:79 inc/AppPresser_WPAPI_Mods.php:239
+#: inc/AppPresser_WPAPI_Mods.php:440
 #, php-format
 msgid "Welcome back %s!"
 msgstr ""
 
-#: inc/AppPresser_Ajax_Extras.php:170
+#: inc/AppPresser_Ajax_Extras.php:170 inc/AppPresser_WPAPI_Mods.php:268
 msgid "Logout success."
 msgstr ""
 
@@ -534,18 +535,18 @@ msgstr ""
 msgid "Try Again"
 msgstr ""
 
-#: inc/AppPresser_License_Check.php:188
+#: inc/AppPresser_License_Check.php:187
 #, php-format
 msgid ""
 "Your AppPresser license has expired, %sclick here to renew now for critical "
 "updates%s"
 msgstr ""
 
-#: inc/AppPresser_License_Check.php:236
+#: inc/AppPresser_License_Check.php:235
 msgid "Security check failed"
 msgstr ""
 
-#: inc/AppPresser_License_Check.php:236 inc/EDD_SL_Plugin_Updater.php:403
+#: inc/AppPresser_License_Check.php:235 inc/EDD_SL_Plugin_Updater.php:403
 msgid "Error"
 msgstr ""
 
@@ -630,6 +631,52 @@ msgstr ""
 msgid ""
 "Settings with an asterisk (%s) are not specific to the app-only theme, and "
 "will effect your desktop theme."
+msgstr ""
+
+#: inc/AppPresser_WPAPI_Mods.php:299
+msgid "Missing required fields."
+msgstr ""
+
+#: inc/AppPresser_WPAPI_Mods.php:309
+msgid "Email or username already exists."
+msgstr ""
+
+#: inc/AppPresser_WPAPI_Mods.php:334
+msgid "Something went wrong with registration."
+msgstr ""
+
+#: inc/AppPresser_WPAPI_Mods.php:347
+msgid "We could not send your verification code, please contact support."
+msgstr ""
+
+#: inc/AppPresser_WPAPI_Mods.php:369 inc/AppPresser_WPAPI_Mods.php:398
+msgid "Missing required field."
+msgstr ""
+
+#: inc/AppPresser_WPAPI_Mods.php:380
+msgid "Your Verification Code"
+msgstr ""
+
+#: inc/AppPresser_WPAPI_Mods.php:382
+#, php-format
+msgid ""
+"Hi, thanks for registering! Here is your verification code: %s \n"
+"\n"
+"Please enter this code in the app. \n"
+"\n"
+"Thanks!"
+msgstr ""
+
+#: inc/AppPresser_WPAPI_Mods.php:411
+msgid "Verification code does not match."
+msgstr ""
+
+#: inc/AppPresser_WPAPI_Mods.php:432
+msgid "Verification succeeded, please login."
+msgstr ""
+
+#: inc/AppPresser_WPAPI_Mods.php:469
+msgid "You have not verified by email, please contact support."
 msgstr ""
 
 #: inc/EDD_SL_Plugin_Updater.php:205
