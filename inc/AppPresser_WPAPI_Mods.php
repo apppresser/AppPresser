@@ -20,11 +20,69 @@ class AppPresser_WPAPI_Mods {
 
 		add_action( 'rest_api_init', array( $this, 'add_api_fields' ) );
 
+		add_action( 'rest_api_init', array( $this, 'register_routes' ) );
+
 		// this is related to the verify_user() function below
 		add_filter( 'wp_authenticate_user', array( $this, 'check_app_unverified' ), 10, 2 );
 		
 		// CORS
 		add_action( 'rest_api_init', array( $this, 'appp_cors') );
+
+	}
+
+	/**
+	 * API routes for in-app login and registration
+	 * 
+	 * @since 3.6.0
+	 */
+	public function register_routes() {
+
+		// Bail early if no core rest support.
+		if ( ! class_exists( 'WP_REST_Controller' ) ) {
+			return;
+		}
+
+		register_rest_route( 'appp/v1', '/login', array(
+			array(
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => array( $this, 'api_login' )
+			),
+		) );
+
+		register_rest_route( 'appp/v1', '/logout', array(
+			array(
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'api_logout' )
+			),
+		) );
+
+		register_rest_route( 'appp/v1', '/register', array(
+			array(
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => array( $this, 'register_user')
+			),
+		) );
+
+		register_rest_route( 'appp/v1', '/verify', array(
+			array(
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => array( $this, 'verify_user')
+			),
+		) );
+
+		register_rest_route( 'appp/v1', '/verify-resend', array(
+			array(
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => array( $this, 'send_verification_code')
+			),
+		) );
+
+		register_rest_route( 'appp/v1', '/reset-password', array(
+			array(
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => array( $this, 'reset_password')
+			),
+		) );
 
 	}
 
@@ -105,8 +163,6 @@ class AppPresser_WPAPI_Mods {
 			}
 			
 		}
-
-		$this->register_routes();
 		
 	}
 
@@ -151,55 +207,6 @@ class AppPresser_WPAPI_Mods {
 		}
 
 		return $data;
-
-	}
-
-	/**
-	 * API routes for in-app login and registration
-	 * 
-	 * @since 3.6.0
-	 */
-	public function register_routes() {
-
-		// Bail early if no core rest support.
-		if ( ! class_exists( 'WP_REST_Controller' ) ) {
-			return;
-		}
-
-		register_rest_route( 'appp/v1', '/login', array(
-			array(
-				'methods'             => WP_REST_Server::CREATABLE,
-				'callback'            => array( $this, 'api_login' )
-			),
-		) );
-
-		register_rest_route( 'appp/v1', '/logout', array(
-			array(
-				'methods'             => WP_REST_Server::READABLE,
-				'callback'            => array( $this, 'api_logout' )
-			),
-		) );
-
-		register_rest_route( 'appp/v1', '/register', array(
-			array(
-				'methods'             => WP_REST_Server::CREATABLE,
-				'callback'            => array( $this, 'register_user')
-			),
-		) );
-
-		register_rest_route( 'appp/v1', '/verify', array(
-			array(
-				'methods'             => WP_REST_Server::CREATABLE,
-				'callback'            => array( $this, 'verify_user')
-			),
-		) );
-
-		register_rest_route( 'appp/v1', '/verify-resend', array(
-			array(
-				'methods'             => WP_REST_Server::CREATABLE,
-				'callback'            => array( $this, 'send_verification_code')
-			),
-		) );
 
 	}
 
@@ -511,6 +518,123 @@ class AppPresser_WPAPI_Mods {
 		} else {
 			return '';
 		}
+	}
+
+	/*
+	 * API password reset
+	 * First, post the user email, and a reset code is sent to them
+	 * Next, post the code and new password, and it's changed
+	 */
+	public function reset_password( $request ) {
+
+		$return = array(
+			'success' => false,
+			'message' => 'Missing required fields.'
+		);
+
+		if( isset( $request['code'] ) && isset( $request['password'] ) ) {
+
+			$return = $this->validate_reset_password( $request );
+
+		} elseif( isset( $request['email'] ) ) {
+
+			$return = $this->get_pw_reset_code( $request );
+		}
+
+		return $return;
+
+	}
+
+	/*
+	 * API password reset
+	 */
+	public function get_pw_reset_code( $request ) {
+
+		$return;
+
+		$email = $request['email'];
+
+		$user = get_user_by( 'email', $email );
+
+		if( $user ) {
+
+			$time = current_time( 'mysql' );
+			// create a unique code to use one time
+			$hash = $this->get_short_reset_code();
+
+			update_user_meta( $user->ID, 'app_hash', $hash );
+
+			$subject = __('App Password Reset', 'apppresser');
+			$message = __('Enter the code into the app to reset your password. Code: ', 'apppresser') . $hash;
+			$mail = wp_mail( $user->user_email, $subject, $message );
+
+			$return = array(
+				'success' => true,
+				'got_code' => true,
+				'message' =>  __('Please check your email for your verification code.', 'apppresser')
+			);
+
+		} else {
+
+			$return = array(
+				'success' => false,
+				'message' =>  __('The email you have entered is not valid.', 'apppresser')
+			);
+
+		}
+
+		return $return;
+	}
+
+	public function get_short_reset_code() {
+		
+		$numbers = str_split('1234567890');
+		shuffle($numbers);
+		$letters = str_split('abcdefghijklmnopqrstuvwxyz');
+		shuffle($letters);
+
+		$code = $numbers[1].$letters[1].$letters[2].$numbers[3];
+
+		return $code;
+	}
+
+	/**
+	 * Validate the reset code, then reset the password
+	 *
+	 * @access public
+	 */
+	public function validate_reset_password( $request ) {
+
+		global $wpdb;
+		$return;
+
+		$code 		= $request['code'];
+		$password 	= $request['password'];
+
+		$user = get_users( array( 'meta_key' => 'app_hash', 'meta_value' => $code ) );
+
+		if( $user ) {
+
+			wp_update_user( array ('ID' => $user[0]->data->ID, 'user_pass' => $password ) ) ;
+			// delete our one time access code
+			delete_user_meta( $user[0]->data->ID, 'app_hash');
+
+			$return = array(
+				'message' => __('Password has been changed, please login.', 'apppresser'),
+				'pw_changed' => true,
+				'success' => true
+			);
+
+		} else {
+
+			$return = array(
+				'success' => false,
+				'message' =>  __('The code you have entered is not valid.', 'apppresser')
+			);
+
+		}
+
+		return $return;
 	}
 
 }
