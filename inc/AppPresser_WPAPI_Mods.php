@@ -380,6 +380,17 @@ class AppPresser_WPAPI_Mods {
 			);
 		}
 
+		if ( !email_exists( $request['email'] ) || !username_exists( $request['username'] ) ) {
+
+			return new WP_Error( 'rest_invalid_verification',
+				__( 'Invalid username or email.', 'apppresser' ),
+				array(
+					'status' => 404,
+				)
+			);
+			
+		}
+
 		// now send verification code
 		$verification_code = hash( "md5", $request['username'] . $request['email'] );
 		// make it shorter
