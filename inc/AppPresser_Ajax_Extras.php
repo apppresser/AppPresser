@@ -79,7 +79,7 @@ class AppPresser_Ajax_Extras extends AppPresser {
 				'message' => apply_filters( 'appp_login_success', sprintf( __('Welcome back %s!', 'apppresser'), $user_signon->display_name), $user_signon->ID ),
 				'username' => $info['user_login'],
 				'avatar' => get_avatar_url( $user_signon->ID ),
-				'login_redirect' => $this->get_login_redirect(), // v3 only
+				'login_redirect' => self::get_login_redirect(), // v3 only
 				'success' => true
 			);
 
@@ -97,12 +97,12 @@ class AppPresser_Ajax_Extras extends AppPresser {
 	 * @since 3.2.1
 	 * @return string | array( 'url' => '', 'title' => '' )
 	 */
-	public function get_login_redirect() {
+	public static function get_login_redirect() {
 
 		if( has_filter( 'appp_login_redirect' ) ) {
 			$redirect_to = apply_filters( 'appp_login_redirect', '' );
 
-			return $this->add_redirect_title( $redirect_to );
+			return self::add_redirect_title( $redirect_to );
 			
 		} else {
 			return '';
