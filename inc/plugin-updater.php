@@ -13,7 +13,7 @@ class AppPresser_Updater extends AppPresser {
 	public static $included = array( 'theme' => false, 'plugin' => false );
 	public static $updaters = array( 'plugins' => array(), 'themes' => array() );
 	const AUTHOR            = 'AppPresser Team';
-	const STORE_URL         = 'http://apppresser.com';
+	const STORE_URL         = 'https://apppresser.com';
 
 	/**
 	 * Includes the EDD_SL_Plugin_Updater and EDD_SL_Theme_Updater classes if needed
