@@ -18,7 +18,7 @@ AppPresser helps website builders make iOS/Android mobile apps out of WordPress 
 
 This plugin is not an app-creator in itself, it helps connect your app to WordPress. You must create an app with our app builder, then install this plugin on your WordPress site.
 
-[youtube https://www.youtube.com/watch?v=ZIzVlA8cJTw]
+[youtube https://www.youtube.com/watch?v=UheNPUZkcxU]
 
 ### What this plugin does:
 
