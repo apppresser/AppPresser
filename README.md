@@ -36,6 +36,11 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+### 3.6.1
+* Reset password with API for better in-app experience
+* Use https for app store.
+* Fix PHP warnings for static functions
+
 ### 3.6.0
 * Add API login and registration for better in-app experience
 * Add CORS access rules to API responses
