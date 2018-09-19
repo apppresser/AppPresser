@@ -269,6 +269,10 @@ class AppPresser_WPAPI_Mods {
 
 		do_action( 'appp_logout_header' );
 
+		if( ! defined('DOING_AJAX') ) {
+			define('DOING_AJAX', true);
+		}
+
 		wp_logout();
 
 		$response = array(
