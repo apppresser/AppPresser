@@ -224,6 +224,8 @@ class AppPresser_WPAPI_Mods {
 		if( empty( $info['user_login'] ) || empty( $info['user_password'] ) ) {
 			wp_send_json_error( 'Missing required fields.' );
 		}
+
+		do_action('appp_before_signon');
 		
 		$user_signon = wp_signon( $info, false );
 
