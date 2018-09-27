@@ -22,6 +22,7 @@ class AppPresser_Theme_Switcher extends AppPresser {
 		add_action( 'plugins_loaded', array( $this, 'test_app_theme_is_active' ) );
 		add_action( 'plugins_loaded', array( $this, 'switch_theme' ), 9999 );
 		add_action( 'plugins_loaded', array( $this, 'clear_cookies_if_not_app' ), 99999 );
+		add_action( 'plugins_loaded', array( $this, 'maybe_set_cookies' ), 99999 );
 		add_filter( 'pre_option_show_on_front', array( $this, 'pre_show_on_front' ) );
 		add_filter( 'pre_option_page_on_front', array( $this, 'pre_page_on_front' ) );
 
@@ -119,6 +120,64 @@ class AppPresser_Theme_Switcher extends AppPresser {
 			setcookie( 'AppPresser_Appp3', '', time()-300, '/' );
 			header("Refresh:0");
 		}
+	}
+
+	/*
+	 * This function fixes an issue with API login where the auth cookie does not get set. We are sending a one-time token from the app to set the auth cookie when an iframe page is visited for the first time. The token is then invalidated.
+	 * For security the user_id is encrypted, and must be decrypted then verified against a user_meta value.
+	 */
+	public function maybe_set_cookies() {
+
+		if( !AppPresser::is_app() )
+			return;
+
+		if( $_GET['cookie_auth'] && !is_user_logged_in() ) {
+
+			$get_cookie_auth = stripslashes( $_GET['cookie_auth'] );
+
+			$decrypted_id = $this->decrypt_value( $get_cookie_auth );
+
+			$user = get_user_by('id', $decrypted_id );
+
+			if( !$decrypted_id || is_wp_error( $user ) ) {
+				return;
+			}
+
+			$meta = get_user_meta( $decrypted_id, 'app_cookie_auth', 1 );
+
+			if( $meta && $meta === $get_cookie_auth ) {
+				wp_set_auth_cookie( $decrypted_id, true );
+				delete_user_meta( $decrypted_id, 'app_cookie_auth' );
+			}
+			
+		} elseif( $_GET['wp_logout'] && is_user_logged_in() ) {
+
+			wp_logout();
+
+		}
+
+	}
+
+	// decrypt user_id sent from app
+	// https://secure.php.net/openssl_encrypt
+	public function decrypt_value( $value ) {
+
+		if( function_exists('openssl_encrypt') ) {
+
+			$key = substr( AUTH_KEY, 2, 5 );
+			$iv = substr( AUTH_KEY, 0, 16 );
+			$cipher="AES-128-CBC";
+			$user_id = openssl_decrypt($value, $cipher, $key, null, $iv);
+			
+			return $user_id;
+
+		} else {
+
+			// no openssl installed
+			return $value;
+
+		}
+
 	}
 
 	public function get_app_theme_slug() {

@@ -244,10 +244,14 @@ class AppPresser_WPAPI_Mods {
 			
 		} else {
 
+			// used for setting auth cookie on iframe pages. See AppPresser_Theme_Switcher->maybe_set_auth()
+			$cookie_auth = $this->do_cookie_auth( $user_signon->ID );
+
 			$msg = array(
 				'message' => apply_filters( 'appp_login_success', sprintf( __('Welcome back %s!', 'apppresser'), $user_signon->display_name), $user_signon->ID ),
 				'username' => $info['user_login'],
 				'avatar' => get_avatar_url( $user_signon->ID ),
+				'cookie_auth' => $cookie_auth,
 				'login_redirect' => AppPresser_Ajax_Extras::get_login_redirect(), // v3 only
 				'success' => true
 			);
@@ -290,6 +294,29 @@ class AppPresser_WPAPI_Mods {
 		$retval = rest_ensure_response( $response );
 
 		return $retval;
+
+	}
+
+	/*
+	 * Encrypts string for later decoding
+	 */
+	public function do_cookie_auth( $user_id ) {
+
+		if( function_exists('openssl_encrypt') ) {
+
+			$key = substr( AUTH_KEY, 2, 5 );
+			$iv = substr( AUTH_KEY, 0, 16 );
+			$cipher="AES-128-CBC";
+			$ciphertext = openssl_encrypt($user_id, $cipher, $key, null, $iv );
+
+		} else {
+			// no openssl installed
+			$ciphertext = $user_id;
+		}
+
+		update_user_meta( $user_id, 'app_cookie_auth', $ciphertext );
+
+		return $ciphertext;
 
 	}
 
