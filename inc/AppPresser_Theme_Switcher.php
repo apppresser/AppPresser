@@ -131,7 +131,7 @@ class AppPresser_Theme_Switcher extends AppPresser {
 		if( !AppPresser::is_app() )
 			return;
 
-		if( $_GET['cookie_auth'] && !is_user_logged_in() ) {
+		if( isset( $_GET['cookie_auth'] ) && !is_user_logged_in() ) {
 
 			$get_cookie_auth = stripslashes( $_GET['cookie_auth'] );
 
@@ -150,7 +150,7 @@ class AppPresser_Theme_Switcher extends AppPresser {
 				delete_user_meta( $decrypted_id, 'app_cookie_auth' );
 			}
 			
-		} elseif( $_GET['wp_logout'] && is_user_logged_in() ) {
+		} elseif( isset( $_GET['wp_logout'] ) && is_user_logged_in() ) {
 
 			wp_logout();
 
