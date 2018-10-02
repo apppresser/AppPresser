@@ -47,6 +47,10 @@ This plugin is not an app-creator in itself, it helps connect your app to WordPr
 
 == Changelog ==
 
+= 3.7.0 =
+* Cookie fix to allow login via browser preview
+* Add action before and after login
+
 = 3.6.1 =
 * Reset password with API for better in-app experience
 * Use https for app store.

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: apppresser 2.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-17 16:20-0500\n"
+"POT-Creation-Date: 2018-10-02 11:31-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -484,26 +484,26 @@ msgid ""
 "site will no longer pull design updates from myapppresser.com."
 msgstr ""
 
-#: inc/AppPresser_Ajax_Extras.php:69 inc/AppPresser_WPAPI_Mods.php:235
-#: inc/AppPresser_WPAPI_Mods.php:241
+#: inc/AppPresser_Ajax_Extras.php:69 inc/AppPresser_WPAPI_Mods.php:237
+#: inc/AppPresser_WPAPI_Mods.php:243
 msgid "The log in you have entered is not valid."
 msgstr ""
 
-#: inc/AppPresser_Ajax_Extras.php:79 inc/AppPresser_WPAPI_Mods.php:246
-#: inc/AppPresser_WPAPI_Mods.php:458
+#: inc/AppPresser_Ajax_Extras.php:79 inc/AppPresser_WPAPI_Mods.php:251
+#: inc/AppPresser_WPAPI_Mods.php:491
 #, php-format
 msgid "Welcome back %s!"
 msgstr ""
 
-#: inc/AppPresser_Ajax_Extras.php:170 inc/AppPresser_WPAPI_Mods.php:275
+#: inc/AppPresser_Ajax_Extras.php:170 inc/AppPresser_WPAPI_Mods.php:285
 msgid "Logout success."
 msgstr ""
 
-#: inc/AppPresser_Ajax_Extras.php:351 inc/AppPresser_WPAPI_Mods.php:560
+#: inc/AppPresser_Ajax_Extras.php:351 inc/AppPresser_WPAPI_Mods.php:593
 msgid "App Password Reset"
 msgstr ""
 
-#: inc/AppPresser_Ajax_Extras.php:352 inc/AppPresser_WPAPI_Mods.php:561
+#: inc/AppPresser_Ajax_Extras.php:352 inc/AppPresser_WPAPI_Mods.php:594
 msgid "Enter the code into the app to reset your password. Code: "
 msgstr ""
 
@@ -511,7 +511,7 @@ msgstr ""
 msgid "Please check your email and enter the retrieval code below."
 msgstr ""
 
-#: inc/AppPresser_Ajax_Extras.php:363 inc/AppPresser_WPAPI_Mods.php:574
+#: inc/AppPresser_Ajax_Extras.php:363 inc/AppPresser_WPAPI_Mods.php:607
 msgid "The email you have entered is not valid."
 msgstr ""
 
@@ -519,7 +519,7 @@ msgstr ""
 msgid "Password has been changed."
 msgstr ""
 
-#: inc/AppPresser_Ajax_Extras.php:417 inc/AppPresser_WPAPI_Mods.php:625
+#: inc/AppPresser_Ajax_Extras.php:417 inc/AppPresser_WPAPI_Mods.php:658
 msgid "The code you have entered is not valid."
 msgstr ""
 
@@ -634,35 +634,35 @@ msgid ""
 "will effect your desktop theme."
 msgstr ""
 
-#: inc/AppPresser_WPAPI_Mods.php:306
+#: inc/AppPresser_WPAPI_Mods.php:339
 msgid "Missing required fields."
 msgstr ""
 
-#: inc/AppPresser_WPAPI_Mods.php:316
+#: inc/AppPresser_WPAPI_Mods.php:349
 msgid "Email or username already exists."
 msgstr ""
 
-#: inc/AppPresser_WPAPI_Mods.php:341
+#: inc/AppPresser_WPAPI_Mods.php:374
 msgid "Something went wrong with registration."
 msgstr ""
 
-#: inc/AppPresser_WPAPI_Mods.php:354
+#: inc/AppPresser_WPAPI_Mods.php:387
 msgid "We could not send your verification code, please contact support."
 msgstr ""
 
-#: inc/AppPresser_WPAPI_Mods.php:376 inc/AppPresser_WPAPI_Mods.php:416
+#: inc/AppPresser_WPAPI_Mods.php:409 inc/AppPresser_WPAPI_Mods.php:449
 msgid "Missing required field."
 msgstr ""
 
-#: inc/AppPresser_WPAPI_Mods.php:386
+#: inc/AppPresser_WPAPI_Mods.php:419
 msgid "Invalid username or email."
 msgstr ""
 
-#: inc/AppPresser_WPAPI_Mods.php:398
+#: inc/AppPresser_WPAPI_Mods.php:431
 msgid "Your Verification Code"
 msgstr ""
 
-#: inc/AppPresser_WPAPI_Mods.php:400
+#: inc/AppPresser_WPAPI_Mods.php:433
 #, php-format
 msgid ""
 "Hi, thanks for registering! Here is your verification code: %s \n"
@@ -672,23 +672,23 @@ msgid ""
 "Thanks!"
 msgstr ""
 
-#: inc/AppPresser_WPAPI_Mods.php:429
+#: inc/AppPresser_WPAPI_Mods.php:462
 msgid "Verification code does not match."
 msgstr ""
 
-#: inc/AppPresser_WPAPI_Mods.php:450
+#: inc/AppPresser_WPAPI_Mods.php:483
 msgid "Verification succeeded, please login."
 msgstr ""
 
-#: inc/AppPresser_WPAPI_Mods.php:487
+#: inc/AppPresser_WPAPI_Mods.php:520
 msgid "You have not verified by email, please contact support."
 msgstr ""
 
-#: inc/AppPresser_WPAPI_Mods.php:567
+#: inc/AppPresser_WPAPI_Mods.php:600
 msgid "Please check your email for your verification code."
 msgstr ""
 
-#: inc/AppPresser_WPAPI_Mods.php:616
+#: inc/AppPresser_WPAPI_Mods.php:649
 msgid "Password has been changed, please login."
 msgstr ""
 

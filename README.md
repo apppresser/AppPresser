@@ -36,6 +36,10 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+### 3.7.0
+* Cookie fix to allow login via browser preview
+* Add action before and after login
+
 ### 3.6.1
 * Reset password with API for better in-app experience
 * Use https for app store.
