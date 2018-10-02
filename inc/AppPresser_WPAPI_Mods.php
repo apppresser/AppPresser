@@ -225,7 +225,7 @@ class AppPresser_WPAPI_Mods {
 			wp_send_json_error( 'Missing required fields.' );
 		}
 
-		do_action('appp_before_signon');
+		do_action( 'appp_before_signon', $info );
 		
 		$user_signon = wp_signon( $info, false );
 
