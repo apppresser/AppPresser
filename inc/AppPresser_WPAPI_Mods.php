@@ -222,7 +222,16 @@ class AppPresser_WPAPI_Mods {
 		$info['remember'] = true;
 
 		if( empty( $info['user_login'] ) || empty( $info['user_password'] ) ) {
-			wp_send_json_error( 'Missing required fields.' );
+			
+			$msg = array(
+				'success' => false,
+				'data' => array(
+					'message' =>  apply_filters( 'appp_login_error', __('Missing required fields.', 'apppresser'), '' ),
+					'success' => false
+				)
+			);
+			
+			return rest_ensure_response( $msg );
 		}
 
 		do_action( 'appp_before_signon', $info );
@@ -234,13 +243,14 @@ class AppPresser_WPAPI_Mods {
 		if( is_wp_error( $user_signon ) ) {
 		
 			$msg = array(
-				'message' =>  apply_filters( 'appp_login_error', __('The log in you have entered is not valid.', 'apppresser'), $info['user_login'] ),
-				'signon' => $info['user_login'] . $info['user_password'],
-				'line' => __LINE__,
-				'success' => false
+				'success' => false,
+				'data' => array(
+					'message' =>  apply_filters( 'appp_login_error', __('The log in you have entered is not valid.', 'apppresser'), $info['user_login'] ),
+					'success' => false
+				)
 			);
 			
-			wp_send_json_error( __('The log in you have entered is not valid.', 'apppresser') );
+			return rest_ensure_response( $msg );
 			
 		} else {
 
