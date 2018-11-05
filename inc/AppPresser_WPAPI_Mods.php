@@ -504,12 +504,8 @@ class AppPresser_WPAPI_Mods {
 			'success' => true
 		);
 
-		if( class_exists('APBPRest') ) {
-
-			$APBPRest = new APBPRest();
-
-			$message = $APBPRest->add_jwt_to_login_data( $message, $user_signon->ID );
-		}
+		// adds user_id and auth token
+		$message = apply_filters( 'appp_login_data', $message, $user_signon->ID );
 
 		$retval = rest_ensure_response( $message );
 
