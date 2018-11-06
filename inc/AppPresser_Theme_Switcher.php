@@ -110,7 +110,7 @@ class AppPresser_Theme_Switcher extends AppPresser {
 		$referrer = ( isset( $_SERVER['HTTP_REFERER'] ) ? $_SERVER['HTTP_REFERER'] : null );
 
 		// if myapppresser is the referrer, we are in the preview. Set cookie so links to other pages stay with AP3 theme
-		if( $referrer && preg_match('/myapppresser/', $referrer ) ) {
+		if( $referrer && preg_match('/myapppresser/', $referrer ) || $referrer && preg_match('/localhost/', $referrer ) ) {
 			setcookie("AppPresser_Preview", "true", time() + (5 * 60), "/");
 			return;
 		}
