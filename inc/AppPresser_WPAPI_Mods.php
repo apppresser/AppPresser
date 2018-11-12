@@ -401,7 +401,9 @@ class AppPresser_WPAPI_Mods {
 			);
 		}
 
-		$retval = rest_ensure_response( "Your verification code has been sent, please check your email." );
+		$success = __( "Your verification code has been sent, please check your email.", "apppresser" );
+
+		$retval = rest_ensure_response( $success );
 
 		return $retval;
 
@@ -439,10 +441,13 @@ class AppPresser_WPAPI_Mods {
 		// make it shorter
 		$verification_code = substr($verification_code, 1, 4);
 		$subject = __( 'Your Verification Code', 'apppresser' );
+		$subject = apply_filters( 'appp_verification_email_subject', $subject );
 
 		$content = sprintf( __( "Hi, thanks for registering! Here is your verification code: %s \n\nPlease enter this code in the app. \n\nThanks!", "apppresser" ), $verification_code );
 
-		$mail_sent = wp_mail( $request["email"], "Your Verification Code", $content );
+		$content = apply_filters( 'appp_verification_email', $content, $verification_code );
+
+		$mail_sent = wp_mail( $request["email"], $subject, $content );
 
 		return $mail_sent;
 	}
@@ -597,7 +602,12 @@ class AppPresser_WPAPI_Mods {
 			update_user_meta( $user->ID, 'app_hash', $hash );
 
 			$subject = __('App Password Reset', 'apppresser');
+			$subject = apply_filters( 'appp_pw_reset_email_subject', $subject );
+
 			$message = __('Enter the code into the app to reset your password. Code: ', 'apppresser') . $hash;
+
+			$message = apply_filters( 'appp_pw_reset_email', $message, $hash );
+
 			$mail = wp_mail( $user->user_email, $subject, $message );
 
 			$return = array(
