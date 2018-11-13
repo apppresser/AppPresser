@@ -401,6 +401,8 @@ class AppPresser_WPAPI_Mods {
 			);
 		}
 
+		do_action( 'appp_register_unverified', $user_id );
+
 		$success = __( "Your verification code has been sent, please check your email.", "apppresser" );
 
 		$retval = rest_ensure_response( $success );
@@ -511,6 +513,8 @@ class AppPresser_WPAPI_Mods {
 
 		// adds user_id and auth token
 		$message = apply_filters( 'appp_login_data', $message, $user_signon->ID );
+
+		do_action( 'appp_register_verified', $user_signon->ID );
 
 		$retval = rest_ensure_response( $message );
 
