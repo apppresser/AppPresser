@@ -474,7 +474,7 @@ class EDD_SL_Plugin_Updater {
         }
 
         $data = array(
-            'timeout' => strtotime( '+3 hours', current_time( 'timestamp' ) ),
+            'timeout' => strtotime( '+4 days', current_time( 'timestamp' ) ),
             'value'   => json_encode( $value )
         );
 

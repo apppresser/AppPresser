@@ -28,8 +28,8 @@ class AppPresser_Updater extends AppPresser {
 			self::$included['plugin'] = true;
 		} else {
 			// load theme updater
-if ( ! self::$included['theme'] && ! class_exists( 'Appp_EDD_Theme_Updater' ) )
-	include( self::$inc_path . 'EDD_SL_Theme_Updater.php' );
+			if ( ! self::$included['theme'] && ! class_exists( 'Appp_EDD_Theme_Updater' ) )
+				include( self::$inc_path . 'EDD_SL_Theme_Updater.php' );
 
 			self::$included['theme'] = true;
 		}
