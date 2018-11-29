@@ -173,12 +173,14 @@ class Appp_EDD_Theme_Updater {
 
 			// If the status is 'ok', return the update arguments
 			if ( ! $failed ) {
-				$update_data->sections = maybe_unserialize( $update_data->sections );
+				if(isset( $update_data->sections ) ) {
+					$update_data->sections = maybe_unserialize( $update_data->sections );
+				}
 				set_transient( $this->response_key, $update_data, strtotime( '+4 days', current_time( 'timestamp' ) ) );
 			}
 		}
 
-		if ( version_compare( $this->version, $update_data->new_version, '>=' ) ) {
+		if ( !isset($update_data->new_version) || version_compare( $this->version, $update_data->new_version, '>=' ) ) {
 			return false;
 		}
 
