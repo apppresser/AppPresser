@@ -5,7 +5,7 @@ Plugin URI: http://apppresser.com
 Description: A mobile app development framework for WordPress.
 Text Domain: apppresser
 Domain Path: /languages
-Version: 3.7.0
+Version: 3.7.1
 Author: AppPresser Team
 Author URI: http://apppresser.com
 License: GPLv2
@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class AppPresser {
 
-	const VERSION           = '3.7.0';
+	const VERSION           = '3.7.1';
 	const SETTINGS_NAME     = 'appp_settings';
 	public static $settings = 'false';
 	public static $instance = null;

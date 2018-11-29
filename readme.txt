@@ -4,7 +4,7 @@ Donate link: http://apppresser.com/
 Tags: mobile, app, ios, android, application, phonegap, iphone app, android app, mobile app, native app, wordpress mobile, ipad app, iOS app
 Requires at least: 4.7.0
 Tested up to: 4.9.8
-Stable tag: 3.7.0
+Stable tag: 3.7.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -46,6 +46,13 @@ This plugin is not an app-creator in itself, it helps connect your app to WordPr
 
 
 == Changelog ==
+
+= 3.7.1 =
+* properly format json login error
+* fix missing user_id and token on registration
+* filters and translations for api register
+* register action hooks
+* extend transient for software updates checks to reduce the number of server calls for plugin/theme updates
 
 = 3.7.0 =
 * Cookie fix to allow login via browser preview

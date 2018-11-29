@@ -36,6 +36,13 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+### 3.7.1
+* properly format json login error
+* fix missing user_id and token on registration
+* filters and translations for api register
+* register action hooks
+* extend transient for software updates checks to reduce the number of server calls for plugin/theme updates
+
 ### 3.7.0
 * Cookie fix to allow login via browser preview
 * Add action before and after login
