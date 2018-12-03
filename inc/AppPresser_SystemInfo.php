@@ -84,8 +84,7 @@ class AppPresser_SystemInfo {
 			'PHP INFO' => array(
 				'PHP Version' => PHP_VERSION,
 				'Web Server Info' => $_SERVER['SERVER_SOFTWARE'],
-				'WordPress Memory Limit' => (  WP_MEMORY_LIMIT / 1024 )."MB",
-				'PHP Safe Mode' => (version_compare(phpversion(), '5.3.0', '>=')===true) ? 'DEPRECATED as of PHP 5.3.0' : (ini_get( 'safe_mode' ) ? "Yes" : "No"),
+				'WordPress Memory Limit' => (  (int)WP_MEMORY_LIMIT / 1024 )."MB",
 				'PHP Memory Limit' => ini_get( 'memory_limit' ),
 				'PHP Upload Max Size' => ini_get( 'upload_max_filesize' ),
 				'PHP Post Max Size' => ini_get( 'post_max_size' ),
