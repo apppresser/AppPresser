@@ -773,7 +773,7 @@ class AppPresser_WPAPI_Mods {
 
 		do_action( 'appp_in_app_purchase', $user_signon->ID, $message );
 
-		$retval = rest_ensure_response( $message['message'] );
+		$retval = rest_ensure_response( $message );
 
 		return $retval;
 
