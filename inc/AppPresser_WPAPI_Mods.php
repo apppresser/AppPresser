@@ -63,6 +63,13 @@ class AppPresser_WPAPI_Mods {
 			),
 		) );
 
+		register_rest_route( 'appp/v1', '/in-app-purchase', array(
+			array(
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => array( $this, 'purchase_register_login')
+			),
+		) );
+
 		register_rest_route( 'appp/v1', '/verify', array(
 			array(
 				'methods'             => WP_REST_Server::CREATABLE,
@@ -681,6 +688,95 @@ class AppPresser_WPAPI_Mods {
 		}
 
 		return $return;
+	}
+
+	/**
+	 * Handle registration/login for in app purchases
+	 * Create user if they don't exist, add meta, login, fire hook for adding to membership plugins
+	 *
+	 * @since 3.7.2
+	 */
+	public function purchase_register_login( $request ) {
+
+		if( empty( $request['username'] ) || empty( $request['email'] ) ) {
+
+			return new WP_Error( 'rest_invalid_registration',
+				__( 'Missing required fields.', 'apppresser' ),
+				array(
+					'status' => 404,
+				)
+			);
+
+		}
+
+		if ( !username_exists( $request['username'] ) ) {
+
+			// register new user
+			if( empty( $request['password'] ) ) {
+				$password = wp_generate_password( 8 );
+			} else {
+				$password = $request['password'];
+			}
+
+			$userdata = array(
+			    'user_login'  =>  $request['username'],
+			    'user_pass'   =>  $password,
+			    'user_email'  =>  $request['email'],
+			    'first_name'  =>  $request['first_name'],
+			    'last_name'   =>  $request['last_name']
+			);
+
+			$user_id = wp_insert_user( $userdata );
+
+			if ( is_wp_error( $user_id ) ) {
+				return new WP_Error( 'rest_invalid_registration',
+					__( 'Your purchase was successful, but something went wrong with registration. Please try registering again with a different username.', 'apppresser' ),
+					array(
+						'status' => 404,
+					)
+				);
+			}
+
+			// add this here in case login fails, meta still gets added
+			update_user_meta( $user_id, 'in_app_purchase', true );
+
+		}
+
+		// log the user in
+		$info = array();
+		$info['user_login'] = $request['username'];
+		$info['user_password'] = $request['password'];
+		$info['remember'] = true;
+		
+		$user_signon = wp_signon( $info, false );
+
+		if ( is_wp_error( $user_signon ) ) {
+			return new WP_Error( 'rest_invalid_login',
+				__( 'Your purchase was successful, but there was a problem logging in, please try again.', 'apppresser' ),
+				array(
+					'status' => 400,
+				)
+			);
+		}
+
+		$message = array(
+			'message' => apply_filters( 'appp_login_success', sprintf( __('Welcome back %s!', 'apppresser'), $user_signon->display_name), $user_signon->ID ),
+			'username' => $info['user_login'],
+			'avatar' => get_avatar_url( $user_signon->ID ), // v3 only
+			'success' => true
+		);
+
+		// adds user_id and auth token
+		$message = apply_filters( 'appp_login_data', $message, $user_signon->ID );
+
+		update_user_meta( $user_signon->ID, 'in_app_purchase', true );
+
+		do_action( 'appp_in_app_purchase', $user_signon->ID, $message );
+
+		$retval = rest_ensure_response( $message['message'] );
+
+		return $retval;
+
 	}
 
 }
