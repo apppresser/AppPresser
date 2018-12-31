@@ -367,6 +367,6 @@ function appp_is_ios() {
  * @return true if device is running Android
  */
 function appp_is_android() {
-	$ua = strtolower( $_SERVER['HTTP_USER_AGENT'] );
+	$ua = isset( $_SERVER['HTTP_USER_AGENT'] ) ? strtolower( $_SERVER['HTTP_USER_AGENT'] ) : '';
 	return ( false !== stripos( $ua, 'android' ) );
 }
