@@ -75,6 +75,8 @@ class AppPresser_Logger {
 
 		if( self::get_logging_timeout() < 0 && !defined('APP_LOG_FORCE_ON') ) {
 			self::toggle_logging( 'off' );
+		} else if( defined('APP_LOG_FORCE_ON') && APP_LOG_FORCE_ON === true ) {
+			self::toggle_logging( 'on' );
 		}
 
 		$logfile = fopen(self::$log_filepath, "a") or die("Unable to open file!");
