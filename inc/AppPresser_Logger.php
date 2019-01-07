@@ -73,7 +73,7 @@ class AppPresser_Logger {
 	 */
 	public static function log( $title, $var, $file = 'file', $function = 'function', $line = 'line' ) {
 
-		if( self::get_logging_timeout() < 0 ) {
+		if( self::get_logging_timeout() < 0 && !defined('APP_LOG_FORCE_ON') ) {
 			self::toggle_logging( 'off' );
 		}
 
@@ -312,8 +312,7 @@ AppPresser_Logger::get_instance();
  * @since 1.3.0
  */
 function appp_debug_log( $title, $var, $file = 'file', $function = 'function', $line = 'line' ) {
-	if( AppPresser_Logger::$logging_status == 'on' ) {
+	if( AppPresser_Logger::$logging_status == 'on' || defined('APP_LOG_FORCE_ON') ) {
 		AppPresser_Logger::log( $title, $var, $file, $function, $line );
 	}
 } add_action( 'appp_debug_log', 'appp_debug_log', 10, 5 );
-
