@@ -263,7 +263,8 @@ class AppPresser_WPAPI_Mods {
 				'avatar' => get_avatar_url( $user_signon->ID ),
 				'cookie_auth' => $cookie_auth,
 				'login_redirect' => AppPresser_Ajax_Extras::get_login_redirect(), // v3 only
-				'success' => true
+				'success' => true,
+				'user_id' => $user_signon->ID
 			);
 			
 		}
@@ -508,7 +509,8 @@ class AppPresser_WPAPI_Mods {
 			'message' => apply_filters( 'appp_login_success', sprintf( __('Welcome back %s!', 'apppresser'), $user_signon->display_name), $user_signon->ID ),
 			'username' => $info['user_login'],
 			'avatar' => get_avatar_url( $user_signon->ID ), // v3 only
-			'success' => true
+			'success' => true,
+			'user_id' => $user_signon->ID
 		);
 
 		// adds user_id and auth token
