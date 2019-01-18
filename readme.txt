@@ -3,7 +3,7 @@ Contributors: apppresser, scottopolis, Messenlehner, stillatmylinux
 Donate link: http://apppresser.com/
 Tags: mobile, app, ios, android, application, phonegap, iphone app, android app, mobile app, native app, wordpress mobile, ipad app, iOS app
 Requires at least: 4.7.0
-Tested up to: 4.9.8
+Tested up to: 5.0.3
 Stable tag: 3.7.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
