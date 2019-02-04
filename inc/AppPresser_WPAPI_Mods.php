@@ -206,6 +206,13 @@ class AppPresser_WPAPI_Mods {
 			return;
 		}
 
+		// optionally add an image when playing the media
+		$thumb = get_post_meta( $post['id'], 'appp_media_image', true );
+
+		if( !empty( $thumb ) ) {
+			$data['media_image'] = $thumb;
+		}
+
 		return $data;
 
 	}
