@@ -693,5 +693,6 @@ class AppPresser_WPAPI_Mods {
 	}
 
 }
+global $AppPresser_WPAPI_Mods;
 $AppPresser_WPAPI_Mods = new AppPresser_WPAPI_Mods();
 $AppPresser_WPAPI_Mods->hooks();
