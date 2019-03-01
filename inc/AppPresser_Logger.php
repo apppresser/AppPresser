@@ -52,7 +52,7 @@ class AppPresser_Logger {
 	}
 
 	public function enqueue_scripts() {
-		wp_enqueue_script( 'appp-logger', AppPresser::$js_url ."/appp.logger.js", array( 'jquery' ) );
+		wp_enqueue_script( 'appp-logger', AppPresser::$js_url ."appp.logger.js", array( 'jquery' ) );
 	}
 
 	/**
