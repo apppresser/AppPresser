@@ -36,6 +36,10 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+### 3.8.0
+* Add option to use an image for the media player in the app. See how to add post meta for appp_media_image in the [AppPresser docs](https://docs.apppresser.com/article/420-media-list-audio-video-downloads).
+* Minor bug fixes
+
 ### 3.7.1
 * properly format json login error
 * fix missing user_id and token on registration
