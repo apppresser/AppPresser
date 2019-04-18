@@ -133,6 +133,7 @@ class AppPresser {
 		require_once( self::$inc_path . 'AppPresser_Remote_Scripts.php' );
 		require_once( self::$inc_path . 'AppPresser_AppGeo.php' );
 		require_once( self::$inc_path . 'AppPresser_WPAPI_Mods.php' );
+		require_once( self::$inc_path . 'AppPresser_User_Roles.php' );
 
 		if( ! is_multisite() ) {
 			require_once( self::$inc_path . 'AppPresser_Log_Admin.php' );
