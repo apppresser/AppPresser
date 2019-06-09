@@ -264,6 +264,9 @@ class AppPresser_WPAPI_Mods {
 			// used for setting auth cookie on iframe pages. See AppPresser_Theme_Switcher->maybe_set_auth()
 			$cookie_auth = $this->do_cookie_auth( $user_signon->ID );
 
+            // used to generate a token from "JWT Authentication for WP-API" plugin
+            $token = $this->get_authentication_token($_POST['username'], $_POST['password']);
+
 			$msg = array(
 				'message' => apply_filters( 'appp_login_success', sprintf( __('Welcome back %s!', 'apppresser'), $user_signon->display_name), $user_signon->ID ),
 				'username' => $info['user_login'],
@@ -271,6 +274,7 @@ class AppPresser_WPAPI_Mods {
 				'cookie_auth' => $cookie_auth,
 				'login_redirect' => AppPresser_Ajax_Extras::get_login_redirect(), // v3 only
 				'success' => true,
+				'token' => $token,
 				'user_id' => $user_signon->ID
 			);
 			
@@ -512,11 +516,15 @@ class AppPresser_WPAPI_Mods {
 			);
 		}
 
+        // used to generate a token from "JWT Authentication for WP-API" plugin
+        $token = $this->get_authentication_token($_POST['username'], $_POST['password']);
+
 		$message = array(
 			'message' => apply_filters( 'appp_login_success', sprintf( __('Welcome back %s!', 'apppresser'), $user_signon->display_name), $user_signon->ID ),
 			'username' => $info['user_login'],
 			'avatar' => get_avatar_url( $user_signon->ID ), // v3 only
 			'success' => true,
+            'token' => $token,
 			'user_id' => $user_signon->ID
 		);
 
@@ -691,6 +699,23 @@ class AppPresser_WPAPI_Mods {
 
 		return $return;
 	}
+
+    /**
+     * Generates Authentication token if JWT Authenctication plugin is active
+     */
+    private function get_authentication_token($username, $password)
+    {
+        if (class_exists('Jwt_Auth_Public')) {
+            $request = new WP_REST_Request( 'POST', '/wp-json/jwt-auth/v1/token' );
+            $request->set_param( 'username', $username );
+            $request->set_param( 'password', $password );
+            $JWT = new Jwt_Auth_Public('jwt-auth', '1.1.0');
+            $auth_object = $JWT->generate_token( $request );
+            return $auth_object['token'];
+        }
+
+        return null;
+    }
 
 }
 global $AppPresser_WPAPI_Mods;
