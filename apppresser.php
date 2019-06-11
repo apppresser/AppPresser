@@ -718,9 +718,9 @@ class AppPresser {
 
 	function apppresser_register_required_plugins() {
         /*
-        * Array of plugin arrays. Required keys are name and slug.
-        * If the source is NOT from the .org repo, then source is also required.
-        */
+         * Array of plugin arrays. Required keys are name and slug.
+         * If the source is NOT from the .org repo, then source is also required.
+         */
         $plugins = array(
             // Include the JWT Authentication for WP REST API from the WordPress Plugin Repository
             array(
@@ -731,8 +731,8 @@ class AppPresser {
         );
 
         /*
-        * Array of configuration settings
-        */
+         * Array of configuration settings
+         */
         $config = array(
             'id'           => 'apppresser',            // Unique ID for hashing notices for multiple instances of TGMPA.
             'default_path' => '',                      // Default absolute path to bundled plugins.

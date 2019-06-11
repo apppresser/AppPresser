@@ -274,7 +274,7 @@ class AppPresser_WPAPI_Mods {
 				'cookie_auth' => $cookie_auth,
 				'login_redirect' => AppPresser_Ajax_Extras::get_login_redirect(), // v3 only
 				'success' => true,
-				'token' => $token,
+				'access_token' => $token,
 				'user_id' => $user_signon->ID
 			);
 			
@@ -524,7 +524,7 @@ class AppPresser_WPAPI_Mods {
 			'username' => $info['user_login'],
 			'avatar' => get_avatar_url( $user_signon->ID ), // v3 only
 			'success' => true,
-            'token' => $token,
+            'access_token' => $token,
 			'user_id' => $user_signon->ID
 		);
 
