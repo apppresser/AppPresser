@@ -141,20 +141,23 @@ class AppPresser_WPAPI_Mods {
 	 *
 	 * @return $login_data array
 	 */
-	function appp_login_data_add_access_token( $login_data, $user_id ) {
+    function appp_login_data_add_access_token($login_data, $user_id)
+    {
         if ($login_data['success'] === false) {
             return $login_data;
         }
 
         if (class_exists('Jwt_Auth_Public')) {
-            if(isset($_REQUEST['username']) && isset($_REQUEST['username'])) {
-                $request = new WP_REST_Request( 'POST', '/wp-json/jwt-auth/v1/token' );
-                $request->set_param( 'username', $_REQUEST['username'] );
-                $request->set_param( 'password', $_REQUEST['password'] );
+            if (isset($_REQUEST['username']) && isset($_REQUEST['password'])) {
+                $request = new WP_REST_Request('POST', '/wp-json/jwt-auth/v1/token');
+                $request->set_param('username', $_REQUEST['username']);
+                $request->set_param('password', $_REQUEST['password']);
                 $JWT = new Jwt_Auth_Public('jwt-auth', '1.1.0');
-                $auth_object = $JWT->generate_token( $request );
-                // add user id to data after login so we can use that for posting stuff to BP
-                $login_data['access_token'] = $auth_object['token'];
+                $auth_object = $JWT->generate_token($request);
+                if (!is_wp_error($auth_object)) {
+                    // add user id to data after login so we can use that for posting stuff to BP
+                    $login_data['access_token'] = $auth_object['token'];
+                }
             }
         }
 
