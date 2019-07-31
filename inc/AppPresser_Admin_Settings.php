@@ -1233,6 +1233,11 @@ class AppPresser_Admin_Settings extends AppPresser {
 		if( $myapp_disable_remote_updates ) {
 			add_action( 'admin_notices', array($this, 'disable_remote_updates_admin_notice' ) );
 		}
+
+        // check if JWT_AUTH_SECRET_KEY exist in config.xml
+        if (class_exists('Jwt_Auth_Public') && !defined('JWT_AUTH_SECRET_KEY')) {
+            add_action('admin_notices', array($this, 'jwt_auth_secret_key_missing_admin_notice'));
+        }
 	}
 
 	public function apptheme_update_admin_notice() {
@@ -1250,6 +1255,14 @@ class AppPresser_Admin_Settings extends AppPresser {
 			<p><?php _e( 'Use of the <b>myapp_disable_remote_updates</b> filter was found and your site will no longer pull design updates from myapppresser.com.', 'apppresser' ) ?></p>
 		</div>
 		<?php endif;
+	}
+
+	public function jwt_auth_secret_key_missing_admin_notice() {
+		?>
+		<div class="notice notice-error">
+            <p><?php _e( 'The JWT needs a secret key to sign the token. Add a unique key to you wp-config.php file.', 'apppresser' ) ?></p>
+		</div>
+		<?php
 	}
 
 	public static function set_deprecate_version( $deprecate_ver = null ) {
