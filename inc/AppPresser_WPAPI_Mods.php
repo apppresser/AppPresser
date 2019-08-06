@@ -86,6 +86,12 @@ class AppPresser_WPAPI_Mods {
 			),
 		) );
 
+        register_rest_route( 'appp/v1', '/system-info', array(
+			array(
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'system_information')
+			),
+		) ); 
 	}
 
 	/**
@@ -627,6 +633,37 @@ class AppPresser_WPAPI_Mods {
 		return $return;
 
 	}
+
+    /**
+     * Returns the installed plugins and their version from a predefind list
+     */
+    public function system_information()
+    {
+        // Check if get_plugins() function exists. This is required on the front end of the
+        // site, since it is in a file that is normally only loaded in the admin.
+        if (!function_exists('get_plugins')) {
+            require_once ABSPATH . 'wp-admin/includes/plugin.php';
+        }
+        $all_plugins = get_plugins();
+
+        // List of a predefined plugins that we need to check
+        $predefined_plugins_to_check = array(
+            'appcommerce',
+            'appcommunity',
+            'applms',
+            'apppresser',
+            'apppresser-in-app-purchases'
+        );
+
+        $response = array();
+        foreach ($all_plugins as $current_plugin) {
+            if (in_array($current_plugin['TextDomain'], $predefined_plugins_to_check)) {
+                $response[$current_plugin['TextDomain']] = $current_plugin['Version'];
+            }
+        }
+
+        return $response;
+    }
 
 	/*
 	 * API password reset
