@@ -1259,10 +1259,8 @@ class AppPresser_Admin_Settings extends AppPresser {
 			add_action( 'admin_notices', array($this, 'disable_remote_updates_admin_notice' ) );
 		}
 
-        // check if 1) JWT plugin is active, 2) JWT_AUTH_SECRET_KEY exist in config.xml and 3) ap3_jwt_key_salt option existis in database
-        $appp_settings_options = get_option(AppPresser::SETTINGS_NAME);
-        $jwt_secret_key_option = $appp_settings_options['ap3_jwt_key_salt'];
-        if (class_exists('Jwt_Auth_Public') && !defined('JWT_AUTH_SECRET_KEY') && !$jwt_secret_key_option) {
+        // check if 1) JWT plugin is active, 2) JWT_AUTH_SECRET_KEY exist in config.xml
+        if (class_exists('Jwt_Auth_Public') && !defined('JWT_AUTH_SECRET_KEY')) {
             add_action('admin_notices', array($this, 'jwt_auth_secret_key_missing_admin_notice'));
         }
 	}
