@@ -36,6 +36,9 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+### 3.9.1
+* Update tested up to
+
 ### 3.9.0
 * User roles
 
