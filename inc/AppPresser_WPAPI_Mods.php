@@ -27,9 +27,6 @@ class AppPresser_WPAPI_Mods {
 		
 		// CORS
 		add_action( 'rest_api_init', array( $this, 'appp_cors') );
-
-        // Add access-token from the JWT Authentication plugin
-        add_filter( 'appp_login_data', array( $this, 'appp_login_data_add_access_token' ), 10, 2 );
 	}
 
 	/**
@@ -132,38 +129,6 @@ class AppPresser_WPAPI_Mods {
 		}
 		
 	}
-
-    /**
-     * Adds the access token from the JWT Authorization plugin to the AppPresser login data which gets sent back to the app
-     *
-     * @param $login_data array The existing login data just prior to being sent to the app
-     * @param $user_id integer The current user's ID
-     *
-     * @return $login_data array
-     */
-    function appp_login_data_add_access_token($login_data, $user_id)
-    {
-        if ($login_data['success'] === false) {
-            return $login_data;
-        }
-
-        // If JWT plugin is installed and actived
-        if (class_exists('Jwt_Auth_Public')) {
-            if (isset($_REQUEST['username']) && isset($_REQUEST['password'])) {
-                $request = new WP_REST_Request('POST', '/wp-json/jwt-auth/v1/token');
-                $request->set_param('username', $_REQUEST['username']);
-                $request->set_param('password', $_REQUEST['password']);
-                $JWT = new Jwt_Auth_Public('jwt-auth', '1.1.0');
-                $auth_object = $JWT->generate_token($request);
-                // If JWT plugin is configured right
-                if (!is_wp_error($auth_object)) {
-                    $login_data['access_token'] = $auth_object['token'];
-                }
-            }
-        }
-
-        return $login_data;
-    }
 
 	public function add_api_fields() {
 
