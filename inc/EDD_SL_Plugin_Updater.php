@@ -4,7 +4,7 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
- * Allows plugins to use their own update API.
+ * Allows extensions that rely on this plugin to use their own update API. This code does not update this plugin, it is used for extensions hosted on apppresser.com.
  *
  * @author Easy Digital Downloads
  * @version 1.6.13

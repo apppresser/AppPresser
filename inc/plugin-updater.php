@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Updater
+ * Plugin Updater for extensions hosted on apppresser.com. This does not update this plugin, it only hosts the code needed for other plugins that rely on this one.
  *
  * @package AppPresser
  * @subpackage Admin

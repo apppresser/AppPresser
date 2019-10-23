@@ -1,6 +1,6 @@
 <?php
 /**
- * Theme updater class.
+ * Theme updater class. This code does not update any plugins or themes hosted on wordpress.org, it is for extensions that are hosted on apppresser.com.
  *
  * @package EDD Sample Theme
  * @version 1.0.3
