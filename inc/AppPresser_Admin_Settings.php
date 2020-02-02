@@ -210,6 +210,7 @@ class AppPresser_Admin_Settings extends AppPresser {
             }
         }
         catch (exception $e) {
+
             // @TODO show this as an error message
             // echo $e->getMessage();
         }
@@ -709,14 +710,14 @@ class AppPresser_Admin_Settings extends AppPresser {
 		
         self::add_setting('ap3_jwt_key_salt', __('JWT secret key', 'apppresser'), array(
             'type' => 'text',
-            'helptext' => __('The JWT needs a secret key to sign the token this secret key must be unique and never revealed.', 'apppresser'),
+            'helptext' => __('Please visit the AppPresser settings and add a JWT secret key.', 'apppresser'),
             'description' => __('You can use a string from <a href="https://api.wordpress.org/secret-key/1.1/salt/" target="_blank">here</a>.', 'apppresser'),
         ));
 
         /*
         self::add_setting('ap3_jwt_secret_key', __('JWT secret key', 'apppresser'), array(
             'type' => 'jwt',
-            'helptext' => __('The JWT needs a secret key to sign the token this secret key must be unique and never revealed.', 'apppresser'),
+            'helptext' => __('Please visit the AppPresser settings and add a JWT secret key.', 'apppresser'),
         ));
         */
 
@@ -1308,7 +1309,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 	public function missing_jwt_auth_secret_key_admin_notice() {
 		?>
 		<div class="notice notice-error">
-            <p><?php _e( 'The JWT needs a secret key to sign the token. You need to add a unique key in the AppPresser settings.', 'apppresser' ) ?></p>
+            <p><?php _e( 'Please visit the AppPresser settings and add a JWT secret key. If you have already added one and you still see this message, you need to manually edit your wp-config.php file to add a JWT_AUTH_SECRET_KEY.', 'apppresser' ) ?></p>
 		</div>
 		<?php
 	}
