@@ -151,9 +151,11 @@ class AppPresser {
 		// Include the TGM_Plugin_Activation class.
 		require_once dirname( __FILE__ ) . '/inc/class-tgm-plugin-activation.php';
 		add_action( 'tgmpa_register', array( $this, 'apppresser_register_required_plugins' ) );
-        
-        // Include the TGM_Plugin_Activation class.
-        require_once dirname( __FILE__ ) . '/inc/WPConfigTransformer.php';
+
+        // Include the WPConfigTransformer class, if not already included
+        if (class_exists('WPConfigTransformer')) {
+            require_once dirname(__FILE__) . '/inc/WPConfigTransformer.php';
+        }
 	}
 
 	/**
