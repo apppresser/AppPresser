@@ -153,7 +153,7 @@ class AppPresser {
 		add_action( 'tgmpa_register', array( $this, 'apppresser_register_required_plugins' ) );
 
         // Include the WPConfigTransformer class, if not already included
-        if (class_exists('WPConfigTransformer')) {
+        if (!class_exists('WPConfigTransformer')) {
             require_once dirname(__FILE__) . '/inc/WPConfigTransformer.php';
         }
 	}
