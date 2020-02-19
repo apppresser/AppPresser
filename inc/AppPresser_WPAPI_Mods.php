@@ -27,6 +27,9 @@ class AppPresser_WPAPI_Mods {
 		
 		// CORS
 		add_action( 'rest_api_init', array( $this, 'appp_cors') );
+
+        // Add access-token from the JWT Authentication plugin
+        add_filter( 'appp_login_data', array( $this, 'appp_login_data_add_access_token' ), 10, 2 );
 	}
 
 	/**
@@ -83,6 +86,12 @@ class AppPresser_WPAPI_Mods {
 			),
 		) );
 
+        register_rest_route( 'appp/v1', '/system-info', array(
+			array(
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'system_information')
+			),
+		) ); 
 	}
 
 	/**
@@ -129,6 +138,37 @@ class AppPresser_WPAPI_Mods {
 		}
 		
 	}
+
+    /**
+	 * Adds the access token from the JWT Authorization plugin to the AppPresser login data which gets sent back to the app
+	 *
+	 * @param $login_data array The existing login data just prior to being sent to the app
+	 * @param $user_id integer The current user's ID
+	 *
+	 * @return $login_data array
+	 */
+    function appp_login_data_add_access_token($login_data, $user_id)
+    {
+        if ($login_data['success'] === false) {
+            return $login_data;
+        }
+
+        if (class_exists('Jwt_Auth_Public')) {
+            if (isset($_REQUEST['username']) && isset($_REQUEST['password'])) {
+                $request = new WP_REST_Request('POST', '/wp-json/jwt-auth/v1/token');
+                $request->set_param('username', $_REQUEST['username']);
+                $request->set_param('password', $_REQUEST['password']);
+                $JWT = new Jwt_Auth_Public('jwt-auth', '1.1.0');
+                $auth_object = $JWT->generate_token($request);
+                if (!is_wp_error($auth_object)) {
+                    // add user id to data after login so we can use that for posting stuff to BP
+                    $login_data['access_token'] = $auth_object['token'];
+                }
+            }
+        }
+
+        return $login_data;
+    }
 
 	public function add_api_fields() {
 
@@ -593,6 +633,37 @@ class AppPresser_WPAPI_Mods {
 		return $return;
 
 	}
+
+    /**
+     * Returns the installed plugins and their version from a predefind list
+     */
+    public function system_information()
+    {
+        // Check if get_plugins() function exists. This is required on the front end of the
+        // site, since it is in a file that is normally only loaded in the admin.
+        if (!function_exists('get_plugins')) {
+            require_once ABSPATH . 'wp-admin/includes/plugin.php';
+        }
+        $all_plugins = get_plugins();
+
+        // List of a predefined plugins that we need to check
+        $predefined_plugins_to_check = array(
+            'appcommerce',
+            'appcommunity',
+            'applms',
+            'apppresser',
+            'apppresser-in-app-purchases'
+        );
+
+        $response = array();
+        foreach ($all_plugins as $current_plugin) {
+            if (in_array($current_plugin['TextDomain'], $predefined_plugins_to_check)) {
+                $response[$current_plugin['TextDomain']] = $current_plugin['Version'];
+            }
+        }
+
+        return $response;
+    }
 
 	/*
 	 * API password reset

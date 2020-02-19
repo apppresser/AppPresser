@@ -73,6 +73,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 		add_action( 'update_option_' . AppPresser::SETTINGS_NAME, array( $this, 'save_theme_mods'), 99, 2 );
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 		add_action( 'admin_init', array( $this, 'admin_notices') );
+		add_action( 'admin_init', array( $this, 'update_jwt_secret_key' ) );
 		add_action( 'apppresser_add_settings', array( $this, 'add_settings' ), 6 ); // Higher priority
 		add_filter( 'apppresser_field_markup_text', array( $this, 'ajax_container' ), 10, 2 );
 		add_action( 'wp_ajax_appp_search_post_handler', array( $this, 'ajax_post_results' ) );
@@ -189,6 +190,34 @@ class AppPresser_Admin_Settings extends AppPresser {
 		}
 
 	}
+
+    /**
+     * Updates the wp-config.php file with the JWT_AUTH_SECRET_KEY value given from the AppPresser settings
+     */
+    public function update_jwt_secret_key()
+    {
+        try {
+            if(isset($_REQUEST['create_jwt_secret_key']) && ($_REQUEST['create_jwt_secret_key'] !== JWT_AUTH_SECRET_KEY)) {
+                $jwt_auth_secret_key = $_REQUEST['create_jwt_secret_key'];
+                $config_transformer = new WPConfigTransformer(ABSPATH . 'wp-config.php');
+                if ($jwt_auth_secret_key !== "") {
+                    if ($config_transformer->exists('constant', 'JWT_AUTH_SECRET_KEY')) {
+                        $config_transformer->update('constant', 'JWT_AUTH_SECRET_KEY', $jwt_auth_secret_key);
+                    } else {
+                        $config_transformer->add('constant', 'JWT_AUTH_SECRET_KEY', $jwt_auth_secret_key);
+                    }
+                } else {
+                    $config_transformer->remove('constant', 'JWT_AUTH_SECRET_KEY');
+                }
+                // This is a workaround to wait until the config_transformer has finished changing the wp-config file
+                sleep(5);
+            }
+        }
+        catch (exception $e) {
+            // @TODO show this as an error message
+            // echo $e->getMessage();
+        }
+    }
 
 	/**
 	 * Even though we are no longer using the customizer for appp_settings, we
@@ -681,7 +710,12 @@ class AppPresser_Admin_Settings extends AppPresser {
 			'helptext' => __( 'CORS (Cross Origin Resource Sharing) is a common security settings to protect content from other website.', 'apppresser' ),
 			'description' => __( 'Check if you are seeing <a href="https://docs.apppresser.com/article/409-blank-page-x-frame-options" target="_blank">blank pages</a> in the app', 'apppresser' ),
 		) );
-		
+
+        self::add_setting('ap3_jwt_key_salt', __('JWT secret key', 'apppresser'), array(
+            'type' => 'jwt',
+            'helptext' => __('JWT secret key is used to enable login/registration through your app.', 'apppresser'),
+        ));
+
 		self::add_setting_label( __( 'Advanced Settings', 'apppresser' ), array(
 			'subtab' => 'v2-only',
 			'deprecated' => 2,
@@ -1008,6 +1042,12 @@ class AppPresser_Admin_Settings extends AppPresser {
 					$field .= '&nbsp; <span class="description">'. $args['description'] .'</span>';
 				break;
 
+            case 'jwt':
+                $value = defined('JWT_AUTH_SECRET_KEY') ? JWT_AUTH_SECRET_KEY : '';
+                $field .= '<input type="text" class="regular-text" name="create_jwt_secret_key" value="' . $value . '" />';
+                $field .= '<p class="description">You can use a string from <a href="https://api.wordpress.org/secret-key/1.1/salt/" target="_blank">here</a>.</p>';
+                break;
+
 			default:
 				// Filter allows devs to modify default field type or override it
 				$field .= sprintf( '<input class="regular-text" type="text" id="apppresser--%1$s" name="appp_settings[%2$s]" value="%3$s" />'."\n", $key, $key, $value );
@@ -1233,6 +1273,11 @@ class AppPresser_Admin_Settings extends AppPresser {
 		if( $myapp_disable_remote_updates ) {
 			add_action( 'admin_notices', array($this, 'disable_remote_updates_admin_notice' ) );
 		}
+
+        // check if 1) JWT plugin is active, 2) JWT_AUTH_SECRET_KEY exist in config.xml
+        if (class_exists('Jwt_Auth_Public') && !defined('JWT_AUTH_SECRET_KEY')) {
+            add_action('admin_notices', array($this, 'missing_jwt_auth_secret_key_admin_notice'));
+        }
 	}
 
 	public function apptheme_update_admin_notice() {
@@ -1250,6 +1295,14 @@ class AppPresser_Admin_Settings extends AppPresser {
 			<p><?php _e( 'Use of the <b>myapp_disable_remote_updates</b> filter was found and your site will no longer pull design updates from myapppresser.com.', 'apppresser' ) ?></p>
 		</div>
 		<?php endif;
+	}
+
+	public function missing_jwt_auth_secret_key_admin_notice() {
+		?>
+		<div class="notice notice-error">
+            <p><?php _e( 'Please visit the AppPresser settings and add a JWT secret key. If you have already added one and you still see this message, you need to manually edit your wp-config.php file to add a JWT_AUTH_SECRET_KEY.', 'apppresser' ) ?></p>
+		</div>
+		<?php
 	}
 
 	public static function set_deprecate_version( $deprecate_ver = null ) {

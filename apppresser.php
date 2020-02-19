@@ -27,6 +27,9 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
+// Requiere the JWT library
+use \Firebase\JWT\JWT;
+
 class AppPresser {
 
 	const VERSION           = '3.9.2';
@@ -110,6 +113,7 @@ class AppPresser {
 		add_action( 'plugins_loaded', array( $this, 'includes' ) );
 		add_action( 'admin_init', array( $this, 'check_appp_licenses' ) );
 		add_action( 'init', array( $this, 'myappp_cors') );
+		add_action( 'init', array( $this, 'login_user_from_iframe') );
 		add_action( 'send_headers', array( $this, 'app_cors_header' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts' ), 8 );
 		add_action( 'wp_head', array( $this, 'do_appp_script' ), 1 );
@@ -143,6 +147,14 @@ class AppPresser {
 			require_once( self::$inc_path . 'AppPresser_SystemInfo.php' );
 		}
 
+		// Include the TGM_Plugin_Activation class.
+		require_once dirname( __FILE__ ) . '/inc/class-tgm-plugin-activation.php';
+		add_action( 'tgmpa_register', array( $this, 'apppresser_register_required_plugins' ) );
+
+        // Include the WPConfigTransformer class, if not already included
+        if (!class_exists('WPConfigTransformer')) {
+            require_once dirname(__FILE__) . '/inc/WPConfigTransformer.php';
+        }
 	}
 
 	/**
@@ -153,6 +165,47 @@ class AppPresser {
 		require_once( self::$inc_path . 'AppPresser_License_Check.php' );
 		AppPresser_License_Check::run();
 	}
+
+    /**
+     * Login a user when opened in iframe if appp=3 and token=XXXXXXXXXXXXXXX is passed in the url
+     */
+    public function login_user_from_iframe()
+    {
+        if (class_exists('Jwt_Auth_Public')) {
+            if (isset($_REQUEST['appp']) && ((int) $_REQUEST['appp'] === 3) && isset($_REQUEST['token'])) {
+                $userId = $this->_getUserIdFromToken($_REQUEST['token']);
+                // Login the user that we retrieved from token, if exists
+                if ($userId) {
+                    wp_set_current_user($userId);
+                }
+            }
+        }
+    }
+
+    /**
+     * Returns the user name from the given token, if exists or
+     * returns false if does not exist
+     */
+    private function _getUserIdFromToken($token)
+    {
+        // Get the Secret Key
+        $secretKey = defined('JWT_AUTH_SECRET_KEY') ? JWT_AUTH_SECRET_KEY : false;
+        if ($secretKey) {
+            try {
+                // Decode the token
+                $token = JWT::decode($token, $secretKey, array('HS256'));
+                if ($token->iss === get_bloginfo('url')) {
+                    if (isset($token->data->user->id)) {
+                        return $token->data->user->id;
+                    }
+                }
+            } catch (Exception $e) {
+                // echo $e->getMessage();
+            }
+        }
+
+        return false; // No user where found in the given token
+    }
 
 	/**
 	 * A filter to use:
@@ -639,6 +692,38 @@ class AppPresser {
 		return false;
 	}
 
+	function apppresser_register_required_plugins() {
+        /*
+         * Array of plugin arrays. Required keys are name and slug.
+         * If the source is NOT from the .org repo, then source is also required.
+         */
+        $plugins = array(
+            // Include the JWT Authentication for WP REST API from the WordPress Plugin Repository
+            array(
+                'name'      => 'JWT Authentication for WP REST API',
+                'slug'      => 'jwt-authentication-for-wp-rest-api',
+                'required'  => true
+            )
+        );
+
+        /*
+         * Array of configuration settings
+         */
+        $config = array(
+            'id'           => 'apppresser',            // Unique ID for hashing notices for multiple instances of TGMPA.
+            'default_path' => '',                      // Default absolute path to bundled plugins.
+            'menu'         => 'tgmpa-install-plugins', // Menu slug.
+            'parent_slug'  => 'plugins.php',           // Parent menu slug.
+            'capability'   => 'manage_options',        // Capability needed to view plugin install page, should be a capability associated with the parent menu used.
+            'has_notices'  => true,                    // Show admin notices or not.
+            'dismissable'  => false,                   // If false, a user cannot dismiss the nag message.
+            'dismiss_msg'  => '',                      // If 'dismissable' is false, this message will be output at top of nag.
+            'is_automatic' => false,                   // Automatically activate plugins after installation or not.
+            'message'      => '',                      // Message to output right before the plugins table.
+        );
+
+        tgmpa( $plugins, $config );
+    }
 }
 
 // Singleton rather than a global.. If they want access, they can use:
