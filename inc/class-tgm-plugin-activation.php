@@ -340,8 +340,8 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				'oops'                            => __( 'Something went wrong with the plugin API.', 'tgmpa' ),
 				'notice_can_install_required'     => _n_noop(
 					/* translators: 1: plugin name(s). */
-					'This theme requires the following plugin: %1$s.',
-					'This theme requires the following plugins: %1$s.',
+					'AppPresser requires the following plugin: %1$s.',
+					'AppPresser requires the following plugins: %1$s.',
 					'tgmpa'
 				),
 				'notice_can_install_recommended'  => _n_noop(
