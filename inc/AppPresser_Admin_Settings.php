@@ -714,6 +714,11 @@ class AppPresser_Admin_Settings extends AppPresser {
         self::add_setting('ap3_jwt_key_salt', __('JWT secret key', 'apppresser'), array(
             'type' => 'jwt',
             'helptext' => __('JWT secret key is used to enable login/registration through your app.', 'apppresser'),
+		));
+		
+		self::add_setting('ap4_account_email', __('Account Email', 'apppresser'), array(
+            'type' => 'text',
+            'helptext' => __('The email associated with your AppPresser subscription.', 'apppresser'),
         ));
 
 		self::add_setting_label( __( 'Advanced Settings', 'apppresser' ), array(
