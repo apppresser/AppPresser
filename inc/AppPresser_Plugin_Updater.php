@@ -70,6 +70,12 @@ if( !class_exists( 'AppPresser_Plugin_Updater' ) ) {
         public function hooks() {
 
             $this->check_for_updates();
+            
+            // fixes bug where update still shows after already completed
+            add_action( 'upgrader_process_complete', function( $upgrader_object, $options ) {
+			    delete_transient('apppresser_update_plugins');
+			    set_transient( 'apppresser_plugin_check', 'wait', 7 * DAY_IN_SECONDS );
+			}, 10, 2 );
 
             // only tell our plugin to update if we have 
             if( false !== get_transient( 'apppresser_plugin_update_json' ) ) {
@@ -87,6 +93,7 @@ if( !class_exists( 'AppPresser_Plugin_Updater' ) ) {
         public function filter_update_plugins( $update_plugins ) {
 
             if ( ! isset( $update_plugins->response ) || ! is_array( $update_plugins->response ) ) {
+	            $update_plugins = new stdClass();
                 $update_plugins->response = array();
             }
             
@@ -143,7 +150,7 @@ if( !class_exists( 'AppPresser_Plugin_Updater' ) ) {
             if( empty( $email ) ) {
                 return;
             }
-
+            
             // check if user has active subscription. Response will be false, status=>inactive, or return the plugin json if successful
             $response = wp_remote_get( "https://staging.myapppresser.com/wp-json/appp/plugin-update?email=" . $email );
 
