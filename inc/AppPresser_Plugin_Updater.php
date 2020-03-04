@@ -152,7 +152,7 @@ if( !class_exists( 'AppPresser_Plugin_Updater' ) ) {
             }
             
             // check if user has active subscription. Response will be false, status=>inactive, or return the plugin json if successful
-            $response = wp_remote_get( "https://staging.myapppresser.com/wp-json/appp/plugin-update?email=" . $email );
+            $response = wp_remote_get( "https://myapppresser.com/wp-json/appp/plugin-update?email=" . $email );
 
             set_transient( 'apppresser_plugin_check', 'wait', 72 * HOUR_IN_SECONDS );
 
