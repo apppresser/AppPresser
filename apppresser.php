@@ -165,6 +165,10 @@ class AppPresser {
 	public function check_appp_licenses() {
 		require_once( self::$inc_path . 'AppPresser_License_Check.php' );
 		AppPresser_License_Check::run();
+
+		if( class_exists('AppPresser_Plugin_Updater') ) {
+			AppPresser_Plugin_Updater::instance();
+		}
 	}
 
     /**
