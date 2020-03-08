@@ -9,17 +9,17 @@
 if( !defined( 'ABSPATH' ) ) exit;
 
 // this class can be in multiple plugins, so make sure we only add it once
-if( !class_exists( 'AppPresser_Plugin_Updater' ) ) {
+if( !class_exists( 'AppPresser_Theme_Updater' ) ) {
 
     /**
-     * AppPresser_Plugin_Updater class
+     * AppPresser_Theme_Updater class
      *
      * @since       0.2.0
      */
-    class AppPresser_Plugin_Updater {
+    class AppPresser_Theme_Updater {
 
         /**
-         * @var         AppPresser_Plugin_Updater $instance The one true AppPresser_Plugin_Updater
+         * @var         AppPresser_Theme_Updater $instance The one true AppPresser_Theme_Updater
          * @since       0.2.0
          */
         public static $instance;
@@ -33,11 +33,11 @@ if( !class_exists( 'AppPresser_Plugin_Updater' ) ) {
          *
          * @access      public
          * @since       0.2.0
-         * @return      object self::$instance The one true AppPresser_Plugin_Updater
+         * @return      object self::$instance The one true AppPresser_Theme_Updater
          */
         public static function instance() {
             if( !self::$instance ) {
-                self::$instance = new AppPresser_Plugin_Updater();
+                self::$instance = new AppPresser_Theme_Updater();
 
                 self::$instance->hooks();
                 
@@ -47,18 +47,18 @@ if( !class_exists( 'AppPresser_Plugin_Updater' ) ) {
         }
 
         /*
-         * Adds a plugin slug to be updated. This is called each time a plugin is activated.
+         * Adds a theme slug to be updated. This is called each time a theme is activated.
          */
-        public function add_plugin_to_updater( $version, $slug ) {
-            $plugins = ( get_transient('apppresser_update_plugins') ? get_transient('apppresser_update_plugins') : array() );
+        // public function add_theme_to_updater( $version, $slug ) {
+        //     $themes = ( get_transient('apppresser_update_themes') ? get_transient('apppresser_update_themes') : array() );
 
-            $plugin = array( "slug" => $slug, "version" => $version );
-            if (!in_array($plugin, $plugins)) {
-                $plugins[] = $plugin; 
-            }
+        //     $theme = array( "slug" => $slug, "version" => $version );
+        //     if (!in_array($theme, $themes)) {
+        //         $themes[] = $theme; 
+        //     }
 
-            set_transient( 'apppresser_update_plugins', $plugins, 72 * HOUR_IN_SECONDS );
-        }
+        //     set_transient( 'apppresser_update_themes', $themes, 72 * HOUR_IN_SECONDS );
+        // }
 
         /**
          * Include necessary files
@@ -69,16 +69,32 @@ if( !class_exists( 'AppPresser_Plugin_Updater' ) ) {
          */
         public function hooks() {
 
+            $theme_setup_path = WP_CONTENT_DIR . '/themes/ap3-ion-theme/inc/classes/AppPresser_3_Theme_Setup.php';
+
+            if( !file_exists( $theme_setup_path ) ) {
+                // theme is not on site, so don't try to update it
+                return;
+            }
+
             $this->check_for_updates();
+
+            require_once( $theme_setup_path );
+
+            $theme_setup = new AppPresser_3_Theme_Setup();
+            
+            $themes = array();
+            $themes[] = array( "slug" => $theme_setup::THEME_SLUG, "version" => $theme_setup::VERSION );
+
+            set_transient( 'apppresser_update_themes', $themes, 72 * HOUR_IN_SECONDS );
             
             // fixes bug where update still shows after already completed
             add_action( 'upgrader_process_complete', function( $upgrader_object, $options ) {
-			    delete_transient('apppresser_update_plugins');
-			    set_transient( 'apppresser_plugin_check', 'wait', 7 * DAY_IN_SECONDS );
-			}, 10, 2 );
+			    delete_transient('apppresser_update_themes');
+			    set_transient( 'apppresser_theme_check', 'wait', 7 * DAY_IN_SECONDS );
+            }, 10, 2 );
 
             // only tell our plugin to update if we have 
-            if( false !== get_transient( 'apppresser_plugin_update_json' ) ) {
+            if( false !== get_transient( 'apppresser_theme_update_json' ) ) {
                 $this->add_update_filters();
             }
 
@@ -89,59 +105,55 @@ if( !class_exists( 'AppPresser_Plugin_Updater' ) ) {
 
         // provide a way to flush transients
         public function delete_transients() {
-            delete_transient( 'apppresser_plugin_update_json' );
-            delete_transient('apppresser_update_plugins');
-            delete_transient( 'apppresser_plugin_check' );
+            delete_transient( 'apppresser_theme_update_json' );
+            delete_transient('apppresser_update_themes');
+            delete_transient( 'apppresser_theme_check' );
         }
 
         public function add_update_filters() {
-            add_filter( 'site_transient_update_plugins', array( $this, 'filter_update_plugins' ) );
-            add_filter( 'transient_update_plugins', array( $this, 'filter_update_plugins' ) );
+            add_filter( 'site_transient_update_themes', array( $this, 'filter_update_themes' ) );
+            add_filter( 'transient_update_themes', array( $this, 'filter_update_themes' ) );
         }
 
         // this filter has all plugins to be updated, not just AppPresser plugins. If we need an update, add our plugin information to this array.
-        public function filter_update_plugins( $update_plugins ) {
+        public function filter_update_themes( $update_themes ) {
 
-            if ( ! isset( $update_plugins->response ) || ! is_array( $update_plugins->response ) ) {
-	            $update_plugins = new stdClass();
-                $update_plugins->response = array();
-            }
-            
-            $json = get_transient( 'apppresser_plugin_update_json' );
+            // print_r( $update_themes );
+       
+            $json = get_transient( 'apppresser_theme_update_json' );
 
-            $plugins = get_transient('apppresser_update_plugins');
+            $themes = get_transient('apppresser_update_themes');
 
-            if( !$plugins || !$json ) {
-                return $update_plugins;
+            if( !$themes || !$json ) {
+                return $update_themes;
             }
 
-            foreach ($plugins as $plugin) {
+            foreach ($themes as $theme) {
     
-                if( isset( $plugin["slug"] ) && isset( $plugin["version"] ) ) {               
+                if( isset( $theme["slug"] ) && isset( $theme["version"] ) ) {
 
-                    $slug = $plugin["slug"];
+                    $slug = $theme["slug"];
 
                     // returns 1 if second number is lower
-                    $should_update = version_compare( strval( $json->$slug->latest_version ), $plugin["version"] );
+                    $should_update = version_compare( strval( $json->$slug->latest_version ), $theme["version"] );
 
                     if( $should_update ) {
                         
-                        // Do whatever you need to see if there's a new version of your plugin
+                        // Do whatever you need to see if there's a new version of your theme
                         // Your response will need to look something like this if it's out of date:
-                        $update_plugins->response[$slug . '/' . $slug . '.php'] = (object)array(
-                            'slug'         => $slug, // slug
+                        $update_themes->response[$slug] = array(
+                            'theme'        => $slug,
                             'new_version'  => $json->$slug->latest_version, // The newest version
                             'url'          => $json->$slug->description, // Informational
                             'package'      => $json->$slug->download_url, // Where WordPress should pull the ZIP from.
                         );
         
                     }
-
                 }
                 
             }
 
-            return $update_plugins;
+            return $update_themes;
         }
 
         /*
@@ -149,7 +161,7 @@ if( !class_exists( 'AppPresser_Plugin_Updater' ) ) {
          */
         public function check_for_updates() {
 
-            $transient = get_transient( 'apppresser_plugin_check' );
+            $transient = get_transient( 'apppresser_theme_check' );
 
             if ( $transient && 'wait' === $transient ) {
                 return;
@@ -164,7 +176,7 @@ if( !class_exists( 'AppPresser_Plugin_Updater' ) ) {
             // check if user has active subscription. Response will be false, status=>inactive, or return the plugin json if successful
             $response = wp_remote_get( "https://myapppresser.com/wp-json/appp/plugin-update?email=" . $email );
 
-            set_transient( 'apppresser_plugin_check', 'wait', 72 * HOUR_IN_SECONDS );
+            set_transient( 'apppresser_theme_check', 'wait', 72 * HOUR_IN_SECONDS );
 
             if( is_wp_error( $response ) || !$response ) {
                 return;
@@ -182,15 +194,15 @@ if( !class_exists( 'AppPresser_Plugin_Updater' ) ) {
 
             // customer is not active, don't check again unless transient is flushed
             if( $body === '"inactive"' ) {
-                set_transient( 'apppresser_plugin_check', 'wait', 999 * DAY_IN_SECONDS );
+                set_transient( 'apppresser_theme_check', 'wait', 999 * DAY_IN_SECONDS );
                 return;
             }
 
             $json = json_decode( $body );
 
-            if( isset( $json->plugins ) ) {
+            if( isset( $json->themes ) ) {
                 // success, store our data
-                set_transient( 'apppresser_plugin_update_json', $json->plugins, 72 * HOUR_IN_SECONDS );
+                set_transient( 'apppresser_theme_update_json', $json->themes, 72 * HOUR_IN_SECONDS );
             }
             
         }

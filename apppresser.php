@@ -5,7 +5,7 @@ Plugin URI: http://apppresser.com
 Description: A mobile app development framework for WordPress.
 Text Domain: apppresser
 Domain Path: /languages
-Version: 4.0.0
+Version: 4.0.1
 Author: AppPresser Team
 Author URI: http://apppresser.com
 License: GPLv2
@@ -32,7 +32,7 @@ use \Firebase\JWT\JWT;
 
 class AppPresser {
 
-	const VERSION           = '4.0.0';
+	const VERSION           = '4.0.1';
 	const SETTINGS_NAME     = 'appp_settings';
 	public static $settings = 'false';
 	public static $instance = null;
@@ -111,7 +111,7 @@ class AppPresser {
 
 		// Hook in all our important pieces
 		add_action( 'plugins_loaded', array( $this, 'includes' ) );
-		add_action( 'admin_init', array( $this, 'check_appp_licenses' ) );
+		add_action( 'admin_init', array( $this, 'load_license_update_checks' ) );
 		add_action( 'init', array( $this, 'myappp_cors') );
 		add_action( 'init', array( $this, 'login_user_from_iframe') );
 		add_action( 'send_headers', array( $this, 'app_cors_header' ) );
@@ -138,6 +138,7 @@ class AppPresser {
 		require_once( self::$inc_path . 'AppPresser_WPAPI_Mods.php' );
 		require_once( self::$inc_path . 'AppPresser_User_Roles.php' );
 		require_once( self::$inc_path . 'AppPresser_Plugin_Updater.php' );
+		require_once( self::$inc_path . 'AppPresser_Theme_Updater.php' );
 
 		if( ! is_multisite() ) {
 			require_once( self::$inc_path . 'AppPresser_Log_Admin.php' );
@@ -162,12 +163,16 @@ class AppPresser {
 	 * AppPresser licenses admin notification
 	 * @since 2.0.0
 	 */
-	public function check_appp_licenses() {
+	public function load_license_update_checks() {
 		require_once( self::$inc_path . 'AppPresser_License_Check.php' );
 		AppPresser_License_Check::run();
 
 		if( class_exists('AppPresser_Plugin_Updater') ) {
 			AppPresser_Plugin_Updater::instance();
+		}
+
+		if( class_exists('AppPresser_Theme_Updater') ) {
+			AppPresser_Theme_Updater::instance();
 		}
 	}
 
