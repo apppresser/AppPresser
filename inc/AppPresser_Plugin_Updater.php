@@ -81,7 +81,17 @@ if( !class_exists( 'AppPresser_Plugin_Updater' ) ) {
             if( false !== get_transient( 'apppresser_plugin_update_json' ) ) {
                 $this->add_update_filters();
             }
+
+            // flush transients when update screen is loaded
+            add_action( 'load-update-core.php', array( $this, 'delete_transients' ) );
             
+        }
+
+        // provide a way to flush transients
+        public function delete_transients() {
+            delete_transient( 'apppresser_plugin_update_json' );
+            delete_transient('apppresser_update_plugins');
+            delete_transient( 'apppresser_plugin_check' );
         }
 
         public function add_update_filters() {
