@@ -31,3 +31,4 @@ if ( AppPresser::is_mp6() ) {
 	}
 	</style>';
 }
+
