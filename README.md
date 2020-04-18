@@ -335,3 +335,4 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 #### 1.0.0
 * Release into the wild!
+
