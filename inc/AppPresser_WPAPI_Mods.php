@@ -27,9 +27,6 @@ class AppPresser_WPAPI_Mods {
 		
 		// CORS
 		add_action( 'rest_api_init', array( $this, 'appp_cors') );
-
-        // Add access-token from the JWT Authentication plugin
-        add_filter( 'appp_login_data', array( $this, 'appp_login_data_add_access_token' ), 10, 2 );
 	}
 
 	/**
@@ -138,37 +135,6 @@ class AppPresser_WPAPI_Mods {
 		}
 		
 	}
-
-    /**
-	 * Adds the access token from the JWT Authorization plugin to the AppPresser login data which gets sent back to the app
-	 *
-	 * @param $login_data array The existing login data just prior to being sent to the app
-	 * @param $user_id integer The current user's ID
-	 *
-	 * @return $login_data array
-	 */
-    function appp_login_data_add_access_token($login_data, $user_id)
-    {
-        if ($login_data['success'] === false) {
-            return $login_data;
-        }
-
-        if (class_exists('Jwt_Auth_Public')) {
-            if (isset($_REQUEST['username']) && isset($_REQUEST['password'])) {
-                $request = new WP_REST_Request('POST', '/wp-json/jwt-auth/v1/token');
-                $request->set_param('username', $_REQUEST['username']);
-                $request->set_param('password', $_REQUEST['password']);
-                $JWT = new Jwt_Auth_Public('jwt-auth', '1.1.0');
-                $auth_object = $JWT->generate_token($request);
-                if (!is_wp_error($auth_object)) {
-                    // add user id to data after login so we can use that for posting stuff to BP
-                    $login_data['access_token'] = $auth_object['token'];
-                }
-            }
-        }
-
-        return $login_data;
-    }
 
 	public function add_api_fields() {
 
@@ -298,30 +264,10 @@ class AppPresser_WPAPI_Mods {
 			
 			return rest_ensure_response( $msg );
 			
-		} else {
-
-			// used for setting auth cookie on iframe pages. See AppPresser_Theme_Switcher->maybe_set_auth()
-			$cookie_auth = $this->do_cookie_auth( $user_signon->ID );
-
-			$msg = array(
-				'message' => apply_filters( 'appp_login_success', sprintf( __('Welcome back %s!', 'apppresser'), $user_signon->display_name), $user_signon->ID ),
-				'username' => $info['user_login'],
-				'email' => $user_signon->user_email,
-				'avatar' => get_avatar_url( $user_signon->ID ),
-				'cookie_auth' => $cookie_auth,
-				'login_redirect' => AppPresser_Ajax_Extras::get_login_redirect(), // v3 only
-				'success' => true,
-				'user_id' => $user_signon->ID
-			);
-			
 		}
 
-		$msg = apply_filters( 'appp_login_data', $msg, $user_signon->ID );
-
-		$retval = rest_ensure_response( $msg );
-
-		return $retval;
-
+        // If everything is successfull, return login response
+        return AppPresser_User::getLoginResponse($user_signon);
 	}
 
 	/**
@@ -352,29 +298,6 @@ class AppPresser_WPAPI_Mods {
 		$retval = rest_ensure_response( $response );
 
 		return $retval;
-
-	}
-
-	/*
-	 * Encrypts string for later decoding
-	 */
-	public function do_cookie_auth( $user_id ) {
-
-		if( function_exists('openssl_encrypt') ) {
-
-			$key = substr( AUTH_KEY, 2, 5 );
-			$iv = substr( AUTH_KEY, 0, 16 );
-			$cipher="AES-128-CBC";
-			$ciphertext = openssl_encrypt($user_id, $cipher, $key, null, $iv );
-
-		} else {
-			// no openssl installed
-			$ciphertext = $user_id;
-		}
-
-		update_user_meta( $user_id, 'app_cookie_auth', $ciphertext );
-
-		return $ciphertext;
 
 	}
 
@@ -552,24 +475,12 @@ class AppPresser_WPAPI_Mods {
 			);
 		}
 
-		$message = array(
-			'message' => apply_filters( 'appp_login_success', sprintf( __('Welcome back %s!', 'apppresser'), $user_signon->display_name), $user_signon->ID ),
-			'username' => $info['user_login'],
-			'avatar' => get_avatar_url( $user_signon->ID ), // v3 only
-			'success' => true,
-			'user_id' => $user_signon->ID,
-			'email' => $user_signon->user_email
-		);
-
-		// adds user_id and auth token
-		$message = apply_filters( 'appp_login_data', $message, $user_signon->ID );
-
+        // If everything is successfull, return login response
+        $retval = AppPresser_User::getLoginResponse($user_signon);
+        
 		do_action( 'appp_register_verified', $user_signon->ID );
 
-		$retval = rest_ensure_response( $message );
-
 		return $retval;
-
 	}
 
 	/**
