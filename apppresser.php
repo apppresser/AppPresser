@@ -195,7 +195,7 @@ class AppPresser {
     private function _getUserIdFromToken($token)
     {
         // Get the Secret Key
-        $secretKey = defined('JWT_AUTH_SECRET_KEY') ? JWT_AUTH_SECRET_KEY : false;
+        $secretKey = defined('JWT_AUTH_SECRET_KEY') ? JWT_AUTH_SECRET_KEY : appp_get_setting('ap3_jwt_secret_key');
         if ($secretKey) {
             try {
                 // Decode the token
