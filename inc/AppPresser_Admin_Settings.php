@@ -686,12 +686,12 @@ class AppPresser_Admin_Settings extends AppPresser {
 		) );
 
 		if( self::$deprecate_ver < 2 ) {
-			self::add_setting_label( __( 'AppPresser 3 Settings', 'apppresser' ), array(
+			self::add_setting_label( __( 'AppPresser Settings', 'apppresser' ), array(
 				'subtab' => 'general',
 			) );
 		}
 
-		self::add_setting_label( __( 'AppPresser 3 Settings', 'apppresser' ) );
+		self::add_setting_label( __( 'AppPresser Settings', 'apppresser' ) );
 
 		self::add_setting( 'ap3_site_slug', __( 'Site slug', 'apppresser' ), array( 'type' => 'text', 'helptext' => __( 'Find this by logging into your myapppresser.com dashboard, choose your app, General tab => API Settings', 'apppresser' ) ) );
 		self::add_setting( 'ap3_app_id', __( 'App ID', 'apppresser' ), array( 'type' => 'text', 'helptext' => __( 'Find this by logging into your myapppresser.com dashboard, choose your app, General tab => API Settings', 'apppresser' ) ) );
