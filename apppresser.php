@@ -114,6 +114,8 @@ class AppPresser {
 		add_action( 'admin_init', array( $this, 'load_license_update_checks' ) );
 		add_action( 'init', array( $this, 'myappp_cors') );
 		add_action( 'init', array( $this, 'login_user_from_iframe') );
+		// does this help with logged in ajax calls? not sure
+		// add_action( 'admin_init', array( $this, 'login_user_from_iframe') );
 		add_action( 'send_headers', array( $this, 'app_cors_header' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts' ), 8 );
 		add_action( 'wp_head', array( $this, 'do_appp_script' ), 1 );
@@ -182,7 +184,8 @@ class AppPresser {
                 $userId = $this->_getUserIdFromToken($_REQUEST['token']);
                 // Login the user that we retrieved from token, if exists
                 if ($userId) {
-                    wp_set_current_user($userId);
+					wp_set_current_user($userId);
+					wp_set_auth_cookie($userId, true, false);
                 }
             }
         }
@@ -268,6 +271,7 @@ class AppPresser {
 
 		// If PHP can read the cookie, we'll enqueue the standard way
 		if ( is_user_logged_in() || self::is_app() ) {
+			
 			wp_enqueue_script( 'appp-core', self::$js_url ."appp$min.js", null, self::VERSION );
 			wp_localize_script( 'appp-core', 'apppCore', self::$l10n );
 			return;
@@ -499,6 +503,7 @@ class AppPresser {
 	 * @return boolean value
 	 */
 	public static function read_app_version() {
+
 		if ( self::$is_apppv !== null )
 			return self::$is_apppv;
 
