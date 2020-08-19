@@ -47,6 +47,10 @@ This plugin is not an app-creator in itself, it helps connect your app to WordPr
 
 == Changelog ==
 
+= 4.0.4 = 
+* Fix settings label
+* Add auth cookie on api login
+
 = 4.0.3 =
 * Improve API login data response, add email
 
