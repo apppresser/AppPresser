@@ -699,7 +699,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 		self::add_setting( 'ap3_enable_cors', __( 'Enable CORS', 'apppresser' ), array( 
 			'type' => 'checkbox',
 			'helptext' => __( 'CORS (Cross Origin Resource Sharing) is a common security settings to protect content from other website.', 'apppresser' ),
-			'description' => __( 'Check if you are seeing <a href="https://docs.apppresser.com/article/409-blank-page-x-frame-options" target="_blank">blank pages</a> in the app', 'apppresser' ),
+			'description' => __( 'Check if you are seeing <a href="https://docs.apppresser.com/article/409-blank-page-x-frame-options" target="_blank">CORS errors</a> in your app.', 'apppresser' ),
 		) );
 
         if($this->isJwtSettingsSavedInSettings) {
