@@ -455,7 +455,8 @@ class AppPresser {
 	 */
 	public static function set_app_cookie( $ver = 1 ) {
 		$ver = ( $ver == 1 ) ? '' : $ver;
-		setcookie( 'AppPresser_Appp'.$ver, 'true', time() + ( DAY_IN_SECONDS * 30 ), '/' );
+		$domain = ($_SERVER['HTTP_HOST'] != 'localhost') ? $_SERVER['HTTP_HOST'] : false;
+		setcookie( 'AppPresser_Appp'.$ver, 'true', time() + ( DAY_IN_SECONDS * 30 ), '/', $domain, 1 );
 	}
 
 	/**
