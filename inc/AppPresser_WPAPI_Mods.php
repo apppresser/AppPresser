@@ -142,14 +142,19 @@ class AppPresser_WPAPI_Mods {
 		* Add featured image urls to post response.
 		* Sample usage in the app files would be data.featured_image_urls.thumbnail
 		***/
-		register_rest_field( 'post',
-		    'featured_image_urls',
-		    array(
-		        'get_callback'    => array( $this, 'image_sizes' ),
-		        'update_callback' => null,
-	            'schema'          => null,
-		    )
-		);
+
+		$post_types = get_post_types();
+
+		foreach ($post_types as $key => $value) {
+			register_rest_field( $value,
+				'featured_image_urls',
+				array(
+					'get_callback'    => array( $this, 'image_sizes' ),
+					'update_callback' => null,
+					'schema'          => null,
+				)
+			);
+		}
 
 		// add urls for media
 		$post_types = appp_get_setting( 'media_post_types' );
