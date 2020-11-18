@@ -69,6 +69,11 @@ class AppPresser_Theme_Switcher extends AppPresser {
 			$default_theme = true;
 		}
 
+		// if the apppresser theme is not installed, avoid showing a blank screen
+		if( !file_exists( WP_CONTENT_DIR . '/themes/ap3-ion-theme/index.php' ) ) {
+			return;
+		}
+
 		$do_switch = appp_get_setting( 'appp_theme', $default_theme ) && (
 			// check if user is running native app
 			( self::is_app() )
