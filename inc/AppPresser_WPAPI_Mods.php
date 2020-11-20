@@ -89,6 +89,14 @@ class AppPresser_WPAPI_Mods {
 				'callback'            => array( $this, 'system_information')
 			),
 		) ); 
+
+		register_rest_route( 'appp/v1', '/submit-form', array(
+			array(
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => array( $this, 'submit_form'),
+				'permission_callback' => array( $this, 'post_permissions' )
+			),
+		) );
 	}
 
 	/**
@@ -678,6 +686,28 @@ class AppPresser_WPAPI_Mods {
 		}
 
 		return $return;
+	}
+
+	// endpoint to submit a form from the ap-form component
+	public function submit_form( $data ) {
+		do_action( 'appp_form_submission', $data, get_current_user_id() );
+		return $data;
+	}
+
+	// permissions callback for submitting data
+	public function post_permissions() {
+
+        if (!is_user_logged_in()) {
+            return new WP_Error(
+                'rest_authorization_required',
+                __('Sorry, you are not allowed to do that.', 'apppresser'),
+                array(
+                    'status' => rest_authorization_required_code(),
+                )
+            );
+        }
+
+        return true;
 	}
 
 }
