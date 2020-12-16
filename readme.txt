@@ -4,7 +4,7 @@ Donate link: http://apppresser.com/
 Tags: mobile, app, ios, android, application, phonegap, iphone app, android app, mobile app, native app, wordpress mobile, ipad app, iOS app
 Requires at least: 4.7.0
 Tested up to: 5.6
-Stable tag: 4.0.5
+Stable tag: 4.0.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -46,6 +46,10 @@ This plugin is not an app-creator in itself, it helps connect your app to WordPr
 
 
 == Changelog ==
+
+= 4.0.6 = 
+* Add API endpoint for form submissions
+* Extend comment API response to include nested replies
 
 = 4.0.5 = 
 * Extend login token expiration from 7 days to 60 days. This can be modified using the jwt_auth_expire filter found here https://wordpress.org/plugins/jwt-auth/
