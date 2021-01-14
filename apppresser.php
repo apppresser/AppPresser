@@ -181,7 +181,10 @@ class AppPresser {
     public function login_user_from_iframe()
     {
         if (class_exists('Jwt_Auth_Public')) {
-            if (isset($_REQUEST['appp']) && ((int) $_REQUEST['appp'] === 3) && isset($_REQUEST['token'])) {
+            $appp3Exists = isset($_REQUEST['appp']) && ((int) $_REQUEST['appp'] === 3);
+            $restExists = isset($_REQUEST['rest']) && ($_REQUEST['rest'] === 'true');
+            $tokenExists = isset($_REQUEST['token']);
+            if (($appp3Exists || $restExists) && $tokenExists) {
                 $userId = $this->_getUserIdFromToken($_REQUEST['token']);
                 // Login the user that we retrieved from token, if exists
                 if ($userId) {
