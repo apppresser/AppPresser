@@ -10,9 +10,19 @@ class AppPresser_Extend_Comments
 
     public function hooks()
     {
+        add_filter('rest_allow_anonymous_comments', array($this, 'filter_rest_allow_anonymous_comments'));
+
         if (isset($_REQUEST['children']) && ($_REQUEST['children'] === 'true')) {
             add_action('rest_api_init', array($this, 'add_children_field_to_comment_endpoint'));
         }
+    }
+
+    /**
+     * Allow adding anonymous comments from API
+     */
+    public function filter_rest_allow_anonymous_comments()
+    {
+        return true;
     }
 
     /**
