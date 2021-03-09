@@ -44,49 +44,56 @@ class AppPresser_WPAPI_Mods {
 		register_rest_route( 'appp/v1', '/login', array(
 			array(
 				'methods'             => WP_REST_Server::CREATABLE,
-				'callback'            => array( $this, 'api_login' )
+				'callback'            => array( $this, 'api_login' ),
+				'permission_callback' => '__return_true'
 			),
 		) );
 
 		register_rest_route( 'appp/v1', '/logout', array(
 			array(
 				'methods'             => WP_REST_Server::READABLE,
-				'callback'            => array( $this, 'api_logout' )
+				'callback'            => array( $this, 'api_logout' ),
+				'permission_callback' => '__return_true'
 			),
 		) );
 
 		register_rest_route( 'appp/v1', '/register', array(
 			array(
 				'methods'             => WP_REST_Server::CREATABLE,
-				'callback'            => array( $this, 'register_user')
+				'callback'            => array( $this, 'register_user'),
+				'permission_callback' => '__return_true'
 			),
 		) );
 
 		register_rest_route( 'appp/v1', '/verify', array(
 			array(
 				'methods'             => WP_REST_Server::CREATABLE,
-				'callback'            => array( $this, 'verify_user')
+				'callback'            => array( $this, 'verify_user'),
+				'permission_callback' => '__return_true'
 			),
 		) );
 
 		register_rest_route( 'appp/v1', '/verify-resend', array(
 			array(
 				'methods'             => WP_REST_Server::CREATABLE,
-				'callback'            => array( $this, 'send_verification_code')
+				'callback'            => array( $this, 'send_verification_code'),
+				'permission_callback' => '__return_true'
 			),
 		) );
 
 		register_rest_route( 'appp/v1', '/reset-password', array(
 			array(
 				'methods'             => WP_REST_Server::CREATABLE,
-				'callback'            => array( $this, 'reset_password')
+				'callback'            => array( $this, 'reset_password'),
+				'permission_callback' => '__return_true'
 			),
 		) );
 
         register_rest_route( 'appp/v1', '/system-info', array(
 			array(
 				'methods'             => WP_REST_Server::READABLE,
-				'callback'            => array( $this, 'system_information')
+				'callback'            => array( $this, 'system_information'),
+				'permission_callback' => '__return_true'
 			),
 		) ); 
 
