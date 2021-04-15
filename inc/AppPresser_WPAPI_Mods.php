@@ -101,7 +101,7 @@ class AppPresser_WPAPI_Mods {
 			array(
 				'methods'             => WP_REST_Server::CREATABLE,
 				'callback'            => array( $this, 'submit_form'),
-				'permission_callback' => array( $this, 'post_permissions' )
+				'permission_callback' => array( $this, 'form_permissions' )
 			),
 		) );
 	}
@@ -702,19 +702,17 @@ class AppPresser_WPAPI_Mods {
 	}
 
 	// permissions callback for submitting data
-	public function post_permissions() {
+	public function form_permissions() {
 
-        if (!is_user_logged_in()) {
-            return new WP_Error(
-                'rest_authorization_required',
-                __('Sorry, you are not allowed to do that.', 'apppresser'),
-                array(
-                    'status' => rest_authorization_required_code(),
-                )
-            );
+		$has_permission = false;
+
+        if (is_user_logged_in()) {
+            $has_permission = true;
         }
 
-        return true;
+		$has_permission = apply_filters( 'appp_form_permissions', $has_permission );
+
+        return $has_permission;
 	}
 
 }
