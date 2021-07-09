@@ -3,8 +3,8 @@ Contributors: apppresser, scottopolis, Messenlehner, stillatmylinux
 Donate link: http://apppresser.com/
 Tags: mobile, app, ios, android, application, phonegap, iphone app, android app, mobile app, native app, wordpress mobile, ipad app, iOS app
 Requires at least: 4.7.0
-Tested up to: 5.6
-Stable tag: 4.0.7
+Tested up to: 5.8
+Stable tag: 4.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -46,6 +46,13 @@ This plugin is not an app-creator in itself, it helps connect your app to WordPr
 
 
 == Changelog ==
+
+= 4.1.0 =
+
+* Remove deprecated files from AppPresser 1 in /pg/*
+* Validate upload by checking if file input is empty
+* Add filter on post types when adding api fields: appp_api_fields_post_types
+* Add missing permission callbacks
 
 = 4.0.7 = 
 * Fix for adding comments anonymously via API
