@@ -158,7 +158,7 @@ class AppPresser_WPAPI_Mods {
 		* Sample usage in the app files would be data.featured_image_urls.thumbnail
 		***/
 
-		$post_types = get_post_types();
+        $post_types = apply_filters('appp_api_fields_post_types', get_post_types());
 
 		foreach ($post_types as $key => $value) {
 			register_rest_field( $value,
