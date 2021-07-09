@@ -170,15 +170,14 @@ class AppPresser_Remote_Scripts {
 	 * 
 	 * @param string $file_id indexed name for the file upload field
 	 * @param string $nonce Nonce key
-	 * @param string $nonce_action Nonce action to verify
 	 */
-	function validate_upload( $file_id, $public_nonce_key ) {
+    function validate_upload($file_id, $public_nonce_key)
+    {
+        $is_valid_nonce = (isset($_POST[$public_nonce_key]) && wp_verify_nonce($_POST[$public_nonce_key], plugin_basename(__FILE__)));
+        $is_valid_upload = (!empty($_FILES) && isset($_FILES[$file_id]) && $_FILES[$file_id]['error'] !== 4); // error code 4 means there is no file uploaded
 
-		$is_valid_nonce = ( isset( $_POST[ $public_nonce_key ] ) && wp_verify_nonce( $_POST[ $public_nonce_key ], plugin_basename( __FILE__ ) ) );
-		$is_valid_upload = ( ! empty( $_FILES ) ) && isset( $_FILES[ $file_id ] );
-
-		return ( $is_valid_upload && $is_valid_nonce );
-	}
+        return ($is_valid_nonce && $is_valid_upload);
+    }
 
 	/**
 	 * Enqueue the remote js files
