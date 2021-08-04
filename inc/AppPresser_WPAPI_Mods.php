@@ -333,6 +333,15 @@ class AppPresser_WPAPI_Mods {
 	 * @return WP_REST_Request List of activities object data.
 	 */
 	public function register_user( $request ) {
+		
+		if ( !get_option( 'users_can_register' ) ) {
+			return new WP_Error( 'rest_invalid_registration',
+				__( 'Registration is disabled.', 'apppresser' ),
+				array(
+					'status' => 404,
+				)
+			);
+		}
 
 		if( empty( $request['username'] ) || empty( $request['email'] ) ) {
 
