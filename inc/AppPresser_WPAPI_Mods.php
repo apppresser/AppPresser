@@ -104,6 +104,14 @@ class AppPresser_WPAPI_Mods {
 				'permission_callback' => array( $this, 'form_permissions' )
 			),
 		) );
+
+        register_rest_route('appp/v1', '/myappp-verify', array(
+            array(
+                'methods'             => WP_REST_Server::READABLE,
+                'callback'            => array($this, 'myappp_verify'),
+                'permission_callback' => '__return_true'
+            ),
+        ));
 	}
 
 	/**
@@ -724,6 +732,120 @@ class AppPresser_WPAPI_Mods {
         return $has_permission;
 	}
 
+    public function myappp_verify($request)
+    {
+        if (!function_exists('get_plugin_data')) {
+            require_once(ABSPATH . 'wp-admin/includes/plugin.php');
+        }
+        $plugins = array();
+        $plugins[]['apppresser'] = AppPresser::VERSION;
+        $plugins[]['jwt-auth'] = $this->getPluginData('jwt-authentication-for-wp-rest-api/jwt-auth.php');
+        $plugins[]['appcommunity'] = $this->getAppCommunityData();
+        $plugins[]['buddypress'] = $this->getPluginData('buddypress/bp-loader.php');
+        $plugins[]['buddyboss'] = $this->getPluginData('buddyboss-platform/bp-loader.php');
+        $plugins[]['appcommerce'] = $this->getAppCommerceData();
+        $plugins[]['woocommerce'] = $this->getPluginData('woocommerce/woocommerce.php');
+        $plugins[]['applms'] = $this->getAppLMSData();
+        $plugins[]['learndash'] = $this->getPluginData('sfwd-lms-1/sfwd_lms.php');
+        $plugins[]['apppresser-in-app-purchases'] = $this->getAppIAPData();
+        $plugins[]['apppresser-push'] = $this->getAppPushData();
+        $plugins[]['appsocial'] = $this->getAppSocialData();
+        $plugins[]['apppresser-camera'] = $this->getAppCameraData();
+        $response['plugins'] = $plugins;
+        $response['success'] = $this->verifySiteSlugAppId($request);
+
+        return rest_ensure_response($response);
+    }
+
+    private function getPluginData($pluginFile)
+    {
+        $pluginList = get_option('active_plugins');
+        if (in_array($pluginFile, $pluginList)) {
+            $pluginData = get_plugin_data(WP_PLUGIN_DIR . '/' . $pluginFile);
+
+            return $pluginData['Version'];
+        }
+
+        return false;
+    }
+
+    private function getAppCommunityData()
+    {
+        if (class_exists('AppCommunity')) {
+            return AppCommunity_VER;
+        }
+
+        return false;
+    }
+
+    private function getAppCommerceData()
+    {
+        if (class_exists('AppCommerce')) {
+            return AppCommerce::$version;
+        }
+
+        return false;
+    }
+
+    private function getAppLMSData()
+    {
+        if (class_exists('AppLMS')) {
+            return AppLMS::VERSION;
+        }
+
+        return false;
+    }
+
+    private function getAppIAPData()
+    {
+        if (class_exists('AppPresser_IAP')) {
+            return AppPresser_IAP::VERSION;
+        }
+
+        return false;
+    }
+
+    private function getAppPushData()
+    {
+        if (class_exists('AppPresser_Notifications')) {
+            return AppPresser_Notifications::VERSION;
+        }
+
+        return false;
+    }
+
+    private function getAppSocialData()
+    {
+        if (class_exists('AppSocial')) {
+            return AppSocial::VERSION;
+        }
+
+        return false;
+    }
+
+    private function getAppCameraData()
+    {
+        if (class_exists('AppPresser_Camera')) {
+            return AppPresser_Camera::VERSION;
+        }
+
+        return false;
+    }
+
+    private function verifySiteSlugAppId($request)
+    {
+        if (isset($request['ap3_site_slug']) && isset($request['ap3_app_id'])) {
+            $site_slug = appp_get_setting('ap3_site_slug');
+            $app_id = appp_get_setting('ap3_app_id');
+            if ($request['ap3_site_slug'] == $site_slug && $request['ap3_app_id'] == $app_id) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return true;
+        }
+    }
 }
 global $AppPresser_WPAPI_Mods;
 $AppPresser_WPAPI_Mods = new AppPresser_WPAPI_Mods();
