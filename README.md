@@ -36,6 +36,48 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+### 4.2.0
+* Fix theme update transient error
+* Add a new endpoint to verify Website URL and plugins
+* Allow registration from API only if enabled
+
+### 4.1.0
+* Remove deprecated files from AppPresser 1 in /pg/*
+* Validate upload by checking if file input is empty
+* Add filter on post types when adding api fields: appp_api_fields_post_types
+* Add missing permission callbacks
+
+### 4.0.7
+* Fix for adding comments anonymously via API
+* Refresh bug fix
+* Support login parameter
+
+### 4.0.6
+* Add API endpoint for form submissions
+* Extend comment API response to include nested replies
+
+### 4.0.5
+* Extend login token expiration from 7 days to 60 days. This can be modified using the jwt_auth_expire filter found here https://wordpress.org/plugins/jwt-auth/
+
+### 4.0.4
+* Fix settings label
+* Add auth cookie on api login
+
+### 4.0.3
+* Improve API login data response, add email
+
+### 4.0.2
+* Remove JWT wp-config.php requirement, move to setting
+
+### 4.0.1
+* Add theme updater
+* Fix potential bug with update transient
+
+### 4.0.0
+* Support for AppPresser 4
+* JWT auth for WP-API
+* Bug fixes
+
 ### 3.9.2
 * Security fix: remove old code
 
