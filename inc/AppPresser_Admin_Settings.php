@@ -1059,6 +1059,10 @@ class AppPresser_Admin_Settings extends AppPresser {
                 $field .= 'JWT secret key is <strong>succesfully</strong> defined on your wp-config.php file';
                 break;
 
+            case 'textarea':
+                $field .= sprintf( '<textarea class="regular-textarea" rows="15" cols="100" id="apppresser--%1$s" name="appp_settings[%2$s]" />%3$s</textarea>'."\n", $key, $key, $value );
+                break;
+
 			default:
 				// Filter allows devs to modify default field type or override it
 				$field .= sprintf( '<input class="regular-text" type="text" id="apppresser--%1$s" name="appp_settings[%2$s]" value="%3$s" />'."\n", $key, $key, $value );
