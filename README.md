@@ -36,6 +36,9 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+### 4.2.1
+* Support textarea fields in AppPresser settings
+
 ### 4.2.0
 * Fix theme update transient error
 * Add a new endpoint to verify Website URL and plugins
