@@ -737,6 +737,7 @@ class AppPresser_WPAPI_Mods {
         if (!function_exists('get_plugin_data')) {
             require_once(ABSPATH . 'wp-admin/includes/plugin.php');
         }
+        // Plugins
         $plugins = array();
         $plugins[]['apppresser'] = AppPresser::VERSION;
         $plugins[]['jwt-auth'] = $this->getPluginData('jwt-authentication-for-wp-rest-api/jwt-auth.php');
@@ -751,7 +752,12 @@ class AppPresser_WPAPI_Mods {
         $plugins[]['apppresser-push'] = $this->getAppPushData();
         $plugins[]['appsocial'] = $this->getAppSocialData();
         $plugins[]['apppresser-camera'] = $this->getAppCameraData();
+        $plugins[]['apppresser-bridge'] = $this->getAppBridgeData();
         $response['plugins'] = $plugins;
+        // Themes
+        $themes = array();
+        $themes[]['ion-theme'] = $this->getIonThemeData();
+        $response['themes'] = $themes;
         $response['success'] = $this->verifySiteSlugAppId($request);
 
         return rest_ensure_response($response);
@@ -827,6 +833,25 @@ class AppPresser_WPAPI_Mods {
     {
         if (class_exists('AppPresser_Camera')) {
             return AppPresser_Camera::VERSION;
+        }
+
+        return false;
+    }
+
+    private function getAppBridgeData()
+    {
+        if (class_exists('AppPresserBridge')) {
+            return AppPresserBridge::VERSION;
+        }
+
+        return false;
+    }
+
+    private function getIonThemeData()
+    {
+        $ionTheme = wp_get_theme('ap3-ion-theme');
+        if ($ionTheme) {
+            return $ionTheme->Version;
         }
 
         return false;
