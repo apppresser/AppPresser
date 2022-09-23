@@ -74,7 +74,11 @@ class AppPresser_User
         );
 
         if (class_exists('Jwt_Auth')) {
-            return JWT::encode($token, $secretKey);
+            return JWT::encode(
+                apply_filters('jwt_auth_token_before_sign', $token, $user),
+                $secretKey,
+                apply_filters('jwt_auth_algorithm', 'HS256')
+            );
         } else {
             return null;
         }
