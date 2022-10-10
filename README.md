@@ -36,6 +36,9 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+### 4.2.3
+* Fix JWT decode functionality
+
 ### 4.2.2
 * Support latest version of JWT plugin
 * Add AppPresser Bridge and IonTheme to the myappp verifier
