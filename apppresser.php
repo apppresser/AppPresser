@@ -29,6 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 // Requiere the JWT library
 use \Firebase\JWT\JWT;
+use \Firebase\JWT\Key;
 
 class AppPresser {
 
@@ -204,7 +205,7 @@ class AppPresser {
 		if ($secretKey) {
 			try {
 				// Decode the token
-				$token = JWT::decode($token, $secretKey, array('HS256'));
+				$token = JWT::decode($token, new Key($secretKey, apply_filters('jwt_auth_algorithm', 'HS256')));
 				if ($token->iss === get_bloginfo('url')) {
 					if (isset($token->data->user->id)) {
 						return $token->data->user->id;
