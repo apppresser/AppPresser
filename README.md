@@ -36,6 +36,9 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+### 4.2.4
+* Support quotes and double quotes when resetting password
+
 ### 4.2.3
 * Fix JWT decode functionality
 
