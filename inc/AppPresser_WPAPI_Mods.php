@@ -680,11 +680,10 @@ class AppPresser_WPAPI_Mods {
 	 */
 	public function validate_reset_password( $request ) {
 
-		global $wpdb;
 		$return;
 
-		$code 		= $request['code'];
-		$password 	= $request['password'];
+        $code = sanitize_text_field($request['code']);
+        $password = sanitize_text_field(addslashes($request['password']));
 
 		$user = get_users( array( 'meta_key' => 'app_hash', 'meta_value' => $code ) );
 
