@@ -297,32 +297,41 @@ class AppPresser_Ajax_Extras extends AppPresser {
 		return $theme;
 	}
 
-	/**
-	 * When the URL looks similar to this: /app-list/?list_type=cardlist&cat=20&appp=3&num=1
-	 * custom.js will send the entire query as 'url_query' in a $_POST var, so
-	 * parse that info and add it to the existing $args
-	 */
-	public function parse_url_query_vars( &$args ) {
-		if( isset( $_POST['url_query'] ) ) {
-			$url_query = str_replace('?', '', $_POST['url_query']);
-			$url_query = explode('&', $url_query);
-			foreach ($url_query as $qv_pairs) {
-				$kv = explode('=', $qv_pairs);
-				if( isset( $kv[0] ) && !empty($kv[0]) &&
-				    isset( $kv[1] ) && !empty($kv[1]) &&
-				    ! in_array( $kv[0], array( 'appp', 'list_type' ) ) ) { // we can ignore these two: already handled
+    /**
+     * When the URL looks similar to this: /app-list/?list_type=cardlist&cat=20&appp=3&num=1
+     * custom.js will send the entire query as 'url_query' in a $_POST var, so
+     * parse that info and add it to the existing $args
+     */
+    public function parse_url_query_vars(&$args)
+    {
+        if (isset($_POST['url_query'])) {
+            $url_query = str_replace('?', '', $_POST['url_query']);
+            $url_query = explode('&', $url_query);
+            foreach ($url_query as $qv_pairs) {
+                $kv = explode('=', $qv_pairs);
+                if (
+                    isset($kv[0]) && !empty($kv[0]) &&
+                    isset($kv[1]) && !empty($kv[1]) &&
+                    !in_array($kv[0], array('appp', 'list_type'))
+                ) { // we can ignore these two: already handled
 
-					if( $kv[0] == 'type' ) {
-						$args['post_type'] = $kv[1];
-					} else if( $kv[0] == 'num' ) {
-						$args['posts_per_page'] = $kv[1];
-					} else {
-						$args[$kv[0]] = $kv[1];
-					}
-				}
-			}
-		}
-	}
+                    if ($kv[0] == 'type') {
+                        $args['post_type'] = $kv[1];
+                    } else if ($kv[0] == 'num') {
+                        $args['posts_per_page'] = $kv[1];
+                    } else if ($kv[0] == 'taxonomy') {
+                        $args['tax_query'][0]['taxonomy'] = $kv[1];
+                    } else if ($kv[0] == 'field') {
+                        $args['tax_query'][0]['field'] = $kv[1];
+                    } else if ($kv[0] == 'terms') {
+                        $args['tax_query'][0]['terms'] = $kv[1];
+                    } else {
+                        $args[$kv[0]] = $kv[1];
+                    }
+                }
+            }
+        }
+    }
 
 	/*
 	 * Handles ajax lost password for the apptheme
