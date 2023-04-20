@@ -36,6 +36,9 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+### 4.2.5
+* Fix query_args to support tax_query
+
 ### 4.2.4
 * Support quotes and double quotes when resetting password
 
