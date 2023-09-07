@@ -447,9 +447,11 @@ class AppPresser_WPAPI_Mods {
 		}
 
 		// now send verification code
-		$verification_code = hash( "md5", $request['username'] . $request['email'] );
-		// make it shorter
-		$verification_code = substr($verification_code, 1, 4);
+		// $verification_code = hash( "md5", $request['username'] . $request['email'] );
+		// // // make it shorter
+		// $verification_code = substr($verification_code, 1, 4);
+		$verification_code = $this->get_short_reset_code();
+		// update_user_meta(1, 'hash', $verification_code );
 		$subject = __( 'Your Verification Code', 'apppresser' );
 		$subject = apply_filters( 'appp_verification_email_subject', $subject );
 
@@ -478,8 +480,9 @@ class AppPresser_WPAPI_Mods {
 			);
 		}
 
-		$verification_code = hash( "md5", $request['username'] . $request['email'] );
-		$verification_code = substr($verification_code, 1, 4);
+		// $verification_code = hash( "md5", $request['username'] . $request['email'] );
+		// $verification_code = substr($verification_code, 1, 4);
+		$verification_code = $this->short_reset_code();
 
 		if( $request['verification'] != strval( $verification_code ) ) {
 			// fail
@@ -662,14 +665,18 @@ class AppPresser_WPAPI_Mods {
 	}
 
 	public function get_short_reset_code() {
+
+		$length = 20;
+		// Define the characters allowed in the OTP
+		$characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+		$code = '';
+		$maxIndex = strlen($characters) - 1;
+			// Generate random OTP characters
+		for ($i = 0; $i < $length; $i++) {
+			$randomIndex = random_int(0, $maxIndex);
+			$code .= $characters[$randomIndex];
+		}
 		
-		$numbers = str_split('1234567890');
-		shuffle($numbers);
-		$letters = str_split('abcdefghijklmnopqrstuvwxyz');
-		shuffle($letters);
-
-		$code = $numbers[1].$letters[1].$letters[2].$numbers[3];
-
 		return $code;
 	}
 
@@ -678,6 +685,9 @@ class AppPresser_WPAPI_Mods {
 	 *
 	 * @access public
 	 */
+
+
+
 	public function validate_reset_password( $request ) {
 
 		$return;
