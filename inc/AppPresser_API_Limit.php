@@ -1,115 +1,88 @@
 <?php
-
-class AppPresser_API_Limit {
-    const SECONDS_BETWEEN_GUEST_API_CALLS = 10;
-
-    public static function get_user_ip() {
-        // Get the user's IP address
-        if (isset($_SERVER['HTTP_CLIENT_IP'])) {
-            $user_ip = $_SERVER['HTTP_CLIENT_IP'];
-        } elseif (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-            $user_ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-        } else {
-            $user_ip = $_SERVER['REMOTE_ADDR'];
-        }
-        return $user_ip;
-    }
-
-    public static function get_user_route() {
+class AppPresser_API_Limit
+{
+    public static function get_user_route()
+    {
         $current_url = $_SERVER['REQUEST_URI'];
 
         // Check if the URL matches a REST API route
         $api_base = rest_get_url_prefix();
 
+        if (empty($api_base)) {
+            // Fallback to a default API base if rest_get_url_prefix() is empty
+            $api_base = 'wp-json';
+        }
+
         // Remove the API base from the URL to get the endpoint
         $current_endpoint = str_replace($api_base, '', $current_url);
+
+        // Remove any leading double slashes (if present)
+        $current_endpoint = ltrim($current_endpoint, '/');
 
         return $current_endpoint;
     }
 
-    public static function client_ip() {
-        global $client_ip;
+    public static function appresser_api_limit()
+    {
+        // Get the user's IP address
+        $user_ip = $_SERVER['REMOTE_ADDR'];
+        // The amount of time the user is locked out
+        $limited_time = 150;
+        // How many requests per X seconds
+        $requests_per_second = 3;
+        $current_route = self::get_user_route();
+        // Define an array of limited routes
+        $limited_routes = array('appp/v1/reset-password', 'appp/v1/login', 'appp/v1/verify-resend');
 
-        if (is_null($client_ip)) {
-            $server_vars = array(
-                'HTTP_CLIENT_IP',
-                'HTTP_X_FORWARDED_FOR',
-                'REMOTE_ADDR',
-            );
+        // Check if the current route is in the array of limited routes
+        if (in_array($current_route, $limited_routes)) {
+            // Get the existing wait time transient
+            $wait_time = get_transient($user_ip . '_wait_time');
 
-            foreach ($server_vars as $server_var) {
-                if (!array_key_exists($server_var, $_SERVER)) {
-                    // The server variable isn't set - do nothing.
-                } elseif (empty($client_ip = filter_var($_SERVER[$server_var], FILTER_VALIDATE_IP))) {
-                    // The IP address is not valid - do nothing.
-                } else {
-                    break;
+            if ($wait_time === false) {
+                // Get the existing countdown transient or set it to the allowed request limit if it doesn't exist
+                $transient_data = get_transient($user_ip . '_count');
+
+                if (false === $transient_data || $transient_data <= 0) {
+                    $transient_data = intval($requests_per_second);
+                    set_transient($user_ip . '_count', $transient_data, 20);
                 }
-            }
 
-            // Make sure we don't leave something like an empty string or "false"
-            // in $client_ip
-            if (empty($client_ip)) {
-                $client_ip = null;
-            }
-        }
+                // Check if $transient_data is greater than zero before decrementing
+                if ($transient_data > 0) {
+                    // Decrement the countdown transient data by 1
+                    $transient_data--;
+                }
 
-        return $client_ip;
-    }
+                // Update the countdown transient with the decremented data
+                set_transient($user_ip . '_count', $transient_data, 20);
 
-    public static function rest_api_init(WP_REST_Server $wp_rest_server) {
-        $custom_ip = array(self::get_user_ip());
-        $is_client_rate_limited = false;
-        $transient_key = null;
+                // Check if the countdown transient data is zero
+                if ($transient_data === 0) {
+                    // Set the wait time transient to $limited_time seconds
+                    set_transient($user_ip . '_wait_time', 'wait_time', $limited_time);
 
-        if (!empty($client_ip = self::client_ip())) {
-            $transient_key = 'apppresser_' . $client_ip;
-            $rate_limited_ips = apply_filters('apppresser_rate_limited_ips', $custom_ip);
-
-            if (!empty($rate_limited_ips)) {
-                $is_client_rate_limited = in_array($client_ip, $rate_limited_ips);
+                    // Send a JSON response with HTTP status code 429 (Too Many Requests)
+                    $response = array(
+                        'clientIp' => $user_ip,
+                        'message' => 'Slow down your API calls',
+                        'route' => $current_route
+                    );
+                    wp_send_json($response, 429);
+                }
             } else {
-                $is_client_rate_limited = !is_user_logged_in();
-            }
-
-            $is_client_rate_limited = apply_filters('apppresser_is_client_rate_limited', $is_client_rate_limited);
-        }
-
-        if (!$is_client_rate_limited) {
-            // The client is not rate-limited - do nothing
-        } elseif (empty($transient_key)) {
-            // If we couldn't figure out the transient key - do nothing
-        } elseif (empty(get_transient($transient_key))) {
-            // This client IP does not have a transient record, so it has not made
-            // an API call recently - let the API call execute normally.
-
-            // Create a transient record that will expire after a certain number of seconds (e.g., 60 seconds).
-            $seconds_between_api_calls = intval(apply_filters('apppresser_seconds_between_api_calls', self::SECONDS_BETWEEN_GUEST_API_CALLS, $client_ip));
-            if ($seconds_between_api_calls > 0) {
-                set_transient(
-                    $transient_key,
-                    '1',
-                    $seconds_between_api_calls
+                // HTTP Response 429 => "Too many requests"
+                // A JSON message to send back to the client.
+                $response = array(
+                    'clientIp' => $user_ip,
+                    'message' => 'Slow down your API calls',
+                    'route' => $current_route
                 );
+                wp_send_json($response, 429);
             }
-        } else {
-            // Calculate the time remaining until the transient expires
-            $time_remaining = get_option('_transient_timeout_' . $transient_key) - time();
-
-            // A JSON message to send back to the client.
-            $response = array(
-                'clientIp' => $client_ip,
-                'message' => 'Slow down your API calls',
-                'waitTime' => max(0, $time_remaining), // Ensure wait time is not negative
-            );
-
-            // HTTP Response 429 => "Too many requests"
-            wp_send_json(
-                $response,
-                429
-            );
         }
     }
 }
 
-add_action('rest_api_init', array('AppPresser_API_Limit', 'rest_api_init'), 10, 1);
+// Add action hook for appresser_api_limit method
+add_action('rest_api_init', array('AppPresser_API_Limit', 'appresser_api_limit'));
