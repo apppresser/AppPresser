@@ -129,7 +129,7 @@ class AppPresser {
 		// remove wp version param from cordova enqueued scripts (so script loading doesn't break)
 		// This will mean that it's harder to break caching on the cordova script
 		add_filter('script_loader_src', array($this, 'remove_query_arg'), 9999);
-
+ 
 		$this->set_deprecate_version();
 
 		require_once(self::$inc_path . 'AppPresser_Admin_Settings.php');
