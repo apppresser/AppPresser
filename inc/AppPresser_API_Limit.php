@@ -8,11 +8,6 @@ class AppPresser_API_Limit
         // Check if the URL matches a REST API route
         $api_base = rest_get_url_prefix();
 
-        if (empty($api_base)) {
-            // Fallback to a default API base if rest_get_url_prefix() is empty
-            $api_base = 'wp-json';
-        }
-
         // Remove the API base from the URL to get the endpoint
         $current_endpoint = str_replace($api_base, '', $current_url);
 
@@ -32,7 +27,11 @@ class AppPresser_API_Limit
         $requests_per_second = 3;
         $current_route = self::get_user_route();
         // Define an array of limited routes
-        $limited_routes = array('appp/v1/reset-password', 'appp/v1/login', 'appp/v1/verify-resend');
+        $limited_routes = array(
+            'appp/v1/reset-password', 
+            'appp/v1/login', 
+            'appp/v1/verify-resend'
+        );
 
         // Check if the current route is in the array of limited routes
         if (in_array($current_route, $limited_routes)) {
