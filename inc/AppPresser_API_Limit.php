@@ -28,8 +28,8 @@ class AppPresser_API_Limit
         $current_route = self::get_user_route();
         // Define an array of limited routes
         $limited_routes = array(
-            'appp/v1/reset-password', 
-            'appp/v1/login', 
+            'appp/v1/reset-password',
+            'appp/v1/login',
             'appp/v1/verify-resend'
         );
 
@@ -67,7 +67,14 @@ class AppPresser_API_Limit
                         'message' => 'Slow down your API calls',
                         'route' => $current_route
                     );
-                    wp_send_json($response, 429);
+                    // Create a WP REST response
+                    $rest_response = rest_ensure_response($response);
+
+                    // Set the HTTP status code to 429 (Too Many Requests)
+                    $rest_response->set_status(429);
+
+                    // Send the response
+                    return $rest_response;
                 }
             } else {
                 // HTTP Response 429 => "Too many requests"
@@ -77,7 +84,14 @@ class AppPresser_API_Limit
                     'message' => 'Slow down your API calls',
                     'route' => $current_route
                 );
-                wp_send_json($response, 429);
+                // Create a WP REST response
+                $rest_response = rest_ensure_response($response);
+
+                // Set the HTTP status code to 429 (Too Many Requests)
+                $rest_response->set_status(429);
+
+                // Send the response
+                return $rest_response;
             }
         }
     }
