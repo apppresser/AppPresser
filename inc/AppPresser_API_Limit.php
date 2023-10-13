@@ -16,85 +16,70 @@ class AppPresser_API_Limit
 
         return $current_endpoint;
     }
+    public static function getRateLimitedData($user_ip)
+    {
+        $rateLimitData = get_transient($user_ip . 'limited_data');
+        return $rateLimitData;
+
+    }
+    public static function saveRateLimitedData($currentMinute, $user_ip)
+    {
+        $rateLimitData = [
+            'minute' => $currentMinute,
+            'requests' => 1,
+        ];
+
+        set_transient($user_ip . 'limited_data', $rateLimitData, 20);
+    }
+
+    public static function updateRateLimitedData($rateLimitData, $user_ip, $currentMinute)
+    {
+        $rateLimitData['minute'] = $currentMinute;
+        $rateLimitData['requests'] += 1;
+        set_transient($user_ip . 'limited_data', $rateLimitData, 20);
+    }
 
     public static function appresser_api_limit()
     {
         // Get the user's IP address
         $user_ip = $_SERVER['REMOTE_ADDR'];
-        // The amount of time the user is locked out
-        $limited_time = 150;
-        // How many requests per X seconds
-        $requests_per_second = 3;
+        // How many requests per X minutes
+        $limit = 2;
+        $requests_per_minute = apply_filters('limited_requests_per_minute', $limit);
         $current_route = self::get_user_route();
         // Define an array of limited routes
-        $limited_routes = array(
+        $default_limited_routes = array(
             'appp/v1/reset-password',
             'appp/v1/login',
             'appp/v1/verify-resend'
         );
+        $limited_routes = apply_filters('appresser_limited_routes', $default_limited_routes);
 
-        // Check if the current route is in the array of limited routes
         if (in_array($current_route, $limited_routes)) {
-            // Get the existing wait time transient
-            $wait_time = get_transient($user_ip . '_wait_time');
-
-            if ($wait_time === false) {
-                // Get the existing countdown transient or set it to the allowed request limit if it doesn't exist
-                $transient_data = get_transient($user_ip . '_count');
-
-                if (false === $transient_data || $transient_data <= 0) {
-                    $transient_data = intval($requests_per_second);
-                    set_transient($user_ip . '_count', $transient_data, 20);
-                }
-
-                // Check if $transient_data is greater than zero before decrementing
-                if ($transient_data > 0) {
-                    // Decrement the countdown transient data by 1
-                    $transient_data--;
-                }
-
-                // Update the countdown transient with the decremented data
-                set_transient($user_ip . '_count', $transient_data, 20);
-
-                // Check if the countdown transient data is zero
-                if ($transient_data === 0) {
-                    // Set the wait time transient to $limited_time seconds
-                    set_transient($user_ip . '_wait_time', 'wait_time', $limited_time);
-
-                    // Send a JSON response with HTTP status code 429 (Too Many Requests)
-                    $response = array(
-                        'clientIp' => $user_ip,
-                        'message' => 'Slow down your API calls',
-                        'route' => $current_route
-                    );
-                    // Create a WP REST response
-                    $rest_response = rest_ensure_response($response);
-
-                    // Set the HTTP status code to 429 (Too Many Requests)
-                    $rest_response->set_status(429);
-
-                    // Send the response
-                    return $rest_response;
+            $rateLimitData = self::getRateLimitedData($user_ip);
+            $currentMinute = floor(time() / 60);
+            if ($rateLimitData) {
+                if ($rateLimitData['minute'] == $currentMinute) {
+                    if ($rateLimitData['requests'] >= $requests_per_minute) {
+                        $response = array(
+                            'clientIp' => $user_ip,
+                            'message' => 'Slow down your API calls',
+                            'route' => $current_route,
+                        );
+                        wp_send_json($response, 429);
+                    } else {
+                        self::updateRateLimitedData($rateLimitData, $user_ip, $currentMinute);
+                    }
+                } else {
+                    self::saveRateLimitedData($currentMinute, $user_ip);
                 }
             } else {
-                // HTTP Response 429 => "Too many requests"
-                // A JSON message to send back to the client.
-                $response = array(
-                    'clientIp' => $user_ip,
-                    'message' => 'Slow down your API calls',
-                    'route' => $current_route
-                );
-                // Create a WP REST response
-                $rest_response = rest_ensure_response($response);
-
-                // Set the HTTP status code to 429 (Too Many Requests)
-                $rest_response->set_status(429);
-
-                // Send the response
-                return $rest_response;
+                self::saveRateLimitedData($currentMinute, $user_ip);
             }
         }
+
     }
+
 }
 
 // Add action hook for appresser_api_limit method
