@@ -229,7 +229,7 @@ class AppPresser_WPAPI_Mods {
 
 	public function get_media_url( $post ) {
 
-		$value = get_post_meta( $post['id'], 'appp_media_url', true );
+		$value = apply_filters( 'appp_media_url', get_post_meta( $post['id'], 'appp_media_url', true ), $post );
 
 		$data = [];
 
@@ -240,7 +240,7 @@ class AppPresser_WPAPI_Mods {
 		}
 
 		// optionally add an image when playing the media
-		$thumb = get_post_meta( $post['id'], 'appp_media_image', true );
+		$thumb = apply_filters( 'appp_media_image', get_post_meta( $post['id'], 'appp_media_image', true ), $post );
 
 		if( !empty( $thumb ) ) {
 			$data['media_image'] = $thumb;
