@@ -424,101 +424,118 @@ class AppPresser_WPAPI_Mods {
 	 * 
 	 * @since 3.6.0
 	 */
-	public function send_verification_code( $request ) {
+    public function send_verification_code($request)
+    {
+        $email = sanitize_text_field($request['email']);
+        $username = sanitize_text_field($request['username']);
 
-		if( empty( $request['email'] ) || empty( $request['username'] ) ) {
-			return new WP_Error( 'rest_invalid_verification',
-				__( 'Missing required field.', 'apppresser' ),
-				array(
-					'status' => 404,
-				)
-			);
-		}
+        if (empty($email) || empty($username)) {
+            return new WP_Error(
+                'rest_invalid_verification',
+                __('Missing required field.', 'apppresser'),
+                array(
+                    'status' => 404,
+                )
+            );
+        }
 
-		if ( !email_exists( $request['email'] ) || !username_exists( $request['username'] ) ) {
+        if (!email_exists($email) || !username_exists($username)) {
+            return new WP_Error(
+                'rest_invalid_verification',
+                __('Invalid username or email.', 'apppresser'),
+                array(
+                    'status' => 404,
+                )
+            );
+        }
 
-			return new WP_Error( 'rest_invalid_verification',
-				__( 'Invalid username or email.', 'apppresser' ),
-				array(
-					'status' => 404,
-				)
-			);
-			
-		}
+        $user = get_user_by('email', $email);
+        if (!$user) {
+            return new WP_Error(
+                'rest_invalid_verification',
+                __('Invalid user.', 'apppresser'),
+                array(
+                    'status' => 404,
+                )
+            );
+        }
 
-		// now send verification code
-		$verification_code = hash( "md5", $request['username'] . $request['email'] );
-		// make it shorter
-		$verification_code = substr($verification_code, 1, 4);
-		$subject = __( 'Your Verification Code', 'apppresser' );
-		$subject = apply_filters( 'appp_verification_email_subject', $subject );
+        // Generate verification code
+        $verification_code = wp_generate_password(20, false);
+        update_user_meta($user->ID, 'app_verification_code', $verification_code);
 
-		$content = sprintf( __( "Hi, thanks for registering! Here is your verification code: %s \n\nPlease enter this code in the app. \n\nThanks!", "apppresser" ), $verification_code );
+        // Now send verification code
+        $subject = __('Your Verification Code', 'apppresser');
+        $subject = apply_filters('appp_verification_email_subject', $subject);
 
-		$content = apply_filters( 'appp_verification_email', $content, $verification_code );
+        $content = sprintf(__("Hi, thanks for registering! Here is your verification code: %s \n\nPlease enter this code in the app. \n\nThanks!", "apppresser"), $verification_code);
+        $content = apply_filters('appp_verification_email', $content, $verification_code);
 
-		$mail_sent = wp_mail( $request["email"], $subject, $content );
+        $mail_sent = wp_mail($email, $subject, $content);
 
-		return $mail_sent;
-	}
+        return $mail_sent;
+    }
 
 	/**
 	 * Verify user, then log them in
 	 * 
 	 * @since 3.6.0
 	 */
-	public function verify_user( $request ) {
+	public function verify_user($request)
+    {
 
-		if( empty( $request['email'] ) || empty( $request['verification'] ) ) {
-			return new WP_Error( 'rest_invalid_verification',
-				__( 'Missing required field.', 'apppresser' ),
-				array(
-					'status' => 404,
-				)
-			);
-		}
+        $email = sanitize_text_field($request['email']);
+        $verification = sanitize_text_field($request['verification']);
 
-		$verification_code = hash( "md5", $request['username'] . $request['email'] );
-		$verification_code = substr($verification_code, 1, 4);
+        if (empty($email) || empty($verification)) {
+            return new WP_Error(
+                'rest_invalid_verification',
+                __('Missing required field.', 'apppresser'),
+                array(
+                    'status' => 404,
+                )
+            );
+        }
 
-		if( $request['verification'] != strval( $verification_code ) ) {
-			// fail
-			return new WP_Error( 'rest_invalid_verification',
-				__( 'Verification code does not match.', 'apppresser' ),
-				array(
-					'status' => 404,
-				)
-			);
-		}
+        $user = get_users(array('meta_key' => 'app_verification_code', 'meta_value' => $verification));
+        if (!$user) {
+            return new WP_Error(
+                'rest_invalid_verification',
+                __('Verification code does not match.', 'apppresser'),
+                array(
+                    'status' => 404,
+                )
+            );
+        }
 
-		$user = get_user_by( 'email', $request['email'] );
+        delete_user_meta($user[0]->ID, 'app_verification_code');
+        delete_user_meta($user[0]->ID, 'app_unverified');
 
-		delete_user_meta( $user->ID, 'app_unverified' );
+        // log the user in
+        $info = array();
+        $info['user_login'] = sanitize_text_field($request['username']);
+        $info['user_password'] = sanitize_text_field($request['password']);
+        $info['remember'] = true;
 
-		// log the user in
-		$info = array();
-		$info['user_login'] = $request['username'];
-		$info['user_password'] = $request['password'];
-		$info['remember'] = true;
-		
-		$user_signon = wp_signon( $info, false );
+        $user_signon = wp_signon($info, false);
 
-		if ( is_wp_error( $user_signon ) || !$user ) {
-			return new WP_Error( 'rest_invalid_verification',
-				__( 'Verification succeeded, please login.', 'apppresser' ),
-				array(
-					'status' => 200,
-				)
-			);
-		}
+        if (is_wp_error($user_signon) || !$user[0]) {
+            return new WP_Error(
+                'rest_invalid_verification',
+                __('Verification succeeded, please login.', 'apppresser'),
+                array(
+                    'status' => 200,
+                )
+            );
+        }
 
         // If everything is successfull, return login response
         $retval = AppPresser_User::getLoginResponse($user_signon);
-        
-		do_action( 'appp_register_verified', $user_signon->ID );
 
-		return $retval;
-	}
+        do_action('appp_register_verified', $user_signon->ID);
+
+        return $retval;
+    }
 
 	/**
 	 * Disallow login if user is unverified
@@ -615,63 +632,40 @@ class AppPresser_WPAPI_Mods {
         return $response;
     }
 
-	/*
+    /*
 	 * API password reset
 	 */
-	public function get_pw_reset_code( $request ) {
+    public function get_pw_reset_code($request)
+    {
+        $email = sanitize_text_field($request['email']);
+        $user = get_user_by('email', $email);
+        if ($user) {
+            // create a unique code to use one time
+            $hash = wp_generate_password(20, false);
+            update_user_meta($user->ID, 'app_hash', $hash);
 
-		$return;
+            $subject = __('App Password Reset', 'apppresser');
+            $subject = apply_filters('appp_pw_reset_email_subject', $subject);
 
-		$email = $request['email'];
+            $message = __('Enter the code into the app to reset your password. Code: ', 'apppresser') . $hash;
+            $message = apply_filters('appp_pw_reset_email', $message, $hash);
 
-		$user = get_user_by( 'email', $email );
+            wp_mail($user->user_email, $subject, $message);
 
-		if( $user ) {
+            $return = array(
+                'success' => true,
+                'got_code' => true,
+                'message' =>  __('Please check your email for your verification code.', 'apppresser')
+            );
+        } else {
+            $return = array(
+                'success' => false,
+                'message' =>  __('The email you have entered is not valid.', 'apppresser')
+            );
+        }
 
-			$time = current_time( 'mysql' );
-			// create a unique code to use one time
-			$hash = $this->get_short_reset_code();
-
-			update_user_meta( $user->ID, 'app_hash', $hash );
-
-			$subject = __('App Password Reset', 'apppresser');
-			$subject = apply_filters( 'appp_pw_reset_email_subject', $subject );
-
-			$message = __('Enter the code into the app to reset your password. Code: ', 'apppresser') . $hash;
-
-			$message = apply_filters( 'appp_pw_reset_email', $message, $hash );
-
-			$mail = wp_mail( $user->user_email, $subject, $message );
-
-			$return = array(
-				'success' => true,
-				'got_code' => true,
-				'message' =>  __('Please check your email for your verification code.', 'apppresser')
-			);
-
-		} else {
-
-			$return = array(
-				'success' => false,
-				'message' =>  __('The email you have entered is not valid.', 'apppresser')
-			);
-
-		}
-
-		return $return;
-	}
-
-	public function get_short_reset_code() {
-		
-		$numbers = str_split('1234567890');
-		shuffle($numbers);
-		$letters = str_split('abcdefghijklmnopqrstuvwxyz');
-		shuffle($letters);
-
-		$code = $numbers[1].$letters[1].$letters[2].$numbers[3];
-
-		return $code;
-	}
+        return $return;
+    }
 
 	/**
 	 * Validate the reset code, then reset the password
@@ -679,8 +673,6 @@ class AppPresser_WPAPI_Mods {
 	 * @access public
 	 */
 	public function validate_reset_password( $request ) {
-
-		$return;
 
         $code = sanitize_text_field($request['code']);
         $password = sanitize_text_field(addslashes($request['password']));
