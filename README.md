@@ -36,6 +36,12 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+### 4.3.0
+* Add a limit to API requests
+* Improve security when verifying a user
+* Improve security when reseting the password
+* Tested with WordPress 6.4
+
 ### 4.2.5
 * Fix query_args to support tax_query
 
