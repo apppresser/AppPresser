@@ -144,6 +144,7 @@ class AppPresser {
 		require_once(self::$inc_path . 'AppPresser_Plugin_Updater.php');
 		require_once(self::$inc_path . 'AppPresser_Theme_Updater.php');
 		require_once(self::$inc_path . 'AppPresser_Extend_Comments.php');
+		require_once(self::$inc_path . 'AppPresser_API_Limit.php');
 
 		if (!is_multisite()) {
 			require_once(self::$inc_path . 'AppPresser_Log_Admin.php');
