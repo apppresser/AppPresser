@@ -4,6 +4,9 @@
  *
  * @since 1.3.0
  */
+
+$nonce = wp_create_nonce('clear_log_nonce');
+
 ?><div class="wrap">
 	<h3><?php _e('Debug log', 'apppresser'); ?></h3>
 	<div id="tab-admin-page" class="wrap">
@@ -31,7 +34,7 @@
 		</div>
 		<?php if( $file_exists ) : ?>
 				<p><a href="<?php echo AppPresser_Logger::$log_url ?>" target="_blank"><?php echo AppPresser_Logger::$log_url ?></a></p>
-				<p><a class="button" href="<?php echo admin_url( 'admin.php?page=apppresser_settings&tab=tab-log&apppclearlog=1' ); ?>">Clear Log</a></p>
+				<p><a class="button" href="<?php echo admin_url( 'admin.php?page=apppresser_settings&tab=tab-log&apppclearlog=1&nonce='.$nonce ); ?>">Clear Log</a></p>
 		<?php endif; ?>
 	</div>
 </div>

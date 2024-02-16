@@ -302,7 +302,16 @@ class AppPresser_Logger {
 		}
 
 		if( isset( $_GET['apppclearlog'] ) ) {
-			self::clear_log();
+			// Get the nonce from the request
+			$nonce_from_request = isset($_GET['nonce']) ? $_GET['nonce'] : '';
+
+			// Verify the nonce
+			if (wp_verify_nonce($nonce_from_request, 'clear_log_nonce')) {
+				self::clear_log();
+			} else {
+				wp_redirect( admin_url( '/admin.php?page=apppresser_settings&tab=tab-log' ) );
+        		exit;
+			}
 		}
 	}
 }
