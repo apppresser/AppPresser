@@ -4,6 +4,7 @@ window.apppLogger = typeof window.apppLogger !== 'undefined' ? window.apppLogger
 apppLogger.adminToggleLogging = function(checkbox) {
 	var postData = {
         action: 'appptogglelog',
+        nonce: appp_logger_object.nonce,
         status: (checkbox.is(':checked'))?'on':'off',
     }
 
