@@ -53,6 +53,10 @@ class AppPresser_Logger {
 
 	public function enqueue_scripts() {
 		wp_enqueue_script( 'appp-logger', AppPresser::$js_url ."appp.logger.js", array( 'jquery' ) );
+		wp_localize_script('appp-logger', 'appp_logger_object', array(
+			'ajax_url' => admin_url('admin-ajax.php'),
+			'nonce'    => wp_create_nonce('appp-logger-nonce')
+		));
 	}
 
 	/**
@@ -144,7 +148,7 @@ class AppPresser_Logger {
 	 * @since 1.3.0
 	 */
 	public function toggle_logging_callback() {
-		if( isset( $_POST['status'] ) ) {
+		if( isset( $_POST['status'] ) && isset( $_POST['nonce'] ) && wp_verify_nonce( $_POST['nonce'], 'appp-logger-nonce' )) {
 			self::toggle_logging( $_POST['status'] );
 			echo json_encode( array( 'status' => $_POST['status'], 'admin_email' => get_bloginfo('admin_email'), 'expire_logging' => wp_next_scheduled( self::$expire_logging ) ) );
 		}
