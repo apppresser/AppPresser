@@ -257,8 +257,8 @@ class AppPresser_WPAPI_Mods {
 	 */
 	public function api_login( $request ) {
 
-		$info['user_login'] = ( $_POST['username'] ? $_POST['username'] : $_SERVER['PHP_AUTH_USER'] );
-		$info['user_password'] = ( $_POST['password'] ? $_POST['password'] : $_SERVER['PHP_AUTH_PW'] );
+		$info['user_login'] = ( $request['username'] ? $request['username'] : $_SERVER['PHP_AUTH_USER'] );
+		$info['user_password'] = ( $request['password'] ? $request['password'] : $_SERVER['PHP_AUTH_PW'] );
 		$info['remember'] = true;
 
 		if( empty( $info['user_login'] ) || empty( $info['user_password'] ) ) {
