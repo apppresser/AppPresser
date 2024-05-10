@@ -36,6 +36,10 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+### 4.3.2
+* Improve login API endpoint
+* Tested with WordPress 6.5
+
 ### 4.3.1
 * Improve security when handling logs
 
