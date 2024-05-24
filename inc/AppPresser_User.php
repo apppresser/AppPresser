@@ -39,15 +39,7 @@ class AppPresser_User
 	 */
     private static function doCookieAuth($userId)
     {
-        if (function_exists('openssl_encrypt')) {
-            $key = substr(AUTH_KEY, 2, 5);
-            $iv = substr(AUTH_KEY, 0, 16);
-            $cipher = "AES-128-CBC";
-            $ciphertext = openssl_encrypt($userId, $cipher, $key, null, $iv);
-        } else {
-            // no openssl installed
-            $ciphertext = $userId;
-        }
+        $ciphertext = AppPresser_Cipher::encrypt($userId);
 
         update_user_meta($userId, 'app_cookie_auth', $ciphertext);
 

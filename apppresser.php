@@ -145,6 +145,7 @@ class AppPresser {
 		require_once(self::$inc_path . 'AppPresser_Theme_Updater.php');
 		require_once(self::$inc_path . 'AppPresser_Extend_Comments.php');
 		require_once(self::$inc_path . 'AppPresser_API_Limit.php');
+		require_once(self::$inc_path . 'AppPresser_Cipher.php');
 
 		if (!is_multisite()) {
 			require_once(self::$inc_path . 'AppPresser_Log_Admin.php');
@@ -679,11 +680,11 @@ class AppPresser {
 		$appp_theme = self::settings('appp_theme');
 		$theme_settings = self::settings('theme_mods_' . $appp_theme);
 
-		if (isset($theme_settings, $theme_settings[$key]) && !empty($theme_settings[$key])) {
+		if (!empty($theme_settings[$key])) {
 			return $theme_settings[$key];
 		}
 
-		return $default;
+		return $theme_settings[$key] ?: $default;
 	}
 
 	public static function has_curl_openssl_support() {

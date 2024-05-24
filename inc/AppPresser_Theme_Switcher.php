@@ -165,23 +165,7 @@ class AppPresser_Theme_Switcher extends AppPresser {
 	// decrypt user_id sent from app
 	// https://secure.php.net/openssl_encrypt
 	public function decrypt_value( $value ) {
-
-		if( function_exists('openssl_encrypt') ) {
-
-			$key = substr( AUTH_KEY, 2, 5 );
-			$iv = substr( AUTH_KEY, 0, 16 );
-			$cipher="AES-128-CBC";
-			$user_id = openssl_decrypt($value, $cipher, $key, null, $iv);
-			
-			return $user_id;
-
-		} else {
-
-			// no openssl installed
-			return $value;
-
-		}
-
+		return AppPresser_Cipher::decrypt($value);
 	}
 
 	public function get_app_theme_slug() {
