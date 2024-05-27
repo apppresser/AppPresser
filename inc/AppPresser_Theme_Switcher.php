@@ -171,14 +171,19 @@ class AppPresser_Theme_Switcher extends AppPresser {
 			$key = substr( AUTH_KEY, 2, 5 );
 			$iv = substr( AUTH_KEY, 0, 16 );
 			$cipher="AES-128-CBC";
-			$user_id = openssl_decrypt($value, $cipher, $key, null, $iv);
+			$user_id = openssl_decrypt($value, $cipher, $key, 0, $iv);
 			
 			return $user_id;
 
 		} else {
 
-			// no openssl installed
-			return $value;
+            wp_die(
+                __('The OpenSSL functions are required to be available on the server.', 'apppresser'),
+                __('OpenSSL functions missing', 'apppresser'),
+                array(
+                    'response'  => 500, // HTTP response code for internal server error
+                )
+            );
 
 		}
 
