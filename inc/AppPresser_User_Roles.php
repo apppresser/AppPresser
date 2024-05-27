@@ -18,6 +18,7 @@ class AppPresser_User_Roles {
 
 	public function hooks() {
 		add_filter( 'appp_login_data', array( $this, 'appp_login_data_add_role' ), 10, 2 );
+        add_action('set_user_role', array($this, 'appp_add_user_meta_on_role_change'), 10, 2);
 	}
 
 	/**
@@ -61,6 +62,10 @@ class AppPresser_User_Roles {
 
 		return $roles;
 	}
+
+    function appp_add_user_meta_on_role_change($user_id, $role) {
+        update_user_meta($user_id, 'appp_login_data_refresh_needed', true);
+    }
 
 }
 global $appp_user_roles;
