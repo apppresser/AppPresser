@@ -36,6 +36,10 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+### 4.4.0
+* Added login refresh functionality
+* Improve security when there is no 'openssl' extension on the server
+
 ### 4.3.2
 * Improve login API endpoint
 * Tested with WordPress 6.5
