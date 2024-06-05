@@ -36,6 +36,10 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+### 4.4.1
+* Update code for PHP 8.2 compatibility
+* Fix refreshing login data when user role is changed
+
 ### 4.4.0
 * Added login refresh functionality
 * Improve security when there is no 'openssl' extension on the server
