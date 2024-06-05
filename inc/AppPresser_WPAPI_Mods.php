@@ -24,9 +24,6 @@ class AppPresser_WPAPI_Mods {
 
 		// this is related to the verify_user() function below
 		add_filter( 'wp_authenticate_user', array( $this, 'check_app_unverified' ), 10, 2 );
-		
-		// this is related to the api_login_refresh() function below
-		add_filter( 'rest_pre_dispatch', array( $this, 'check_app_login_refresh' ), 10, 3 );
 
 		// CORS
 		add_action( 'rest_api_init', array( $this, 'appp_cors') );
@@ -317,8 +314,6 @@ class AppPresser_WPAPI_Mods {
 	public function api_login_refresh() {
         $current_user = wp_get_current_user();
 
-        delete_user_meta($current_user->id, 'appp_login_data_refresh_needed');
-
         return AppPresser_User::getLoginResponse($current_user);
 	}
 
@@ -574,32 +569,6 @@ class AppPresser_WPAPI_Mods {
         do_action('appp_register_verified', $user_signon->ID);
 
         return $retval;
-    }
-
-    public function check_app_login_refresh($result, $server, $request) {
-        // If the initial permission check failed, return the result (error)
-        if (is_wp_error($result)) {
-            return $result;
-        }
-        // If the request is for the excluded route, return the existing result
-        if (strpos($_SERVER['REQUEST_URI'], 'login/refresh') !== false) {
-            return $result;
-        }
-
-        if (is_user_logged_in()) {
-            $user_id = get_current_user_id();
-            if (get_user_meta($user_id, 'appp_login_data_refresh_needed', 1)) {
-                return new WP_Error(
-                    'appp_refresh_login_data',
-                    __('Refresh login data.', 'apppresser'),
-                    [
-                        'status' => 423,
-                    ]
-                );
-            }
-        }
-
-        return $result;
     }
 
 	/**
