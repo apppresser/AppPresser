@@ -34,6 +34,8 @@ class AppPresser_Admin_Settings extends AppPresser {
 	public static $advanced_fields  = array();
 	public static $v2only_fields   = array();
 	public static $deprecate_ver   = 0;
+    public $themes;
+    public $nav_menus;
 
 	/**
 	 * Creates or returns an instance of this class.

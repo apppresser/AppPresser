@@ -53,6 +53,7 @@ class AppPresser {
 	public static $debug = null;
 	public static $deprecate_ver = 0;
 	// public static $errorpath = '../php-error-log.php';
+    public $theme_switcher;
 
 	/**
 	 * Creates or returns an instance of this class.

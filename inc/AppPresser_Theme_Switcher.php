@@ -13,6 +13,7 @@ class AppPresser_Theme_Switcher extends AppPresser {
 	public $original_stylesheet = null;
 	public $theme               = null;
 	public $appp_theme          = false;
+    public $is_appp_customizer;
 
 	/**
 	 * Party Started
