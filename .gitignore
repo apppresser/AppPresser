@@ -1,8 +1,0 @@
-*.svnsftp-config.json
-node_modules/
-.DS_Store
-rsync*
-js/apppresser2-plugins.dev.js
-.svn
-/apppresser-core.sublime-project
-/apppresser-core.sublime-workspace

@@ -1,7 +1,7 @@
 === AppPresser - Mobile App Framework ===
 Contributors: apppresser, scottopolis, Messenlehner, marioshtika
 Donate link: http://apppresser.com/
-Tags: mobile, app, ios, android, application, phonegap, iphone app, android app, mobile app, native app, wordpress mobile, ipad app, iOS app
+Tags: application, iphone app, android app, mobile app, wordpress mobile
 Requires at least: 4.7.0
 Tested up to: 6.6
 Stable tag: 4.4.2
