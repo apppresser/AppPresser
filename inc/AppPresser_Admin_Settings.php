@@ -36,6 +36,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 	public static $deprecate_ver   = 0;
     public $themes;
     public $nav_menus;
+	public $reset_status = array();
 
 	/**
 	 * Creates or returns an instance of this class.
