@@ -47,6 +47,9 @@ This plugin is not an app-creator in itself, it helps connect your app to WordPr
 
 == Changelog ==
 
+= 4.4.3 =
+* Improved authentication process when using the API
+
 = 4.4.2 =
 * More changes for PHP 8.2 compatibility
 * Tested with WordPress 6.6

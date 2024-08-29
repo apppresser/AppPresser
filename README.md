@@ -36,6 +36,9 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+### 4.4.3
+* Improved authentication process when using the API
+
 ### 4.4.2
 * More changes for PHP 8.2 compatibility
 * Tested with WordPress 6.6
