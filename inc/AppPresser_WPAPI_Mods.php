@@ -284,11 +284,11 @@ class AppPresser_WPAPI_Mods {
 
 		do_action( 'appp_before_signon', $info );
 		
-		$user_signon = wp_signon( $info, false );
+        $user = wp_authenticate($info['user_login'], $info['user_password']);
 
 		do_action( 'appp_login_header' );
 		
-		if( is_wp_error( $user_signon ) ) {
+		if( is_wp_error( $user ) ) {
 		
 			$msg = array(
 				'success' => false,
@@ -303,7 +303,7 @@ class AppPresser_WPAPI_Mods {
 		}
 
         // If everything is successfull, return login response
-        return AppPresser_User::getLoginResponse($user_signon);
+        return AppPresser_User::getLoginResponse($user);
 	}
 
 	/**
