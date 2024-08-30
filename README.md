@@ -36,6 +36,9 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+### 4.4.4
+* Improved app version checking
+
 ### 4.4.3
 * Improved authentication process when using the API
 
