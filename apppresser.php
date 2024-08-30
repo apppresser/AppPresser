@@ -38,7 +38,6 @@ class AppPresser {
 	public static $settings = 'false';
 	public static $instance = null;
 	public static $is_app   = null;
-	public static $is_apppv = null;
 	public static $l10n     = array();
 	public static $dir_path;
 	public static $inc_path;
@@ -275,12 +274,12 @@ class AppPresser {
 		// If PHP can read the cookie, we'll enqueue the standard way
 		if (is_user_logged_in() || self::is_app()) {
 
-			wp_enqueue_script('appp-core', self::$js_url . "appp$min.js", null, self::VERSION);
+			wp_enqueue_script('appp-core', self::$js_url . "appp$min.js", ['jquery'], self::VERSION);
 			wp_localize_script('appp-core', 'apppCore', self::$l10n);
 			return;
 		}
 		if (!self::is_app()) {
-			wp_enqueue_script('appp-no-app', self::$js_url . "no-app.js", null, self::VERSION);
+			wp_enqueue_script('appp-no-app', self::$js_url . "no-app.js", ['jquery'], self::VERSION);
 			return;
 		}
 
@@ -389,7 +388,7 @@ class AppPresser {
 
 		// Enqueue cordova scripts if we have an app
 
-		if (self::get_apv(1)) { // only v1
+		if (self::get_apv() === 1) { // only v1
 			if (appp_is_ios()) {
 				wp_enqueue_script('cordova-core', self::$pg_url . 'ios/cordova.js', null, filemtime(self::$dir_path . 'pg/' . self::$pg_version . '/ios/cordova_plugins.js'));
 			} elseif (appp_is_android()) {
@@ -502,72 +501,30 @@ class AppPresser {
 	 * @since  2.0.0
 	 * @return boolean value
 	 */
-	public static function read_app_version() {
+    public static function get_apv()
+    {
+        if (isset($_GET['appp_bypass']) && $_GET['appp_bypass'] == 'false') {
+            self::set_bypass_cookie(false);
+        } else if ((isset($_GET['appp_bypass']) && $_GET['appp_bypass'] == 'true') || (isset($_COOKIE['AppPresser_Bypass']) && $_COOKIE['AppPresser_Bypass'] == 'true')) {
+            if (isset($_GET['appp_bypass'])) {
+                self::set_bypass_cookie();
+            }
+        } else if (isset($_GET['appp']) && $_GET['appp'] == 3 || isset($_COOKIE['AppPresser_Appp3']) && $_COOKIE['AppPresser_Appp3'] === 'true') {
+            return 3;
+        } else if (isset($_GET['appp']) && $_GET['appp'] == 2 || isset($_COOKIE['AppPresser_Appp2']) && $_COOKIE['AppPresser_Appp2'] === 'true') {
+            return 2;
+        } else if ((isset($_GET['appp']) && $_GET['appp'] == 1) || isset($_COOKIE['AppPresser_Appp']) && $_COOKIE['AppPresser_Appp'] === 'true') {
+            return 1;
+        }
 
-		if (self::$is_apppv !== null)
-			return self::$is_apppv;
-
-		if (isset($_GET['appp_bypass']) && $_GET['appp_bypass'] == 'false') {
-			self::set_bypass_cookie(false);
-		} else if ((isset($_GET['appp_bypass']) && $_GET['appp_bypass'] == 'true') || (isset($_COOKIE['AppPresser_Bypass']) && $_COOKIE['AppPresser_Bypass'] == 'true')) {
-			if (isset($_GET['appp_bypass']))
-				self::set_bypass_cookie();
-
-			return self::$is_apppv = 0;
-		}
-
-		if (isset($_GET['appp']) && $_GET['appp'] == 3 || isset($_COOKIE['AppPresser_Appp3']) && $_COOKIE['AppPresser_Appp3'] === 'true') {
-			self::$is_apppv = 3;
-		} else if (isset($_GET['appp']) && $_GET['appp'] == 2 || isset($_COOKIE['AppPresser_Appp2']) && $_COOKIE['AppPresser_Appp2'] === 'true') {
-			self::$is_apppv = 2;
-		} else if ((isset($_GET['appp']) && $_GET['appp'] == 1) || isset($_COOKIE['AppPresser_Appp']) && $_COOKIE['AppPresser_Appp'] === 'true') {
-			self::$is_apppv = 1;
-		} else {
-			self::$is_apppv = 0;
-		}
-
-		return self::$is_apppv;
-	}
-
-	/**
-	 * Gets or compares the app version from the appp=X url param or cookie
-	 * get_apv() will return an integer of the exact version
-	 * get_apv(2) will return boolean if it's an exact match
-	 * get_apv(1, true) will return boolean if app is x >= 
-	 * @since 2.0.0
-	 * @param int $is_ver the version to check against
-	 * @param boolean $min_ver to check if the current version is >= $is_ver
-	 * @return int|boolean Variable value
-	 */
-	public static function get_apv($is_ver = 0, $min_ver = false) {
-
-		if ($is_ver && $min_ver) {
-
-			// Compare a minimum version
-
-			return (self::read_app_version() >= $is_ver);
-		} else if ($is_ver) {
-
-			// Compare exact version in $is_ver
-
-			if (self::read_app_version() == $is_ver) {
-				return true;
-			} else {
-				return false;
-			}
-		} else {
-
-			// Return the exact version
-
-			return self::read_app_version();
-		}
-	}
+        return 0;
+    }
 
 	/**
 	 * A wrapper for get_apv when getting the minimum version
 	 */
 	public static function is_min_ver($is_ver) {
-		return self::get_apv($is_ver, true);
+		return self::get_apv() >= $is_ver;
 	}
 
 	/**
