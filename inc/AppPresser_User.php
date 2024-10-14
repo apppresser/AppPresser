@@ -18,7 +18,7 @@ class AppPresser_User
             'email' => $user->user_email,
             'avatar' => get_avatar_url($user->ID),
             'cookie_auth' => $cookie_auth,
-            'login_redirect' => AppPresser_Ajax_Extras::get_login_redirect(), // v3 only
+            'login_redirect' => AppPresser_WPAPI_Mods::get_login_redirect(), // v3 only
             'success' => true,
             'user_id' => $user->ID
         );

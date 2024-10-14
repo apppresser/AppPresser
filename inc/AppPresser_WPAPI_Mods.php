@@ -352,7 +352,7 @@ class AppPresser_WPAPI_Mods {
 			'success' => true
 		);
 
-		$redirect = $this->get_logout_redirect();
+		$redirect = self::get_logout_redirect();
 		if($redirect) {
 			$response['logout_redirect'] = $redirect;
 		}
@@ -592,23 +592,62 @@ class AppPresser_WPAPI_Mods {
 
 	}
 
-	/**
-	 * Get the login redirect for the app's login modal
-	 * 
-	 * @since 3.3.0
-	 * @return string | array( 'url' => '', 'title' => '' )
-	 */
-	public function get_logout_redirect() {
+    /**
+     * Get the login redirect for the app's login modal
+     * 
+     * @since 3.2.1
+     * @return string | array( 'url' => '', 'title' => '' )
+     */
+    public static function get_login_redirect()
+    {
+        if (has_filter('appp_login_redirect')) {
+            $redirect_to = apply_filters('appp_login_redirect', '');
 
-		if( has_filter( 'appp_logout_redirect' ) ) {
-			$redirect_to = apply_filters( 'appp_logout_redirect', '' );
+            return self::add_redirect_title($redirect_to);
+        } else {
+            return '';
+        }
+    }
 
-			return AppPresser_Ajax_Extras::add_redirect_title( $redirect_to );
-			
-		} else {
-			return '';
-		}
-	}
+    /**
+     * Get the login redirect for the app's login modal
+     * 
+     * @since 3.3.0
+     * @return string | array( 'url' => '', 'title' => '' )
+     */
+    public static function get_logout_redirect()
+    {
+        if (has_filter('appp_logout_redirect')) {
+            $redirect_to = apply_filters('appp_logout_redirect', '');
+
+            return self::add_redirect_title($redirect_to);
+        } else {
+            return '';
+        }
+    }
+
+    /**
+     * Use the URL to get title or just returns a string if it is a app custom page slug
+     * 
+     * @since 3.3.0
+     * 
+     * @return string | array( 'url' => '', 'title' => '' )
+     */
+    public static function add_redirect_title($redirect_to)
+    {
+        if (is_string($redirect_to) && strpos($redirect_to, 'http') !== false) {
+            // a URL
+            $post_id = url_to_postid($redirect_to);
+
+            return array(
+                'url' => $redirect_to,
+                'title' => ($post_id) ? get_the_title($post_id) : '',
+            );
+        } else {
+            // An app custom page slug
+            return $redirect_to;
+        }
+    }
 
 	/*
 	 * API password reset
