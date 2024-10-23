@@ -8,7 +8,6 @@
 // Exit if accessed directly
 if( !defined( 'ABSPATH' ) ) exit;
 
-// this class can be in multiple plugins, so make sure we only add it once
 if( !class_exists( 'AppPresser_Theme_Updater' ) ) {
 
     /**
@@ -18,15 +17,9 @@ if( !class_exists( 'AppPresser_Theme_Updater' ) ) {
      */
     class AppPresser_Theme_Updater {
 
-        /**
-         * @var         AppPresser_Theme_Updater $instance The one true AppPresser_Theme_Updater
-         * @since       0.2.0
-         */
         public static $instance;
         public static $version;
         public static $plugin_slug;
-        //public static $errorpath = '../php-error-log.php';
-        // sample: error_log("meta: " . $meta . "\r\n",3,self::$errorpath);
 
         /**
          * Get active instance
@@ -38,27 +31,10 @@ if( !class_exists( 'AppPresser_Theme_Updater' ) ) {
         public static function instance() {
             if( !self::$instance ) {
                 self::$instance = new AppPresser_Theme_Updater();
-
                 self::$instance->hooks();
-                
             }
-
             return self::$instance;
         }
-
-        /*
-         * Adds a theme slug to be updated. This is called each time a theme is activated.
-         */
-        // public function add_theme_to_updater( $version, $slug ) {
-        //     $themes = ( get_transient('apppresser_update_themes') ? get_transient('apppresser_update_themes') : array() );
-
-        //     $theme = array( "slug" => $slug, "version" => $version );
-        //     if (!in_array($theme, $themes)) {
-        //         $themes[] = $theme; 
-        //     }
-
-        //     set_transient( 'apppresser_update_themes', $themes, 72 * HOUR_IN_SECONDS );
-        // }
 
         /**
          * Include necessary files
@@ -79,7 +55,6 @@ if( !class_exists( 'AppPresser_Theme_Updater' ) ) {
             $this->check_for_updates();
 
             require_once( $theme_setup_path );
-
             $theme_setup = new AppPresser_3_Theme_Setup();
             
             $themes = array();
@@ -93,17 +68,16 @@ if( !class_exists( 'AppPresser_Theme_Updater' ) ) {
 			    set_transient( 'apppresser_theme_check', 'wait', 7 * DAY_IN_SECONDS );
             }, 10, 2 );
 
-            // only tell our plugin to update if we have 
+            // only tell our plugin to update if we have data
             if( false !== get_transient( 'apppresser_theme_update_json' ) ) {
                 $this->add_update_filters();
             }
 
             // flush transients when update screen is loaded
             add_action( 'load-update-core.php', array( $this, 'delete_transients' ) );
-            
         }
 
-        // provide a way to flush transients
+        // Provide a way to flush transients
         public function delete_transients() {
             delete_transient( 'apppresser_theme_update_json' );
             delete_transient('apppresser_update_themes');
@@ -115,42 +89,39 @@ if( !class_exists( 'AppPresser_Theme_Updater' ) ) {
             add_filter( 'transient_update_themes', array( $this, 'filter_update_themes' ) );
         }
 
-        // this filter has all plugins to be updated, not just AppPresser plugins. If we need an update, add our plugin information to this array.
+        // This filter has all plugins to be updated, not just AppPresser plugins
         public function filter_update_themes( $update_themes ) {
 
-            // print_r( $update_themes );
-       
             $json = get_transient( 'apppresser_theme_update_json' );
-
             $themes = get_transient('apppresser_update_themes');
 
+            // Check if themes or json data exist
             if( !$themes || !$json ) {
                 return $update_themes;
             }
 
             foreach ($themes as $theme) {
-    
                 if( isset( $theme["slug"] ) && isset( $theme["version"] ) ) {
-
                     $slug = $theme["slug"];
+                    var_dump($slug);
 
-                    // returns 1 if second number is lower
-                    $should_update = version_compare( strval( $json->$slug->latest_version ), $theme["version"] );
+                    // Ensure the version exists before comparison
+                    if (isset($json->$slug->latest_version)) {
+                        $should_update = version_compare( strval( $json->$slug->latest_version ), $theme["version"] );
 
-                    if ($should_update) {
-                        // Do whatever you need to see if there's a new version of your theme
-                        // Your response will need to look something like this if it's out of date:
-                        if (property_exists($update_themes, 'response') && isset($update_themes->response[$slug])) {
-                            $update_themes->response[$slug] = array(
-                                'theme' => $slug,
-                                'new_version' => $json->$slug->latest_version, // The newest version
-                                'url' => $json->$slug->description, // Informational
-                                'package' => $json->$slug->download_url, // Where WordPress should pull the ZIP from.
-                            );
+                        if ($should_update) {
+                            // Check if $update_themes is an object or array and contains 'response'
+                            if ((is_object($update_themes) || is_array($update_themes)) && property_exists($update_themes, 'response') && isset($update_themes->response[$slug])) {
+                                $update_themes->response[$slug] = array(
+                                    'theme' => $slug,
+                                    'new_version' => $json->$slug->latest_version,
+                                    'url' => $json->$slug->description,
+                                    'package' => $json->$slug->download_url,
+                                );
+                            }
                         }
                     }
                 }
-                
             }
 
             return $update_themes;
@@ -173,26 +144,28 @@ if( !class_exists( 'AppPresser_Theme_Updater' ) ) {
                 return;
             }
             
-            // check if user has active subscription. Response will be false, status=>inactive, or return the plugin json if successful
+            // check if user has active subscription
             $response = wp_remote_get( "https://myapppresser.com/wp-json/appp/plugin-update?email=" . $email );
 
             set_transient( 'apppresser_theme_check', 'wait', 72 * HOUR_IN_SECONDS );
 
             if( is_wp_error( $response ) || !$response ) {
+                error_log('API request failed: ' . print_r($response, true));
                 return;
             }
 
-            if ( is_array( $response ) ) {
-                // $headers = $response['headers']; // array of http header lines
+            if ( is_array( $response ) && isset($response['body']) ) {
                 $body    = $response['body']; // use the content
+            } else {
+                error_log('Invalid response structure: ' . print_r($response, true));
+                return;
             }
 
-            // user doesn't exist, or some other error
+            // Handle different response cases
             if( !$body || $body === "false" ) {
                 return;
             }
 
-            // customer is not active, don't check again unless transient is flushed
             if( $body === '"inactive"' ) {
                 set_transient( 'apppresser_theme_check', 'wait', 999 * DAY_IN_SECONDS );
                 return;
@@ -201,12 +174,9 @@ if( !class_exists( 'AppPresser_Theme_Updater' ) ) {
             $json = json_decode( $body );
 
             if( isset( $json->themes ) ) {
-                // success, store our data
+                // Success, store our data
                 set_transient( 'apppresser_theme_update_json', $json->themes, 72 * HOUR_IN_SECONDS );
             }
-            
         }
-
     }
-
-} // end class_exists check
+}
