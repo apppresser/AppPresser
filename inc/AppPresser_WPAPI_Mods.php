@@ -654,25 +654,21 @@ class AppPresser_WPAPI_Mods {
 	 * First, post the user email, and a reset code is sent to them
 	 * Next, post the code and new password, and it's changed
 	 */
-	public function reset_password( $request ) {
+    public function reset_password($request)
+    {
+        $return = array(
+            'success' => false,
+            'message' => 'Missing required fields.'
+        );
 
-		$return = array(
-			'success' => false,
-			'message' => 'Missing required fields.'
-		);
+        if (!empty($request['code']) && !empty($request['password'])) {
+            $return = $this->validate_reset_password($request);
+        } elseif (!empty($request['email'])) {
+            $return = $this->get_pw_reset_code($request);
+        }
 
-		if( isset( $request['code'] ) && isset( $request['password'] ) ) {
-
-			$return = $this->validate_reset_password( $request );
-
-		} elseif( isset( $request['email'] ) ) {
-
-			$return = $this->get_pw_reset_code( $request );
-		}
-
-		return $return;
-
-	}
+        return $return;
+    }
 
     /**
      * Returns the installed plugins and their version from a predefind list
