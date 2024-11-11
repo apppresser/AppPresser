@@ -134,23 +134,25 @@ if( !class_exists( 'AppPresser_Theme_Updater' ) ) {
 
                     $slug = $theme["slug"];
 
-                    // returns 1 if second number is lower
-                    $should_update = version_compare( strval( $json->$slug->latest_version ), $theme["version"] );
+                    // Ensure the version exists before comparison
+                    if (isset($json->$slug->latest_version)) {
+                        // returns 1 if second number is lower
+                        $should_update = version_compare(strval($json->$slug->latest_version), $theme["version"]);
 
-                    if ($should_update) {
-                        // Do whatever you need to see if there's a new version of your theme
-                        // Your response will need to look something like this if it's out of date:
-                        if (property_exists($update_themes, 'response') && isset($update_themes->response[$slug])) {
-                            $update_themes->response[$slug] = array(
-                                'theme' => $slug,
-                                'new_version' => $json->$slug->latest_version, // The newest version
-                                'url' => $json->$slug->description, // Informational
-                                'package' => $json->$slug->download_url, // Where WordPress should pull the ZIP from.
-                            );
+                        if ($should_update) {
+                            // Do whatever you need to see if there's a new version of your theme
+                            // Your response will need to look something like this if it's out of date:
+                            if ((is_object($update_themes)) && property_exists($update_themes, 'response') && isset($update_themes->response[$slug])) {
+                                $update_themes->response[$slug] = array(
+                                    'theme' => $slug,
+                                    'new_version' => $json->$slug->latest_version, // The newest version
+                                    'url' => $json->$slug->description, // Informational
+                                    'package' => $json->$slug->download_url, // Where WordPress should pull the ZIP from.
+                                );
+                            }
                         }
                     }
                 }
-                
             }
 
             return $update_themes;
