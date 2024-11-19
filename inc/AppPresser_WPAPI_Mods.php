@@ -661,10 +661,15 @@ class AppPresser_WPAPI_Mods {
             'message' => 'Missing required fields.'
         );
 
-        if (!empty($request['code']) && !empty($request['password'])) {
-            $return = $this->validate_reset_password($request);
-        } elseif (!empty($request['email'])) {
-            $return = $this->get_pw_reset_code($request);
+        // Sanitize and validate fields
+        $code = isset($request['code']) ? sanitize_text_field($request['code']) : '';
+        $password = isset($request['password']) ? sanitize_text_field(addslashes($request['password'])) : '';
+        $email = isset($request['email']) ? sanitize_email($request['email']) : '';
+
+        if (!empty($code) && !empty($password)) {
+            $return = $this->validate_reset_password($code, $password);
+        } elseif (!empty($email) && is_email($email)) {
+            $return = $this->get_pw_reset_code($email);
         }
 
         return $return;
@@ -704,9 +709,8 @@ class AppPresser_WPAPI_Mods {
     /*
 	 * API password reset
 	 */
-    public function get_pw_reset_code($request)
+    public function get_pw_reset_code($email)
     {
-        $email = sanitize_text_field($request['email']);
         $user = get_user_by('email', $email);
         if ($user) {
             // create a unique code to use one time
@@ -741,36 +745,28 @@ class AppPresser_WPAPI_Mods {
 	 *
 	 * @access public
 	 */
-	public function validate_reset_password( $request ) {
+    public function validate_reset_password($code, $password)
+    {
+        $user = get_users(array('meta_key' => 'app_hash', 'meta_value' => $code));
+        if ($user) {
+            wp_update_user(array('ID' => $user[0]->data->ID, 'user_pass' => $password));
+            // delete our one time access code
+            delete_user_meta($user[0]->data->ID, 'app_hash');
 
-        $code = sanitize_text_field($request['code']);
-        $password = sanitize_text_field(addslashes($request['password']));
+            $return = array(
+                'message' => __('Password has been changed, please login.', 'apppresser'),
+                'pw_changed' => true,
+                'success' => true
+            );
+        } else {
+            $return = array(
+                'success' => false,
+                'message' =>  __('The code you have entered is not valid.', 'apppresser')
+            );
+        }
 
-		$user = get_users( array( 'meta_key' => 'app_hash', 'meta_value' => $code ) );
-
-		if( $user ) {
-
-			wp_update_user( array ('ID' => $user[0]->data->ID, 'user_pass' => $password ) ) ;
-			// delete our one time access code
-			delete_user_meta( $user[0]->data->ID, 'app_hash');
-
-			$return = array(
-				'message' => __('Password has been changed, please login.', 'apppresser'),
-				'pw_changed' => true,
-				'success' => true
-			);
-
-		} else {
-
-			$return = array(
-				'success' => false,
-				'message' =>  __('The code you have entered is not valid.', 'apppresser')
-			);
-
-		}
-
-		return $return;
-	}
+        return $return;
+    }
 
 	// endpoint to submit a form from the ap-form component
 	public function submit_form( $data ) {
