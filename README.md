@@ -36,6 +36,9 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+### 4.4.7
+* Improve reset password workflow
+
 ### 4.4.6
 * Improve the reset password process
 * Improve workflow when ion-theme is being updated
