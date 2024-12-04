@@ -36,6 +36,10 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+### 4.4.8
+* Improve password verification process
+* Tested with WordPress 6.7
+
 ### 4.4.7
 * Improve reset password workflow
 
