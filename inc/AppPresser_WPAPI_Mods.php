@@ -263,11 +263,11 @@ class AppPresser_WPAPI_Mods {
 	 * 
 	 * @since 3.6.0
 	 */
-	public function api_login( $request ) {
-
-		$info['user_login'] = ( $request['username'] ? $request['username'] : $_SERVER['PHP_AUTH_USER'] );
-		$info['user_password'] = ( $request['password'] ? $request['password'] : $_SERVER['PHP_AUTH_PW'] );
-		$info['remember'] = true;
+    public function api_login($request)
+    {
+        $info['user_login'] = ($request['username'] ? sanitize_text_field($request['username']) : $_SERVER['PHP_AUTH_USER']);
+        $info['user_password'] = ($request['password'] ? wp_slash(sanitize_text_field($request['password'])) : $_SERVER['PHP_AUTH_PW']);
+        $info['remember'] = true;
 
 		if( empty( $info['user_login'] ) || empty( $info['user_password'] ) ) {
 			
@@ -374,84 +374,91 @@ class AppPresser_WPAPI_Mods {
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Request List of activities object data.
 	 */
-	public function register_user( $request ) {
-		
-		if ( !get_option( 'users_can_register' ) ) {
-			return new WP_Error( 'rest_invalid_registration',
-				__( 'Registration is disabled.', 'apppresser' ),
-				array(
-					'status' => 404,
-				)
-			);
-		}
+    public function register_user($request)
+    {
+        $username = isset($request['username']) ? sanitize_text_field($request['username']) : '';
+        $email = isset($request['email']) ? sanitize_email($request['email']) : '';
+        $first_name = isset($request['first_name']) ? sanitize_text_field($request['first_name']) : '';
+        $last_name = isset($request['last_name']) ? sanitize_text_field($request['last_name']) : '';
+        $password = isset($request['password']) ? wp_slash(sanitize_text_field($request['password'])) : '';
 
-		if( empty( $request['username'] ) || empty( $request['email'] ) ) {
+        if (!get_option('users_can_register')) {
+            return new WP_Error(
+                'rest_invalid_registration',
+                __('Registration is disabled.', 'apppresser'),
+                array(
+                    'status' => 404,
+                )
+            );
+        }
 
-			return new WP_Error( 'rest_invalid_registration',
-				__( 'Missing required fields.', 'apppresser' ),
-				array(
-					'status' => 404,
-				)
-			);
+        if (empty($username) || empty($email)) {
 
-		}
+            return new WP_Error(
+                'rest_invalid_registration',
+                __('Missing required fields.', 'apppresser'),
+                array(
+                    'status' => 404,
+                )
+            );
+        }
 
-		if ( email_exists( $request['email'] ) || username_exists( $request['username'] ) ) {
-			return new WP_Error( 'rest_invalid_registration',
-				__( 'Email or username already exists.', 'apppresser' ),
-				array(
-					'status' => 404,
-				)
-			);
-		}
+        if (email_exists($email) || username_exists($username)) {
+            return new WP_Error(
+                'rest_invalid_registration',
+                __('Email or username already exists.', 'apppresser'),
+                array(
+                    'status' => 404,
+                )
+            );
+        }
 
-		if( empty( $request['password'] ) ) {
-			$password = wp_generate_password( 8 );
-		} else {
-			$password = $request['password'];
-		}
+        if (empty($password)) {
+            $password = wp_generate_password(8);
+        }
 
-		$userdata = array(
-		    'user_login'  =>  $request['username'],
-		    'user_pass'   =>  $password,
-		    'user_email'  =>  $request['email'],
-		    'first_name'  =>  $request['first_name'],
-		    'last_name'   =>  $request['last_name']
-		);
+        $userdata = array(
+            'user_login' => $username,
+            'user_pass' => $password,
+            'user_email' => $email,
+            'first_name' => $first_name,
+            'last_name' => $last_name
+        );
 
-		$user_id = wp_insert_user( $userdata );
+        $user_id = wp_insert_user($userdata);
 
-		if ( is_wp_error( $user_id ) ) {
-			return new WP_Error( 'rest_invalid_registration',
-				__( 'Something went wrong with registration.', 'apppresser' ),
-				array(
-					'status' => 404,
-				)
-			);
-		}
+        if (is_wp_error($user_id)) {
+            return new WP_Error(
+                'rest_invalid_registration',
+                __('Something went wrong with registration.', 'apppresser'),
+                array(
+                    'status' => 404,
+                )
+            );
+        }
 
-		update_user_meta( $user_id, 'app_unverified', true );
+        update_user_meta($user_id, 'app_unverified', true);
 
-		$mail_sent = $this->send_verification_code( $request );
+        $mail_sent = $this->send_verification_code($request);
 
-		if ( !$mail_sent ) {
-			return new WP_Error( 'rest_invalid_registration',
-				__( 'We could not send your verification code, please contact support.', 'apppresser' ),
-				array(
-					'status' => 404,
-				)
-			);
-		}
+        if (!$mail_sent) {
+            return new WP_Error(
+                'rest_invalid_registration',
+                __('We could not send your verification code, please contact support.', 'apppresser'),
+                array(
+                    'status' => 404,
+                )
+            );
+        }
 
-		do_action( 'appp_register_unverified', $user_id );
+        do_action('appp_register_unverified', $user_id);
 
-		$success = __( "Your verification code has been sent, please check your email.", "apppresser" );
+        $success = __("Your verification code has been sent, please check your email.", "apppresser");
 
-		$retval = rest_ensure_response( $success );
+        $retval = rest_ensure_response($success);
 
-		return $retval;
-
-	}
+        return $retval;
+    }
 
 	/**
 	 * Emails a verification code
@@ -548,7 +555,7 @@ class AppPresser_WPAPI_Mods {
         // log the user in
         $info = array();
         $info['user_login'] = sanitize_text_field($request['username']);
-        $info['user_password'] = sanitize_text_field($request['password']);
+        $info['user_password'] = wp_slash(sanitize_text_field($request['password']));
         $info['remember'] = true;
 
         $user_signon = wp_signon($info, false);
@@ -663,7 +670,7 @@ class AppPresser_WPAPI_Mods {
 
         // Sanitize and validate fields
         $code = isset($request['code']) ? sanitize_text_field($request['code']) : '';
-        $password = isset($request['password']) ? sanitize_text_field(addslashes($request['password'])) : '';
+        $password = isset($request['password']) ? wp_slash(sanitize_text_field($request['password'])) : '';
         $email = isset($request['email']) ? sanitize_email($request['email']) : '';
 
         if (!empty($code) && !empty($password)) {
