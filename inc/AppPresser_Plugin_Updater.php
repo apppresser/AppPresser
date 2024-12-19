@@ -95,7 +95,7 @@ if( !class_exists( 'AppPresser_Plugin_Updater' ) ) {
         }
 
         public function add_update_filters() {
-            add_filter( 'site_transient_update_plugins', array( $this, 'filter_update_plugins' ) );
+            add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'filter_update_plugins' ) );
             add_filter( 'transient_update_plugins', array( $this, 'filter_update_plugins' ) );
         }
 
