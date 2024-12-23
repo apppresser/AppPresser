@@ -1296,6 +1296,8 @@ class AppPresser_Admin_Settings extends AppPresser {
         if (class_exists('Jwt_Auth_Public') && !defined('JWT_AUTH_SECRET_KEY')) {
             add_action('admin_notices', array($this, 'missing_jwt_auth_secret_key_admin_notice'));
         }
+        
+        add_action('admin_notices', array($this, 'legacy_extentions_admin_notice'));
 	}
 
 	public function apptheme_update_admin_notice() {
@@ -1322,6 +1324,61 @@ class AppPresser_Admin_Settings extends AppPresser {
 		</div>
 		<?php
 	}
+
+    public function legacy_extentions_admin_notice()
+    {
+        $app_camera = defined('AppPresser_Camera::APPP_KEY');
+        $app_commerce = defined('AppCommerce::APPP_KEY');
+        $app_community = defined('AppCommunity::APPP_KEY');
+        $app_lms = defined('AppLMS::APPP_KEY');
+        $app_push = defined('AppPresser_Notifications::APPP_KEY');
+        $ap3_ion_theme = self::ap3_ion_theme_edd_exists();
+        if ($app_camera || $app_commerce || $app_community || $app_lms || $app_push || $ap3_ion_theme) {
+        ?>
+            <div class="notice notice-warning">
+                <p><?php _e('You are currently using legacy versions of the following AppPresser extensions. These extensions will no longer receive updates so we strongly urge you to contact us via <a href="mailto:support@apppresser.com">support@apppresser.com</a> to ensure you continue to have access to future updates.', 'my-text-domain'); ?></p>
+                <ul style="list-style: initial;padding: revert;">
+                    <?php if ($app_camera) : ?>
+                        <li>AppCamera</li>
+                    <?php endif; ?>
+                    <?php if ($app_commerce) : ?>
+                        <li>AppCommerce</li>
+                    <?php endif; ?>
+                    <?php if ($app_community) : ?>
+                        <li>AppCommunity</li>
+                    <?php endif; ?>
+                    <?php if ($app_lms) : ?>
+                        <li>AppLMS</li>
+                    <?php endif; ?>
+                    <?php if ($app_push) : ?>
+                        <li>AppPush</li>
+                    <?php endif; ?>
+                    <?php if ($ap3_ion_theme) : ?>
+                        <li>AP3 Ion Theme</li>
+                    <?php endif; ?>
+                </ul>
+            </div>
+        <?php
+        }
+    }
+
+    public static function ap3_ion_theme_edd_exists()
+    {
+        $theme_name = 'ap3-ion-theme';
+        $class_file = 'inc/classes/AppPresser_AP3_Customizer.php';
+        // Check if the theme exists
+        $theme = wp_get_theme($theme_name);
+        if ($theme->exists()) {
+            // Build the file path
+            $theme_root = get_theme_root() . '/' . $theme_name;
+            $file_path = $theme_root . '/' . $class_file;
+            if (file_exists($file_path)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
 	public static function set_deprecate_version( $deprecate_ver = null ) {
 		if( isset( $_GET['appp_settings_ver'] ) && is_numeric( $_GET['appp_settings_ver'] ) ) {
