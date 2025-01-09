@@ -5,7 +5,7 @@ Plugin URI: http://apppresser.com
 Description: A mobile app development framework for WordPress.
 Text Domain: apppresser
 Domain Path: /languages
-Version: 4.4.9
+Version: 4.4.10
 Author: AppPresser Team
 Author URI: http://apppresser.com
 License: GPLv2
@@ -33,7 +33,7 @@ use \Firebase\JWT\Key;
 
 class AppPresser {
 
-	const VERSION           = '4.4.9';
+	const VERSION           = '4.4.10';
 	const SETTINGS_NAME     = 'appp_settings';
 	public static $settings = 'false';
 	public static $instance = null;
