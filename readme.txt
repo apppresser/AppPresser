@@ -1,5 +1,5 @@
 === AppPresser - Mobile App Framework ===
-Contributors: apppresser, scottopolis, Messenlehner, marioshtika
+Contributors: apppresser, scottopolis, Messenlehner, marioshtika, damienoneill2001
 Donate link: http://apppresser.com/
 Tags: application, iphone app, android app, mobile app, wordpress mobile
 Requires at least: 4.7.0
