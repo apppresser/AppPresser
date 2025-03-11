@@ -265,7 +265,7 @@ class AppPresser_Logger {
 	 *  1.3.0
 	 */
 	private function is_valid_log_path( $path ) {
-		// Verify path is within uploads directory
+		// Verify path is within uploads directory.
 		$upload_dir  = wp_upload_dir();
 		$upload_base = trailingslashit( $upload_dir['basedir'] );
 
