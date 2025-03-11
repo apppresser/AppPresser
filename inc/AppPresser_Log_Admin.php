@@ -12,25 +12,38 @@
  */
 class AppPresser_Log_Admin extends AppPresser {
 
-	// A single instance of this class.
+	/**
+	 * A single instance of this class.
+	 *
+	 * @var null|AppPresser_Log_Admin
+	 */
 	public static $instance = null;
 
+	/**
+	 * Template file name for the log viewer.
+	 *
+	 * @since 1.3.0
+	 * @var string
+	 */
 	private $template = 'template.php';
 
 	/**
 	 * Creates or returns an instance of this class.
+	 *
 	 * @since  1.3.0
 	 * @return AppPresser_Admin_Settings A single instance of this class.
 	 */
 	public static function run() {
-		if ( self::$instance === null )
+		if ( null === self::$instance ) {
 			self::$instance = new self();
+		}
 
 		return self::$instance;
 	}
 
 	/**
 	 * Setup the AppPresser_Log_Admin Settings
+	 *
 	 * @since  1.3.0
 	 */
 	function __construct() {
@@ -45,19 +58,21 @@ class AppPresser_Log_Admin extends AppPresser {
 
 	/**
 	 * Add Log tab!
+	 *
 	 * @since 1.3.0
-	 * @param object  $apppresser  AppPresser_Admin_Settings Instance
+	 * @param object $apppresser  AppPresser_Admin_Settings Instance.
 	 */
 	public function log_viewer( $apppresser ) {
 
-		// Create a new tab for our settings
+		// Create a new tab for our settings.
 		$apppresser->add_setting_tab( __( 'Log', 'apppresser' ), 'log' );
 	}
 
 	/**
 	 * Add the log template.php to the tab
+	 *
 	 * @since 1.3.0
-	 * @param array $arg1
+	 * @param array $arg1.
 	 */
 	public function appp_log_file_info( $arg1 ) {
 
@@ -70,6 +85,7 @@ class AppPresser_Log_Admin extends AppPresser {
 
 	/**
 	 * Removes the save settings button when viewing the log tab
+	 *
 	 * @since 1.3.0
 	 */
 	public function appp_remove_settings_save_button() {
@@ -99,6 +115,7 @@ class AppPresser_Log_Admin extends AppPresser {
 
 	/**
 	 * The server side ajax handler when sending log messages from JavaScript
+	 *
 	 * @since 1.3.0
 	 */
 	public function ajax_log() {
@@ -107,8 +124,9 @@ class AppPresser_Log_Admin extends AppPresser {
 
 		$log = array();
 
-		foreach ($post_vars as $key) {
-			$log[$key] = ( isset( $_POST[$key] ) ) ? $_POST[$key] : '';
+		foreach ( $post_vars as $key ) {
+			$value       = isset( $_POST[ $key ] ) ? wp_unslash( $_POST[ $key ] ) : '';
+			$log[ $key ] = sanitize_text_field( $value );
 		}
 
 		do_action( 'appp_debug_log', $log['title'], $log['var'], $log['file'], $log['function'], $log['line'] );
@@ -117,9 +135,11 @@ class AppPresser_Log_Admin extends AppPresser {
 
 	/**
 	 * Initializes the appp_log_data variable for the admin_head
+	 *
 	 * @since 1.3.0
 	 */
-	public function admin_head_javascript() { ?>
+	public function admin_head_javascript() {
+		?>
 		<script type="text/javascript">
 		var appp_log_data = {
 			'action':'appp_log',
@@ -131,52 +151,58 @@ class AppPresser_Log_Admin extends AppPresser {
 		};
 
 		</script>
-	<?php
+		<?php
 	}
 
 	/**
 	 * Adds the app_log() function for the wp admin
 	 *
 	 * // how to test
-	 *	appp_log_data.title = 'test';
-	 *	appp_log_data.var = 'my var';
-	 *	appp_log_data.file = 'some.js';
-	 *	appp_log_data.function = 'test()';
-     *	appp_log_data.line = '139';
-     *
-	 *	app_log();
+	 *  appp_log_data.title = 'test';
+	 *  appp_log_data.var = 'my var';
+	 *  appp_log_data.file = 'some.js';
+	 *  appp_log_data.function = 'test()';
+	 *  appp_log_data.line = '139';
+	 *
+	 *  app_log();
+	 *
 	 * @since 1.3.0
 	 */
-	public function admin_footer_javascript() { ?>
+	public function admin_footer_javascript() {
+
+		?>
 		<script type="text/javascript">
 		function app_log() {
 			jQuery.post(ajaxurl, appp_log_data, function(response) {
 				// silence
 			});
 		};
-		</script> <?php
+		</script> 
+		<?php
 	}
 
 	/**
 	 * Gets the log file name
+	 *
 	 * @since  1.3.0
 	 * @return string|boolean A file path or false if the file does not exist
 	 */
 	public function get_log_file_name() {
-		if( file_exists( AppPresser_Logger::$log_filepath ) ) {
+		if ( file_exists( AppPresser_Logger::$log_filepath ) ) {
 			return AppPresser_Logger::$log_filepath;
-		} else{
+		} else {
 			return false;
 		}
 	}
 
 	/**
 	 * Reads the log file
+	 *
 	 * @since  1.3.0
 	 * @return string The file content
 	 */
 	public function get_log_file_content() {
-		if( $this->get_log_file_name() ) {
+		if ( $this->get_log_file_name() ) {
 			return file_get_contents( $this->get_log_file_name(), false );
 		}
 
@@ -185,10 +211,11 @@ class AppPresser_Log_Admin extends AppPresser {
 
 	/**
 	 * Displays the template of the log file and admin settings under the log tab
+	 *
 	 * @since  1.3.0
 	 */
 	public function display_log() {
-		$file_exists = file_exists( AppPresser_Logger::$log_filepath );
+		$file_exists    = file_exists( AppPresser_Logger::$log_filepath );
 		$file_writeable = is_writeable( AppPresser_Logger::$log_filepath );
 
 		include_once $this->template;
