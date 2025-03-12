@@ -36,6 +36,9 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+### 4.4.11
+* Improved log messages
+
 ### 4.4.10
 * Fixed the AppLMS data on the myappp-verify endpoint
 
