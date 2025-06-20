@@ -1,6 +1,6 @@
 <?php
 
-use Firebase\JWT\JWT;
+use Tmeister\Firebase\JWT\JWT;
 
 class AppPresser_User {
 

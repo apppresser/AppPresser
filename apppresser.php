@@ -28,8 +28,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
 // Requiere the JWT library
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
+use Tmeister\Firebase\JWT\JWT;
+use Tmeister\Firebase\JWT\Key;
 
 class AppPresser {
 
