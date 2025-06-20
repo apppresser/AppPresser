@@ -13,6 +13,9 @@ class AppPresser_User {
 
 		$data = array(
 			'message'        => apply_filters( 'appp_login_success', sprintf( __( 'Welcome back %s!', 'apppresser' ), $user->display_name ), $user->ID ),
+			'fullname'       => $user->display_name,
+			'firstname'      => $user->first_name,
+			'lastname'       => $user->last_name,
 			'username'       => $user->user_login,
 			'email'          => $user->user_email,
 			'avatar'         => get_avatar_url( $user->ID ),
