@@ -15,15 +15,17 @@ class AppPresser_Theme_Customizer extends AppPresser {
 		$appp_theme = appp_get_setting( 'appp_theme' );
 
 		// If we don't have 'Use different theme for app?' option, bail
-		if ( ! $appp_theme )
+		if ( ! $appp_theme ) {
 			return;
+		}
 
 		// Add customizer link to appp_theme field description
 		add_filter( 'apppresser_field_markup_paragraph', array( $this, 'add_customizer_link' ), 10, 4 );
 
 		// If not in the customizer, bail
-		if ( ! isset( $_GET['appp_theme'] ) )
+		if ( ! isset( $_GET['appp_theme'] ) ) {
 			return;
+		}
 
 		// If we're trying to customize the apppresser theme, make sure we're viewing the right theme.
 		if ( ! isset( $_GET['theme'] ) || $appp_theme != $_GET['theme'] ) {
@@ -46,22 +48,32 @@ class AppPresser_Theme_Customizer extends AppPresser {
 
 	/**
 	 * Add customizer link to the app-only theme setting description
+	 *
 	 * @since 1.0.7
-	 * @param string  $field   Field markup
-	 * @param string  $key     Setting key
-	 * @param mixed   $setting Setting value
-	 * @param array   $args    Array of arguments for field
+	 * @param string $field   Field markup
+	 * @param string $key     Setting key
+	 * @param mixed  $setting Setting value
+	 * @param array  $args    Array of arguments for field
 	 */
 	public function add_customizer_link( $field, $key, $setting, $args ) {
-	
+
 		$appp_theme = appp_get_setting( 'appp_theme' );
-	
+
 		// Only modify the 'appp_theme' setting
-		if ( 'customizer_link' !== $key )
+		if ( 'customizer_link' !== $key ) {
 			return $field;
+		}
 
 		// Get the customizer url
-		$url = esc_url( add_query_arg( array( 'appp_theme' => 1, 'theme' => $appp_theme ), admin_url( 'customize.php' ) ) );
+		$url = esc_url(
+			add_query_arg(
+				array(
+					'appp_theme' => 1,
+					'theme'      => $appp_theme,
+				),
+				admin_url( 'customize.php' )
+			)
+		);
 
 		// Add url to description
 		$description_with_url = $args['value'] . sprintf( '<a class="button button-primary button-large" href="%s">%s</a>', $url, __( 'Open Customizer', 'apppresser' ) );
@@ -74,23 +86,26 @@ class AppPresser_Theme_Customizer extends AppPresser {
 
 	/**
 	 * If customizing apppresser theme, makes sure we're viewing the right theme.
+	 *
 	 * @since  1.0.7
 	 */
 	public function redirect_correct_appp_theme() {
-		wp_redirect(  esc_url( add_query_arg( 'theme', appp_get_setting( 'appp_theme' ) ) ) );
+		wp_redirect( esc_url( add_query_arg( 'theme', appp_get_setting( 'appp_theme' ) ) ) );
 	}
 
 	/**
 	 * Cache non-saved theme_mod settings
+	 *
 	 * @since  1.0.8
 	 * @param  WP_Customize_Manager $wp_customize Theme Customizer object.
 	 */
 	public function get_registered( $customizer ) {
 		$setttings = $customizer->settings();
-		if ( ! is_array( $setttings ) || empty( $setttings ) )
+		if ( ! is_array( $setttings ) || empty( $setttings ) ) {
 			return;
+		}
 
-		$customizer->remove_section("static_front_page");
+		$customizer->remove_section( 'static_front_page' );
 
 		// Cache JUST our theme_mods as "safe" to change
 		foreach ( $customizer->settings() as $id => $control ) {
@@ -103,17 +118,19 @@ class AppPresser_Theme_Customizer extends AppPresser {
 
 	/**
 	 * Change customizer back button url for our app-theme version
+	 *
 	 * @since  1.0.7
 	 * @param  WP_Customize_Control object
 	 */
 	public function attach_warning( $customize ) {
 
-		if( $customize->id == 'site_icon' )
+		if ( $customize->id == 'site_icon' ) {
 			return;
+		}
 
 		// If this is an app-theme mod..
 		if ( ! $is_appp_mod = in_array( $customize->id, $this->mods(), true ) ) {
-			/// loop through our mods and see if we're looking at a sub-setting
+			// loop through our mods and see if we're looking at a sub-setting
 			foreach ( $this->mods() as $mod_key ) {
 				if ( false !== stripos( $customize->id, $mod_key ) ) {
 					$is_appp_mod = true;
@@ -130,8 +147,9 @@ class AppPresser_Theme_Customizer extends AppPresser {
 
 	/**
 	 * Change customizer back button url for our app-theme version
+	 *
 	 * @since  1.0.7
-	 * @param  string  $url Original url
+	 * @param  string $url Original url
 	 * @return string       Maybe modified url
 	 */
 	public function change_back_button_url( $url ) {
@@ -143,8 +161,9 @@ class AppPresser_Theme_Customizer extends AppPresser {
 
 	/**
 	 * Change text for certain customizer strings four our custom version.
+	 *
 	 * @since  1.0.7
-	 * @param  string  $translated_text Input
+	 * @param  string $translated_text Input
 	 * @return string                   Maybe modified text
 	 */
 	public function modify_customizer_text_strings( $translated_text ) {
@@ -152,13 +171,13 @@ class AppPresser_Theme_Customizer extends AppPresser {
 			case 'Save &amp; Publish':
 				return __( 'Save App Settings', 'apppresser' );
 			case 'You are previewing %s':
-				$notice = '<p>'. __( 'You are previewing the app-only theme: ', 'apppresser' ) .'</p>';
+				$notice = '<p>' . __( 'You are previewing the app-only theme: ', 'apppresser' ) . '</p>';
 				// This is the theme title, do not remove
 				$notice .= '<p>%s</p>';
 				// Fair Warning on non-app-theme settings
 				$notice .= sprintf( '<span class="file-error">%s</span> ', __( 'WARNING:', 'apppresser' ) );
 				$notice .= sprintf( __( 'Settings with an asterisk (%s) are not specific to the app-only theme, and will effect your desktop theme.', 'apppresser' ), '<span class="file-error">*</span>' );
-				$notice = sprintf( '<p>%s</p>', $notice );
+				$notice  = sprintf( '<p>%s</p>', $notice );
 				return $notice;
 		}
 		return $translated_text;
@@ -166,9 +185,10 @@ class AppPresser_Theme_Customizer extends AppPresser {
 
 	/**
 	 * This filters `esc_html()` and allows some markup for our red warning asterisks
+	 *
 	 * @since  1.0.7
-	 * @param  string  $safe_text Sanitized text
-	 * @param  string  $text      Unsanitized text
+	 * @param  string $safe_text Sanitized text
+	 * @param  string $text      Unsanitized text
 	 * @return string             Maybe modified sanitized text
 	 */
 	public function allow_asterisk_markup( $safe_text, $text ) {
@@ -188,11 +208,11 @@ class AppPresser_Theme_Customizer extends AppPresser {
 
 	/**
 	 * Our cached theme mod settings
+	 *
 	 * @since  1.0.8
 	 * @return array  Cached theme mod settings array
 	 */
 	public function mods() {
 		return isset( $this->mods ) ? $this->mods : array();
 	}
-
 }

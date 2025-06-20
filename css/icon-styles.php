@@ -1,11 +1,11 @@
 <?php
 
 if ( AppPresser::is_mp6() ) {
-   echo '<style type="text/css">
+	echo '<style type="text/css">
    	   #adminmenu .toplevel_page_apppresser_settings .wp-menu-image {
 	   width: 28px;
 	   height: 28px;
-	   background-image: url("' . plugins_url( "images/icon.svg" , dirname(__FILE__) ) . '") !important;
+	   background-image: url("' . plugins_url( 'images/icon.svg', __DIR__ ) . '") !important;
 	   background-position: 5px 1px !important;
 		background-size: 70px 30px;
 		margin-right: 5px;
@@ -22,7 +22,7 @@ if ( AppPresser::is_mp6() ) {
 	#adminmenuwrap #adminmenu .toplevel_page_apppresser_settings .wp-menu-image {
 	   width: 28px;
 	   height: 28px;
-	   background-image: url("' . plugins_url( "images/icon.svg" , dirname(__FILE__) ) . '");
+	   background-image: url("' . plugins_url( 'images/icon.svg', __DIR__ ) . '");
 	   background-position: 5px 0 !important;
 		background-size: 60px 30px;
 	}

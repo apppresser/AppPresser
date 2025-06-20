@@ -10,26 +10,35 @@
 class AppPresser_Updater extends AppPresser {
 
 	// A single instance of this class.
-	public static $included = array( 'theme' => false, 'plugin' => false );
-	public static $updaters = array( 'plugins' => array(), 'themes' => array() );
+	public static $included = array(
+		'theme'  => false,
+		'plugin' => false,
+	);
+	public static $updaters = array(
+		'plugins' => array(),
+		'themes'  => array(),
+	);
 	const AUTHOR            = 'AppPresser Team';
 	const STORE_URL         = 'https://apppresser.com';
 
 	/**
 	 * Includes the EDD_SL_Plugin_Updater and EDD_SL_Theme_Updater classes if needed
+	 *
 	 * @since  1.0.0
 	 */
 	public static function include_updater( $plugin = true ) {
 		if ( $plugin ) {
 			// load plugin updater
-			if ( ! self::$included['plugin'] && ! class_exists( 'EDD_SL_Plugin_Updater' ) )
-				include( self::$inc_path . 'EDD_SL_Plugin_Updater.php' );
+			if ( ! self::$included['plugin'] && ! class_exists( 'EDD_SL_Plugin_Updater' ) ) {
+				include self::$inc_path . 'EDD_SL_Plugin_Updater.php';
+			}
 
 			self::$included['plugin'] = true;
 		} else {
 			// load theme updater
-			if ( ! self::$included['theme'] && ! class_exists( 'Appp_EDD_Theme_Updater' ) )
-				include( self::$inc_path . 'EDD_SL_Theme_Updater.php' );
+			if ( ! self::$included['theme'] && ! class_exists( 'Appp_EDD_Theme_Updater' ) ) {
+				include self::$inc_path . 'EDD_SL_Theme_Updater.php';
+			}
 
 			self::$included['theme'] = true;
 		}
@@ -61,7 +70,7 @@ class AppPresser_Updater extends AppPresser {
 			'site-is-inactive'          => __( 'Site is inactive.', 'apppresser' ),
 			'license-status-unknown'    => __( 'License status is unknown.', 'apppresser' ),
 			'update-notice'             => __( "Updating this theme will lose any customizations you have made. 'Cancel' to stop, 'OK' to update.", 'apppresser' ),
-			'update-available'          => __('<strong>%1$s %2$s</strong> is available. <a href="%3$s" class="thickbox" title="%4s">Check out what\'s new</a> or <a href="%5$s"%6$s>update now</a>.', 'apppresser' ),
+			'update-available'          => __( '<strong>%1$s %2$s</strong> is available. <a href="%3$s" class="thickbox" title="%4s">Check out what\'s new</a> or <a href="%5$s"%6$s>update now</a>.', 'apppresser' ),
 		);
 
 		if ( $option_key ) {
@@ -69,32 +78,38 @@ class AppPresser_Updater extends AppPresser {
 			AppPresser_Admin_Settings::$license_keys[ $option_key ] = $theme_slug;
 		}
 
-		$api_data = wp_parse_args( $api_data, array(
-			'author'         => self::AUTHOR,
-			'remote_api_url' => self::STORE_URL,
-			'license'        => trim( appp_get_setting( $option_key ) ),
-			'theme_slug'     => $theme_slug,
-			'beta'           => false,
-		) );
-		$updater = new Appp_EDD_Theme_Updater( $api_data, $strings );
+		$api_data = wp_parse_args(
+			$api_data,
+			array(
+				'author'         => self::AUTHOR,
+				'remote_api_url' => self::STORE_URL,
+				'license'        => trim( appp_get_setting( $option_key ) ),
+				'theme_slug'     => $theme_slug,
+				'beta'           => false,
+			)
+		);
+		$updater  = new Appp_EDD_Theme_Updater( $api_data, $strings );
 
 		// Add passed-in vars to the object since the vars are private (derp).
-		$updater->public = $api_data + array( 'api_url' => $api_data['remote_api_url'], 'theme_slug' => $theme_slug );
+		$updater->public = $api_data + array(
+			'api_url'    => $api_data['remote_api_url'],
+			'theme_slug' => $theme_slug,
+		);
 
 		// Add this updater instance to our array
 		self::$updaters['themes'][ $theme_slug ] = $updater;
 		return $updater;
-
 	}
 
 
 	/**
 	 * Add a EDD_SL_Plugin_Updater instance
+	 *
 	 * @since  1.0.0
 	 * @param  string $plugin_file    Path to the plugin file.
 	 * @param  string $option_key     `appp_get_setting` setting key
 	 * @param  array  $api_data       Optional data to send with API calls.
-	 * @return EDD_SL_Plugin_Updater	 object instance
+	 * @return EDD_SL_Plugin_Updater     object instance
 	 */
 	public static function add( $plugin_file, $option_key = '', $api_data = array() ) {
 
@@ -107,21 +122,27 @@ class AppPresser_Updater extends AppPresser {
 			AppPresser_Admin_Settings::$license_keys[ $option_key ] = $base_name;
 		}
 
-		$api_data = wp_parse_args( $api_data, array(
-			'author'  => self::AUTHOR,
-			'url'     => self::STORE_URL,
-			'license' => trim( appp_get_setting( $option_key ) ),
-			'beta'		=> false,
-		) );
+		$api_data = wp_parse_args(
+			$api_data,
+			array(
+				'author'  => self::AUTHOR,
+				'url'     => self::STORE_URL,
+				'license' => trim( appp_get_setting( $option_key ) ),
+				'beta'    => false,
+			)
+		);
 
 		$api_url = $api_data['url'];
 		unset( $api_data['url'] );
 
 		// Init updater
-		$updater = new EDD_SL_Plugin_Updater( $api_url, $plugin_file, $api_data	);
+		$updater = new EDD_SL_Plugin_Updater( $api_url, $plugin_file, $api_data );
 
 		// Add passed-in vars to the object since the vars are private (derp).
-		$updater->public = $api_data + array( 'api_url' => $api_url, 'plugin_file' => $plugin_file );
+		$updater->public = $api_data + array(
+			'api_url'     => $api_url,
+			'plugin_file' => $plugin_file,
+		);
 
 		// Add this updater instance to our array
 		self::$updaters['plugins'][ $base_name ] = $updater;
@@ -130,6 +151,7 @@ class AppPresser_Updater extends AppPresser {
 
 	/**
 	 * Retrieve a EDD_SL_Plugin_Updater instance
+	 *
 	 * @since  1.0.0
 	 * @param  string  $plugintheme  Path to the plugin file or theme name
 	 * @param  boolean $plugin       Whether this is a plugin or theme
@@ -138,14 +160,15 @@ class AppPresser_Updater extends AppPresser {
 	public static function get_updater( $plugintheme, $plugin = true ) {
 
 		if ( $plugin ) {
-			if ( isset( self::$updaters['plugins'][ $plugintheme ] ) )
+			if ( isset( self::$updaters['plugins'][ $plugintheme ] ) ) {
 				return self::$updaters['plugins'][ $plugintheme ];
+			}
 
 			$base_name = plugin_basename( $plugintheme );
-			if ( isset( self::$updaters['plugins'][ $base_name ] ) )
+			if ( isset( self::$updaters['plugins'][ $base_name ] ) ) {
 				return self::$updaters['plugins'][ $base_name ];
-		} else {
-			if ( isset( self::$updaters['themes'][ $plugintheme ] ) )
+			}
+		} elseif ( isset( self::$updaters['themes'][ $plugintheme ] ) ) {
 				return self::$updaters['themes'][ $plugintheme ];
 		}
 
@@ -154,6 +177,7 @@ class AppPresser_Updater extends AppPresser {
 
 	/**
 	 * Retrieves a license key's status from the store
+	 *
 	 * @since  1.0.0
 	 * @param  string  $license      License Key
 	 * @param  string  $plugintheme  Plugin dir/file
@@ -164,24 +188,34 @@ class AppPresser_Updater extends AppPresser {
 
 		$plugin = false === strpos( $plugintheme, '/' ) ? false : $plugin;
 
-		if ( ! ( $updater = self::get_updater( $plugintheme, $plugin ) ) )
+		if ( ! ( $updater = self::get_updater( $plugintheme, $plugin ) ) ) {
 			return false;
+		}
 
 		$license = trim( $license );
-		if ( empty( $license ) )
+		if ( empty( $license ) ) {
 			return false;
+		}
 
 		// Call the custom API.
-		$response = wp_remote_post( esc_url_raw( add_query_arg( array(
-			'edd_action'=> 'activate_license',
-			'license' 	=> $license,
-			// 'the_title' filter needed to match EDD's check
-			'item_name' => urlencode( apply_filters( 'the_title', $updater->public['item_name'], 0 ) ),
-		), $updater->public['api_url'] ) ) );
+		$response = wp_remote_post(
+			esc_url_raw(
+				add_query_arg(
+					array(
+						'edd_action' => 'activate_license',
+						'license'    => $license,
+						// 'the_title' filter needed to match EDD's check
+						'item_name'  => urlencode( apply_filters( 'the_title', $updater->public['item_name'], 0 ) ),
+					),
+					$updater->public['api_url']
+				)
+			)
+		);
 
 		// make sure the response came back okay
-		if ( is_wp_error( $response ) )
+		if ( is_wp_error( $response ) ) {
 			return false;
+		}
 
 		// decode the license data
 		$license_data = json_decode( wp_remote_retrieve_body( $response ) );
@@ -189,16 +223,16 @@ class AppPresser_Updater extends AppPresser {
 		// Send back license status
 		return isset( $license_data->license ) ? $license_data->license : false;
 	}
-
 }
 
 /**
  * Add a EDD_SL_Plugin_Updater instance
+ *
  * @since  1.0.0
  * @param  string $plugin_file   Path to the plugin file.
  * @param  string $option_key    `appp_get_setting` setting key
  * @param  array  $api_data      Optional data to send with API calls.
- * @return EDD_SL_Plugin_Updater	object instance
+ * @return EDD_SL_Plugin_Updater    object instance
  */
 function appp_updater_add( $plugin_file, $option_key = '', $api_data = array() ) {
 	return AppPresser_Updater::add( $plugin_file, $option_key, $api_data );
@@ -210,6 +244,7 @@ function appp_theme_updater_add( $theme_slug, $option_key = '', $api_data = arra
 
 /**
  * Helper function. Retrieves a license key's status from the store
+ *
  * @since  1.0.0
  * @param  string  $license      License Key
  * @param  string  $plugintheme  Plugin dir/file
