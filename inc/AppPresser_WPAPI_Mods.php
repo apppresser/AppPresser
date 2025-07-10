@@ -355,6 +355,8 @@ class AppPresser_WPAPI_Mods {
 
 		}
 
+		do_action( 'appp_logged_in', $user );
+
 		// If everything is successfull, return login response.
 		return AppPresser_User::getLoginResponse( $user );
 	}
