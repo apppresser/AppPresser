@@ -36,6 +36,13 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+### 4.5.0
+* Tested with Wordpress 6.8
+* Added a new action hook on the AppPresser plugin when a user is successfully logged in from the application
+* Added first name, last name and display name on the login response
+* Use the same JWT library as the JWT Authentication plugin
+* Use Wordpress code format standard
+
 ### 4.4.11
 * Improved log messages
 

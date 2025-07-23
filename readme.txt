@@ -4,7 +4,7 @@ Donate link: http://apppresser.com/
 Tags: application, iphone app, android app, mobile app, wordpress mobile
 Requires at least: 4.7.0
 Tested up to: 6.8
-Stable tag: 4.4.11
+Stable tag: 4.5.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -46,6 +46,13 @@ This plugin is not an app-creator in itself, it helps connect your app to WordPr
 
 
 == Changelog ==
+
+= 4.5.0 =
+* Tested with Wordpress 6.8
+* Added a new action hook on the AppPresser plugin when a user is successfully logged in from the application
+* Added first name, last name and display name on the login response
+* Use the same JWT library as the JWT Authentication plugin
+* Use Wordpress code format standard
 
 = 4.4.11 =
 * Improved log messages
