@@ -36,6 +36,9 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+### 4.5.1
+* Improved the workflow of the needed plugins
+
 ### 4.5.0
 * Tested with Wordpress 6.8
 * Added a new action hook on the AppPresser plugin when a user is successfully logged in from the application
