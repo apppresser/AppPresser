@@ -154,12 +154,12 @@ class AppPresser_WPAPI_Mods {
 
 		register_rest_route(
 			'appp/v1',
-			'/myappp-verify',
+			'/myappp-verify/(?P<key>[\w-]+)',
 			array(
 				array(
 					'methods'             => WP_REST_Server::READABLE,
 					'callback'            => array( $this, 'myappp_verify' ),
-					'permission_callback' => '__return_true',
+					'permission_callback' => array( $this, 'myappp_permissions' ),
 				),
 			)
 		);
@@ -869,6 +869,27 @@ class AppPresser_WPAPI_Mods {
 		$has_permission = apply_filters( 'appp_form_permissions', $has_permission );
 
 		return $has_permission;
+	}
+
+	/**
+	 * Permissions callback for myapppresser verify endpoint
+	 */
+	public function myappp_permissions( $request ) {
+		$verification_key = $request['key'];
+		if ( empty( $verification_key ) ) {
+			return new WP_Error( 'unauthorized', 'Authentication missing', array( 'status' => 403 ) );
+		}
+
+		$ap3_app_id        = appp_get_setting( 'ap3_app_id' );
+		$ap3_site_slug     = appp_get_setting( 'ap3_site_slug' );
+		$ap4_account_email = appp_get_setting( 'ap4_account_email' );
+		$current_hash      = hash( 'sha256', $ap3_app_id . $ap3_site_slug . $ap4_account_email );
+
+		if ( $verification_key !== $current_hash ) {
+			return new WP_Error( 'unauthorized', 'Authentication failed', array( 'status' => 403 ) );
+		}
+
+		return true;
 	}
 
 	/**
