@@ -36,6 +36,10 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+### 4.5.2
+* Normalize the apppresser settings values
+* Tested with Wordpress 6.9
+
 ### 4.5.1
 * Improved the workflow of the needed plugins
 
