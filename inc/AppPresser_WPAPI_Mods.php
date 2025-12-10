@@ -883,7 +883,7 @@ class AppPresser_WPAPI_Mods {
 		$ap3_app_id        = appp_get_setting( 'ap3_app_id' );
 		$ap3_site_slug     = appp_get_setting( 'ap3_site_slug' );
 		$ap4_account_email = appp_get_setting( 'ap4_account_email' );
-		$current_hash      = hash( 'sha256', $ap3_app_id . $ap3_site_slug . $ap4_account_email );
+		$current_hash      = hash( 'sha256', strtolower( trim( $ap3_app_id . $ap3_site_slug . $ap4_account_email ) ) );
 
 		if ( $verification_key !== $current_hash ) {
 			return new WP_Error( 'unauthorized', 'Authentication failed', array( 'status' => 403 ) );
