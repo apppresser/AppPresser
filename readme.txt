@@ -3,7 +3,7 @@ Contributors: apppresser, scottopolis, Messenlehner, marioshtika, damienoneill20
 Donate link: http://apppresser.com/
 Tags: application, iphone app, android app, mobile app, wordpress mobile
 Requires at least: 4.7.0
-Tested up to: 6.8
+Tested up to: 6.9
 Stable tag: 4.5.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
