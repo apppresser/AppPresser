@@ -2,9 +2,10 @@
 Contributors: apppresser, scottopolis, Messenlehner, marioshtika, damienoneill2001
 Donate link: http://apppresser.com/
 Tags: application, iphone app, android app, mobile app, wordpress mobile
-Requires at least: 4.7.0
+Requires at least: 6.5
+Requires PHP: 7.4
 Tested up to: 6.9
-Stable tag: 4.5.3
+Stable tag: 5.0.0-beta.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -34,6 +35,31 @@ This plugin is not an app-creator in itself, it helps connect your app to WordPr
 *   Install and activate this plugin on your WordPress site
 *	Follow the instructions in our documentation
 
+AppPresser includes optional Camera, WooCommerce, BuddyPress / BuddyBoss, LearnDash, App Customization, Custom Theme Support, In-app purchases, Push notifications, and Plugin Controls features. All bundled features are free. Enable the features your app uses from AppPresser > Settings > Features.
+
+Enable Custom Theme Support when app iframe pages use a theme other than AP3 Ion Theme. It provides app messaging for navigation, sharing, downloads and login/media links and has an enable/disable switch only. App Customization provides custom CSS and JavaScript editors and the optional Automatic link navigation setting. This setting adds the push-page class to links for app-managed navigation and works with AP3 Ion Theme and custom themes.
+
+== Legacy addon migration ==
+
+Use Remove legacy plugin to preserve the addon's settings, deactivate and delete it, and enable its bundled replacement in one action. Installed inactive legacy addons also need removal. Module switches preserve configuration and customer data.
+
+There is a brief feature interruption during changeover. Coordinate purchase callbacks and notification schedules before removal. On multisite, a network administrator must coordinate removal of shared addon files across affected sites.
+
+== Plugin Controls ==
+
+Plugin Controls selects which installed plugins load for app visitors and, optionally, WordPress REST API requests. Enabling the feature installs its early loader in the site's MU plugin directory. Disabling removes that loader and keeps your selections. The loader stops filtering when AppPresser core is inactive.
+
+The original Plugin Controls 2.0 MU file can be replaced from Features using Remove legacy plugin. Customized MU files require review before replacement. File operations require the appropriate WordPress plugin permissions and direct write access. On multisite, the loader switch applies to the network and selections remain specific to each site.
+
+== External services ==
+
+AppPresser connects to the MyAppPresser service after you configure your site slug, app ID and service credentials. Push notifications send message content, app identifiers, audience/device identifiers and the configured notification key to https://myapppresser.com/ to deliver notifications. Configure this only for an app you manage.
+
+The existing app authentication and purchase flows also communicate with MyAppPresser as configured by your app. Module availability on the WordPress site does not require a paid local feature unlock. MyAppPresser product access is managed externally.
+
+Service information: https://apppresser.com/
+Documentation: https://docs.apppresser.com/
+
 == Installation ==
 
 1. Upload AppPresser to the `/wp-content/plugins/` directory
@@ -46,6 +72,12 @@ This plugin is not an app-creator in itself, it helps connect your app to WordPr
 
 
 == Changelog ==
+
+= 5.0.0-beta.1 =
+* Bundle nine optional features, including Custom Theme Support and Plugin Controls with an early MU loader.
+* Preserve legacy configuration before removal and block overlapping installations.
+* Add feature management, accessible navigation and independent module settings.
+* Keep existing API versions and prevent overdue push replay after re-enabling.
 
 = 4.5.3 =
 * Fixed the clear cookie functionality by using the correct domain

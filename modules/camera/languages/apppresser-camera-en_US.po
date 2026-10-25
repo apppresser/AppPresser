@@ -1,0 +1,245 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: AppCamera\n"
+"POT-Creation-Date: 2015-03-05 13:46-0600\n"
+"PO-Revision-Date: 2015-03-05 13:46-0600\n"
+"Last-Translator: Michael Beckwith <michael.d.beckwith@gmail.com>\n"
+"Language-Team: Michael Beckwith <michael.d.beckwith@gmail.com>\n"
+"Language: en_EN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.4\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: appp-camera.php:115
+#, php-format
+msgid ""
+"%1$s requires the AppPresser Core plugin to be installed/activated. %1$s has "
+"been deactivated."
+msgstr ""
+
+#: appp-camera.php:129 appp-camera.php:195
+msgid "Upload your own customer image!"
+msgstr ""
+
+#: appp-camera.php:134 appp-camera.php:199
+msgid "Upload your photos!"
+msgstr ""
+
+#: appp-camera.php:169
+msgid "Your image has been uploaded and is waiting moderation."
+msgstr ""
+
+#: appp-camera.php:170
+msgid "Loading"
+msgstr ""
+
+#: appp-camera.php:171
+msgid "An error has occurred: Code"
+msgstr ""
+
+#: appp-camera.php:173
+msgid "Your image has been uploaded."
+msgstr ""
+
+#: appp-camera.php:174 appp-camera.php:210
+msgid "Post"
+msgstr ""
+
+#: appp-camera.php:216
+msgid "Please login"
+msgstr ""
+
+#: appp-camera.php:237
+msgid "Title:"
+msgstr ""
+
+#: appp-camera.php:247 appp-camera.php:251
+msgid "Take Photo"
+msgstr ""
+
+#: appp-camera.php:248 appp-camera.php:252
+msgid "Upload Image"
+msgstr ""
+
+#: appp-camera.php:258
+msgid "Upload"
+msgstr ""
+
+#: inc/AppPresser_Camera_Ajax.php:97
+msgid "Image not uploaded"
+msgstr ""
+
+#: inc/AppPresser_Camera_Settings.php:36
+msgid "Camera"
+msgstr ""
+
+#: inc/AppPresser_Camera_Settings.php:39
+msgid "Camera License Key"
+msgstr ""
+
+#: inc/AppPresser_Camera_Settings.php:39
+msgid "Adding a license key enables automatic updates."
+msgstr ""
+
+#: inc/AppPresser_Camera_Settings.php:40
+msgid "Uploaded photos must be moderated"
+msgstr ""
+
+#: inc/AppPresser_Camera_Settings.php:40
+msgid ""
+"Check this if you want to review all photo uploads before they are displayed "
+"to users."
+msgstr ""
+
+#: inc/AppPresser_Camera_Settings.php:41
+msgid "Email new photos to admin email"
+msgstr ""
+
+#: inc/AppPresser_Camera_Settings.php:41
+msgid ""
+"Check this if you want to be notified by email whenever a user submits a new "
+"photo."
+msgstr ""
+
+#: inc/AppPresser_Camera_Settings.php:42
+msgid "Save Photos to Featured Image"
+msgstr ""
+
+#: inc/AppPresser_Camera_Settings.php:42
+msgid ""
+"If this is not checked, and the action=new shortcode parameter is used, the "
+"image will be saved to the new post's content instead."
+msgstr ""
+
+#: inc/AppPresser_Camera_Settings.php:42
+#, php-format
+msgid "This only applies if using the 'action=\"new\"' %s."
+msgstr ""
+
+#: inc/AppPresser_Camera_Settings.php:42
+msgid "shortcode parameter"
+msgstr ""
+
+#: inc/AppPresser_Camera_Settings.php:43
+msgid "Photo upload description"
+msgstr ""
+
+#: inc/AppPresser_Camera_Settings.php:43
+msgid ""
+"This is the description of the fields that will be displayed to logged in "
+"users."
+msgstr ""
+
+#: inc/AppPresser_Camera_Settings.php:44
+msgid "Text to display if logged out"
+msgstr ""
+
+#: inc/AppPresser_Camera_Settings.php:44
+msgid ""
+"This is the text that will be shown to logged out users, who can not upload "
+"until logged in."
+msgstr ""
+
+#: inc/AppPresser_Camera_Settings.php:55
+msgid "Photo Moderation Panel"
+msgstr ""
+
+#: inc/AppPresser_Camera_Settings.php:104
+msgid "Moderate Photos"
+msgstr ""
+
+#: inc/AppPresser_Camera_Settings.php:144
+msgid "Y/m/d"
+msgstr ""
+
+#: inc/AppPresser_Camera_Settings.php:222
+msgid "approved"
+msgstr ""
+
+#: inc/AppPresser_Camera_Settings.php:226
+msgid "denied"
+msgstr ""
+
+#: inc/AppPresser_Camera_Settings.php:251
+#, php-format
+msgid "You %s the following photo:"
+msgstr ""
+
+#: inc/AppPresser_Camera_Settings.php:408
+msgid "Image is in moderation queue"
+msgstr ""
+
+#: inc/AppPresser_Camera_Settings.php:432
+msgid "photos are awaiting moderation"
+msgstr ""
+
+#: inc/AppPresser_Camera_Upload.php:97
+#, php-format
+msgid "%s uploaded a new picture"
+msgstr ""
+
+#: inc/AppPresser_Camera_Upload.php:161 inc/moderation.php:40
+#: inc/moderation.php:63
+msgid "Approve"
+msgstr ""
+
+#: inc/AppPresser_Camera_Upload.php:162 inc/moderation.php:41
+#: inc/moderation.php:64
+msgid "Deny"
+msgstr ""
+
+#: inc/AppPresser_Camera_Upload.php:165
+msgid "A new photo was uploaded."
+msgstr ""
+
+#: inc/moderation.php:12
+msgid "No Photos to Moderate."
+msgstr ""
+
+#: inc/moderation.php:13
+msgid " You will be redirected shortly."
+msgstr ""
+
+#: inc/moderation.php:20
+msgid "AppPresser Photo Moderation"
+msgstr ""
+
+#: inc/moderation.php:23
+msgid "Check the photos you would like to Approve or Deny."
+msgstr ""
+
+#: inc/moderation.php:28
+msgid "Select All"
+msgstr ""
+
+#: inc/moderation.php:30
+msgid "File"
+msgstr ""
+
+#: inc/moderation.php:31
+msgid "Author"
+msgstr ""
+
+#: inc/moderation.php:32
+msgid "Attached to"
+msgstr ""
+
+#: inc/moderation.php:33
+msgid "Date"
+msgstr ""
+
+#: inc/moderation.php:61
+msgid "Whoops, Something went wrong!"
+msgstr ""
+
+#: inc/moderation.php:65
+msgid "View"
+msgstr ""

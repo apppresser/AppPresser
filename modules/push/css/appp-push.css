@@ -1,0 +1,357 @@
+.notification-signup-wrapper h3 {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.notification-signup {
+	margin: 0;
+	padding: 0;
+}
+
+.notification-signup .loop {
+	border-bottom: 1px solid #888;
+	margin: 0 -2%;
+	padding: 0 2%;
+}
+
+.notification-signup .loop>p {
+	margin-top: -10px;
+}
+
+#main .notification-signup li.header-item {
+	text-align: center;
+	font-weight: bold;
+	background-color: #eeeeee;
+}
+
+.notification-signup .item-toggle {
+	position: relative;
+}
+
+.appp-error-msg {
+	display: none;
+	color: #F00;
+	position: absolute;
+	right: 74px;
+	width: 50px;
+	top: 16px;
+	margin: auto;
+}
+
+ul.notification-signup.list {
+	margin: 10px -10px 10px -10px;
+}
+
+/** Ion theme **/
+.ion-theme .ionic .toggle.toggle-apppush input:checked+.track {
+	border-color: #1495cf;
+	background-color: #1495cf;
+}
+
+.ion-theme .ionic .toggle-small .toggle-apppush input:checked+.track .handle {
+	background-color: #1495cf;
+}
+
+/** AppTheme **/
+.apptheme .ionic .toggle.toggle-apppush input:checked+.track {
+	border-color: #00c14d;
+	background-color: #00c14d;
+}
+
+.apptheme .ionic .toggle-small .toggle-apppush input:checked+.track .handle {
+	background-color: #00c14d;
+}
+
+
+/** Ionic CSS **/
+.ionic .toggle {
+	position: relative;
+	display: inline-block;
+	pointer-events: auto;
+	margin: -5px;
+	padding: 5px;
+}
+
+.ionic .toggle input:checked+.track {
+	border-color: #4cd964;
+	background-color: #4cd964;
+}
+
+.ionic .toggle.dragging .handle {
+	background-color: #f2f2f2 !important;
+}
+
+.ionic .toggle.toggle-light input:checked+.track {
+	border-color: #ddd;
+	background-color: #ddd;
+}
+
+.ionic .toggle.toggle-stable input:checked+.track {
+	border-color: #b2b2b2;
+	background-color: #b2b2b2;
+}
+
+.ionic .toggle.toggle-positive input:checked+.track {
+	border-color: #387ef5;
+	background-color: #387ef5;
+}
+
+.ionic .toggle.toggle-calm input:checked+.track {
+	border-color: #11c1f3;
+	background-color: #11c1f3;
+}
+
+.ionic .toggle.toggle-assertive input:checked+.track {
+	border-color: #ef473a;
+	background-color: #ef473a;
+}
+
+.ionic .toggle.toggle-balanced input:checked+.track {
+	border-color: #33cd5f;
+	background-color: #33cd5f;
+}
+
+.ionic .toggle.toggle-energized input:checked+.track {
+	border-color: #ffc900;
+	background-color: #ffc900;
+}
+
+.ionic .toggle.toggle-royal input:checked+.track {
+	border-color: #886aea;
+	background-color: #886aea;
+}
+
+.ionic .toggle.toggle-dark input:checked+.track {
+	border-color: #444;
+	background-color: #444;
+}
+
+.ionic .toggle input {
+	display: none;
+}
+
+.ionic .toggle .track {
+	transition-timing-function: ease-in-out;
+	transition-duration: 0.3s;
+	transition-property: background-color, border;
+	display: inline-block;
+	box-sizing: border-box;
+	width: 51px;
+	height: 31px;
+	border: solid 2px #e6e6e6;
+	border-radius: 20px;
+	background-color: #fff;
+	content: ' ';
+	cursor: pointer;
+	pointer-events: none;
+}
+
+.ionic .platform-android4_2 .toggle .track {
+	-webkit-background-clip: padding-box;
+}
+
+.ionic .toggle .handle {
+	transition: 0.3s cubic-bezier(0, 1.1, 1, 1.1);
+	transition-property: background-color, -webkit-transform;
+	transition-property: background-color, transform;
+	position: absolute;
+	display: block;
+	width: 27px;
+	height: 27px;
+	border-radius: 27px;
+	background-color: #fff;
+	top: 7px;
+	left: 7px;
+	box-shadow: 0 2px 7px rgba(0, 0, 0, 0.35), 0 1px 1px rgba(0, 0, 0, 0.15);
+}
+
+.ionic .toggle .handle:before {
+	position: absolute;
+	top: -4px;
+	left: -21.5px;
+	padding: 18.5px 34px;
+	content: " ";
+}
+
+.ionic .toggle input:checked+.track .handle {
+	-webkit-transform: translate3d(20px, 0, 0);
+	transform: translate3d(20px, 0, 0);
+	background-color: #fff;
+}
+
+.ionic .item-toggle.active {
+	box-shadow: none;
+}
+
+.ionic .item-toggle,
+.ionic .item-toggle.item-complex .item-content {
+	padding-right: 99px;
+}
+
+.ionic .item-toggle.item-complex {
+	padding-right: 0;
+}
+
+.ionic .item-toggle .toggle {
+	position: absolute;
+	top: 10px;
+	right: 16px;
+	z-index: 3;
+}
+
+.ionic .toggle input:disabled+.track {
+	opacity: .6;
+}
+
+.ionic .toggle-small .track {
+	border: 0;
+	width: 34px;
+	height: 15px;
+	background: #9e9e9e;
+}
+
+.ionic .toggle-small input:checked+.track {
+	background: rgba(0, 150, 137, 0.5);
+}
+
+.ionic .toggle-small .handle {
+	top: 2px;
+	left: 4px;
+	width: 21px;
+	height: 21px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+}
+
+.ionic .toggle-small input:checked+.track .handle {
+	-webkit-transform: translate3d(16px, 0, 0);
+	transform: translate3d(16px, 0, 0);
+	background: #009689;
+}
+
+.ionic .toggle-small.item-toggle .toggle {
+	top: 19px;
+}
+
+.ionic .toggle-small .toggle-light input:checked+.track {
+	background-color: rgba(221, 221, 221, 0.5);
+}
+
+.ionic .toggle-small .toggle-light input:checked+.track .handle {
+	background-color: #ddd;
+}
+
+.ionic .toggle-small .toggle-stable input:checked+.track {
+	background-color: rgba(178, 178, 178, 0.5);
+}
+
+.ionic .toggle-small .toggle-stable input:checked+.track .handle {
+	background-color: #b2b2b2;
+}
+
+.ionic .toggle-small .toggle-positive input:checked+.track {
+	background-color: rgba(56, 126, 245, 0.5);
+}
+
+.ionic .toggle-small .toggle-positive input:checked+.track .handle {
+	background-color: #387ef5;
+}
+
+.ionic .toggle-small .toggle-calm input:checked+.track {
+	background-color: rgba(17, 193, 243, 0.5);
+}
+
+.ionic .toggle-small .toggle-calm input:checked+.track .handle {
+	background-color: #11c1f3;
+}
+
+.ionic .toggle-small .toggle-assertive input:checked+.track {
+	background-color: rgba(239, 71, 58, 0.5);
+}
+
+.ionic .toggle-small .toggle-assertive input:checked+.track .handle {
+	background-color: #ef473a;
+}
+
+.ionic .toggle-small .toggle-balanced input:checked+.track {
+	background-color: rgba(51, 205, 95, 0.5);
+}
+
+.ionic .toggle-small .toggle-balanced input:checked+.track .handle {
+	background-color: #33cd5f;
+}
+
+.ionic .toggle-small .toggle-energized input:checked+.track {
+	background-color: rgba(255, 201, 0, 0.5);
+}
+
+.ionic .toggle-small .toggle-energized input:checked+.track .handle {
+	background-color: #ffc900;
+}
+
+.ionic .toggle-small .toggle-royal input:checked+.track {
+	background-color: rgba(136, 106, 234, 0.5);
+}
+
+.ionic .toggle-small .toggle-royal input:checked+.track .handle {
+	background-color: #886aea;
+}
+
+.ionic .toggle-small .toggle-dark input:checked+.track {
+	background-color: rgba(68, 68, 68, 0.5);
+}
+
+.ionic .toggle-small .toggle-dark input:checked+.track .handle {
+	background-color: #444;
+}
+
+.ionic .list:last-child {
+	margin-bottom: 0px;
+}
+
+.ionic .list {
+	position: relative;
+	padding-top: 1px;
+	padding-bottom: 1px;
+	padding-left: 0;
+	margin-bottom: 20px;
+}
+
+.ionic ol,
+.ionic ul {
+	list-style: none;
+}
+
+.ionic .item,
+.ionic .item h1,
+.ionic .item h2,
+.ionic .item h3,
+.ionic .item h4,
+.ionic .item h5,
+.ionic .item h6,
+.ionic .item p,
+.ionic .item-content,
+.ionic .item-content h1,
+.ionic .item-content h2,
+.ionic .item-content h3,
+.ionic .item-content h4,
+.ionic .item-content h5,
+.ionic .item-content h6,
+.ionic .item-content p {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.ionic .item {
+	border-color: #ddd;
+	background-color: #fff;
+	color: #444;
+	position: relative;
+	z-index: 2;
+	display: block;
+	margin: -1px;
+	padding: 16px;
+	border-width: 1px;
+	border-style: solid;
+	font-size: 16px;
+}

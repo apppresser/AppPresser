@@ -1,0 +1,108 @@
+<?php
+/** One action preserves configuration, removes a legacy addon and enables core. */
+defined( 'ABSPATH' ) || exit;
+
+class AppPresser_Module_Migration {
+	private $modules;
+
+	public function __construct( $modules ) { $this->modules = $modules; }
+
+	public function run( $id ) {
+		if ( ! current_user_can( 'manage_options' ) || ! current_user_can( 'activate_plugins' ) || ! current_user_can( 'delete_plugins' ) ) {
+			return new WP_Error( 'migration_permission', __( 'You do not have permission to remove plugins and enable their replacements.', 'apppresser' ) );
+		}
+		$this->modules->clear_inventory();
+		$legacy = $this->modules->legacy_plugins( $id );
+		if ( ! $legacy ) { return true; }
+		$error = $this->modules->dependency_error( $id, true );
+		if ( $error ) { return new WP_Error( 'dependency', $error ); }
+		if ( 'plugin-controls' === $id ) {
+			return AppPresser_Plugin_Controls_Files::replace_legacy( $this->modules );
+		}
+		require_once __DIR__ . '/class-module-files.php';
+		$access = AppPresser_Module_Files::initialize( WP_PLUGIN_DIR );
+		if ( is_wp_error( $access ) ) { return $access; }
+		$files = array_keys( $legacy );
+		foreach ( $files as $file ) {
+			if ( ! current_user_can( 'deactivate_plugin', $file ) ) {
+				return new WP_Error( 'migration_permission', __( 'You do not have permission to remove this legacy plugin.', 'apppresser' ) );
+			}
+			$path = AppPresser_Module_Files::regular_plugin( $file );
+			if ( is_wp_error( $path ) ) { return $path; }
+		}
+		$network_error = $this->network_preflight( $files );
+		if ( is_wp_error( $network_error ) ) { return $network_error; }
+		$lock = 'apppresser_module_removal_' . $id;
+		$locked_at = get_option( $lock );
+		if ( $locked_at && (int) $locked_at < time() - 300 ) { delete_option( $lock ); }
+		if ( ! add_option( $lock, time(), '', false ) ) {
+			return new WP_Error( 'migration_busy', __( 'This feature is already being updated. Try again shortly.', 'apppresser' ) );
+		}
+		$active = array_values( array_intersect( $files, (array) get_option( 'active_plugins', array() ) ) );
+		$replacements = 'bridge' === $id ? array( 'custom-theme', 'bridge' ) : array( $id );
+		$records_before = array();
+		foreach ( $replacements as $replacement ) {
+			$records_before[ $replacement ] = $this->modules->settings->record( $replacement );
+		}
+		$removed = false;
+		try {
+			foreach ( $replacements as $replacement ) {
+				$result = $this->modules->settings->prepare( $replacement, true );
+				if ( is_wp_error( $result ) ) { return $result; }
+			}
+			deactivate_plugins( $files, false, false );
+			// Include changes made by deactivation callbacks before deleting any code.
+			foreach ( $replacements as $replacement ) {
+				$result = $this->modules->settings->prepare( $replacement, true );
+				if ( ! is_wp_error( $result ) ) { $result = $this->modules->settings->complete( $replacement ); }
+				if ( is_wp_error( $result ) ) { return $result; }
+			}
+			$result = delete_plugins( $files );
+			if ( true !== $result ) {
+				return is_wp_error( $result ) ? $result : new WP_Error( 'legacy_delete_failed', __( 'The legacy plugin could not be removed. Its replacement has not been enabled. Check file permissions and try again.', 'apppresser' ) );
+			}
+			foreach ( $files as $file ) {
+				if ( file_exists( WP_PLUGIN_DIR . '/' . $file ) ) {
+					return new WP_Error( 'legacy_delete_failed', __( 'Legacy plugin files remain on disk. Its replacement has not been enabled.', 'apppresser' ) );
+				}
+			}
+			$removed = true;
+			return true;
+		} catch ( Throwable $error ) {
+			return new WP_Error( 'legacy_migration_failed', __( 'The legacy plugin could not be replaced. Check the site error log and try again.', 'apppresser' ) );
+		} finally {
+			if ( ! $removed ) {
+				foreach ( $records_before as $replacement => $record ) {
+					update_option( 'apppresser_module_migration_' . $replacement, $record, true );
+				}
+				$this->restore_activation( $active );
+			}
+			delete_option( $lock );
+			$this->modules->clear_inventory();
+		}
+	}
+
+	private function restore_activation( $active ) {
+		foreach ( $active as $file ) {
+			if ( is_file( WP_PLUGIN_DIR . '/' . $file ) ) { activate_plugin( $file, '', false, true ); }
+		}
+	}
+
+	/** Shared-file removal must not interrupt another site's active addon. */
+	private function network_preflight( $files ) {
+		if ( ! is_multisite() ) { return true; }
+		if ( ! current_user_can( 'manage_network_plugins' ) ) {
+			return new WP_Error( 'network_permission', __( 'A network administrator must replace shared plugin files.', 'apppresser' ) );
+		}
+		$network_active = array_keys( (array) get_site_option( 'active_sitewide_plugins', array() ) );
+		$in_use = (bool) array_intersect( $files, $network_active );
+		for ( $offset = 0; ! $in_use; $offset += 100 ) {
+			$sites = get_sites( array( 'fields' => 'ids', 'number' => 100, 'offset' => $offset ) );
+			foreach ( $sites as $site ) {
+				if ( (int) $site !== get_current_blog_id() && array_intersect( $files, (array) get_blog_option( $site, 'active_plugins', array() ) ) ) { $in_use = true; break; }
+			}
+			if ( count( $sites ) < 100 ) { break; }
+		}
+		return $in_use ? new WP_Error( 'shared_legacy_active', __( 'This legacy addon is active on other network sites. Coordinate its replacement across those sites before removing the shared plugin files.', 'apppresser' ) ) : true;
+	}
+}

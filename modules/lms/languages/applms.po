@@ -1,0 +1,135 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: AppLMS\n"
+"POT-Creation-Date: 2018-07-13 08:21-0800\n"
+"PO-Revision-Date: 2018-07-13 08:21-0800\n"
+"Last-Translator: \n"
+"Language-Team: AppPresser\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;__;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../learndash/templates/quiz_progress_rows.php:79
+#: ../learndash/templates/course_progress_rows.php:72
+msgid "Certificate"
+msgstr ""
+
+#: ../learndash/templates/quiz_progress_rows.php:95
+msgid "Statistics"
+msgstr ""
+
+#: ../learndash/templates/quiz_progress_rows.php:104
+#, php-format
+msgid "Manual Edit by: %s on %s"
+msgstr ""
+
+#: ../learndash/templates/quiz_progress_rows.php:108
+msgid "(m)"
+msgstr ""
+
+#: ../learndash/templates/quiz_progress_rows.php:143
+#: ../learndash/templates/topic.php:132
+msgid "Status"
+msgstr ""
+
+#: ../learndash/templates/quiz_progress_rows.php:143
+msgid "Points"
+msgstr ""
+
+#: ../learndash/templates/quiz_progress_rows.php:146
+msgid "edit"
+msgstr ""
+
+#: ../learndash/templates/quiz_progress_rows.php:148
+msgid "view"
+msgstr ""
+
+#: ../learndash/templates/quiz_progress_rows.php:150
+msgid "comments"
+msgstr ""
+
+#: ../learndash/templates/quiz_progress_rows.php:160
+msgid "Rank: "
+msgstr ""
+
+#: ../learndash/templates/quiz_progress_rows.php:163
+msgid "Score "
+msgstr ""
+
+#: ../learndash/templates/quiz_progress_rows.php:163
+msgid " out of "
+msgstr ""
+
+#: ../learndash/templates/quiz_progress_rows.php:165
+msgid " question(s)"
+msgstr ""
+
+#: ../learndash/templates/quiz_progress_rows.php:168
+msgid " . Points: "
+msgstr ""
+
+#: ../learndash/templates/quiz_progress_rows.php:171
+msgid " on "
+msgstr ""
+
+#: ../learndash/templates/learndash_course_lesson_not_available.php:23
+#, php-format
+msgid ""
+"<span class=\"ld-display-label\">Available on:</span> <span class=\"ld-"
+"display-date\">%s</span>"
+msgstr ""
+
+#: ../learndash/templates/course_progress_rows.php:23
+msgid "Status:"
+msgstr ""
+
+#: ../learndash/templates/course_progress_rows.php:42
+#, php-format
+msgid "Completed <strong>%d</strong> out of <strong>%d</strong> steps"
+msgstr ""
+
+#: ../learndash/templates/course_progress_rows.php:46
+#, php-format
+msgid "Since: %s (Group Access)"
+msgstr ""
+
+#: ../learndash/templates/course_progress_rows.php:50
+#, php-format
+msgid "Since: %s"
+msgstr ""
+
+#: ../learndash/templates/course_progress_rows.php:59
+msgid "(access expired)"
+msgstr ""
+
+#: ../learndash/templates/course_progress_rows.php:99
+msgid "Completed"
+msgstr ""
+
+#: ../learndash/templates/course_progress_rows.php:111
+msgid "Set all children steps as incomplete?"
+msgstr ""
+
+#: ../includes/class-applms-admin.php:69
+msgid "App LMS License Key"
+msgstr ""
+
+#: ../includes/class-applms-admin.php:72
+msgid "Adding a license key enables automatic updates."
+msgstr ""
+
+#: ../includes/class-applms-functions.php:424
+msgid "Lesson completed!"
+msgstr ""
+
+#: ../includes/class-applms-functions.php:425
+msgid "Course completed!"
+msgstr ""
+
+#: ../includes/class-applms-functions.php:426
+msgid "Topics completed!"
+msgstr ""
