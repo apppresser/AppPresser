@@ -33,9 +33,9 @@ class AppPresser_Plugin_Controls_Admin {
 		}
 		// Blocking takes precedence if a crafted submission includes the same plugin twice.
 		$values['apppresser-plugin-enable'] = array_values( array_diff( $values['apppresser-plugin-enable'], $values['apppresser-plugin-block'] ) );
-		$option = 'apppresser_module_settings_plugin-controls';
-		update_option( $option, $values, false );
-		return $values === get_option( $option ) ? true : new WP_Error( 'controls_save_failed', __( 'Plugin Controls settings could not be saved. Try again.', 'apppresser' ) );
+		apppresser_update_settings( $values );
+		$saved = get_option( 'appp_settings', array() );
+		return is_array( $saved ) && $values === array_intersect_key( $saved, $values ) ? true : new WP_Error( 'controls_save_failed', __( 'Plugin Controls settings could not be saved. Try again.', 'apppresser' ) );
 	}
 
 	public function save() {
@@ -53,7 +53,11 @@ class AppPresser_Plugin_Controls_Admin {
 		}
 		$plugins = self::plugins();
 		$active = array_merge( (array) get_option( 'active_plugins', array() ), array_keys( (array) get_site_option( 'active_sitewide_plugins', array() ) ) );
-		$values = AppPresser_Modules::instance()->settings->values( 'plugin-controls' );
+		$values = get_option( 'appp_settings', array() );
+		$values = is_array( $values ) ? $values : array();
+		foreach ( array( 'apppresser-plugin-block', 'apppresser-plugin-enable', 'apppresser-plugin-block-api', 'apppresser-plugin-enable-api' ) as $key ) {
+			if ( ! array_key_exists( $key, $values ) ) { $values[ $key ] = get_option( $key, false ); }
+		}
 		echo '<p>' . esc_html__( 'Control which plugins load for app visitors. These selections do not change plugin activation for ordinary site visitors or the WordPress dashboard.', 'apppresser' ) . '</p>';
 		echo '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '">';
 		wp_nonce_field( 'apppresser_plugin_controls' );

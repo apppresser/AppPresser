@@ -1,5 +1,5 @@
 <?php
-/** One action preserves configuration, removes a legacy addon and enables core. */
+/** One action removes a legacy addon and enables its bundled replacement. */
 defined( 'ABSPATH' ) || exit;
 
 class AppPresser_Module_Migration {
@@ -39,24 +39,9 @@ class AppPresser_Module_Migration {
 			return new WP_Error( 'migration_busy', __( 'This feature is already being updated. Try again shortly.', 'apppresser' ) );
 		}
 		$active = array_values( array_intersect( $files, (array) get_option( 'active_plugins', array() ) ) );
-		$replacements = 'bridge' === $id ? array( 'custom-theme', 'bridge' ) : array( $id );
-		$records_before = array();
-		foreach ( $replacements as $replacement ) {
-			$records_before[ $replacement ] = $this->modules->settings->record( $replacement );
-		}
 		$removed = false;
 		try {
-			foreach ( $replacements as $replacement ) {
-				$result = $this->modules->settings->prepare( $replacement, true );
-				if ( is_wp_error( $result ) ) { return $result; }
-			}
 			deactivate_plugins( $files, false, false );
-			// Include changes made by deactivation callbacks before deleting any code.
-			foreach ( $replacements as $replacement ) {
-				$result = $this->modules->settings->prepare( $replacement, true );
-				if ( ! is_wp_error( $result ) ) { $result = $this->modules->settings->complete( $replacement ); }
-				if ( is_wp_error( $result ) ) { return $result; }
-			}
 			$result = delete_plugins( $files );
 			if ( true !== $result ) {
 				return is_wp_error( $result ) ? $result : new WP_Error( 'legacy_delete_failed', __( 'The legacy plugin could not be removed. Its replacement has not been enabled. Check file permissions and try again.', 'apppresser' ) );
@@ -72,9 +57,6 @@ class AppPresser_Module_Migration {
 			return new WP_Error( 'legacy_migration_failed', __( 'The legacy plugin could not be replaced. Check the site error log and try again.', 'apppresser' ) );
 		} finally {
 			if ( ! $removed ) {
-				foreach ( $records_before as $replacement => $record ) {
-					update_option( 'apppresser_module_migration_' . $replacement, $record, true );
-				}
 				$this->restore_activation( $active );
 			}
 			delete_option( $lock );

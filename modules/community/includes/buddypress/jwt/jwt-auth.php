@@ -65,11 +65,9 @@ if ( ! class_exists( 'AP_JWT' ) ) {
 		}
 
 		public function set_default_key() {
-			$settings = AppPresser_Modules::instance()->settings;
-			$values = $settings->values( 'community' );
+			$values = get_option( 'appp_settings', array() );
 			if ( empty( $values['ap_bp_jwt_key'] ) ) {
-				$values['ap_bp_jwt_key'] = wp_generate_password( 64, false );
-				update_option( $settings->option_name( 'community' ), $values, false );
+				apppresser_update_settings( array( 'ap_bp_jwt_key' => wp_generate_password( 64, false ) ) );
 			}
 		}
 

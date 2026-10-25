@@ -41,7 +41,7 @@ Enable Custom Theme Support when app iframe pages use a theme other than AP3 Ion
 
 == Legacy addon migration ==
 
-Use Remove legacy plugin to preserve the addon's settings, deactivate and delete it, and enable its bundled replacement in one action. Installed inactive legacy addons also need removal. Module switches preserve configuration and customer data.
+Use Remove legacy plugin to deactivate and delete the old addon and enable its bundled replacement in one action. Existing settings remain in place; no configuration copy is needed. Installed inactive legacy addons also need removal. Module switches preserve configuration and customer data.
 
 There is a brief feature interruption during changeover. Coordinate purchase callbacks and notification schedules before removal. On multisite, a network administrator must coordinate removal of shared addon files across affected sites.
 

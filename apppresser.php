@@ -77,6 +77,9 @@ class AppPresser {
 	 * @since  1.0.0
 	 */
 	function __construct() {
+		foreach ( array( 'add_option_', 'update_option_', 'delete_option_' ) as $hook ) {
+			add_action( $hook . self::SETTINGS_NAME, array( __CLASS__, 'clear_settings_cache' ) );
+		}
 
 		self::$pg_version = ( appp_get_setting( 'appp_pg_version' ) ) ? appp_get_setting( 'appp_pg_version' ) : '3.5.0';
 
@@ -461,7 +464,7 @@ class AppPresser {
 			self::$settings = get_option( self::SETTINGS_NAME );
 			self::$settings = empty( self::$settings ) ? array() : (array) self::$settings;
 		}
-		$settings = class_exists( 'AppPresser_Modules', false ) ? AppPresser_Modules::instance()->settings->overlay( self::$settings ) : self::$settings;
+		$settings = self::$settings;
 		if ( $key ) {
 			$setting = array_key_exists( $key, $settings ) ? $settings[ $key ] : false;
 			// Override value or supply fallback
@@ -469,6 +472,10 @@ class AppPresser {
 			return array_key_exists( $key, $settings ) ? $return : ( $return ? $return : $fallback );
 		}
 		return $settings;
+	}
+
+	public static function clear_settings_cache() {
+		self::$settings = 'false';
 	}
 
 

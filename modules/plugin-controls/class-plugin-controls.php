@@ -18,10 +18,10 @@ class AppPresserPluginControls {
 		add_filter( 'site_option_active_sitewide_plugins', array( $this, 'filter_network_plugins' ), 5 );
 	}
 
-	/** Accept old double-serialized lists while using independent core settings. */
+	/** Read shared settings, with direct fallback for legacy serialized lists. */
 	public static function setting( $key, $default = false ) {
-		$values = get_option( 'apppresser_module_settings_plugin-controls', null );
-		$value = is_array( $values ) ? ( isset( $values[ $key ] ) ? $values[ $key ] : $default ) : get_option( $key, $default );
+		$values = get_option( 'appp_settings', array() );
+		$value = is_array( $values ) && array_key_exists( $key, $values ) ? $values[ $key ] : get_option( $key, $default );
 		for ( $i = 0; $i < 2 && is_string( $value ) && is_serialized( $value ); $i++ ) { $value = maybe_unserialize( $value ); }
 		return $value;
 	}

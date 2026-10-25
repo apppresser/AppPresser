@@ -9,7 +9,6 @@ class AppPresser_Modules {
 	private $conflicts = array();
 	private $loaded = array();
 	private $removed_legacy = array();
-	public $settings;
 
 	public static function instance() {
 		if ( null === self::$instance ) {
@@ -22,25 +21,8 @@ class AppPresser_Modules {
 		add_option( 'appp_modules', array(), '', true );
 		$this->registry = require __DIR__ . '/registry.php';
 		require_once __DIR__ . '/class-plugin-controls-files.php';
-		require_once __DIR__ . '/class-module-settings.php';
-		$this->settings = new AppPresser_Module_Settings( $this->registry, array( $this, 'legacy_plugins' ) );
-		// This check also runs after an automatic update. Import never activates a feature.
-		foreach ( $this->registry as $id => $definition ) {
-			$this->settings->prepare( $id );
-		}
-		// Split the former combined feature once. An explicit choice is never reset.
-		$options = (array) get_option( 'appp_modules', array() );
-		if ( ! array_key_exists( 'custom-theme', $options ) ) {
-			$enabled = ! empty( $options['bridge'] );
-			$result = $enabled ? $this->settings->complete( 'custom-theme' ) : true;
-			if ( ! is_wp_error( $result ) ) {
-				$options['custom-theme'] = $enabled;
-				update_option( 'appp_modules', $options, true );
-			}
-		}
 		add_action( 'plugins_loaded', array( $this, 'boot' ), 1 );
-		add_action( 'delete_plugin', array( $this, 'before_delete' ) );
-		add_action( 'deactivated_plugin', array( $this, 'before_delete' ) );
+		add_action( 'deactivated_plugin', array( $this, 'clear_inventory' ) );
 		add_action( 'activated_plugin', array( $this, 'clear_inventory' ) );
 		add_action( 'deleted_plugin', array( $this, 'clear_inventory' ) );
 		add_action( 'upgrader_process_complete', array( $this, 'clear_inventory' ) );
@@ -59,7 +41,7 @@ class AppPresser_Modules {
 		}
 		unset( $definition );
 		// Display order is shared by Features and the settings sidebar. Runtime
-		// loading and migration keep their independent initialization order.
+		// loading keeps its independent initialization order.
 		$order = array_flip( array( 'push', 'bridge', 'camera', 'commerce', 'community', 'lms', 'plugin-controls', 'iap', 'custom-theme' ) );
 		uksort( $registry, static function ( $left, $right ) use ( $order ) {
 			return ( isset( $order[ $left ] ) ? $order[ $left ] : count( $order ) ) <=> ( isset( $order[ $right ] ) ? $order[ $right ] : count( $order ) );
@@ -189,8 +171,7 @@ class AppPresser_Modules {
 		if ( ! $this->requested( $id ) ) {
 			return 'off';
 		}
-		$record = $this->settings->record( $id );
-		return isset( $record['status'] ) && 'complete' === $record['status'] && ( 'bridge' !== $id || ! empty( $record['navigation_in_customization'] ) ) ? 'enabled' : 'migration';
+		return 'enabled';
 	}
 
 	public function set_enabled( $id, $enabled ) {
@@ -202,10 +183,6 @@ class AppPresser_Modules {
 			if ( is_wp_error( $permission ) ) { return $permission; }
 			if ( $enabled && $this->legacy_plugins( $id ) ) {
 				return new WP_Error( 'legacy_plugin', __( 'Remove the legacy plugin before enabling this feature.', 'apppresser' ) );
-			}
-			if ( $enabled ) {
-				$result = $this->settings->complete( $id );
-				if ( is_wp_error( $result ) ) { return $result; }
 			}
 			$result = AppPresser_Plugin_Controls_Files::set_enabled( $enabled );
 			if ( true === $result ) { do_action( $enabled ? 'apppresser_module_enabled' : 'apppresser_module_disabled', $id ); }
@@ -219,10 +196,6 @@ class AppPresser_Modules {
 			$error = $this->dependency_error( $id, true );
 			if ( $error ) {
 				return new WP_Error( 'dependency', $error );
-			}
-			$result = $this->settings->complete( $id );
-			if ( is_wp_error( $result ) ) {
-				return $result;
 			}
 		}
 		$options = (array) get_option( 'appp_modules', array() );
@@ -260,20 +233,6 @@ class AppPresser_Modules {
 		return $result;
 	}
 
-	public function before_delete( $file ) {
-		foreach ( $this->registry as $id => $definition ) {
-			$matches = $this->legacy_plugins( $id );
-			if ( $file === $definition['legacy'] || isset( $matches[ $file ] ) ) {
-				$result = $this->settings->prepare( $id, true );
-				if ( is_wp_error( $result ) ) {
-					// Never prevent native plugin actions; the Features screen reports preparation errors.
-					set_transient( 'apppresser_module_error_' . $id, $result->get_error_message(), HOUR_IN_SECONDS );
-				}
-			}
-		}
-		$this->clear_inventory();
-	}
-
 	/** Early LearnDash setup has to precede loading WordPress's pluggable functions. */
 	public function early_boot() {
 		if ( $this->requested( 'lms' ) && 'enabled' === $this->state( 'lms' ) ) {
@@ -301,11 +260,29 @@ class AppPresser_Modules {
 	}
 }
 
-/** Membership adapters use independent module storage instead of old IAP_* options. */
+/** Store already-validated addon values without replacing unrelated configuration. */
+function apppresser_update_settings( $changes ) {
+	$settings = get_option( 'appp_settings', array() );
+	$settings = array_replace( is_array( $settings ) ? $settings : array(), $changes );
+	// This is a programmatic write, not the scoped Settings API form submission.
+	// The caller validates its own fields. Keep other WordPress sanitizers active.
+	$callback = class_exists( 'AppPresser_Admin_Settings', false ) ? array( AppPresser_Admin_Settings::run(), 'settings_validate' ) : null;
+	$priority = $callback ? has_filter( 'sanitize_option_appp_settings', $callback ) : false;
+	if ( false !== $priority ) { remove_filter( 'sanitize_option_appp_settings', $callback, $priority ); }
+	try {
+		return update_option( 'appp_settings', $settings );
+	} finally {
+		if ( false !== $priority ) { add_filter( 'sanitize_option_appp_settings', $callback, $priority ); }
+	}
+}
+
+/** Read legacy standalone IAP values directly until the customer saves them. */
 function apppresser_iap_get_option( $key, $default = false ) {
-	return AppPresser_Modules::instance()->settings->get_iap( $key, $default );
+	$settings = get_option( 'appp_settings', array() );
+	return is_array( $settings ) && array_key_exists( $key, $settings ) ? $settings[ $key ] : get_option( $key, $default );
 }
 
 function apppresser_iap_update_option( $key, $value ) {
-	return AppPresser_Modules::instance()->settings->update_iap( $key, $value );
+	if ( ! preg_match( '/^IAP_(ARMEMBER|MEMBERPRESS|LEARNDASH|PMP|RCP|WOOMP)_(ACTIVE|KEYS)$/', $key ) ) { return false; }
+	return apppresser_update_settings( array( $key => $value ) );
 }

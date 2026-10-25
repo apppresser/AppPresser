@@ -12,7 +12,7 @@
 .apppresser-iap-mapping + .apppresser-iap-mapping { border-top: 1px solid #dcdcde; padding-top: 20px; }
 .apppresser-iap-field { min-width: 0; }
 .apppresser-iap-field label { display: block; margin-bottom: 6px; font-weight: 600; }
-.apppresser-iap-field input[type="text"], .apppresser-iap-field select { box-sizing: border-box; width: 100%; max-width: 100%; margin: 0; min-height: 32px; }
+.apppresser-iap-settings .apppresser-iap-field input[type="text"], .apppresser-iap-settings .apppresser-iap-field select { box-sizing: border-box; width: 100%; max-width: 100%; height: 40px; min-height: 40px; margin: 0; padding-top: 0; padding-bottom: 0; line-height: normal; }
 .apppresser-iap-field p.description { margin: 6px 0 0; font-size: 12px; }
 .apppresser-iap-mapping .apppresser-iap-remove { margin-top: 24px; min-height: 32px; }
 .apppresser-iap-empty { margin: 0 0 16px; color: #646970; }
@@ -26,5 +26,4 @@
 @media (max-width: 782px) {
 	.apppresser-iap-header, .apppresser-iap-fields { padding: 16px; }
 	.apppresser-iap-toggle { flex-shrink: 1; }
-	.apppresser-iap-field input[type="text"], .apppresser-iap-field select { min-height: 40px; }
 }

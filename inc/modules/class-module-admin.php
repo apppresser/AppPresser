@@ -47,9 +47,7 @@ class AppPresser_Module_Admin {
 		check_admin_referer( 'apppresser_module_' . $id );
 		$action = isset( $_POST['module_action'] ) && is_string( $_POST['module_action'] ) ? sanitize_key( wp_unslash( $_POST['module_action'] ) ) : '';
 		$result = new WP_Error( 'invalid_action', __( 'Unknown feature action.', 'apppresser' ) );
-		if ( 'prepare' === $action ) {
-			$result = $this->modules->settings->prepare( $id, true );
-		} elseif ( 'remove_legacy' === $action ) {
+		if ( 'remove_legacy' === $action ) {
 			$result = $this->modules->migrate_legacy( $id );
 		} elseif ( in_array( $action, array( 'enable', 'disable' ), true ) ) {
 			$result = $this->modules->set_enabled( $id, 'enable' === $action );
@@ -110,7 +108,7 @@ class AppPresser_Module_Admin {
 	public function features() {
 		$this->authorize();
 		echo '<p class="apppresser-features-intro">' . esc_html__( 'Enable the features your app uses. Disabled features keep their settings.', 'apppresser' ) . '</p>';
-		$labels = array( 'off' => __( 'Off', 'apppresser' ), 'enabled' => __( 'Enabled', 'apppresser' ), 'legacy' => __( 'Legacy plugin installed', 'apppresser' ), 'dependency' => __( 'Dependency required', 'apppresser' ), 'migration' => __( 'Settings need attention', 'apppresser' ), 'installation' => __( 'Loader needs repair', 'apppresser' ) );
+		$labels = array( 'off' => __( 'Off', 'apppresser' ), 'enabled' => __( 'Enabled', 'apppresser' ), 'legacy' => __( 'Legacy plugin installed', 'apppresser' ), 'dependency' => __( 'Dependency required', 'apppresser' ), 'installation' => __( 'Loader needs repair', 'apppresser' ) );
 		$available = $unavailable = array();
 		foreach ( $this->modules->registry() as $id => $definition ) {
 			if ( $this->modules->dependency_installed( $id ) ) {
@@ -127,10 +125,6 @@ class AppPresser_Module_Admin {
 				$legacy = $this->modules->legacy_plugins( $id );
 				foreach ( $legacy as $file => $data ) {
 					echo '<p>' . esc_html( sprintf( __( 'Installed: %1$s %2$s', 'apppresser' ), $data['Name'], isset( $data['Version'] ) ? $data['Version'] : '' ) ) . '</p>';
-				}
-				$error = get_transient( 'apppresser_module_error_' . $id );
-				if ( $error ) {
-					echo '<p class="notice notice-error">' . esc_html( $error ) . '</p>';
 				}
 				echo '<p>' . esc_html__( 'Remove the legacy plugin to enable this feature.', 'apppresser' ) . '</p>';
 				if ( is_multisite() ) {

@@ -430,14 +430,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 			$cleaninput[ $field_id ] = $diff[ $field_id ];
 		}
 
-		$registered = array();
-		foreach ( self::$all_fields as $fields ) {
-			$registered += $fields;
-		}
-		if ( $tab ) {
-			$registered = $allowed;
-		}
-		return AppPresser_Modules::instance()->settings->save_shared( $cleaninput, $registered );
+		return $cleaninput;
 	}
 
 	/**

@@ -110,7 +110,7 @@ class AppPresser_Plugin_Controls_Files {
 	/** Convert the supplied standalone MU plugin without an interruption in service. */
 	public static function replace_legacy( $modules ) {
 		if ( is_multisite() ) {
-			return new WP_Error( 'network_controls_migration', __( 'Replacing an existing shared Plugin Controls MU plugin requires a coordinated network cutover. Keep it installed until every site has been prepared.', 'apppresser' ) );
+			return new WP_Error( 'network_controls_migration', __( 'Replacing an existing shared Plugin Controls MU plugin requires a coordinated network cutover. Keep it installed until every site is ready.', 'apppresser' ) );
 		}
 		$legacy = $modules->legacy_plugins( 'plugin-controls' );
 		if ( array_keys( $legacy ) !== array( 'mu-plugins/apppresser-plugin-controls.php' ) ||
@@ -119,11 +119,6 @@ class AppPresser_Plugin_Controls_Files {
 		}
 		$result = self::preflight();
 		if ( is_wp_error( $result ) ) { return $result; }
-		$record_before = $modules->settings->record( 'plugin-controls' );
-		$result = $modules->settings->prepare( 'plugin-controls', true );
-		if ( ! is_wp_error( $result ) ) { $result = $modules->settings->complete( 'plugin-controls' ); }
-		if ( ! is_wp_error( $result ) ) { $result = self::set_enabled( true, true ); }
-		if ( is_wp_error( $result ) ) { update_option( 'apppresser_module_migration_plugin-controls', $record_before, true ); }
-		return $result;
+		return self::set_enabled( true, true );
 	}
 }
