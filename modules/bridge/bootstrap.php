@@ -7,7 +7,7 @@ Module source: AppPresser Bridge
 Plugin URI: http://apppresser.com
 Description: A bridge between AppPresser apps and Wordpress themes.
 Text Domain: apppresser-bridge
-Version: 1.1.0
+Version: 1.2.0
 Author: AppPresser Team
 Author URI: http://apppresser.com
 License: GPLv2
@@ -16,7 +16,7 @@ License: GPLv2
 class AppPresserBridge
 {
     public static $plugin_slug = 'apppresser-bridge';
-    const VERSION = '1.1.0';
+    const VERSION = '1.2.0';
 
     private static $instance;
 
@@ -35,6 +35,9 @@ class AppPresserBridge
 
     private function initHooks()
     {
+        require_once __DIR__ . '/includes/video-settings.php';
+        require_once __DIR__ . '/includes/modify-iframe-source.php';
+        require_once __DIR__ . '/includes/create-video-template-url.php';
         // Add javascript and style files
         add_action('wp_enqueue_scripts', [$this, 'appPresserBridgeFrontendScriptAndStyle']);
         add_action('admin_enqueue_scripts', [$this, 'appPresserBridgeBackendScriptAndStyle']);

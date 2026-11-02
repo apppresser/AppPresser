@@ -507,7 +507,7 @@ if ( ! class_exists( 'AppLMS_API' ) ) {
 				// Replace the original answer data with the hashed version.
 				$hashed_users_answers = array();
 				foreach ( $user_answers as $user_answer ) {
-					$hashed_users_answers[] = $hashed_original_answer_data[ $user_answer[0] ];
+					$hashed_users_answers[] = $hashed_original_answer_data[ $user_answer[0]['_sortString'] ];
 				}
 				$user_answers = $hashed_users_answers;
 			} elseif ( 'cloze_answer' === $answer_type ) {
@@ -565,7 +565,7 @@ if ( ! class_exists( 'AppLMS_API' ) ) {
 				$hashed_users_answers = array();
 				foreach ( $user_answer_data as $index => $user_answer ) {
 					if ( $user_answer ) {
-						$hashed_users_answers[ $index ] = $hashed_original_answer_data[ $user_answer ];
+						$hashed_users_answers[ $index ] = $hashed_original_answer_data[ $user_answer['_sortString'] ];
 					}
 				}
 				$user_answer_data = $hashed_users_answers;

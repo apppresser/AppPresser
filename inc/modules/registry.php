@@ -28,7 +28,7 @@ return array(
 	),
 	'bridge' => array(
 		'name' => static function () { return __( 'App Customization', 'apppresser' ); },
-		'description' => static function () { return __( 'Custom CSS, JavaScript and automatic link navigation for web pages inside your app.', 'apppresser' ); },
+		'description' => static function () { return __( 'Custom CSS, JavaScript, automatic link navigation and YouTube embed support for your app.', 'apppresser' ); },
 		'legacy' => 'apppresser-bridge/apppresser-bridge.php', 'class' => 'AppPresserBridge', 'tab' => 'app_customization_tab',
 	),
 	'custom-theme' => array(

@@ -353,6 +353,11 @@ class AppPresser_Admin_Settings extends AppPresser {
 		// sanitize the settings data submitted
 		foreach ( $settings as $key => $value ) {
 			switch ( $key ) {
+				case 'youtube_post_types':
+					$post_types = array_values( get_post_types( array( 'public' => true ) ) );
+					if ( function_exists( 'buddypress' ) ) { $post_types[] = 'bp_activity'; }
+					$cleaninput[ $key ] = array_values( array_intersect( is_array( $value ) ? array_filter( $value, 'is_string' ) : array(), $post_types ) );
+					break;
 				case 'menu':
 					$cleaninput[ $key ] = absint( $value );
 					break;
@@ -420,7 +425,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 					$cleaninput[ $field_id ] = '';
 					continue;
 				}
-				if ( in_array( $type, array( 'notifications_post_types', 'notifications_allow_segments', 'notifications_taxonomy_segments' ), true ) ) {
+				if ( in_array( $type, array( 'notifications_post_types', 'notifications_allow_segments', 'notifications_taxonomy_segments', 'youtube_post_types' ), true ) ) {
 					$cleaninput[ $field_id ] = array();
 					continue;
 				}

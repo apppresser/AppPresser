@@ -208,6 +208,7 @@ class AppPresser_Modules {
 			return new WP_Error( 'settings_write', __( 'The feature state could not be saved. Try again.', 'apppresser' ) );
 		}
 		do_action( $enabled ? 'apppresser_module_enabled' : 'apppresser_module_disabled', $id );
+		if ( 'bridge' === $id ) { delete_option( 'rewrite_rules' ); }
 		return true;
 	}
 
