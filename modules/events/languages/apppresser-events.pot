@@ -1,0 +1,741 @@
+# Copyright (C) 2026 AppPresser Team
+# This file is distributed under the GPLv2.
+msgid ""
+msgstr ""
+"Project-Id-Version: AppEvents 0.2.2\n"
+"Report-Msgid-Bugs-To: https://apppresser.com\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-10-28T16:33:15+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: apppresser-events\n"
+
+#. Plugin Name of the plugin
+#: appevents.php
+msgid "AppEvents"
+msgstr ""
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+#: appevents.php
+msgid "http://apppresser.com"
+msgstr ""
+
+#. Description of the plugin
+#: appevents.php
+msgid "Adds an events REST API for AppPresser apps, with support for popular WordPress events plugins and field mapping for any other events plugin or custom post type."
+msgstr ""
+
+#. Author of the plugin
+#: appevents.php
+msgid "AppPresser Team"
+msgstr ""
+
+#: inc/adapters/class-appp-events-adapter-amelia.php:42
+msgid "Amelia stores events in its own tables, so fields are read by the adapter. You can still set a static value or turn a field off."
+msgstr ""
+
+#: inc/adapters/class-appp-events-adapter-amelia.php:43
+msgid "Recurring events: every child row (parentId) and every extra date period becomes its own item with series_id set to the parent."
+msgstr ""
+
+#: inc/adapters/class-appp-events-adapter-amelia.php:44
+msgid "Amelia events have no public page, so Link is empty unless you set a static value (for example your events page)."
+msgstr ""
+
+#: inc/adapters/class-appp-events-adapter-amelia.php:45
+msgid "Categories come from Amelia event tags. Canceled means status canceled or rejected. Amelia has no featured flag or password protection."
+msgstr ""
+
+#: inc/adapters/class-appp-events-adapter-em.php:38
+msgid "Recurring events are expanded from the em_events table (rows linked by recurrence_set_id or recurrence_id). The recurring parent itself is not listed."
+msgstr ""
+
+#: inc/adapters/class-appp-events-adapter-em.php:39
+msgid "Venue \"Plugin default\" reads the em_locations table through _location_id."
+msgstr ""
+
+#: inc/adapters/class-appp-events-adapter-em.php:40
+msgid "Events Manager free has no featured flag."
+msgstr ""
+
+#. translators: %s post type
+#: inc/adapters/class-appp-events-adapter-guess.php:26
+#, php-format
+msgid "Auto mapped: %s"
+msgstr ""
+
+#. translators: %d count
+#: inc/adapters/class-appp-events-adapter-guess.php:58
+#, php-format
+msgid "Mapping guessed from %d sampled posts. Check each row; blank rows found no match."
+msgstr ""
+
+#. translators: %s post type
+#: inc/adapters/class-appp-events-adapter-plain.php:21
+#, php-format
+msgid "Plain post type: %s"
+msgstr ""
+
+#: inc/adapters/class-appp-events-adapter-plain.php:26
+msgid "No events plugin: this post type is read as events. Map at least the start date; the rest is optional."
+msgstr ""
+
+#: inc/adapters/class-appp-events-adapter-posts.php:22
+msgid "Manual mapping (any post type)"
+msgstr ""
+
+#: inc/adapters/class-appp-events-adapter-tec.php:34
+msgid "Recurring events (Events Calendar Pro) are expanded from the tec_occurrences table when a post has more than one occurrence row."
+msgstr ""
+
+#: inc/adapters/class-appp-events-adapter-thimpress.php:36
+msgid "No recurrence, featured flag, timezone or cancel status in this plugin. All day is guessed from 00:00 to 23:59."
+msgstr ""
+
+#: inc/adapters/class-appp-events-adapter-wpem.php:37
+msgid "No recurrence or all day flag in the free plugin (recurring is a paid add-on). All day is guessed from 00:00 to 23:59."
+msgstr ""
+
+#: inc/adapters/class-appp-events-adapter-wpem.php:38
+msgid "Timezone uses the site timezone because _event_timezone often holds the editor default. Switch it to the meta key if your events set it on purpose."
+msgstr ""
+
+#: inc/class-appp-events-admin.php:57
+msgid "AppEvents needs the AppPresser plugin for its settings (the Events tab). The events route still works with the detected preset."
+msgstr ""
+
+#. translators: 1 missing plugin, 2 fallback
+#: inc/class-appp-events-admin.php:86
+#, php-format
+msgid "AppEvents: the selected event source (%1$s) is no longer active. The app events route now uses: %2$s."
+msgstr ""
+
+#: inc/class-appp-events-admin.php:90
+msgid "Open the Events tab"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:107
+msgid "Events"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:110
+msgid "Recurring events"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:114
+msgid "List one item per series instead of one per occurrence (apps can still pass expand=true or false)"
+msgstr ""
+
+#. translators: 1 label 2 post type 3 reason 4 sample count
+#: inc/class-appp-events-admin.php:121
+#, php-format
+msgid "Unknown plugin: %1$s (%2$s), %3$s, %4$d posts sampled"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:128
+msgid "built in preset"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:129
+msgid "developer preset (appp_events_presets)"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:131
+msgid "supported plugin"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:159
+msgid "guess"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:161
+msgid "No events plugin: use a post type (fields guessed from its meta keys, for example a custom post type with ACF fields)"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:162
+msgid "Manual: a post type with a blank mapping"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:171
+msgid "Detection refreshed."
+msgstr ""
+
+#: inc/class-appp-events-admin.php:173
+msgid "App Events"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:175
+msgid "Test endpoint:"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:178
+msgid "Detected events plugin"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:187
+msgid "Use a different source"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:195
+msgid "More than one events plugin is active. Pick the one the app uses:"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:206
+msgid "No supported plugin or preset is active. These post types look like events:"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:208
+msgid "No events plugin or event like post type found. Pick a post type below."
+msgstr ""
+
+#: inc/class-appp-events-admin.php:219
+msgid "Post type:"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:221
+msgid "Select"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:227
+msgid "After changing the source, click Save Settings to load its mapping below."
+msgstr ""
+
+#. translators: 1 preset count 2 problem count
+#: inc/class-appp-events-admin.php:248
+#, php-format
+msgid "Data presets: %1$d registered, %2$d with problems"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:253
+msgid "Preset"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:253
+msgid "From"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:253
+msgid "Detection rule"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:253
+msgid "Active here"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:257
+msgid "yes"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:257
+msgid "no"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:263
+msgid "Developers can add presets in code with the appp_events_presets filter. \"Export as preset\" below writes one in that format."
+msgstr ""
+
+#: inc/class-appp-events-admin.php:290
+msgid "blank manual mapping"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:292
+msgid "auto mapped guess"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:294
+#: inc/class-appp-events-admin.php:354
+msgid "preset"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:307
+msgid "Field mapping"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:308
+msgid "In use:"
+msgstr ""
+
+#. translators: %s post type
+#: inc/class-appp-events-admin.php:312
+#, php-format
+msgid "Manual mapping of post type %s"
+msgstr ""
+
+#. translators: %s post type
+#: inc/class-appp-events-admin.php:312
+msgid "(none chosen yet)"
+msgstr ""
+
+#. translators: %s version
+#: inc/class-appp-events-admin.php:316
+#, php-format
+msgid "mapping_version %s"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:326
+msgid "Key: a post field name, a meta key (pick from the list or type one; use | for fallbacks), a taxonomy, link_key>target_key for meta of a linked post, or the static value. Match (flags): the value that means true, or a /regex/; empty means any value other than empty, 0, no or false."
+msgstr ""
+
+#: inc/class-appp-events-admin.php:329
+msgid "Event field"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:330
+msgid "Source"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:331
+msgid "Key or value"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:332
+msgid "Format"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:333
+msgid "Match"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:334
+msgid "Status"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:348
+msgid "not matched"
+msgstr ""
+
+#. translators: %s level
+#: inc/class-appp-events-admin.php:348
+#, php-format
+msgid "guess: %s"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:350
+msgid "not mapped"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:350
+msgid "default"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:352
+msgid "developer preset"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:385
+msgid "custom PHP format"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:397
+#: inc/class-appp-events-admin.php:593
+#: inc/class-appp-events-fields.php:179
+msgid "custom"
+msgstr ""
+
+#. translators: %s basis
+#: inc/class-appp-events-admin.php:400
+#, php-format
+msgid "Reset this row to the %s"
+msgstr ""
+
+#. translators: %s basis
+#: inc/class-appp-events-admin.php:400
+msgid "Reset"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:418
+msgid "Preview"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:420
+msgid "Preview with current changes"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:421
+msgid "Uses the rows above without saving. Below: saved settings."
+msgstr ""
+
+#: inc/class-appp-events-admin.php:425
+msgid "Export and import mapping"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:426
+msgid "Copy the export to another site, paste it into Import there, and click Save Settings."
+msgstr ""
+
+#: inc/class-appp-events-admin.php:427
+msgid "Export (saved settings)"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:429
+msgid "Import"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:430
+msgid "Paste an exported mapping or an exported preset (JSON) here, then Save Settings"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:449
+msgid "Export as preset"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:451
+msgid "This source is a supported plugin with its own adapter, so it already ships with the add-on. Export as preset is for plugins and post types mapped here (guessed, plain post type, manual, or a data preset)."
+msgstr ""
+
+#: inc/class-appp-events-admin.php:457
+msgid "Turns the saved mapping into a preset. Send the JSON to AppPresser so it can ship as a built in preset, or drop the PHP into wp-content/mu-plugins to register it on your sites with the appp_events_presets filter. Check the detection rule first: add the plugin file, a class, a function or a constant so the preset only turns on when that plugin is active."
+msgstr ""
+
+#: inc/class-appp-events-admin.php:458
+msgid "Preset (JSON)"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:460
+msgid "Preset (PHP mu-plugin)"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:463
+msgid "Download JSON"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:464
+msgid "Download PHP"
+msgstr ""
+
+#. translators: 1 missing 2 total
+#: inc/class-appp-events-admin.php:497
+#, php-format
+msgid "Start date missing on %1$d of %2$d events (they are left out)."
+msgstr ""
+
+#: inc/class-appp-events-admin.php:500
+msgid "No events could be built from this mapping."
+msgstr ""
+
+#: inc/class-appp-events-admin.php:500
+msgid "No published events found for this source."
+msgstr ""
+
+#: inc/class-appp-events-admin.php:502
+msgid "Dates in the past only: nothing upcoming. Check the date format and timezone."
+msgstr ""
+
+#. translators: 1 count 2 total
+#: inc/class-appp-events-admin.php:514
+#, php-format
+msgid "Title empty on %1$d of %2$d items."
+msgstr ""
+
+#: inc/class-appp-events-admin.php:517
+msgid "No venue on any item. Map a venue field if your events have one."
+msgstr ""
+
+#: inc/class-appp-events-admin.php:520
+msgid "No image on any item."
+msgstr ""
+
+#. translators: 1: source records read, 2: items built, 3: upcoming items, 4: source id
+#: inc/class-appp-events-admin.php:535
+#, php-format
+msgid "%1$d source records read, %2$d items built, %3$d upcoming. Source: %4$s."
+msgstr ""
+
+#: inc/class-appp-events-admin.php:544
+msgid "(all day)"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:550
+msgid "Canceled"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:553
+msgid "Featured"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:556
+msgid "Password protected"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:559
+msgid "Recurring"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:566
+msgid "JSON"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:594
+msgid "Building preview..."
+msgstr ""
+
+#: inc/class-appp-events-admin.php:595
+msgid "Preview failed."
+msgstr ""
+
+#: inc/class-appp-events-admin.php:642
+msgid "Remove all Events settings and go back to auto detect with the preset mapping? Other AppPresser settings on this form are saved too."
+msgstr ""
+
+#: inc/class-appp-events-admin.php:643
+msgid "Reset all Events rows to preset"
+msgstr ""
+
+#: inc/class-appp-events-admin.php:648
+msgid "Re-detect plugins"
+msgstr ""
+
+#: inc/class-appp-events-engine.php:134
+msgid "start and end must be dates (YYYY-MM-DD) or ISO 8601 date times."
+msgstr ""
+
+#: inc/class-appp-events-fields.php:18
+msgid "Title"
+msgstr ""
+
+#: inc/class-appp-events-fields.php:23
+msgid "Excerpt (plain text)"
+msgstr ""
+
+#: inc/class-appp-events-fields.php:26
+msgid "Post excerpt, or the first 40 words of the description"
+msgstr ""
+
+#: inc/class-appp-events-fields.php:29
+msgid "Description (HTML)"
+msgstr ""
+
+#: inc/class-appp-events-fields.php:34
+msgid "Image"
+msgstr ""
+
+#: inc/class-appp-events-fields.php:39
+msgid "Link"
+msgstr ""
+
+#: inc/class-appp-events-fields.php:42
+msgid "Post permalink"
+msgstr ""
+
+#: inc/class-appp-events-fields.php:45
+msgid "Start date (or date and time)"
+msgstr ""
+
+#: inc/class-appp-events-fields.php:50
+msgid "Start time (only if stored apart from the date)"
+msgstr ""
+
+#: inc/class-appp-events-fields.php:55
+msgid "End date (or date and time)"
+msgstr ""
+
+#: inc/class-appp-events-fields.php:60
+msgid "End time (only if stored apart from the date)"
+msgstr ""
+
+#: inc/class-appp-events-fields.php:65
+msgid "Timezone (empty means site timezone)"
+msgstr ""
+
+#: inc/class-appp-events-fields.php:70
+msgid "All day flag"
+msgstr ""
+
+#: inc/class-appp-events-fields.php:73
+msgid "True when the event runs from 00:00 to 23:59"
+msgstr ""
+
+#: inc/class-appp-events-fields.php:76
+msgid "Venue name"
+msgstr ""
+
+#: inc/class-appp-events-fields.php:81
+msgid "Venue as one line of text (parsed into the parts below when they are empty)"
+msgstr ""
+
+#: inc/class-appp-events-fields.php:86
+msgid "Venue street address"
+msgstr ""
+
+#: inc/class-appp-events-fields.php:91
+msgid "Venue city"
+msgstr ""
+
+#: inc/class-appp-events-fields.php:96
+msgid "Venue state or province"
+msgstr ""
+
+#: inc/class-appp-events-fields.php:101
+msgid "Venue postal code"
+msgstr ""
+
+#: inc/class-appp-events-fields.php:106
+msgid "Venue country"
+msgstr ""
+
+#: inc/class-appp-events-fields.php:111
+msgid "Venue latitude"
+msgstr ""
+
+#: inc/class-appp-events-fields.php:116
+msgid "Venue longitude"
+msgstr ""
+
+#: inc/class-appp-events-fields.php:121
+msgid "Ticket or registration URL"
+msgstr ""
+
+#: inc/class-appp-events-fields.php:126
+msgid "Cost"
+msgstr ""
+
+#: inc/class-appp-events-fields.php:131
+msgid "Canceled flag"
+msgstr ""
+
+#: inc/class-appp-events-fields.php:136
+msgid "Cancel reason"
+msgstr ""
+
+#: inc/class-appp-events-fields.php:141
+msgid "Featured flag"
+msgstr ""
+
+#: inc/class-appp-events-fields.php:146
+msgid "Categories"
+msgstr ""
+
+#: inc/class-appp-events-fields.php:155
+msgid "Not used"
+msgstr ""
+
+#: inc/class-appp-events-fields.php:156
+msgid "Plugin default (computed)"
+msgstr ""
+
+#: inc/class-appp-events-fields.php:157
+msgid "Post field"
+msgstr ""
+
+#: inc/class-appp-events-fields.php:158
+msgid "Post meta key"
+msgstr ""
+
+#: inc/class-appp-events-fields.php:159
+msgid "Meta of a linked post (link_key>target_key)"
+msgstr ""
+
+#: inc/class-appp-events-fields.php:160
+msgid "Taxonomy"
+msgstr ""
+
+#: inc/class-appp-events-fields.php:161
+msgid "Featured image"
+msgstr ""
+
+#: inc/class-appp-events-fields.php:162
+msgid "Static value"
+msgstr ""
+
+#: inc/class-appp-events-fields.php:169
+msgid "auto"
+msgstr ""
+
+#: inc/class-appp-events-fields.php:177
+msgid "unix (UTC)"
+msgstr ""
+
+#: inc/class-appp-events-fields.php:178
+msgid "unix (local wall time)"
+msgstr ""
+
+#: inc/class-appp-events-heuristic.php:201
+msgid "name looks like events"
+msgstr ""
+
+#. translators: %s meta key
+#: inc/class-appp-events-heuristic.php:205
+#, php-format
+msgid "date meta %s"
+msgstr ""
+
+#. translators: %s key
+#: inc/class-appp-events-heuristic.php:317
+#, php-format
+msgid "%s holds Unix timestamps. Guessed U_local (local wall time stored as a timestamp); switch to U if times are off by the UTC offset."
+msgstr ""
+
+#: inc/class-appp-events-heuristic.php:446
+msgid "No start date found in the sample. Map Start date by hand."
+msgstr ""
+
+#: inc/class-appp-events-presets.php:71
+msgid "The filter did not return an array. Built in presets used."
+msgstr ""
+
+#: inc/class-appp-events-presets.php:76
+msgid "Preset is not an array."
+msgstr ""
+
+#: inc/class-appp-events-presets.php:88
+msgid "This id belongs to a supported plugin adapter and cannot be replaced by a preset."
+msgstr ""
+
+#: inc/class-appp-events-presets.php:118
+msgid "Missing or reserved id."
+msgstr ""
+
+#: inc/class-appp-events-presets.php:127
+msgid "Missing post_type."
+msgstr ""
+
+#: inc/class-appp-events-presets.php:137
+msgid "Missing fields."
+msgstr ""
+
+#. translators: %s field key
+#: inc/class-appp-events-presets.php:148
+#, php-format
+msgid "Unknown field %s ignored."
+msgstr ""
+
+#: inc/class-appp-events-presets.php:152
+msgid "start_date must be mapped."
+msgstr ""
+
+#. translators: %s post type
+#: inc/class-appp-events-presets.php:233
+#, php-format
+msgid "post type %s exists"
+msgstr ""
+
+#. translators: %s list of signals
+#: inc/class-appp-events-presets.php:242
+#, php-format
+msgid "and one of: %s"
+msgstr ""
+
+#: inc/class-appp-events-rest.php:147
+msgid "Event not found."
+msgstr ""
+
+#: inc/presets/very-simple-event-list.php:23
+msgid "Dates are Unix timestamps of the local wall time (U_local). event-date is the end date."
+msgstr ""
+
+#: inc/presets/very-simple-event-list.php:24
+msgid "No canceled flag in the plugin: a title that starts with \"CANCELED:\" (or \"Cancelled:\") marks the event canceled."
+msgstr ""
+
+#: inc/presets/very-simple-event-list.php:25
+msgid "The location is free text over several lines and is split into name, street, city, state and zip."
+msgstr ""
+
+#: inc/presets/very-simple-event-list.php:26
+msgid "No cost, featured, timezone or map coordinates in the plugin."
+msgstr ""

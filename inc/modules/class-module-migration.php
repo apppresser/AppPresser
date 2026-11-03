@@ -42,6 +42,9 @@ class AppPresser_Module_Migration {
 		$removed = false;
 		try {
 			deactivate_plugins( $files, false, false );
+			// AppEvents has an uninstall script. Its cache may be removed, but the
+			// four shared settings are still owned by the bundled replacement.
+			if ( 'events' === $id ) { add_filter( 'pre_update_option_appp_settings', array( $this, 'retain_events_settings' ), PHP_INT_MAX, 2 ); }
 			$result = delete_plugins( $files );
 			if ( true !== $result ) {
 				return is_wp_error( $result ) ? $result : new WP_Error( 'legacy_delete_failed', __( 'The legacy plugin could not be removed. Its replacement has not been enabled. Check file permissions and try again.', 'apppresser' ) );
@@ -56,12 +59,21 @@ class AppPresser_Module_Migration {
 		} catch ( Throwable $error ) {
 			return new WP_Error( 'legacy_migration_failed', __( 'The legacy plugin could not be replaced. Check the site error log and try again.', 'apppresser' ) );
 		} finally {
+			if ( 'events' === $id ) { remove_filter( 'pre_update_option_appp_settings', array( $this, 'retain_events_settings' ), PHP_INT_MAX ); }
 			if ( ! $removed ) {
 				$this->restore_activation( $active );
 			}
 			delete_option( $lock );
 			$this->modules->clear_inventory();
 		}
+	}
+
+	public function retain_events_settings( $value, $old ) {
+		$value = is_array( $value ) ? $value : array();
+		foreach ( array( 'events_source', 'events_post_type', 'events_collapse', 'events_field_map' ) as $key ) {
+			if ( is_array( $old ) && array_key_exists( $key, $old ) ) { $value[ $key ] = $old[ $key ]; }
+		}
+		return $value;
 	}
 
 	private function restore_activation( $active ) {

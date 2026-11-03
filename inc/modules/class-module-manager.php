@@ -42,7 +42,7 @@ class AppPresser_Modules {
 		unset( $definition );
 		// Display order is shared by Features and the settings sidebar. Runtime
 		// loading keeps its independent initialization order.
-		$order = array_flip( array( 'push', 'bridge', 'camera', 'commerce', 'community', 'lms', 'plugin-controls', 'iap', 'custom-theme' ) );
+		$order = array_flip( array( 'push', 'bridge', 'camera', 'commerce', 'community', 'lms', 'events', 'plugin-controls', 'iap', 'custom-theme' ) );
 		uksort( $registry, static function ( $left, $right ) use ( $order ) {
 			return ( isset( $order[ $left ] ) ? $order[ $left ] : count( $order ) ) <=> ( isset( $order[ $right ] ) ? $order[ $right ] : count( $order ) );
 		} );
@@ -79,10 +79,11 @@ class AppPresser_Modules {
 		if ( ! isset( $this->registry[ $id ] ) ) {
 			return array();
 		}
-		if ( isset( $this->conflicts[ $id ] ) && ( $this->conflicts[ $id ] || isset( $this->loaded[ $id ] ) || ! class_exists( $this->registry[ $id ]['class'], false ) ) ) {
+		$definition = $this->registry[ $id ];
+		$legacy_loaded = class_exists( $definition['class'], false ) || ( isset( $definition['legacy_constant'] ) && defined( $definition['legacy_constant'] ) );
+		if ( isset( $this->conflicts[ $id ] ) && ( $this->conflicts[ $id ] || isset( $this->loaded[ $id ] ) || ! $legacy_loaded ) ) {
 			return $this->conflicts[ $id ];
 		}
-		$definition = $this->registry[ $id ];
 		$matches = array();
 		$slug = dirname( $definition['legacy'] );
 		foreach ( $this->installed_plugins() as $file => $data ) {
@@ -93,7 +94,7 @@ class AppPresser_Modules {
 				$matches[ $file ] = $data;
 			}
 		}
-		if ( ! isset( $this->loaded[ $id ] ) && ! isset( $this->removed_legacy[ $id ] ) && class_exists( $definition['class'], false ) && ! $matches ) {
+		if ( ! isset( $this->loaded[ $id ] ) && ! isset( $this->removed_legacy[ $id ] ) && $legacy_loaded && ! $matches ) {
 			$matches['custom'] = array( 'Name' => __( 'A custom or must-use legacy implementation', 'apppresser' ), 'Version' => '' );
 		}
 		$this->conflicts[ $id ] = $matches;
@@ -199,6 +200,16 @@ class AppPresser_Modules {
 			}
 		}
 		$options = (array) get_option( 'appp_modules', array() );
+		if ( 'events' === $id && $enabled && empty( $options[ $id ] ) ) {
+			// Posts can change while AppEvents is disabled. Advance its cache version
+			// without loading any event adapter during this feature action.
+			$state = get_option( 'appp_events_state', array() );
+			$state = is_array( $state ) ? $state : array();
+			$state['v'] = isset( $state['v'] ) ? (int) $state['v'] + 1 : 1;
+			unset( $state['det'] );
+			update_option( 'appp_events_state', $state );
+			delete_transient( 'appp_events_items' );
+		}
 		if ( 'push' === $id && $enabled && empty( $options[ $id ] ) ) {
 			update_option( 'apppresser_push_resumed_at', gmdate( 'Y-m-d H:i:s' ), false );
 		}

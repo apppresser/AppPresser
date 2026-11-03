@@ -35,7 +35,7 @@ This plugin is not an app-creator in itself, it helps connect your app to WordPr
 *   Install and activate this plugin on your WordPress site
 *	Follow the instructions in our documentation
 
-AppPresser includes optional Camera, WooCommerce, BuddyPress / BuddyBoss, LearnDash, App Customization, Custom Theme Support, In-app purchases, Push notifications, and Plugin Controls features. All bundled features are free. Enable the features your app uses from AppPresser > Settings > Features.
+AppPresser includes optional Camera, WooCommerce, BuddyPress / BuddyBoss, LearnDash, AppEvents, App Customization, Custom Theme Support, In-app purchases, Push notifications, and Plugin Controls features. All bundled features are free. Enable the features your app uses from AppPresser > Settings > Features.
 
 Enable Custom Theme Support when app iframe pages use a theme other than AP3 Ion Theme. It provides app messaging for navigation, sharing, downloads and login/media links and has an enable/disable switch only. App Customization provides custom CSS and JavaScript editors and the optional Automatic link navigation setting. This setting adds the push-page class to links for app-managed navigation and works with AP3 Ion Theme and custom themes.
 
@@ -74,7 +74,7 @@ Documentation: https://docs.apppresser.com/
 == Changelog ==
 
 = 5.0.0-beta.1 =
-* Bundle nine optional features, including Custom Theme Support and Plugin Controls with an early MU loader.
+* Bundle ten optional features, including Custom Theme Support and Plugin Controls with an early MU loader.
 * Preserve legacy configuration before removal and block overlapping installations.
 * Add feature management, accessible navigation and independent module settings.
 * Keep existing API versions and prevent overdue push replay after re-enabling.

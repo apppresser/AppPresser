@@ -347,6 +347,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 		self::get_all_fields();
 		$tab = isset( $_POST['appp_settings_tab'] ) && is_string( $_POST['appp_settings_tab'] ) ? sanitize_key( wp_unslash( $_POST['appp_settings_tab'] ) ) : '';
 		$allowed = isset( self::$all_fields[ $tab ] ) ? self::$all_fields[ $tab ] : array();
+		$allowed = apply_filters( 'apppresser_settings_allowed_fields', $allowed, $tab );
 		if ( $tab ) {
 			$settings = array_intersect_key( $settings, $allowed );
 		}
