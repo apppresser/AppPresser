@@ -296,7 +296,17 @@ class AppPresser_Notifications_Update extends AppPresser_API_Response_Viewer {
 			$message = wp_strip_all_tags( $post->post_content, true );
 		}
 
-		$message = substr( $message, 0, 150 );
+		// Keep the 150-byte limit without splitting a UTF-8 character.
+		if ( function_exists( 'mb_strcut' ) ) {
+			$message = mb_strcut( $message, 0, 150, 'UTF-8' );
+		} else {
+			$length = 150;
+			// If the first excluded byte is a continuation byte, omit its whole character.
+			while ( $length > 0 && isset( $message[ $length ] ) && ( ord( $message[ $length ] ) & 0xC0 ) === 0x80 ) {
+				$length--;
+			}
+			$message = substr( $message, 0, $length );
+		}
 
 		if ( $post->post_type == AppPresser_Notifications::$cpt ) {
 
