@@ -47,44 +47,51 @@ class AppCommerce_Functions extends AppCommerce {
 	}
 
 	public function set_cookie_cart() {
-		if ( ! empty( $_GET['customer_id'] ) && ! empty( $_GET['session_expiration'] ) && ! empty( $_GET['session_expiring'] ) && ! empty( $_GET['cookie_hash'] ) ) {
-			// Set the WooCommerce cookie
-			$this->set_woocoomerce_cookie();
+		$has_handoff = false;
+		foreach ( array( 'customer_id', 'session_expiration', 'session_expiring', 'cookie_hash' ) as $field ) {
+			if ( isset( $_GET[ $field ] ) ) {
+				$has_handoff = true;
+				break;
+			}
+		}
+		if ( $has_handoff ) {
+			// A partial or invalid handoff must not continue into checkout processing.
+			if ( ! $this->set_woocoomerce_cookie() ) {
+				wp_die( esc_html__( 'Invalid or expired checkout session. Please refresh your cart.', 'appcommerce' ), '', array( 'response' => 403 ) );
+			}
 			// Create the checkout URL and redirect to it
 			$checkout_url = apply_filters( 'appcommerce_checkout_url', strtok( $_SERVER['REQUEST_URI'], '?' ) . '?appcommerce=1&appp_bypass=true' );
 			wp_redirect( $checkout_url );
+			exit;
 		}
 	}
 
 	private function set_woocoomerce_cookie() {
-		$customer_id        = sanitize_text_field( $_GET['customer_id'] );
-		$session_expiration = sanitize_text_field( $_GET['session_expiration'] );
-		$session_expiring   = sanitize_text_field( $_GET['session_expiring'] );
-		$cookie_name        = apply_filters( 'woocommerce_cookie', 'wp_woocommerce_session_' . COOKIEHASH );
-
-		if ( self::is_woocommerce_version_greater_than( '10.0.0' ) ) {
-			$message = $customer_id . '|' . $session_expiration;
-			if ( function_exists( 'wp_fast_hash' ) ) {
-				$cookie_hash = wp_fast_hash( $message );
-			} else {
-				$cookie_hash = hash_hmac( 'md5', $message, wp_hash( $message ) );
+		$handoff = array();
+		foreach ( array( 'customer_id', 'session_expiration', 'session_expiring', 'cookie_hash' ) as $field ) {
+			if ( ! isset( $_GET[ $field ] ) || ! is_string( $_GET[ $field ] ) ) {
+				return false;
 			}
-			$cookie_value = $customer_id . '|' . $session_expiration . '|' . $session_expiring . '|' . $cookie_hash;
-			$secure       = apply_filters( 'wc_session_use_secure_cookie', wc_site_is_https() && is_ssl() );
-			wc_setcookie( $cookie_name, $cookie_value, $session_expiration, $secure, true );
-		} else {
-			$cookie_hash  = sanitize_text_field( $_GET['cookie_hash'] );
-			$cookie_value = $customer_id . '||' . $session_expiration . '||' . $session_expiring . '||' . $cookie_hash;
-			setcookie( $cookie_name, $cookie_value, time() + ( 86400 * 30 ), '/' ); // 86400 = 1 day
+			$handoff[ $field ] = wp_unslash( $_GET[ $field ] );
 		}
 
-		// Log the user in if it exists
-		$user = get_user_by( 'id', $customer_id );
+		// Verify before using the supplied identity or issuing either kind of cookie.
+		if ( ! AppCommerce_Checkout_Session::verify( $handoff ) || headers_sent() ) {
+			return false;
+		}
+		$session = new WC_Session_Handler_Extended();
+		if ( ! $session->set_checkout_cookie( $handoff ) ) {
+			return false;
+		}
+
+		$customer_id = $handoff['customer_id'];
+		$user        = ctype_digit( $customer_id ) ? get_user_by( 'id', $customer_id ) : false;
 		if ( $user instanceof WP_User ) {
 			wp_set_current_user( $customer_id, $user->user_login );
 			wp_set_auth_cookie( $customer_id );
 			do_action( 'wp_login', $user->user_login, $user );
 		}
+		return true;
 	}
 
 	static function is_woocommerce_version_greater_than( $required_version ) {

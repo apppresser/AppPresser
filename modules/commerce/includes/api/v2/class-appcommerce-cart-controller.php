@@ -1330,13 +1330,18 @@ class AppCommerce_Cart_Controller_V2 {
 	 */
 	public function get_cart( $data = array() ) {
 		$wc_cart = WC()->cart;
-		$cart    = $this->get_cart_contents();
 		$totals  = $wc_cart->get_totals();
 		$count   = $wc_cart->get_cart_contents_count();
 
 		if ( $this->get_cart_contents_count( array( 'return' => 'numeric' ) ) <= 0 ) {
 			return new WP_REST_Response( __( 'Cart is empty!', 'appcommerce' ), 200 );
 		}
+
+		$handoff = AppCommerce_Checkout_Session::get_handoff( WC()->session );
+		if ( is_wp_error( $handoff ) ) {
+			return $handoff;
+		}
+		$cart = $this->get_cart_contents();
 
 		$show_thumb = ! empty( $data['thumb'] ) ? $data['thumb'] : false;
 
@@ -1377,24 +1382,11 @@ class AppCommerce_Cart_Controller_V2 {
 
 		$returnArray['cart_total']['cart_contents_total'] = number_format( (float) $totals['cart_contents_total'], 2, '.', '' );
 
-		$cookie             = WC()->session->get_session_cookie();
-		$customer_id        = $cookie[0];
-		$session_expiration = $cookie[1];
-		$session_expiring   = $cookie[2];
-		$message            = $customer_id . '|' . $session_expiration;
-		if ( function_exists( 'wp_fast_hash' ) ) {
-			$cookie_hash = wp_fast_hash( $message );
-		} else {
-			$cookie_hash = hash_hmac( 'md5', $message, wp_hash( $message ) );
-		}
-		$returnArray['session_cookie'] = array(
-			'customer_id'        => $customer_id,
-			'session_expiration' => $session_expiration,
-			'session_expiring'   => $session_expiring,
-			'cookie_hash'        => $cookie_hash
-		);
+		$returnArray['session_cookie'] = $handoff;
 
-		return new WP_REST_Response( $returnArray, 200 );
+		$response = new WP_REST_Response( $returnArray, 200 );
+		$response->header( 'Cache-Control', 'no-store, private' );
+		return $response;
 	} // END get_cart()
 
 	/**
