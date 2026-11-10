@@ -36,6 +36,13 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+### 5.0.0
+* Bundle ten optional features: Camera, WooCommerce, BuddyPress / BuddyBoss, LearnDash, AppEvents, App Customization, Custom Theme Support, In-app purchases, Push notifications, and Plugin Controls.
+* Add feature management and sidebar navigation with independent settings forms.
+* Add one-click legacy addon replacement while preserving existing settings and preventing overlapping installations.
+* Include the latest LearnDash quiz and App Customization video support updates.
+* Fix WooCommerce checkout session handoffs, strengthen authentication and request validation, and prevent overdue push notifications after re-enabling.
+
 ### 4.5.3
 * Fixed the clear cookie functionality by using the correct domain
 

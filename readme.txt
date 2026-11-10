@@ -5,7 +5,7 @@ Tags: application, iphone app, android app, mobile app, wordpress mobile
 Requires at least: 6.5
 Requires PHP: 7.4
 Tested up to: 6.9
-Stable tag: 5.0.0-beta.1
+Stable tag: 5.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -72,6 +72,17 @@ Documentation: https://docs.apppresser.com/
 
 
 == Changelog ==
+
+= 5.0.0 =
+* Bundle ten optional features: Camera, WooCommerce, BuddyPress / BuddyBoss, LearnDash, AppEvents, App Customization, Custom Theme Support, In-app purchases, Push notifications, and Plugin Controls.
+* Add feature management and sidebar navigation with independent settings forms.
+* Add one-click legacy addon replacement while preserving existing settings and preventing overlapping installations.
+* Include the latest LearnDash quiz and App Customization video support updates.
+* Fix WooCommerce checkout session handoffs, strengthen authentication and request validation, and prevent overdue push notifications after re-enabling.
+
+= 5.0.0-beta.2 =
+* Fix AppCommerce native cart checkout session handoffs for WooCommerce 11.2.2 and older versions.
+* Validate checkout handoff proofs before issuing session or login cookies, handle missing incoming session cookies, and terminate checkout redirects.
 
 = 5.0.0-beta.1 =
 * Bundle ten optional features, including Custom Theme Support and Plugin Controls with an early MU loader.
