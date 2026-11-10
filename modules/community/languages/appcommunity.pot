@@ -1,0 +1,938 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: appcommunity 0.1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-04-24 11:55-0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: appcommunity.php:237
+msgid "AppCommunity License Key"
+msgstr ""
+
+#: appcommunity.php:240
+msgid "Adding a license key enables automatic updates."
+msgstr ""
+
+#: appcommunity.php:261
+msgid "BuddyPress Notifications"
+msgstr ""
+
+#: appcommunity.php:265
+msgid ""
+"Allow BuddyPress friend requests, private and public messages to send push "
+"notifications."
+msgstr ""
+
+#: appcommunity.php:330
+msgid "The AppCommunity may conflict with the BuddyPress REST API plugin."
+msgstr ""
+
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:240
+msgid "Sorry, you cannot view the activities."
+msgstr ""
+
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:249
+#: includes/bp-groups/classes/class-appcommunity-groups-endpoint.php:371
+#: includes/bp-members/classes/class-appcommunity-members-endpoint.php:606
+msgid "Sorry, you cannot view this resource with edit context."
+msgstr ""
+
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:314
+msgid "Sorry, there was a problem."
+msgstr ""
+
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:359
+msgid "Sorry, only group members can post here."
+msgstr ""
+
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:427
+#, php-format
+msgid "%s posted an update"
+msgstr ""
+
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:437
+#: includes/bp-messages/classes/class-appcommunity-messages-endpoint.php:196
+msgid "There was a problem on your site."
+msgstr ""
+
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:492
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:624
+msgid "Sorry, you are not allowed to create activities. "
+msgstr ""
+
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:502
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:541
+msgid "Please, enter some content."
+msgstr ""
+
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:516
+msgid "Sorry, you are not allowed to create activity in this group."
+msgstr ""
+
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:571
+msgid "Cannot update existing activity."
+msgstr ""
+
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:635
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:725
+msgid "Invalid activity id."
+msgstr ""
+
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:680
+msgid "Could not delete the activity."
+msgstr ""
+
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:714
+msgid "Sorry, you are not allowed to delete this activity."
+msgstr ""
+
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:734
+msgid "Sorry, you cannot delete the activity."
+msgstr ""
+
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:1097
+#: includes/bp-groups/classes/class-appcommunity-groups-endpoint.php:638
+#: includes/bp-messages/classes/class-appcommunity-messages-endpoint.php:433
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-field-groups-endpoint.php:543
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-fields-endpoint.php:548
+msgid "A unique alphanumeric ID for the object."
+msgstr ""
+
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:1104
+#: includes/bp-messages/classes/class-appcommunity-messages-endpoint.php:440
+msgid "The ID of some other object primarily associated with this one."
+msgstr ""
+
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:1110
+#: includes/bp-messages/classes/class-appcommunity-messages-endpoint.php:465
+#: includes/bp-messages/classes/class-appcommunity-messages-endpoint.php:471
+#: includes/bp-notifications/classes/class-appcommunity-notifications-endpoint.php:289
+msgid "The ID of some other object also associated with this one."
+msgstr ""
+
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:1116
+msgid "The ID for the creator of the object."
+msgstr ""
+
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:1122
+#: includes/bp-groups/classes/class-appcommunity-groups-endpoint.php:663
+msgid "The permalink to this object on the site."
+msgstr ""
+
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:1129
+msgid "The BuddyPress component the object relates to."
+msgstr ""
+
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:1136
+msgid "The activity type of the object."
+msgstr ""
+
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:1143
+#: includes/bp-messages/classes/class-appcommunity-messages-endpoint.php:446
+msgid "HTML title of the object."
+msgstr ""
+
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:1149
+#: includes/bp-messages/classes/class-appcommunity-messages-endpoint.php:452
+msgid "HTML content of the object."
+msgstr ""
+
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:1154
+#: includes/bp-messages/classes/class-appcommunity-messages-endpoint.php:457
+msgid "The date the object was published, in the site's timezone."
+msgstr ""
+
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:1162
+msgid "Whether the object has been marked as spam or not."
+msgstr ""
+
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:1168
+msgid "The ID of the parent of the object."
+msgstr ""
+
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:1174
+msgid "The ID for the parent of the object."
+msgstr ""
+
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:1187
+#: includes/bp-members/classes/class-appcommunity-members-endpoint.php:559
+#, php-format
+msgid "Avatar URL with full image size (%1$d x %2$d pixels)."
+msgstr ""
+
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:1195
+#: includes/bp-members/classes/class-appcommunity-members-endpoint.php:567
+#, php-format
+msgid "Avatar URL with thumb image size (%1$d x %2$d pixels)."
+msgstr ""
+
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:1202
+#: includes/bp-members/classes/class-appcommunity-members-endpoint.php:574
+msgid "Avatar URLs for the member."
+msgstr ""
+
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:1225
+#: includes/bp-groups/classes/class-appcommunity-groups-endpoint.php:796
+msgid "Ensure result set excludes specific IDs."
+msgstr ""
+
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:1232
+msgid "Ensure result set includes specific IDs."
+msgstr ""
+
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:1239
+#: includes/bp-groups/classes/class-appcommunity-groups-endpoint.php:765
+msgid "Order sort attribute ascending or descending."
+msgstr ""
+
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:1247
+msgid ""
+"Limit result set to items published after a given ISO8601 compliant date."
+msgstr ""
+
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:1254
+#: includes/bp-groups/classes/class-appcommunity-groups-endpoint.php:843
+#: includes/bp-messages/classes/class-appcommunity-messages-endpoint.php:522
+msgid "Maximum number of results returned per result set."
+msgstr ""
+
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:1262
+#: includes/bp-groups/classes/class-appcommunity-groups-endpoint.php:851
+#: includes/bp-messages/classes/class-appcommunity-messages-endpoint.php:514
+msgid "Offset the result set by a specific number of pages of results."
+msgstr ""
+
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:1270
+msgid "Limit result set to items created by specific users."
+msgstr ""
+
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:1289
+msgid "Limit result set to items with a specific status."
+msgstr ""
+
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:1297
+msgid "Limit result set to items with a specific prime assocation."
+msgstr ""
+
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:1304
+msgid "Limit result set to items with a specific secondary assocation."
+msgstr ""
+
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:1311
+msgid "Limit result set to items with a specific BuddyPress component."
+msgstr ""
+
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:1319
+msgid "Limit result set to items with a specific activity type."
+msgstr ""
+
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:1327
+#: includes/bp-messages/classes/class-appcommunity-messages-endpoint.php:530
+msgid "Limit result set to items that match this search query."
+msgstr ""
+
+#: includes/bp-activity/classes/class-appcommunity-activity-endpoint.php:1335
+msgid ""
+"False for no comments. stream for within stream display, threaded for below "
+"each activity item.."
+msgstr ""
+
+#: includes/bp-friends/classes/class-appcommunity-friends-endpoint.php:79
+#: includes/bp-friends/classes/class-appcommunity-friends-endpoint.php:142
+#: includes/bp-friends/classes/class-appcommunity-friends-endpoint.php:195
+#: includes/bp-groups/classes/class-appcommunity-groups-endpoint.php:89
+#: includes/bp-groups/classes/class-appcommunity-groups-endpoint.php:245
+#: includes/bp-groups/classes/class-appcommunity-groups-endpoint.php:310
+#: includes/bp-members/classes/class-appcommunity-members-endpoint.php:169
+#: includes/functions.php:23
+msgid "Missing required fields."
+msgstr ""
+
+#: includes/bp-friends/classes/class-appcommunity-friends-endpoint.php:156
+msgid "You are already friends."
+msgstr ""
+
+#: includes/bp-friends/classes/class-appcommunity-friends-endpoint.php:162
+msgid "Friendship status is: "
+msgstr ""
+
+#: includes/bp-friends/classes/class-appcommunity-friends-endpoint.php:166
+msgid "Friendship request sent."
+msgstr ""
+
+#: includes/bp-friends/classes/class-appcommunity-friends-endpoint.php:171
+msgid "Friendship removed."
+msgstr ""
+
+#: includes/bp-friends/classes/class-appcommunity-friends-endpoint.php:212
+#, php-format
+msgid "Can't accept friendship. Friendship status is: %s"
+msgstr ""
+
+#: includes/bp-friends/classes/class-appcommunity-friends-endpoint.php:251
+msgid "API authorization failed. "
+msgstr ""
+
+#: includes/bp-groups/classes/class-appcommunity-groups-endpoint.php:205
+msgid "Invalid group id."
+msgstr ""
+
+#: includes/bp-groups/classes/class-appcommunity-groups-endpoint.php:256
+msgid "Sorry, you do not have permission to view this."
+msgstr ""
+
+#: includes/bp-groups/classes/class-appcommunity-groups-endpoint.php:328
+#: includes/bp-messages/classes/class-appcommunity-messages-endpoint.php:244
+#: includes/bp-notifications/classes/class-appcommunity-notifications-endpoint.php:142
+msgid "Sorry, you are not allowed to do that. "
+msgstr ""
+
+#: includes/bp-groups/classes/class-appcommunity-groups-endpoint.php:362
+msgid "Sorry, you cannot view hidden groups."
+msgstr ""
+
+#: includes/bp-groups/classes/class-appcommunity-groups-endpoint.php:617
+#, php-format
+msgid "The group type you provided, %1$s, is not one of %2$s."
+msgstr ""
+
+#: includes/bp-groups/classes/class-appcommunity-groups-endpoint.php:645
+msgid "The ID of the user that created the group."
+msgstr ""
+
+#: includes/bp-groups/classes/class-appcommunity-groups-endpoint.php:651
+msgid "The name of the group."
+msgstr ""
+
+#: includes/bp-groups/classes/class-appcommunity-groups-endpoint.php:657
+msgid "The URL-friendly slug for the group."
+msgstr ""
+
+#: includes/bp-groups/classes/class-appcommunity-groups-endpoint.php:670
+msgid "The description of the group."
+msgstr ""
+
+#: includes/bp-groups/classes/class-appcommunity-groups-endpoint.php:676
+msgid "The status of the group."
+msgstr ""
+
+#: includes/bp-groups/classes/class-appcommunity-groups-endpoint.php:683
+msgid "Whether the group has a forum or not."
+msgstr ""
+
+#: includes/bp-groups/classes/class-appcommunity-groups-endpoint.php:689
+msgid "The date the group was created, in the site's timezone."
+msgstr ""
+
+#: includes/bp-groups/classes/class-appcommunity-groups-endpoint.php:696
+#: includes/bp-groups/classes/class-appcommunity-groups-endpoint.php:702
+msgid "Group administrators."
+msgstr ""
+
+#: includes/bp-groups/classes/class-appcommunity-groups-endpoint.php:708
+msgid "Count of all group members."
+msgstr ""
+
+#: includes/bp-groups/classes/class-appcommunity-groups-endpoint.php:714
+msgid "The date the group was last active, in the site's timezone."
+msgstr ""
+
+#: includes/bp-groups/classes/class-appcommunity-groups-endpoint.php:720
+msgid "Avatar URLs for the resource."
+msgstr ""
+
+#: includes/bp-groups/classes/class-appcommunity-groups-endpoint.php:726
+msgid "Thumbnail-sized avatar URL."
+msgstr ""
+
+#: includes/bp-groups/classes/class-appcommunity-groups-endpoint.php:732
+msgid "Full-sized avatar URL."
+msgstr ""
+
+#: includes/bp-groups/classes/class-appcommunity-groups-endpoint.php:757
+msgid "Shorthand for certain orderby/order combinations"
+msgstr ""
+
+#: includes/bp-groups/classes/class-appcommunity-groups-endpoint.php:773
+msgid "Order groups by which attribute."
+msgstr ""
+
+#: includes/bp-groups/classes/class-appcommunity-groups-endpoint.php:781
+msgid "Pass a user_id to limit to only groups that this user is a member of."
+msgstr ""
+
+#: includes/bp-groups/classes/class-appcommunity-groups-endpoint.php:789
+msgid "Ensure result set includes groups with specific IDs."
+msgstr ""
+
+#: includes/bp-groups/classes/class-appcommunity-groups-endpoint.php:803
+msgid "Limit results set to items that match this search query."
+msgstr ""
+
+#: includes/bp-groups/classes/class-appcommunity-groups-endpoint.php:811
+msgid "Limit results set to a certain type."
+msgstr ""
+
+#: includes/bp-groups/classes/class-appcommunity-groups-endpoint.php:820
+msgid "Limit results set to groups of certain types."
+msgstr ""
+
+#: includes/bp-groups/classes/class-appcommunity-groups-endpoint.php:828
+msgid "Exclude groups of certain types."
+msgstr ""
+
+#: includes/bp-groups/classes/class-appcommunity-groups-endpoint.php:836
+msgid "Whether results should include hidden groups."
+msgstr ""
+
+#: includes/bp-members/classes/class-appcommunity-member-avatar-endpoint.php:112
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-data-endpoint.php:144
+msgid "Invalid member id."
+msgstr ""
+
+#: includes/bp-members/classes/class-appcommunity-member-avatar-endpoint.php:124
+msgid "Sorry, you cannot get this member avatar."
+msgstr ""
+
+#: includes/bp-members/classes/class-appcommunity-member-avatar-endpoint.php:158
+msgid "Sorry, you need an image file to upload."
+msgstr ""
+
+#: includes/bp-members/classes/class-appcommunity-member-avatar-endpoint.php:232
+msgid "Sorry, there was a problem deleting the avatar."
+msgstr ""
+
+#: includes/bp-members/classes/class-appcommunity-member-avatar-endpoint.php:349
+#, php-format
+msgid "Upload failed! Error was: %s."
+msgstr ""
+
+#: includes/bp-members/classes/class-appcommunity-member-avatar-endpoint.php:443
+msgid "Full size of the image file."
+msgstr ""
+
+#: includes/bp-members/classes/class-appcommunity-member-avatar-endpoint.php:448
+msgid "Thumb size of the image file."
+msgstr ""
+
+#: includes/bp-members/classes/class-appcommunity-member-avatar-endpoint.php:469
+msgid "Whether you would like the `full` or the smaller `thumb`."
+msgstr ""
+
+#: includes/bp-members/classes/class-appcommunity-member-avatar-endpoint.php:478
+msgid "Whether to return an <img> HTML element, vs a raw URL to an avatar."
+msgstr ""
+
+#: includes/bp-members/classes/class-appcommunity-members-endpoint.php:140
+msgid "No member found."
+msgstr ""
+
+#: includes/bp-members/classes/class-appcommunity-members-endpoint.php:423
+msgid "Custom data."
+msgstr ""
+
+#: includes/bp-members/classes/class-appcommunity-members-endpoint.php:430
+msgid "Unique identifier for the member."
+msgstr ""
+
+#: includes/bp-members/classes/class-appcommunity-members-endpoint.php:437
+msgid "Display name for the member."
+msgstr ""
+
+#: includes/bp-members/classes/class-appcommunity-members-endpoint.php:446
+msgid "The email address for the member."
+msgstr ""
+
+#: includes/bp-members/classes/class-appcommunity-members-endpoint.php:454
+msgid "Profile URL of the member."
+msgstr ""
+
+#: includes/bp-members/classes/class-appcommunity-members-endpoint.php:462
+msgid "An alphanumeric identifier for the member."
+msgstr ""
+
+#: includes/bp-members/classes/class-appcommunity-members-endpoint.php:471
+msgid "Registration date for the member."
+msgstr ""
+
+#: includes/bp-members/classes/class-appcommunity-members-endpoint.php:479
+msgid "Password for the member (never included)."
+msgstr ""
+
+#: includes/bp-members/classes/class-appcommunity-members-endpoint.php:489
+msgid "Roles assigned to the member."
+msgstr ""
+
+#: includes/bp-members/classes/class-appcommunity-members-endpoint.php:498
+msgid "All capabilities assigned to the user."
+msgstr ""
+
+#: includes/bp-members/classes/class-appcommunity-members-endpoint.php:505
+msgid "Any extra capabilities assigned to the user."
+msgstr ""
+
+#: includes/bp-members/classes/class-appcommunity-members-endpoint.php:512
+msgid "Member types associated with the member."
+msgstr ""
+
+#: includes/bp-members/classes/class-appcommunity-members-endpoint.php:519
+msgid "Last member activity."
+msgstr ""
+
+#: includes/bp-members/classes/class-appcommunity-members-endpoint.php:526
+msgid "Total pending friend requests."
+msgstr ""
+
+#: includes/bp-members/classes/class-appcommunity-members-endpoint.php:533
+msgid "Member cover image."
+msgstr ""
+
+#: includes/bp-members/classes/class-appcommunity-members-endpoint.php:545
+msgid "Member XProfile groups and its fields."
+msgstr ""
+
+#: includes/bp-members/classes/class-appcommunity-members-endpoint.php:597
+msgid "Sorry, you cannot view the user."
+msgstr ""
+
+#: includes/bp-messages/classes/class-appcommunity-messages-endpoint.php:253
+msgid "Sorry, you cannot view the messages."
+msgstr ""
+
+#: includes/bp-messages/classes/class-appcommunity-messages-endpoint.php:476
+msgid "Childrens of the object."
+msgstr ""
+
+#: includes/bp-messages/classes/class-appcommunity-messages-endpoint.php:498
+msgid "Filter the result by box."
+msgstr ""
+
+#: includes/bp-messages/classes/class-appcommunity-messages-endpoint.php:506
+msgid "Filter the result by thread status."
+msgstr ""
+
+#: includes/bp-messages/classes/class-appcommunity-messages-endpoint.php:538
+msgid "Limit result to messages created by specific users."
+msgstr ""
+
+#: includes/bp-notifications/classes/class-appcommunity-notifications-endpoint.php:105
+msgid "Missing required field."
+msgstr ""
+
+#: includes/bp-notifications/classes/class-appcommunity-notifications-endpoint.php:251
+msgid "The notification ID."
+msgstr ""
+
+#: includes/bp-notifications/classes/class-appcommunity-notifications-endpoint.php:257
+msgid "The ID of the item associated with the notification."
+msgstr ""
+
+#: includes/bp-notifications/classes/class-appcommunity-notifications-endpoint.php:262
+msgid "The ID of the secondary item associated with the notification."
+msgstr ""
+
+#: includes/bp-notifications/classes/class-appcommunity-notifications-endpoint.php:267
+msgid "The ID of the user the notification is associated with."
+msgstr ""
+
+#: includes/bp-notifications/classes/class-appcommunity-notifications-endpoint.php:273
+msgid "The name of the component that the notification is for."
+msgstr ""
+
+#: includes/bp-notifications/classes/class-appcommunity-notifications-endpoint.php:278
+msgid "The component action which the notification is related to."
+msgstr ""
+
+#: includes/bp-notifications/classes/class-appcommunity-notifications-endpoint.php:282
+msgid "The date  the notification was created, in the site's timezone."
+msgstr ""
+
+#: includes/bp-notifications/classes/class-appcommunity-notifications-endpoint.php:294
+msgid "Content to display."
+msgstr ""
+
+#: includes/bp-notifications/classes/class-appcommunity-notifications-endpoint.php:299
+msgid "Target href of the notification."
+msgstr ""
+
+#: includes/bp-notifications/classes/class-appcommunity-push-notifications.php:41
+#, php-format
+msgid "%s sent you a new message: \"%s\""
+msgstr ""
+
+#: includes/bp-notifications/classes/class-appcommunity-push-notifications.php:43
+#, php-format
+msgid "You have a new message: \"%s\""
+msgstr ""
+
+#: includes/bp-notifications/classes/class-appcommunity-push-notifications.php:114
+msgid "just mentioned you in a post"
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-data-endpoint.php:74
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-data-endpoint.php:187
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-fields-endpoint.php:169
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-fields-endpoint.php:391
+msgid "Invalid field id."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-data-endpoint.php:90
+msgid "Cannot save XProfile data."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-data-endpoint.php:153
+msgid "Sorry, you cannot save XProfile field data."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-data-endpoint.php:200
+msgid "Could not delete XProfile data."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-data-endpoint.php:385
+msgid "The ID of the field the data is from."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-data-endpoint.php:390
+msgid "The ID of user the field data is from."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-data-endpoint.php:395
+msgid "The value of the field data."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-data-endpoint.php:400
+msgid "The date the field data was clast updated, in the site's timezone."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-field-groups-endpoint.php:181
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-field-groups-endpoint.php:331
+msgid "Invalid field group id."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-field-groups-endpoint.php:251
+msgid "Cannot create new XProfile field group."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-field-groups-endpoint.php:300
+msgid "Sorry, you cannot create a XProfile field group."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-field-groups-endpoint.php:342
+msgid "Could not delete XProfile field group."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-field-groups-endpoint.php:389
+msgid "Sorry, you are not allowed to delete this field group."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-field-groups-endpoint.php:398
+msgid "Sorry, you cannot delete this field group."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-field-groups-endpoint.php:549
+msgid "The name of the XProfile field group."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-field-groups-endpoint.php:557
+msgid "The description of the XProfile field group."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-field-groups-endpoint.php:565
+msgid "The order of the group."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-field-groups-endpoint.php:570
+msgid "Whether the XProfile field group can be deleted or not."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-field-groups-endpoint.php:575
+msgid "The fields associated with this field group."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-field-groups-endpoint.php:596
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-fields-endpoint.php:644
+msgid "ID of the field group that have fields."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-field-groups-endpoint.php:604
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-fields-endpoint.php:652
+msgid "True to hide groups that do not have any fields."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-field-groups-endpoint.php:612
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-fields-endpoint.php:660
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-fields-endpoint.php:746
+msgid "Required if you want to load a specific user's data."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-field-groups-endpoint.php:620
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-fields-endpoint.php:668
+msgid ""
+"Limit fields by those restricted to a given member type, or array of member "
+"types. If `$user_id` is provided, the value of `$member_type` will be "
+"overridden by the member types of the provided user. The special value of "
+"'any' will return only those fields that are unrestricted by member type - i."
+"e., those applicable to any type."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-field-groups-endpoint.php:628
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-fields-endpoint.php:676
+msgid "True to hide field groups where the user has not provided data."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-field-groups-endpoint.php:636
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-fields-endpoint.php:684
+msgid "True to hide fields where the user has not provided data."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-field-groups-endpoint.php:644
+msgid "Whether to fetch the fields for each group."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-field-groups-endpoint.php:652
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-fields-endpoint.php:692
+msgid "Whether to fetch data for each field. Requires a $user_id."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-field-groups-endpoint.php:660
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-fields-endpoint.php:700
+msgid "Whether to fetch the visibility level for each field."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-field-groups-endpoint.php:668
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-fields-endpoint.php:708
+msgid "Ensure result set excludes specific profile field groups."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-field-groups-endpoint.php:676
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-fields-endpoint.php:716
+msgid "Ensure result set excludes specific profile fields."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-field-groups-endpoint.php:684
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-fields-endpoint.php:724
+msgid ""
+"Whether to pre-fetch xprofilemeta for all retrieved groups, fields, and data."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-fields-endpoint.php:183
+msgid "Value suppressed."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-fields-endpoint.php:250
+msgid "Cannot create new XProfile field."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-fields-endpoint.php:299
+msgid "Sorry, you are not allowed to create a XProfile field."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-fields-endpoint.php:333
+msgid "Could not delete XProfile field."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-fields-endpoint.php:380
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-fields-endpoint.php:400
+msgid "Sorry, you are not allowed to delete this field."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-fields-endpoint.php:554
+msgid "The ID of the group the field is part of."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-fields-endpoint.php:559
+msgid "The ID of the field parent."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-fields-endpoint.php:564
+msgid "The type of field, like checkbox or select."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-fields-endpoint.php:572
+msgid "The name of the profile field group."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-fields-endpoint.php:580
+msgid "The description of the profile field group."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-fields-endpoint.php:588
+msgid "Whether the profile field must have a value."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-fields-endpoint.php:593
+msgid "Whether the profile field can be deleted or not."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-fields-endpoint.php:598
+msgid "The order of the field."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-fields-endpoint.php:603
+msgid "The order of the field's options."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-fields-endpoint.php:608
+msgid "How the field's options are ordered."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-fields-endpoint.php:613
+msgid "Whether the option is the default option."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-fields-endpoint.php:618
+msgid "Who may see the saved value for this field."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-fields-endpoint.php:623
+msgid "The saved value for this field."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-fields-endpoint.php:768
+msgid "Required if you want to add a XProfile field type."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-fields-endpoint.php:776
+msgid "Required if you want to add the name of XProfile field."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-fields-endpoint.php:783
+msgid "ID of the group you want to add the XProfile field into."
+msgstr ""
+
+#: includes/bp-xprofile/classes/class-appcommunity-xprofile-fields-endpoint.php:804
+msgid "Required if you want to delete user's data for the field."
+msgstr ""
+
+#: includes/functions.php:41
+#, php-format
+msgid "Sorry, you are not allowed to do that. %s"
+msgstr ""
+
+#: includes/jwt/jwt-auth.php:78
+msgid "API Secret"
+msgstr ""
+
+#: includes/jwt/jwt-auth.php:81
+msgid "AppPresser API secret key."
+msgstr ""
+
+#: includes/jwt/jwt-auth.php:82
+msgid ""
+"Used to authenticate API POST requests (like BuddyPress activity). If you "
+"change this key it will void all API requests and force users to log in "
+"again."
+msgstr ""
+
+#: includes/jwt/jwt-auth.php:100
+msgid "Missing token."
+msgstr ""
+
+#: includes/jwt/jwt-auth.php:113
+msgid "User ID does not match."
+msgstr ""
+
+#: includes/jwt/jwt-auth.php:117
+msgid "Parameter 2 does not match."
+msgstr ""
+
+#: includes/jwt/jwt-auth.php:148
+msgid "Missing secret key in AppPresser settings."
+msgstr ""
+
+#: includes/jwt/jwt-auth.php:152
+msgid "Wrong number of segments"
+msgstr ""
+
+#: includes/jwt/jwt-auth.php:156
+msgid "Invalid header encoding"
+msgstr ""
+
+#: includes/jwt/jwt-auth.php:159
+msgid "Invalid claims encoding"
+msgstr ""
+
+#: includes/jwt/jwt-auth.php:162
+msgid "Invalid signature encoding"
+msgstr ""
+
+#: includes/jwt/jwt-auth.php:165
+msgid "Empty algorithm"
+msgstr ""
+
+#: includes/jwt/jwt-auth.php:168 includes/jwt/jwt-auth.php:257
+#: includes/jwt/jwt-auth.php:289
+msgid "Algorithm not supported"
+msgstr ""
+
+#: includes/jwt/jwt-auth.php:171
+msgid "Algorithm not allowed"
+msgstr ""
+
+#: includes/jwt/jwt-auth.php:176
+msgid "\"kid\" invalid, unable to lookup correct key"
+msgstr ""
+
+#: includes/jwt/jwt-auth.php:180
+msgid "\"kid\" empty, unable to lookup correct key"
+msgstr ""
+
+#: includes/jwt/jwt-auth.php:185
+msgid "Signature verification failed"
+msgstr ""
+
+#: includes/jwt/jwt-auth.php:191 includes/jwt/jwt-auth.php:199
+msgid "Cannot handle token prior to"
+msgstr ""
+
+#: includes/jwt/jwt-auth.php:204
+msgid "Expired token"
+msgstr ""
+
+#: includes/jwt/jwt-auth.php:267
+msgid "OpenSSL unable to sign data"
+msgstr ""
+
+#: includes/jwt/jwt-auth.php:302
+msgid "OpenSSL error:"
+msgstr ""
+
+#: includes/jwt/jwt-auth.php:348 includes/jwt/jwt-auth.php:367
+msgid "Null result with non-null input"
+msgstr ""
+
+#: includes/jwt/jwt-auth.php:408
+msgid "Maximum stack depth exceeded"
+msgstr ""
+
+#: includes/jwt/jwt-auth.php:409
+msgid "Invalid or malformed JSON"
+msgstr ""
+
+#: includes/jwt/jwt-auth.php:410
+msgid "Unexpected control character found"
+msgstr ""
+
+#: includes/jwt/jwt-auth.php:411
+msgid "Syntax error, malformed JSON"
+msgstr ""
+
+#: includes/jwt/jwt-auth.php:412
+msgid "Malformed UTF-8 characters"
+msgstr ""
+
+#: includes/jwt/jwt-auth.php:417
+msgid "Unknown JSON error:"
+msgstr ""

@@ -10,7 +10,7 @@ jQuery(document).ready(function($) {
 	var $slidepanel  = $( '#slidepanel' );
 	var $show        = $context.find('.show_hidden' ).after( ' <span>▾</span>' );
 	var $arrow       = $show.next('span').css({'display':'inline-block'}).rotate(deg);
-	var $navtabs     = $context.find( '.nav-tab' );
+	var $navtabs     = $context.find( '.nav-tab[data-selector]' );
 	var $tabs        = $context.find( '.appp-tabs' );
 	var $navsubtabs  = $context.find( '.subnav-tab' );
 	var $subtabs     = $context.find( '.appp-subtab' );
@@ -35,7 +35,7 @@ jQuery(document).ready(function($) {
 			deg = deg === 180 ? 0 : 180;
 			$arrow.rotate(deg);
 		})
-		.on( 'click', '.nav-tab', function( event ) {
+		.on( 'click', '.nav-tab[data-selector]', function( event ) {
 			event.preventDefault();
 			var $self  = $(this);
 			var newurl = $self.attr( 'href' );

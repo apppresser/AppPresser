@@ -5,10 +5,12 @@ Plugin URI: http://apppresser.com
 Description: A mobile app development framework for WordPress.
 Text Domain: apppresser
 Domain Path: /languages
-Version: 4.5.3
+Version: 5.0.0-beta.1
 Author: AppPresser Team
 Author URI: http://apppresser.com
-License: GPLv2
+License: GPLv2 or later
+Requires at least: 6.5
+Requires PHP: 7.4
 */
 
 /*
@@ -28,12 +30,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
 // Requiere the JWT library
+defined( 'ABSPATH' ) || exit;
 use Tmeister\Firebase\JWT\JWT;
 use Tmeister\Firebase\JWT\Key;
 
 class AppPresser {
 
-	const VERSION           = '4.5.3';
+	const VERSION           = '5.0.0-beta.1';
 	const SETTINGS_NAME     = 'appp_settings';
 	public static $settings = 'false';
 	public static $instance = null;
@@ -74,6 +77,9 @@ class AppPresser {
 	 * @since  1.0.0
 	 */
 	function __construct() {
+		foreach ( array( 'add_option_', 'update_option_', 'delete_option_' ) as $hook ) {
+			add_action( $hook . self::SETTINGS_NAME, array( __CLASS__, 'clear_settings_cache' ) );
+		}
 
 		self::$pg_version = ( appp_get_setting( 'appp_pg_version' ) ) ? appp_get_setting( 'appp_pg_version' ) : '3.5.0';
 
@@ -170,7 +176,15 @@ class AppPresser {
 		require_once self::$inc_path . 'AppPresser_License_Check.php';
 		AppPresser_License_Check::run();
 
-		if ( class_exists( 'AppPresser_Plugin_Updater' ) ) {
+		$legacy_active = false;
+		foreach ( AppPresser_Modules::instance()->registry() as $id => $definition ) {
+			foreach ( AppPresser_Modules::instance()->legacy_plugins( $id ) as $file => $data ) {
+				if ( 'custom' === $file || ( function_exists( 'is_plugin_active' ) && is_plugin_active( $file ) ) ) {
+					$legacy_active = true;
+				}
+			}
+		}
+		if ( $legacy_active && class_exists( 'AppPresser_Plugin_Updater' ) ) {
 			AppPresser_Plugin_Updater::instance();
 		}
 
@@ -450,13 +464,18 @@ class AppPresser {
 			self::$settings = get_option( self::SETTINGS_NAME );
 			self::$settings = empty( self::$settings ) ? array() : (array) self::$settings;
 		}
+		$settings = self::$settings;
 		if ( $key ) {
-			$setting = isset( self::$settings[ $key ] ) ? self::$settings[ $key ] : false;
+			$setting = array_key_exists( $key, $settings ) ? $settings[ $key ] : false;
 			// Override value or supply fallback
-			$return = apply_filters( 'apppresser_setting_default', $setting, $key, self::$settings, $fallback );
-			return $return ? $return : $fallback;
+			$return = apply_filters( 'apppresser_setting_default', $setting, $key, $settings, $fallback );
+			return array_key_exists( $key, $settings ) ? $return : ( $return ? $return : $fallback );
 		}
-		return self::$settings;
+		return $settings;
+	}
+
+	public static function clear_settings_cache() {
+		self::$settings = 'false';
 	}
 
 
@@ -718,8 +737,12 @@ class AppPresser {
 	}
 }
 
+require_once __DIR__ . '/inc/modules/class-module-manager.php';
+AppPresser_Modules::instance();
+
 // Singleton rather than a global.. If they want access, they can use:
 AppPresser::get();
+AppPresser_Modules::instance()->early_boot();
 
 /**
  * Function wrapper for AppPresser::settings()

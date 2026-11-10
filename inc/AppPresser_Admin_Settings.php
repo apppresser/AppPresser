@@ -175,13 +175,10 @@ class AppPresser_Admin_Settings extends AppPresser {
 		// Settings page submenu item
 		self::$setting_menu_slug = add_submenu_page( self::$page_slug, __( 'Settings', 'apppresser' ), __( 'Settings', 'apppresser' ), 'manage_options', self::$page_slug, array( $this, 'settings_page' ) );
 
-		// Help page submenu item
-		self::$help_menu_slug = add_submenu_page( self::$page_slug, __( 'Help / Support', 'apppresser' ), __( 'Help / Support', 'apppresser' ), 'manage_options', self::$help_slug, array( $this, 'help_support_page' ) );
-
 		add_action( 'admin_head-' . self::$menu_slug, array( $this, 'admin_head' ) );
 
 		// enqueue
-		foreach ( array( self::$menu_slug, self::$help_menu_slug, self::$setting_menu_slug ) as $slug ) {
+		foreach ( array( self::$menu_slug, self::$setting_menu_slug ) as $slug ) {
 			add_action( 'admin_print_scripts-' . $slug, array( $this, 'admin_scripts' ) );
 		}
 
@@ -345,9 +342,23 @@ class AppPresser_Admin_Settings extends AppPresser {
 	function settings_validate( $settings ) {
 
 		$appp_settings = self::run();
+		$settings = is_array( $settings ) ? $settings : array();
+		$cleaninput = array();
+		self::get_all_fields();
+		$tab = isset( $_POST['appp_settings_tab'] ) && is_string( $_POST['appp_settings_tab'] ) ? sanitize_key( wp_unslash( $_POST['appp_settings_tab'] ) ) : '';
+		$allowed = isset( self::$all_fields[ $tab ] ) ? self::$all_fields[ $tab ] : array();
+		$allowed = apply_filters( 'apppresser_settings_allowed_fields', $allowed, $tab );
+		if ( $tab ) {
+			$settings = array_intersect_key( $settings, $allowed );
+		}
 		// sanitize the settings data submitted
 		foreach ( $settings as $key => $value ) {
 			switch ( $key ) {
+				case 'youtube_post_types':
+					$post_types = array_values( get_post_types( array( 'public' => true ) ) );
+					if ( function_exists( 'buddypress' ) ) { $post_types[] = 'bp_activity'; }
+					$cleaninput[ $key ] = array_values( array_intersect( is_array( $value ) ? array_filter( $value, 'is_string' ) : array(), $post_types ) );
+					break;
 				case 'menu':
 					$cleaninput[ $key ] = absint( $value );
 					break;
@@ -365,6 +376,10 @@ class AppPresser_Admin_Settings extends AppPresser {
 					}
 					break;
 				default:
+					if ( 'bridge_custom_javascript' === $key && ! current_user_can( 'unfiltered_html' ) ) {
+						$cleaninput[ $key ] = appp_get_setting( $key, '' );
+						break;
+					}
 					// Allow sanitization override
 					$filtered_value = apply_filters( "apppresser_sanitize_setting_$key", null, $value, $settings, $appp_settings );
 					// If no override, sanitize the value ourselves
@@ -404,8 +419,17 @@ class AppPresser_Admin_Settings extends AppPresser {
 		foreach ( (array) $diff as $field_id => $value ) {
 
 			// If the field is still registered, ignore it
-			if ( (bool) self::get_all_fields( $field_id ) ) {
-				continue;
+			$field = self::get_all_fields( $field_id );
+			if ( ( ! $tab && $field ) || isset( $allowed[ $field_id ] ) ) {
+				$type = isset( $field['args']['type'] ) ? $field['args']['type'] : '';
+				if ( 'checkbox' === $type ) {
+					$cleaninput[ $field_id ] = '';
+					continue;
+				}
+				if ( in_array( $type, array( 'notifications_post_types', 'notifications_allow_segments', 'notifications_taxonomy_segments', 'youtube_post_types' ), true ) ) {
+					$cleaninput[ $field_id ] = array();
+					continue;
+				}
 			}
 
 			// If we get here, the field is no longer registered and so the option should be preserved.
@@ -443,72 +467,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 	 * @since  1.0.0
 	 */
 	public function settings_page() {
-
-		$appp_settings = self::run();
-		// Add settings tabs/inputs via this hook. The AppPresser_Admin_Settings instance is passed in.
-		do_action( 'apppresser_add_settings', $appp_settings );
-
-		$class  = self::$page_slug;
-		$class .= self::is_mp6() ? ' mp6' : '';
-
-		?>
-		<div class="wrap <?php echo $class; ?>">
-			<?php
-			$keys        = array_keys( self::$admin_tabs );
-			$current_tab = isset( $_GET['tab'] ) ? $_GET['tab'] : array_shift( $keys );
-			$current_tab = preg_replace( '/tab-/', '', $current_tab, 1 );
-
-			// Our tabs
-			echo '<h2 class="nav-tab-wrapper">';
-			foreach ( self::$admin_tabs as $tab => $name ) {
-				$current_class = $tab == $current_tab ? ' nav-tab-active' : '';
-				echo '<a class="nav-tab' . $current_class . '" data-selector="tab-' . $tab . '" href="?page=' . self::$page_slug . '&tab=tab-' . $tab . '">' . $name . '</a>';
-			}
-			echo '</h2>';
-
-			?>
-			<form method="post" action="options.php">
-				<?php
-				settings_fields( 'appp_settings_group' );
-				// Our tabbed areas
-				foreach ( self::$admin_tabs as $tab => $name ) {
-
-					$current_class = $tab == $current_tab ? ' nav-tab-active' : '';
-
-					echo '<table class="appp-tabs form-table tab-' . $tab . $current_class . '">';
-						// A hook for adding additional data to the top of each tabbed area
-						do_action( "apppresser_tab_top_$tab", $appp_settings, self::settings() );
-
-						// Tab main content or General subtab content
-					if ( isset( self::$all_fields[ $tab ] ) ) {
-						echo implode( "\n", self::$all_fields[ $tab ] );
-					}
-
-						// A hook for adding additional data to the bottom of each tabbed area
-						do_action( "apppresser_tab_bottom_$tab", $appp_settings, self::settings() );
-					echo '</table>';
-				}
-
-				foreach ( self::license_keys() as $key => $file ) {
-					echo '<input type="hidden" name="appp_settings[' . $key . '_status]" value="' . appp_get_setting( $key . '_status' ) . '">';
-				}
-				?>
-				<p class="submit">
-					<input type="submit" class="button-primary" value="<?php _e( 'Save Settings', 'apppresser' ); ?>" />
-					<?php
-					// Content hooked in here will show/hide with the tabs
-					// Read: separate secondary buttons for each settings tab
-					foreach ( self::$admin_tabs as $tab => $name ) {
-						$current_class = $tab == $current_tab ? ' nav-tab-active' : '';
-						echo '<span class="appp-tabs tab-' . $tab . $current_class . '">';
-						do_action( "apppresser_tab_buttons_$tab", $appp_settings, self::settings() );
-						echo '</span>';
-					}
-					?>
-				</p>
-			</form>
-		</div>
-		<?php
+		require __DIR__ . '/modules/settings-screen.php';
 	}
 
 	/**
@@ -592,7 +551,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 	 * @since  1.0.0
 	 */
 	public function help_link() {
-		echo '<a href="' . esc_url( add_query_arg( 'page', self::$help_slug, admin_url( 'admin.php' ) ) ) . '">' . __( 'Help/Support', 'apppresser' ) . '</a>';
+		echo '<a data-settings-target="docs-support" href="' . esc_url( admin_url( 'admin.php?page=apppresser_settings&tab=tab-docs-support' ) ) . '">' . esc_html__( 'Docs & Support', 'apppresser' ) . '</a>';
 	}
 
 	/**
@@ -659,7 +618,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 			$_field .= ! empty( $args['description'] ) ? '<p>' . trim( $args['description'] ) . '</p>' : '';
 			$_field .= '</th>';
 		} else {
-			$_field = '<th scope="row"><label for="apppresser-' . $key . '">' . $label . '</label>' . $help . '</th><td>';
+			$_field = '<tr class="apppresser-' . $key . '"><th scope="row"><label for="apppresser--' . $key . '">' . esc_html( $label ) . '</label>' . $help . '</th><td>';
 		}
 		// Filter allows devs to add their own field types
 		$field = apply_filters( "apppresser_field_override_$type", $field, $key, $value, $args, $appp_settings );
@@ -745,7 +704,7 @@ class AppPresser_Admin_Settings extends AppPresser {
 					break;
 
 				case 'textarea':
-					$field .= sprintf( '<textarea class="regular-textarea" rows="15" cols="100" id="apppresser--%1$s" name="appp_settings[%2$s]" />%3$s</textarea>' . "\n", $key, $key, $value );
+					$field .= sprintf( '<textarea class="large-text code" rows="12" id="apppresser--%1$s" name="appp_settings[%1$s]">%2$s</textarea>' . "\n", $key, esc_textarea( self::settings( $key, '' ) ) );
 					break;
 
 				default:
@@ -899,39 +858,8 @@ class AppPresser_Admin_Settings extends AppPresser {
 	 * @since  1.0.0
 	 */
 	function help_support_page() {
-		$class  = self::$page_slug;
-		$class .= self::is_mp6() ? ' mp6' : '';
-		?>
-		<div class="wrap <?php echo $class; ?>">
-			<h2>AppPresser <?php _e( 'Help and Support', 'apppresser' ); ?></h2>
-			<p><strong><?php _e( 'Resources', 'apppresser' ); ?>:</strong> <a href="https://github.com/apppresser/" target="_blank">AppPresser <?php _e( 'Core on Github', 'apppresser' ); ?></a> | <a href="http://docs.apppresser.com/" target="_blank">AppPresser <?php _e( 'Documentation', 'apppresser' ); ?></a></p>
-			<p><strong>AppPresser <?php _e( 'Online', 'apppresser' ); ?>:</strong> <a href="http://apppresser.com" target="_blank"><?php _e( 'Web', 'apppresser' ); ?></a> |  <a href="http://twitter.com/apppresser" target="_blank"><?php _e( 'Twitter', 'apppresser' ); ?></a> | <a href="http://facebook.com/apppresser" target="_blank"><?php _e( 'Facebook', 'apppresser' ); ?></a> | <a href="http://youtube.com/user/apppresser" target="_blank"><?php _e( 'YouTube', 'apppresser' ); ?></a></p>
-			<h3><?php _e( 'About', 'apppresser' ); ?> AppPresser</h3>
-			<p>
-			<?php
-			printf(
-				__( '%1$s was created by %2$s, %3$s, %4$s, and %5$s', 'apppresser' ),
-				'<a href="http://apppresser.com" target="_blank">AppPresser</a>',
-				'<a href="http://twitter.com/scottbolinger" target="_blank">Scott Bolinger</a>',
-				'<a href="http://twitter.com/williamsba" target="_blank">Brad Williams</a>',
-				'<a href="http://twitter.com/bmess" target="_blank">Brian Messenlehner</a>',
-				'<a href="http://twitter.com/lisasabinwilson" target="_blank">Lisa Sabin-Wilson</a>'
-			);
-			?>
-				.</p>
-			<p>
-			<?php
-			printf(
-				__( 'Development props to %1$s, %2$s, %3$s, and %4$s', 'apppresser' ),
-				'<a href="http://twitter.com/jtsternberg" target="_blank">Justin "JT$" Sternberg</a>',
-				'<a href="http://twitter.com/pmgarman" target="_blank">Patrick Garman</a>',
-				'<a href="http://twitter.com/modemlooper" target="_blank">Ryan Fugate</a>',
-				'<a href="http://twitter.com/tw2113" target="_blank">Michael "Venkman" Beckwith</a>'
-			);
-			?>
-				.</p>
-		</div>
-		<?php
+		$_GET['tab'] = 'tab-docs-support';
+		$this->settings_page();
 	}
 
 	/**

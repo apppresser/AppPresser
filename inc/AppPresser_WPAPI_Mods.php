@@ -135,7 +135,7 @@ class AppPresser_WPAPI_Mods {
 				array(
 					'methods'             => WP_REST_Server::READABLE,
 					'callback'            => array( $this, 'system_information' ),
-					'permission_callback' => '__return_true',
+					'permission_callback' => array( $this, 'system_information_permissions' ),
 				),
 			)
 		);
@@ -751,6 +751,21 @@ class AppPresser_WPAPI_Mods {
 	}
 
 	/**
+	 * Restrict installed plugin information to users who can manage settings.
+	 */
+	public function system_information_permissions() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return new WP_Error(
+				'rest_authorization_required',
+				__( 'Sorry, you are not allowed to see this resource.', 'apppresser' ),
+				array( 'status' => rest_authorization_required_code() )
+			);
+		}
+
+		return true;
+	}
+
+	/**
 	 * Returns the installed plugins and their version from a predefind list
 	 */
 	public function system_information() {
@@ -884,16 +899,24 @@ class AppPresser_WPAPI_Mods {
 	 */
 	public function myappp_permissions( $request ) {
 		$verification_key = $request['key'];
-		if ( empty( $verification_key ) ) {
+		if ( ! is_string( $verification_key ) || empty( $verification_key ) ) {
 			return new WP_Error( 'unauthorized', 'Authentication missing', array( 'status' => 403 ) );
 		}
 
 		$ap3_app_id        = appp_get_setting( 'ap3_app_id' );
 		$ap3_site_slug     = appp_get_setting( 'ap3_site_slug' );
 		$ap4_account_email = appp_get_setting( 'ap4_account_email' );
+
+		// Unconfigured installs must never accept a predictable hash of empty settings.
+		foreach ( array( $ap3_app_id, $ap3_site_slug, $ap4_account_email ) as $setting ) {
+			if ( ! is_scalar( $setting ) || empty( $setting ) || '' === trim( (string) $setting ) ) {
+				return new WP_Error( 'unauthorized', 'AppPresser is not configured', array( 'status' => 403 ) );
+			}
+		}
+
 		$current_hash      = hash( 'sha256', strtolower( trim( $ap3_app_id . $ap3_site_slug . $ap4_account_email ) ) );
 
-		if ( $verification_key !== $current_hash ) {
+		if ( ! hash_equals( $current_hash, $verification_key ) ) {
 			return new WP_Error( 'unauthorized', 'Authentication failed', array( 'status' => 403 ) );
 		}
 

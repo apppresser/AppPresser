@@ -1,0 +1,529 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: applms 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-09-04 13:49-0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: includes/class-applms-admin.php:69
+msgid "App LMS License Key"
+msgstr ""
+
+#: includes/class-applms-admin.php:72
+msgid "Adding a license key enables automatic updates."
+msgstr ""
+
+#: includes/class-applms-functions.php:115
+#: learndash/templates/course_progress_widget.php:11
+#: learndash/templates/profile.php:106
+#, php-format
+msgctxt "placeholder: completed steps, total steps"
+msgid "%1$d out of %2$d steps completed"
+msgstr ""
+
+#: includes/class-applms-functions.php:203
+msgid "Mark Complete"
+msgstr ""
+
+#: includes/class-applms-functions.php:364
+msgid "Continue"
+msgstr ""
+
+#: includes/class-applms-functions.php:399
+msgid "You do not have access to this course."
+msgstr ""
+
+#: includes/class-applms-functions.php:410
+msgid "Please log in to access."
+msgstr ""
+
+#: includes/class-applms-functions.php:457
+msgid "Lesson completed!"
+msgstr ""
+
+#: includes/class-applms-functions.php:458
+msgid "Course completed!"
+msgstr ""
+
+#: includes/class-applms-functions.php:459
+msgid "Topics completed!"
+msgstr ""
+
+#: learndash/templates/course.php:48
+#, php-format
+msgctxt "Course Status Label"
+msgid "%s Status:"
+msgstr ""
+
+#: learndash/templates/course.php:71
+msgid "PRINT YOUR CERTIFICATE"
+msgstr ""
+
+#: learndash/templates/course.php:91
+#, php-format
+msgctxt "Course Materials Label"
+msgid "%s Materials"
+msgstr ""
+
+#: learndash/templates/course.php:115
+#: learndash/templates/course_content_shortcode.php:43
+#, php-format
+msgctxt "Course Content Label"
+msgid "%s Content"
+msgstr ""
+
+#: learndash/templates/course.php:133 learndash/templates/course.php:215
+#: learndash/templates/course_content_shortcode.php:60
+#: learndash/templates/course_content_shortcode.php:145
+#: learndash/templates/profile.php:63
+#: learndash/templates/quiz_progress_rows.php:144
+#: learndash/templates/topic.php:132
+msgid "Status"
+msgstr ""
+
+#: learndash/templates/course_content_shortcode.php:52
+#: learndash/templates/profile.php:37
+msgid "Expand All"
+msgstr ""
+
+#: learndash/templates/course_content_shortcode.php:52
+#: learndash/templates/profile.php:37
+msgid "Collapse All"
+msgstr ""
+
+#: learndash/templates/course_info_shortcode.php:30
+#, php-format
+msgctxt "You are registered for the following courses"
+msgid "You are registered for the following %s"
+msgstr ""
+
+#: learndash/templates/course_info_shortcode.php:68
+#, php-format
+msgctxt "placeholders: Course Label"
+msgid "Extra %s points"
+msgstr ""
+
+#: learndash/templates/course_info_shortcode.php:76
+#, php-format
+msgctxt "Course progress details Label"
+msgid "%s progress details:"
+msgstr ""
+
+#: learndash/templates/course_info_shortcode.php:133
+#, php-format
+msgctxt "You have taken the following quizzes:"
+msgid "You have taken the following %s:"
+msgstr ""
+
+#: learndash/templates/course_info_shortcode.php:136
+#, php-format
+msgctxt "placeholder: Quiz"
+msgid "Are you sure that you want to remove this %s item?"
+msgstr ""
+
+#: learndash/templates/course_navigation_admin.php:77
+#: learndash/templates/course_navigation_admin.php:109
+#: learndash/templates/course_progress_rows.php:115
+msgid "Set all children steps as incomplete?"
+msgstr ""
+
+#: learndash/templates/course_navigation_admin.php:170
+msgid "Set all parent steps as incomplete?"
+msgstr ""
+
+#: learndash/templates/course_navigation_admin.php:306
+#: learndash/templates/course_navigation_widget.php:42
+msgid "Return to"
+msgstr ""
+
+#: learndash/templates/course_navigation_switcher_admin.php:43
+#, php-format
+msgctxt "placeholder: Course"
+msgid "%s switcher"
+msgstr ""
+
+#: learndash/templates/course_navigation_switcher_admin.php:44
+#, php-format
+msgctxt "placeholder: Course"
+msgid "Switch to the Primary %s to edit this setting"
+msgstr ""
+
+#: learndash/templates/course_navigation_switcher_admin.php:51
+#, php-format
+msgctxt "placeholder: Course"
+msgid "Select a %s"
+msgstr ""
+
+#: learndash/templates/course_navigation_switcher_admin.php:55
+#, php-format
+msgctxt "placeholder: Quiz"
+msgid "Standalone %s"
+msgstr ""
+
+#: learndash/templates/course_navigation_switcher_admin.php:63
+#, php-format
+msgctxt "placeholder: Course"
+msgid "Primary %s"
+msgstr ""
+
+#: learndash/templates/course_navigation_switcher_admin.php:65
+#, php-format
+msgctxt "placeholder: Courses"
+msgid "Other %s"
+msgstr ""
+
+#: learndash/templates/course_progress_rows.php:27
+msgid "Status:"
+msgstr ""
+
+#: learndash/templates/course_progress_rows.php:46
+#, php-format
+msgid "Completed <strong>%d</strong> out of <strong>%d</strong> steps"
+msgstr ""
+
+#: learndash/templates/course_progress_rows.php:50
+#, php-format
+msgid "Since: %s (Group Access)"
+msgstr ""
+
+#: learndash/templates/course_progress_rows.php:54
+#, php-format
+msgid "Since: %s"
+msgstr ""
+
+#: learndash/templates/course_progress_rows.php:63
+msgid "(access expired)"
+msgstr ""
+
+#: learndash/templates/course_progress_rows.php:67
+#, php-format
+msgctxt "Course Expires on date"
+msgid "(expires %s)"
+msgstr ""
+
+#: learndash/templates/course_progress_rows.php:76
+#: learndash/templates/profile.php:115 learndash/templates/profile.php:131
+#: learndash/templates/quiz_progress_rows.php:80
+msgid "Certificate"
+msgstr ""
+
+#: learndash/templates/course_progress_rows.php:83
+msgctxt "profile edit course link label"
+msgid "(edit)"
+msgstr ""
+
+#: learndash/templates/course_progress_rows.php:103
+msgid "Completed"
+msgstr ""
+
+#: learndash/templates/course_progress_rows.php:111
+msgctxt "Course progress details link"
+msgid "(details)"
+msgstr ""
+
+#: learndash/templates/course_progress_rows.php:119
+#, php-format
+msgctxt "Course All Complete"
+msgid "%s All Complete"
+msgstr ""
+
+#: learndash/templates/learndash_course_lesson_not_available.php:23
+#, php-format
+msgid ""
+"<span class=\"ld-display-label\">Available on:</span> <span class=\"ld-"
+"display-date\">%s</span>"
+msgstr ""
+
+#: learndash/templates/learndash_course_lesson_not_available.php:30
+#, php-format
+msgctxt "Return to Course Overview Label"
+msgid "Return to %s Overview"
+msgstr ""
+
+#: learndash/templates/learndash_course_points_access_message.php:25
+#, php-format
+msgctxt ""
+"placeholders: (1) will be Course. (2) course_access_points. (3) "
+"user_course_points "
+msgid ""
+"To take this %s you need at least %.01f total points. You currently have "
+"%.01f points."
+msgstr ""
+
+#: learndash/templates/learndash_course_points_user_message.php:26
+#, php-format
+msgctxt "placeholders: Course Label, course points"
+msgid "Earned %s Points:"
+msgstr ""
+
+#: learndash/templates/learndash_course_prerequisites_message.php:20
+#, php-format
+msgctxt ""
+"placeholders: (1) will be Course, Lesson or Quiz sigular. (2) Course sigular "
+"label"
+msgid "To take this %1$s, you need to complete the following %2$s first:"
+msgstr ""
+
+#: learndash/templates/learndash_lesson_assignment_upload_form.php:29
+#, php-format
+msgctxt "placeholder: PHP file upload size"
+msgid "Maximum upload file size: %s"
+msgstr ""
+
+#: learndash/templates/learndash_lesson_assignment_upload_form.php:34
+#, php-format
+msgctxt "placeholder: comma list of file extentions"
+msgid "Allowed file types: %s"
+msgstr ""
+
+#: learndash/templates/learndash_lesson_assignment_upload_form.php:57
+msgid "Upload Assignment"
+msgstr ""
+
+#: learndash/templates/learndash_lesson_assignment_upload_form.php:66
+msgid "Upload"
+msgstr ""
+
+#: learndash/templates/learndash_lesson_assignment_uploads_list.php:24
+msgid "Files you have uploaded"
+msgstr ""
+
+#: learndash/templates/learndash_lesson_assignment_uploads_list.php:31
+msgid "Delete this uploaded Assignment"
+msgstr ""
+
+#: learndash/templates/learndash_lesson_assignment_uploads_list.php:31
+msgid "X"
+msgstr ""
+
+#: learndash/templates/learndash_lesson_assignment_uploads_list.php:36
+msgid "Download"
+msgstr ""
+
+#: learndash/templates/learndash_lesson_assignment_uploads_list.php:39
+msgid "Comments"
+msgstr ""
+
+#: learndash/templates/lesson.php:42 learndash/templates/topic.php:73
+#: learndash/templates/topic.php:101
+#, php-format
+msgctxt "placeholders: quiz URL"
+msgid "Please go back and complete the previous %s."
+msgstr ""
+
+#: learndash/templates/lesson.php:46
+#, php-format
+msgctxt "placeholders: topic URL, topic label"
+msgid "Please go back and complete the previous %s."
+msgstr ""
+
+#: learndash/templates/lesson.php:49
+#, php-format
+msgctxt "placeholders: lesson URL, lesson label"
+msgid "Please go back and complete the previous %s."
+msgstr ""
+
+#: learndash/templates/lesson.php:54 learndash/templates/topic.php:85
+#: learndash/templates/topic.php:113
+#, php-format
+msgctxt "placeholder lesson"
+msgid "Please go back and complete the previous %s."
+msgstr ""
+
+#: learndash/templates/lesson.php:65
+#, php-format
+msgctxt "Lesson Materials Label"
+msgid "%s Materials"
+msgstr ""
+
+#: learndash/templates/lesson.php:79
+#, php-format
+msgctxt "Lesson Topics Label"
+msgid "%1$s %2$s"
+msgstr ""
+
+#: learndash/templates/profile.php:42
+msgid "Profile"
+msgstr ""
+
+#: learndash/templates/profile.php:48
+msgid "Name"
+msgstr ""
+
+#: learndash/templates/profile.php:50
+msgid "Username"
+msgstr ""
+
+#: learndash/templates/profile.php:51
+msgid "Email"
+msgstr ""
+
+#: learndash/templates/profile.php:62 learndash/templates/profile.php:68
+#, php-format
+msgctxt "Registered Courses Label"
+msgid "Registered %s"
+msgstr ""
+
+#: learndash/templates/profile.php:103
+#, php-format
+msgctxt "Course Progress Overview Label"
+msgid "%s Progress Overview"
+msgstr ""
+
+#: learndash/templates/profile.php:111
+#, php-format
+msgctxt "placeholder: percent complete"
+msgid "%1$s%% Complete"
+msgstr ""
+
+#: learndash/templates/profile.php:132
+msgid "Score"
+msgstr ""
+
+#: learndash/templates/profile.php:133
+#: learndash/templates/quiz_progress_rows.php:96
+msgid "Statistics"
+msgstr ""
+
+#: learndash/templates/profile.php:134
+msgid "Date"
+msgstr ""
+
+#: learndash/templates/profile.php:171
+msgctxt "Pending Certificate Status Label"
+msgid "Pending"
+msgstr ""
+
+#: learndash/templates/quiz.php:39
+#, php-format
+msgctxt "placeholder lesson"
+msgid "Please go back and complete the previous %s.<br/>"
+msgstr ""
+
+#: learndash/templates/quiz.php:41
+#, php-format
+msgctxt "placeholder topic"
+msgid "Please go back and complete the previous %s.<br/>"
+msgstr ""
+
+#: learndash/templates/quiz.php:49
+#, php-format
+msgctxt "Quiz Materials Label"
+msgid "%s Materials"
+msgstr ""
+
+#: learndash/templates/quiz.php:60
+#, php-format
+msgctxt "placeholders: quiz, attempts count"
+msgid ""
+"You have already taken this %1$s %2$d time(s) and may not take it again."
+msgstr ""
+
+#: learndash/templates/quiz_progress_rows.php:105
+#, php-format
+msgid "Manual Edit by: %s on %s"
+msgstr ""
+
+#: learndash/templates/quiz_progress_rows.php:109
+msgid "(m)"
+msgstr ""
+
+#: learndash/templates/quiz_progress_rows.php:116
+msgctxt "profile edit quiz link label"
+msgid "(edit)"
+msgstr ""
+
+#: learndash/templates/quiz_progress_rows.php:118
+#, php-format
+msgctxt "placeholder: quiz"
+msgid "remove this %s item"
+msgstr ""
+
+#: learndash/templates/quiz_progress_rows.php:118
+msgctxt "profile remove quiz link label"
+msgid "(remove)"
+msgstr ""
+
+#: learndash/templates/quiz_progress_rows.php:144
+msgid "Points"
+msgstr ""
+
+#: learndash/templates/quiz_progress_rows.php:147
+msgid "edit"
+msgstr ""
+
+#: learndash/templates/quiz_progress_rows.php:149
+msgid "view"
+msgstr ""
+
+#: learndash/templates/quiz_progress_rows.php:151
+msgid "comments"
+msgstr ""
+
+#: learndash/templates/quiz_progress_rows.php:161
+msgid "Rank: "
+msgstr ""
+
+#: learndash/templates/quiz_progress_rows.php:164
+msgid "Score "
+msgstr ""
+
+#: learndash/templates/quiz_progress_rows.php:164
+msgid " out of "
+msgstr ""
+
+#: learndash/templates/quiz_progress_rows.php:166
+msgid " question(s)"
+msgstr ""
+
+#: learndash/templates/quiz_progress_rows.php:169
+msgid " . Points: "
+msgstr ""
+
+#: learndash/templates/quiz_progress_rows.php:172
+msgid " on "
+msgstr ""
+
+#: learndash/templates/topic.php:43
+#, php-format
+msgctxt "Topic Progress Label"
+msgid "%s Progress:"
+msgstr ""
+
+#: learndash/templates/topic.php:77 learndash/templates/topic.php:105
+#, php-format
+msgctxt "placeholders: topic URL"
+msgid "Please go back and complete the previous %s."
+msgstr ""
+
+#: learndash/templates/topic.php:80 learndash/templates/topic.php:108
+#, php-format
+msgctxt "placeholders: lesson URL"
+msgid "Please go back and complete the previous %s."
+msgstr ""
+
+#: learndash/templates/topic.php:123
+#, php-format
+msgctxt "Topic Materials Label"
+msgid "%s Materials"
+msgstr ""
+
+#: learndash/templates/user_groups_shortcode.php:15
+msgid "Group Leader in : "
+msgstr ""
+
+#: learndash/templates/user_groups_shortcode.php:27
+msgid "Assigned Group(s) : "
+msgstr ""

@@ -29,7 +29,7 @@ $nonce = wp_create_nonce( 'clear_log_nonce' );
 		</div>
 		<div>
 			<?php if ( is_file( $this->get_log_file_name() ) ) : ?>
-				<textarea id="log_file" name="logfile" rows="30" cols="100" readonly="readonly"><?php echo $this->get_log_file_content(); ?></textarea>
+				<textarea id="log_file" name="logfile" rows="30" cols="100" readonly="readonly"><?php echo esc_textarea( $this->get_log_file_content() ); ?></textarea>
 			<?php endif; ?>
 		</div>
 		<?php if ( $file_exists ) : ?>

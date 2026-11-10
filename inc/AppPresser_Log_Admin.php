@@ -49,7 +49,6 @@ class AppPresser_Log_Admin extends AppPresser {
 	function __construct() {
 		add_action( 'apppresser_add_settings', array( $this, 'log_viewer' ), 60 );
 		add_action( 'apppresser_tab_bottom_log', array( $this, 'appp_log_file_info' ) );
-		add_action( 'apppresser_tab_bottom_log', array( $this, 'appp_remove_settings_save_button' ) );
 		add_action( 'admin_head', array( $this, 'admin_head_javascript' ) );
 		add_action( 'admin_footer', array( $this, 'admin_footer_javascript' ) );
 		add_action( 'wp_ajax_appp_log', array( $this, 'ajax_log' ) );
@@ -81,36 +80,6 @@ class AppPresser_Log_Admin extends AppPresser {
 		echo '<tr><td>';
 		$this->display_log();
 		echo '</td></tr>';
-	}
-
-	/**
-	 * Removes the save settings button when viewing the log tab
-	 *
-	 * @since 1.3.0
-	 */
-	public function appp_remove_settings_save_button() {
-		?>
-		<script type="text/javascript">
-			// hide the submit button only when the log tab is active
-			jQuery(document).ready(function($) {
-				var $context = $('.apppresser_settings');
-				$context.on( 'click', '.nav-tab', function( event ) {
-					event.preventDefault();
-					var $self  = $(this);
-					if( $self.data('selector') == 'tab-log' ) {
-						$('p.submit').hide();
-					} else {
-						$('p.submit').show();
-					}
-				});
-
-				var $self = $('.nav-tab.nav-tab-active');
-				if($self.data('selector') == 'tab-log') {
-					$('p.submit').hide();
-				}
-			});
-		</script>
-		<?php
 	}
 
 	/**

@@ -1,0 +1,40 @@
+#segments-new-post-options td:nth-child(1) {
+	padding-right: 4px;
+}
+
+#segments-new-post-options td:nth-child(2) {
+	padding-left: 2px;
+}
+
+.form-table #toggle-notification-segments td {
+	padding: 0;
+}
+
+.form-table #toggle-notification-segments th:nth-child(1) {
+	padding: 4px 10px 0 0;
+}
+
+.form-table #toggle-notification-segments th {
+	padding: 20px 10px 0 0;
+}
+
+.form-table #toggle-notification-segments .appp-subscribe-count {
+	color: #0073aa;
+}
+
+.form-table #toggle-notification-segments table {
+	border-collapse: collapse;
+}
+
+.form-table #toggle-notification-segments table tr.odd {
+	/*background: #eee;*/
+}
+
+.form-table #toggle-notification-segments table tr.even {
+	background: #fafafa;
+}
+
+.form-table #toggle-notification-segments table tr,
+.form-table #toggle-notification-segments table td {
+	padding: 2px 3px;
+}

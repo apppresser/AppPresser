@@ -15,14 +15,16 @@
 class AppPresser_SystemInfo {
 
 	public function __construct() {
-
-		if ( isset( $_POST['appp-sysinfo'] ) ) {
-			$this->generate_sysinfo_download();
-		}
-
+		add_action( 'admin_init', array( $this, 'maybe_download_sysinfo' ) );
 		add_action( 'apppresser_add_settings', array( $this, 'systeminfo_tab' ), 100 );
 		add_action( 'apppresser_tab_top_systeminfo', array( $this, 'appp_system_info' ) );
-		add_action( 'apppresser_tab_bottom_log', array( $this, 'appp_remove_settings_save_button' ) );
+	}
+
+	public function maybe_download_sysinfo() {
+		if ( ! isset( $_POST['appp-sysinfo'] ) ) { return; }
+		if ( ! current_user_can( 'manage_options' ) ) { wp_die( esc_html__( 'You cannot access AppPresser diagnostics.', 'apppresser' ), '', array( 'response' => 403 ) ); }
+		check_admin_referer( 'apppresser_system_info' );
+		$this->generate_sysinfo_download();
 	}
 
 	private function generate_sysinfo_download() {
@@ -194,8 +196,6 @@ class AppPresser_SystemInfo {
 		?>
 	<tr>
 		<td>
-			<h2><?php _e( 'System Information', 'apppresser' ); ?></h2><br/></form>
-			<form action="<?php echo esc_url( admin_url( 'admin.php?page=apppresser_settings&tab=tab-systeminfo&appp-action=get_sysinfo' ) ); ?>" method="post" dir="ltr">
 				<?php
 
 				// this takes too long to load, so only load it on (button click)
@@ -208,35 +208,9 @@ class AppPresser_SystemInfo {
 				<?php else : ?>
 					<?php submit_button( 'Get System Info', 'primary', 'appp-download-sysinfo', false ); ?>
 				<?php endif; ?>
-			</form>
 		</td>
 	</tr>
 		
-		<?php
-	}
-
-	public function appp_remove_settings_save_button() {
-		?>
-		<script type="text/javascript">
-			// hide the submit button only when the log tab is active
-			jQuery(document).ready(function($) {
-				var $context = $('.apppresser_settings');
-				$context.on( 'click', '.nav-tab', function( event ) {
-					event.preventDefault();
-					var $self  = $(this);
-					if( $self.data('selector') == 'tab-systeminfo' ) {
-						$('p.submit').hide();
-					} else {
-						$('p.submit').show();
-					}
-				});
-
-				var $self = $('.nav-tab.nav-tab-active');
-				if($self.data('selector') == 'tab-systeminfo') {
-					$('p.submit').hide();
-				}
-			});
-		</script>
 		<?php
 	}
 

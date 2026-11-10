@@ -1,0 +1,199 @@
+# Copyright (C) 2020 AppPresser
+# This file is distributed under the same license as the AppCommerce plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: AppCommerce 0.3.1\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/appcommerce\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2020-04-28T18:17:43+00:00\n"
+"PO-Revision-Date: 2020-04-28 21:19+0300\n"
+"X-Generator: Poedit 2.3\n"
+"X-Domain: appcommerce\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: en\n"
+
+#. Plugin Name of the plugin
+msgid "AppCommerce"
+msgstr ""
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+msgid "https://apppresser.com"
+msgstr ""
+
+#. Description of the plugin
+msgid "Adds a WooCommerce cart REST API and modifications for AppPresser apps."
+msgstr ""
+
+#. Author of the plugin
+msgid "AppPresser"
+msgstr ""
+
+#: appcommerce.php:81
+msgid "Cloning this object is forbidden."
+msgstr ""
+
+#: appcommerce.php:92
+msgid "Unserializing instances of this class is forbidden."
+msgstr ""
+
+#: appcommerce.php:185
+msgid ""
+"%1$s requires at least %2$s v%3$s or higher, the AppPresser plugin active, "
+"and no other Cart API plugins active."
+msgstr ""
+
+#: includes/api/v1/class-appcommerce-cart-controller.php:125
+#: includes/api/v2/class-appcommerce-cart-controller.php:212
+msgid "The cart item key is what identifies the item in the cart."
+msgstr ""
+
+#: includes/api/v1/class-appcommerce-cart-controller.php:169
+#: includes/api/v2/class-appcommerce-cart-controller.php:982
+msgid "Cart is empty!"
+msgstr ""
+
+#: includes/api/v1/class-appcommerce-cart-controller.php:218
+#: includes/api/v2/class-appcommerce-cart-controller.php:1032
+msgid "There are no items in the cart!"
+msgstr ""
+
+#: includes/api/v1/class-appcommerce-cart-controller.php:237
+#: includes/api/v2/class-appcommerce-cart-controller.php:1052
+msgid "Cart is cleared."
+msgstr ""
+
+#: includes/api/v1/class-appcommerce-cart-controller.php:239
+#: includes/api/v2/class-appcommerce-cart-controller.php:1054
+msgid "Clearing the cart failed!"
+msgstr ""
+
+#: includes/api/v1/class-appcommerce-cart-controller.php:253
+#: includes/api/v2/class-appcommerce-cart-controller.php:1069
+msgid "Product ID number is required!"
+msgstr ""
+
+#: includes/api/v1/class-appcommerce-cart-controller.php:257
+#: includes/api/v2/class-appcommerce-cart-controller.php:1073
+msgid "Product ID must be numeric!"
+msgstr ""
+
+#: includes/api/v1/class-appcommerce-cart-controller.php:271
+#: includes/api/v2/class-appcommerce-cart-controller.php:1088
+msgid "Quantity must be numeric!"
+msgstr ""
+
+#: includes/api/v1/class-appcommerce-cart-controller.php:310
+#: includes/api/v2/class-appcommerce-cart-controller.php:1129
+msgid "Warning: This product does not exist!"
+msgstr ""
+
+#. translators: %s: product name
+#: includes/api/v1/class-appcommerce-cart-controller.php:329
+#: includes/api/v2/class-appcommerce-cart-controller.php:1148
+msgid "You cannot add another \"%s\" to your cart."
+msgstr ""
+
+#: includes/api/v1/class-appcommerce-cart-controller.php:335
+#: includes/api/v2/class-appcommerce-cart-controller.php:1154
+msgid "Sorry, this product cannot be purchased."
+msgstr ""
+
+#: includes/api/v1/class-appcommerce-cart-controller.php:340
+#: includes/api/v2/class-appcommerce-cart-controller.php:1159
+msgid ""
+"You cannot add &quot;%s&quot; to the cart because the product is out of "
+"stock."
+msgstr ""
+
+#. translators: 1: product name 2: quantity in stock
+#: includes/api/v1/class-appcommerce-cart-controller.php:344
+#: includes/api/v2/class-appcommerce-cart-controller.php:1163
+msgid ""
+"You cannot add that amount of &quot;%1$s&quot; to the cart because there is "
+"not enough stock (%2$s remaining)."
+msgstr ""
+
+#: includes/api/v1/class-appcommerce-cart-controller.php:355
+#: includes/api/v2/class-appcommerce-cart-controller.php:1174
+msgid ""
+"You cannot add that amount to the cart &mdash; we have %1$s in stock and you "
+"already have %2$s in your cart."
+msgstr ""
+
+#: includes/api/v1/class-appcommerce-cart-controller.php:377
+#: includes/api/v2/class-appcommerce-cart-controller.php:1196
+msgid "You cannot add \"%s\" to your cart."
+msgstr ""
+
+#: includes/api/v1/class-appcommerce-cart-controller.php:395
+#: includes/api/v2/class-appcommerce-cart-controller.php:1215
+msgid "Item has been removed from cart."
+msgstr ""
+
+#: includes/api/v1/class-appcommerce-cart-controller.php:397
+#: includes/api/v2/class-appcommerce-cart-controller.php:1217
+msgid "Unable to remove item from cart."
+msgstr ""
+
+#: includes/api/v1/class-appcommerce-cart-controller.php:400
+#: includes/api/v1/class-appcommerce-cart-controller.php:423
+#: includes/api/v1/class-appcommerce-cart-controller.php:475
+#: includes/api/v2/class-appcommerce-cart-controller.php:1220
+#: includes/api/v2/class-appcommerce-cart-controller.php:1244
+#: includes/api/v2/class-appcommerce-cart-controller.php:1297
+msgid "Cart item key is required!"
+msgstr ""
+
+#: includes/api/v1/class-appcommerce-cart-controller.php:418
+#: includes/api/v2/class-appcommerce-cart-controller.php:1239
+msgid "Item has been restored to the cart."
+msgstr ""
+
+#: includes/api/v1/class-appcommerce-cart-controller.php:420
+#: includes/api/v2/class-appcommerce-cart-controller.php:1241
+msgid "Unable to restore item to the cart."
+msgstr ""
+
+#: includes/api/v1/class-appcommerce-cart-controller.php:465
+#: includes/api/v2/class-appcommerce-cart-controller.php:1287
+msgid "The quantity for \"%1$s\" has increased to \"%2$s\"."
+msgstr ""
+
+#: includes/api/v1/class-appcommerce-cart-controller.php:467
+#: includes/api/v2/class-appcommerce-cart-controller.php:1289
+msgid "The quantity for \"%1$s\" has decreased to \"%2$s\"."
+msgstr ""
+
+#: includes/api/v1/class-appcommerce-cart-controller.php:469
+#: includes/api/v2/class-appcommerce-cart-controller.php:1291
+msgid "The quantity for \"%s\" has not changed."
+msgstr ""
+
+#: includes/api/v1/class-appcommerce-cart-controller.php:472
+#: includes/api/v2/class-appcommerce-cart-controller.php:1294
+msgid "Unable to update item quantity in cart."
+msgstr ""
+
+#: includes/api/v1/class-appcommerce-cart-controller.php:488
+#: includes/api/v2/class-appcommerce-cart-controller.php:1311
+msgid "No items in cart to calculate totals."
+msgstr ""
+
+#: includes/api/v1/class-appcommerce-cart-controller.php:493
+#: includes/api/v2/class-appcommerce-cart-controller.php:1316
+msgid "Cart totals have been calculated."
+msgstr ""
+
+#: includes/api/v2/class-appcommerce-cart-controller.php:303
+#: includes/api/v2/class-appcommerce-cart-controller.php:323
+msgid "This product does not exist!"
+msgstr ""
+
+#: includes/api/v2/class-appcommerce-cart-controller.php:897
+msgid "Sorry, you are not allowed to see orders."
+msgstr ""

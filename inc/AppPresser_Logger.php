@@ -96,7 +96,7 @@ class AppPresser_Logger {
 
 		$txt = '[' . date( 'Y-m-d H:i:s' ) . '] ' . $function . '() /' . str_replace( ABSPATH, '', $file ) . ':' . $line . "\n" . $title . ': ' . $txt . "\n----\n";
 
-		fwrite( $logfile, stripcslashes( $txt ) );
+		fwrite( $logfile, $txt );
 		fclose( $logfile );
 	}
 
