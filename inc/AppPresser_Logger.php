@@ -52,6 +52,9 @@ class AppPresser_Logger {
 	}
 
 	public function enqueue_scripts() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
 		wp_enqueue_script( 'appp-logger', AppPresser::$js_url . 'appp.logger.js', array( 'jquery' ) );
 		wp_localize_script(
 			'appp-logger',
@@ -84,13 +87,19 @@ class AppPresser_Logger {
 	 */
 	public static function log( $title, $var, $file = 'file', $function = 'function', $line = 'line' ) {
 
-		if ( self::get_logging_timeout() < 0 && ! defined( 'APP_LOG_FORCE_ON' ) ) {
-			self::toggle_logging( 'off' );
-		} elseif ( defined( 'APP_LOG_FORCE_ON' ) && APP_LOG_FORCE_ON === true ) {
-			self::toggle_logging( 'on' );
+		$force_logging = defined( 'APP_LOG_FORCE_ON' ) && APP_LOG_FORCE_ON === true;
+		if ( ! $force_logging ) {
+			self::get_logging_timeout();
+			if ( 'on' !== self::$logging_status ) {
+				return;
+			}
 		}
 
-		$logfile = fopen( self::$log_filepath, 'a' ) or die( 'Unable to open file!' );
+		// Diagnostics must not interrupt login or purchase handling on a filesystem error.
+		$logfile = @fopen( self::$log_filepath, 'a' );
+		if ( false === $logfile ) {
+			return;
+		}
 
 		$txt = ( is_string( $var ) ) ? $var : print_r( $var, true );
 
@@ -133,12 +142,12 @@ class AppPresser_Logger {
 		$timeout = get_option( 'appp_logging_timeout' );
 
 		if ( $timeout ) {
-
-			if ( (int) $timeout - time() < 0 ) {
+			$remaining = (int) $timeout - time();
+			if ( $remaining <= 0 ) {
 				// timed out
 				self::expire_logging();
-				return (int) $timeout - time() < 0;
 			}
+			return $remaining;
 		}
 
 		return 0;
@@ -157,7 +166,7 @@ class AppPresser_Logger {
 	 * @since 1.3.0
 	 */
 	public function toggle_logging_callback() {
-		if ( isset( $_POST['status'] ) && isset( $_POST['nonce'] ) && wp_verify_nonce( $_POST['nonce'], 'appp-logger-nonce' ) ) {
+		if ( current_user_can( 'manage_options' ) && isset( $_POST['status'], $_POST['nonce'] ) && in_array( $_POST['status'], array( 'on', 'off' ), true ) && wp_verify_nonce( $_POST['nonce'], 'appp-logger-nonce' ) ) {
 			self::toggle_logging( $_POST['status'] );
 			echo json_encode(
 				array(
@@ -318,7 +327,10 @@ class AppPresser_Logger {
 	}
 
 	public function force_logging_off() {
-		if ( isset( $_GET['forceloggingoff'] ) ) {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+		if ( isset( $_GET['forceloggingoff'], $_GET['nonce'] ) && wp_verify_nonce( $_GET['nonce'], 'appp-logger-nonce' ) ) {
 			self::toggle_logging( 'off' );
 		}
 
@@ -345,7 +357,7 @@ AppPresser_Logger::get_instance();
  * @since 1.3.0
  */
 function appp_debug_log( $title, $var, $file = 'file', $function = 'function', $line = 'line' ) {
-	if ( AppPresser_Logger::$logging_status == 'on' || defined( 'APP_LOG_FORCE_ON' ) ) {
+	if ( AppPresser_Logger::$logging_status == 'on' || ( defined( 'APP_LOG_FORCE_ON' ) && APP_LOG_FORCE_ON === true ) ) {
 		AppPresser_Logger::log( $title, $var, $file, $function, $line );
 	}
 } add_action( 'appp_debug_log', 'appp_debug_log', 10, 5 );

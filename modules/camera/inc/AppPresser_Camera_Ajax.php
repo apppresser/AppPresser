@@ -116,7 +116,7 @@ class AppPresser_Camera_Ajax {
 
 	public function get_attachment_id_from_src ( $image_src ) {
 			global $wpdb;
-			$query = "SELECT ID FROM {$wpdb->posts} WHERE guid='$image_src'";
+			$query = $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE guid = %s", $image_src );
 			$id = $wpdb->get_var($query);
 			return $id;
 	}
