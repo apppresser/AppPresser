@@ -73,15 +73,15 @@ class Appp_Events_Engine {
 			}
 		}
 		$eff         = self::eff();
-		$items       = $eff['adapter']->items();
+		$items       = $eff['adapter'] ? $eff['adapter']->items() : array();
 		self::$items = apply_filters( 'appp_events_items', $items, $eff );
 		self::$meta  = array(
 			'mapping_version' => $eff['mapping_version'],
-			'source'          => $eff['adapter']->source_slug(),
+			'source'          => $eff['adapter'] ? $eff['adapter']->source_slug() : '',
 			'expand'          => (bool) $eff['expand'],
 		);
 		if ( $cache ) {
-			$watch = method_exists( $eff['adapter'], 'watch' ) ? $eff['adapter']->watch() : array(
+			$watch = $eff['adapter'] && method_exists( $eff['adapter'], 'watch' ) ? $eff['adapter']->watch() : array(
 				'post_types' => array(),
 				'taxonomies' => array(),
 			);

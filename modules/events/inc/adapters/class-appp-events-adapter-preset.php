@@ -1,9 +1,5 @@
 <?php
-/**
- * Adapter for a data preset: a built in one (Very Simple Event List) or one that site
- * code registered with the appp_events_presets filter. Works like the post based
- * presets: the mapping comes from the preset, rows can be overridden in the Events tab.
- */
+/** Adapter for built-in integrations defined as data. */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

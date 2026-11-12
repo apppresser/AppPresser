@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
 return array(
 	'events' => array(
 		'name' => static function () { return __( 'AppEvents', 'apppresser' ); },
-		'description' => static function () { return __( 'Events API with automatic event-plugin detection, recurring events and custom field mappings.', 'apppresser' ); },
+		'description' => static function () { return __( 'Events API with native calendar plugin integrations and recurring events.', 'apppresser' ); },
 		'legacy' => 'appevents/appevents.php', 'legacy_aliases' => array( 'apppresser-events.php' ),
 		'class' => 'Appp_Events_REST', 'legacy_constant' => 'APPP_EVENTS_VERSION', 'tab' => 'appp-events',
 	),

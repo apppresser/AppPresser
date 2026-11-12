@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Appp_Events_Fields {
 
 	/**
-	 * Every field the mapping screen can set. type drives how a raw value is converted.
+	 * Normalized fields used by the native integrations.
 	 */
 	public static function definitions() {
 		return array(
@@ -163,48 +163,8 @@ class Appp_Events_Fields {
 		);
 	}
 
-	/** Date format choices for the mapping screen. */
-	public static function formats() {
-		return array(
-			''            => __( 'auto', 'apppresser-events' ),
-			'Y-m-d H:i:s' => 'Y-m-d H:i:s',
-			'Y-m-d H:i'   => 'Y-m-d H:i',
-			'Y-m-d'       => 'Y-m-d',
-			'Ymd'         => 'Ymd',
-			'm/d/Y'       => 'm/d/Y',
-			'H:i'         => 'H:i',
-			'g:i A'       => 'g:i A',
-			'U'           => __( 'unix (UTC)', 'apppresser-events' ),
-			'U_local'     => __( 'unix (local wall time)', 'apppresser-events' ),
-			'custom'      => __( 'custom', 'apppresser-events' ),
-		);
-	}
-
 	public static function post_fields() {
 		return array( 'ID', 'post_title', 'post_content', 'post_excerpt', 'post_date', 'post_date_gmt', 'post_modified', 'post_modified_gmt', 'post_name', 'post_author', 'menu_order', 'guid' );
-	}
-
-	/**
-	 * Default mapping for a hand mapped (unknown) post type.
-	 */
-	public static function manual_defaults() {
-		$f = array();
-		foreach ( array_keys( self::definitions() ) as $k ) {
-			$f[ $k ] = array( 'source' => 'none' );
-		}
-		$f['title']       = array(
-			'source' => 'post_field',
-			'key'    => 'post_title',
-		);
-		$f['description'] = array(
-			'source' => 'post_field',
-			'key'    => 'post_content',
-		);
-		$f['excerpt']     = array( 'source' => 'auto' );
-		$f['image']       = array( 'source' => 'featured_image' );
-		$f['link']        = array( 'source' => 'auto' );
-		$f['all_day']     = array( 'source' => 'auto' );
-		return $f;
 	}
 
 	public static function sanitize_field( $cfg ) {

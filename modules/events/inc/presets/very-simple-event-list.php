@@ -1,9 +1,6 @@
 <?php
 /**
  * Built in preset: Very Simple Event List (VS Event List) by Guido, tested with 20.4.
- *
- * Written in the same format the appp_events_presets filter takes, so it doubles as an
- * example.
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

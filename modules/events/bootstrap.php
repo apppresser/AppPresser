@@ -2,11 +2,11 @@
 /*
 Module source: AppEvents
 Plugin URI: http://apppresser.com
-Description: Adds an events REST API for AppPresser apps, with support for popular WordPress events plugins and field mapping for any other events plugin or custom post type.
+Description: Adds an events REST API for AppPresser apps, with native support for supported WordPress events plugins.
 Text Domain: apppresser-events
 Domain Path: /languages
 Requires Plugins: apppresser
-Version: 0.2.2
+Version: 0.3.0
 Author: AppPresser Team
 Author URI: http://apppresser.com
 License: GPLv2
@@ -21,7 +21,7 @@ if ( defined( 'APPP_EVENTS_VERSION' ) ) {
 	return;
 }
 
-define( 'APPP_EVENTS_VERSION', '0.2.2' );
+define( 'APPP_EVENTS_VERSION', '0.3.0' );
 define( 'APPP_EVENTS_FILE', __FILE__ );
 define( 'APPP_EVENTS_DIR', plugin_dir_path( __FILE__ ) );
 define( 'APPP_EVENTS_URL', plugin_dir_url( __FILE__ ) );

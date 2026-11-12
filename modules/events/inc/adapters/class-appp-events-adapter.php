@@ -52,11 +52,6 @@ abstract class Appp_Events_Adapter {
 		return '';
 	}
 
-	/** Source types the mapping screen offers for this adapter. Null means all. */
-	public function allowed_sources() {
-		return null;
-	}
-
 	/** Short notes for the settings screen about what the adapter handles itself. */
 	public function notes() {
 		return array();
@@ -103,8 +98,7 @@ abstract class Appp_Events_Adapter {
 	}
 
 	/**
-	 * For adapters whose values are computed (Amelia), let the site owner still force a
-	 * static value or switch a field off.
+	 * Apply the built-in field configuration to computed values for Amelia.
 	 */
 	protected function override( $key, $computed ) {
 		$c = $this->cfg( $key );

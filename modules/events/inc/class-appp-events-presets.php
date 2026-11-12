@@ -1,32 +1,5 @@
 <?php
-/**
- * Preset registry: built in presets written as data (Very Simple Event List) plus
- * presets that site code registers with the appp_events_presets filter.
- *
- * Preset format (the same one "Export as preset" writes):
- *
- *   array(
- *     'id'        => 'my-events',            // unique, lowercase, a-z 0-9 - _
- *     'label'     => 'My Events',            // shown in the Events tab
- *     'post_type' => 'my_event',             // post type that holds the events
- *     'detect'    => array(                  // when is this preset "active"?
- *       'post_type' => 'my_event',           //   this post type must exist, and
- *       'plugin'    => 'my-events/my-events.php', // any one of these signals must
- *       'class'     => 'My_Events',          //   match when at least one is given
- *       'function'  => 'my_events_init',
- *       'constant'  => 'MY_EVENTS_VERSION',
- *     ),
- *     'version'   => '1.2',                  // optional; else read from 'plugin' or 'constant'
- *     'notes'     => array( 'Shown under the mapping table.' ),
- *     'fields'    => array(                  // field key => {source, key, format, match}
- *       'start_date' => array( 'source' => 'meta', 'key' => 'my_start', 'format' => 'Y-m-d H:i' ),
- *       ...                                  // fields left out are "Not used"
- *     ),
- *   )
- *
- * Register with:
- *   add_filter( 'appp_events_presets', function ( $presets ) { $presets['my-events'] = array( ... ); return $presets; } );
- */
+/** Built-in data integrations maintained by AppPresser. */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -55,7 +28,7 @@ class Appp_Events_Presets {
 	}
 
 	/**
-	 * All valid presets (built in first, then the filter), normalized and keyed by id.
+	 * All built-in integrations, normalized and keyed by id.
 	 *
 	 * @param string[] $reserved Ids already used by class adapters.
 	 */
@@ -64,13 +37,8 @@ class Appp_Events_Presets {
 			return self::$list;
 		}
 		self::$errors = array();
-		$builtin      = self::builtin();
-		$filtered     = apply_filters( 'appp_events_presets', $builtin );
-		$list         = array();
-		if ( ! is_array( $filtered ) ) {
-			self::$errors['appp_events_presets'][] = __( 'The filter did not return an array. Built in presets used.', 'apppresser-events' );
-			$filtered                              = $builtin;
-		}
+		$filtered = self::builtin();
+		$list = array();
 		foreach ( $filtered as $key => $def ) {
 			if ( ! is_array( $def ) ) {
 				self::$errors[ (string) $key ][] = __( 'Preset is not an array.', 'apppresser-events' );
@@ -78,9 +46,6 @@ class Appp_Events_Presets {
 			}
 			if ( empty( $def['id'] ) && is_string( $key ) ) {
 				$def['id'] = $key;
-			}
-			if ( empty( $def['origin'] ) || ! isset( $builtin[ $key ] ) || $builtin[ $key ] !== $def ) {
-				$def['origin'] = isset( $builtin[ $key ] ) && $builtin[ $key ] === $def ? 'builtin' : 'filter';
 			}
 			$errs = array();
 			$norm = self::normalize( $def, $errs );
@@ -103,7 +68,7 @@ class Appp_Events_Presets {
 		return self::$errors;
 	}
 
-	/** Forget the cached list (tests, or after a filter is added late). */
+	/** Forget the cached list for tests. */
 	public static function reset() {
 		self::$list = null;
 	}
@@ -244,109 +209,4 @@ class Appp_Events_Presets {
 		return implode( ' ', $out );
 	}
 
-	/**
-	 * A preset array built from the mapping now in effect, ready to be shipped as a
-	 * built in preset or registered with the filter.
-	 */
-	public static function from_effective( array $eff ) {
-		$adapter = $eff['adapter'];
-		$pt      = $eff['post_type'];
-		$obj     = $pt ? get_post_type_object( $pt ) : null;
-		$detect  = array( 'post_type' => $pt );
-		$id      = '';
-		$label   = '';
-		$notes   = array();
-		if ( $adapter instanceof Appp_Events_Adapter_Preset ) {
-			$p      = $adapter->preset();
-			$id     = $p['id'];
-			$label  = $p['label'];
-			$detect = $p['detect'];
-			$notes  = $p['notes'];
-		}
-		if ( '' === $id ) {
-			$id    = sanitize_key( str_replace( '_', '-', $pt ) );
-			$label = $obj ? $obj->labels->name : $pt;
-		}
-		$fields = array();
-		foreach ( $eff['fields'] as $k => $cfg ) {
-			$fields[ $k ] = Appp_Events_Fields::sanitize_field( $cfg );
-		}
-		$plugins = array();
-		foreach ( (array) get_option( 'active_plugins', array() ) as $f ) {
-			$plugins[] = $f . ( self::plugin_version( $f ) ? ' ' . self::plugin_version( $f ) : '' );
-		}
-		return array(
-			'appp_events_preset' => self::FORMAT,
-			'id'                 => $id,
-			'label'              => $label,
-			'post_type'          => $pt,
-			'detect'             => $detect,
-			'notes'              => $notes,
-			'fields'             => $fields,
-			'_info'              => array(
-				'exported_from'   => home_url( '/' ),
-				'exported_at'     => gmdate( 'c' ),
-				'appp_events'     => APPP_EVENTS_VERSION,
-				'source'          => $adapter->source_slug(),
-				'mapping_version' => $eff['mapping_version'],
-				'active_plugins'  => $plugins,
-			),
-		);
-	}
-
-	public static function to_json( array $preset ) {
-		return wp_json_encode( $preset, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
-	}
-
-	/** A small mu-plugin that registers the preset with the filter. */
-	public static function to_php( array $preset ) {
-		$info = isset( $preset['_info'] ) ? $preset['_info'] : array();
-		unset( $preset['_info'], $preset['appp_events_preset'] );
-		$hint = '';
-		if ( empty( $preset['detect']['plugin'] ) && empty( $preset['detect']['class'] ) && empty( $preset['detect']['function'] ) && empty( $preset['detect']['constant'] ) ) {
-			$hint = " * Detection: only the post type is checked. Add 'plugin', 'class', 'function' or\n * 'constant' to 'detect' so the preset only turns on with the right plugin.\n";
-			if ( ! empty( $info['active_plugins'] ) ) {
-				$hint .= " * Active plugins on the exporting site:\n";
-				foreach ( $info['active_plugins'] as $p ) {
-					$hint .= ' *   ' . str_replace( '*/', '', $p ) . "\n";
-				}
-			}
-		}
-		$var = self::php_value( $preset, 2 );
-		$id  = var_export( (string) $preset['id'], true ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions
-		return "<?php\n/**\n * Plugin Name: AppEvents preset: " . str_replace( '*/', '', $preset['label'] ) . "\n"
-			. ' * Description: Registers the ' . str_replace( '*/', '', $preset['id'] ) . " preset with the appp_events_presets filter.\n"
-			. ( $info ? ' * Exported from ' . str_replace( '*/', '', (string) $info['exported_from'] ) . ' on ' . $info['exported_at'] . ' (AppEvents ' . $info['appp_events'] . ', mapping_version ' . $info['mapping_version'] . ").\n" : '' )
-			. $hint
-			. " */\n\nadd_filter(\n\t'appp_events_presets',\n\tfunction ( \$presets ) {\n\t\t\$presets[" . $id . '] = ' . $var . ";\n\t\treturn \$presets;\n\t}\n);\n";
-	}
-
-	private static function php_value( $v, $depth ) {
-		if ( is_array( $v ) ) {
-			if ( ! $v ) {
-				return 'array()';
-			}
-			$pad   = str_repeat( "\t", $depth + 1 );
-			$list  = array_keys( $v ) === range( 0, count( $v ) - 1 );
-			$short = true;
-			foreach ( $v as $x ) {
-				if ( is_array( $x ) ) {
-					$short = false;
-				}
-			}
-			if ( $short && ! $list && count( $v ) <= 3 ) {
-				$parts = array();
-				foreach ( $v as $k => $x ) {
-					$parts[] = var_export( (string) $k, true ) . ' => ' . self::php_value( $x, $depth + 1 ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions
-				}
-				return 'array( ' . implode( ', ', $parts ) . ' )';
-			}
-			$out = "array(\n";
-			foreach ( $v as $k => $x ) {
-				$out .= $pad . ( $list ? '' : var_export( (string) $k, true ) . ' => ' ) . self::php_value( $x, $depth + 1 ) . ",\n"; // phpcs:ignore WordPress.PHP.DevelopmentFunctions
-			}
-			return $out . str_repeat( "\t", $depth ) . ')';
-		}
-		return var_export( $v, true ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions
-	}
 }

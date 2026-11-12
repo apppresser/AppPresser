@@ -1,34 +1,13 @@
 <?php
 /**
- * Mapping driven adapter for any post type. The five post based presets extend it,
- * and manual mode uses it as is.
+ * Shared implementation for supported post-based events integrations.
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Appp_Events_Adapter_Posts extends Appp_Events_Adapter {
-
-	public function id() {
-		return 'manual';
-	}
-
-	public function source_slug() {
-		return 'manual' === $this->id() ? 'manual:' . $this->post_type : $this->id();
-	}
-
-	public function label() {
-		return __( 'Manual mapping (any post type)', 'apppresser-events' );
-	}
-
-	public function detect() {
-		return false;
-	}
-
-	public function preset_fields() {
-		return Appp_Events_Fields::manual_defaults();
-	}
+abstract class Appp_Events_Adapter_Posts extends Appp_Events_Adapter {
 
 	/**
 	 * Computed value for a field whose source is "auto". Child adapters add their own.

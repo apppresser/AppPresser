@@ -4,7 +4,6 @@
  * amelia_events (one row per event, recurring children point at parentId),
  * amelia_events_periods (UTC start and end, one or more per event),
  * amelia_events_tags and amelia_locations.
- * Values are computed; the mapping screen can force a static value or switch a field off.
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -33,15 +32,11 @@ class Appp_Events_Adapter_Amelia extends Appp_Events_Adapter {
 		return defined( 'AMELIA_VERSION' ) ? AMELIA_VERSION : '';
 	}
 
-	public function allowed_sources() {
-		return array( 'auto', 'static', 'none' );
-	}
-
 	public function notes() {
 		return array(
-			__( 'Amelia stores events in its own tables, so fields are read by the adapter. You can still set a static value or turn a field off.', 'apppresser-events' ),
+			__( 'Amelia stores events in its own tables, so fields are read by the adapter.', 'apppresser-events' ),
 			__( 'Recurring events: every child row (parentId) and every extra date period becomes its own item with series_id set to the parent.', 'apppresser-events' ),
-			__( 'Amelia events have no public page, so Link is empty unless you set a static value (for example your events page).', 'apppresser-events' ),
+			__( 'Amelia events have no public page, so Link is empty.', 'apppresser-events' ),
 			__( 'Categories come from Amelia event tags. Canceled means status canceled or rejected. Amelia has no featured flag or password protection.', 'apppresser-events' ),
 		);
 	}
