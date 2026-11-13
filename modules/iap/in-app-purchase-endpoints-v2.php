@@ -174,16 +174,6 @@ class AppPresser_IAP2 extends AppPresser_IAP {
 				$password = $request['password'];
 			}
 
-            // create a username - Using email for username instead, just leaving this code here in case we need it later
-            // $exploded = explode('@', $email );
-            // $username = $exploded[0];
-            // $username = $this->clean_string( $username );
-
-            // if username exists, make it longer
-            // if( username_exists( $username ) ) {
-            //     $username = strval( $username . rand(11,99) );
-			// }
-
 			$name = ( isset( $request['first_name'] ) ? $request['first_name'] : null );
 
 			$userdata = array(
