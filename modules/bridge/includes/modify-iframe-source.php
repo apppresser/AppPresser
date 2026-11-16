@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 function apppresser_bridge_modify_bp_activity_content( $response, $request, $activity ) {
 	$data                        = $response->get_data();
 	if ( ! isset( $data['content']['rendered'] ) || ! is_string( $data['content']['rendered'] ) ) { return $response; }
-	$data['content']['rendered'] = apppresser_bridge_modify_iframe_src( $data['content']['rendered'] );
+	$data['content']['rendered'] = apppresser_bridge_modify_iframe_src( $data['content']['rendered'], $request );
 	$response->set_data( $data );
 
 	return $response;
@@ -21,19 +21,31 @@ function apppresser_bridge_modify_bp_activity_content( $response, $request, $act
 function apppresser_bridge_modify_rest_post_content( $response, $post, $request ) {
 	$data                        = $response->get_data();
 	if ( ! isset( $data['content']['rendered'] ) || ! is_string( $data['content']['rendered'] ) ) { return $response; }
-	$data['content']['rendered'] = apppresser_bridge_modify_iframe_src( $data['content']['rendered'] );
+	$data['content']['rendered'] = apppresser_bridge_modify_iframe_src( $data['content']['rendered'], $request );
 	$response->set_data( $data );
 
 	return $response;
 }
 
 /**
- * Attach REST prepare filters only for post types enabled in YouTube support settings.
+ * Attach REST prepare filters only for post types enabled in video support settings.
  */
 function apppresser_bridge_register_rest_post_content_filters() {
-	$enabled_post_types = appp_get_setting( 'youtube_post_types' );
+	$youtube_post_types = appp_get_setting( 'youtube_post_types' );
+	$vimeo_post_types   = appp_get_setting( 'vimeo_post_types' );
+	$enabled_post_types = array();
 
-	if ( empty( $enabled_post_types ) || ! is_array( $enabled_post_types ) ) {
+	if ( is_array( $youtube_post_types ) ) {
+		$enabled_post_types = array_merge( $enabled_post_types, $youtube_post_types );
+	}
+
+	if ( is_array( $vimeo_post_types ) ) {
+		$enabled_post_types = array_merge( $enabled_post_types, $vimeo_post_types );
+	}
+
+	$enabled_post_types = array_values( array_unique( $enabled_post_types ) );
+
+	if ( empty( $enabled_post_types ) ) {
 		return;
 	}
 
@@ -48,7 +60,7 @@ function apppresser_bridge_register_rest_post_content_filters() {
 add_action( 'init', 'apppresser_bridge_register_rest_post_content_filters', 21 );
 
 /**
- * Replace the video url with our new video template url.
+ * Modify iframe content for YouTube and Vimeo embeds.
  */
 function apppresser_bridge_is_youtube_url( $url ) {
 	$parts = wp_parse_url( $url );
@@ -58,7 +70,15 @@ function apppresser_bridge_is_youtube_url( $url ) {
 		( in_array( $host, array( 'youtu.be', 'www.youtu.be' ), true ) && strlen( trim( $parts['path'], '/' ) ) > 0 );
 }
 
-function apppresser_bridge_modify_iframe_src( $content ) {
+function apppresser_bridge_is_vimeo_url( $url ) {
+	$parts = wp_parse_url( $url );
+	if ( ! is_array( $parts ) || ! isset( $parts['host'], $parts['path'] ) || ! in_array( isset( $parts['scheme'] ) ? strtolower( $parts['scheme'] ) : '', array( 'http', 'https' ), true ) ) { return false; }
+	$host = strtolower( $parts['host'] );
+	return ( in_array( $host, array( 'player.vimeo.com', 'www.player.vimeo.com' ), true ) && 0 === strpos( $parts['path'], '/video/' ) ) ||
+		( in_array( $host, array( 'vimeo.com', 'www.vimeo.com' ), true ) && strlen( trim( $parts['path'], '/' ) ) > 0 );
+}
+
+function apppresser_bridge_modify_iframe_src( $content, $request = null ) {
 	if ( '' === $content || ! class_exists( 'DOMDocument' ) || false === stripos( $content, '<iframe' ) ) { return $content; }
 	$dom = new DOMDocument();
 	$previous_errors = libxml_use_internal_errors( true );
@@ -78,6 +98,23 @@ function apppresser_bridge_modify_iframe_src( $content ) {
 		if ( apppresser_bridge_is_youtube_url( $original_src ) ) {
 			$new_src = $site_url . '/appp-video/?url=' . urlencode( $original_src );
 			$iframe->setAttribute( 'src', $new_src );
+		}
+		// Remove fullscreen from Vimeo embeds requested by the iOS app.
+		$is_ios = $request instanceof WP_REST_Request && 'ios' === strtolower( (string) $request->get_header( 'X-App-Platform' ) );
+		if ( $is_ios && apppresser_bridge_is_vimeo_url( $original_src ) ) {
+			$allow = $iframe->getAttribute( 'allow' );
+			if ( ! empty( $allow ) ) {
+				$permissions = array_filter( array_map( 'trim', explode( ';', $allow ) ) );
+				$permissions = array_values(
+					array_filter(
+						$permissions,
+						function ( $permission ) {
+							return 'fullscreen' !== strtolower( $permission );
+						}
+					)
+				);
+				$iframe->setAttribute( 'allow', implode( '; ', $permissions ) );
+			}
 		}
 	}
 	// Save modified HTML back to content

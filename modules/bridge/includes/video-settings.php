@@ -21,6 +21,15 @@ function apppresser_bridge_video_settings( $appp ) {
 			'helptext' => __( 'Check post types to enable YouTube support in the app.', 'app-customization' ),
 		)
 	);
+	$appp->add_setting(
+		'vimeo_post_types',
+		__( 'Vimeo Support', 'app-customization' ),
+		array(
+			'type'     => 'vimeo_post_types',
+			'tab'      => 'app_customization_tab',
+			'helptext' => __( 'Check post types to enable Vimeo support in the app.', 'app-customization' ),
+		)
+	);
 }
 add_action( 'apppresser_add_settings', 'apppresser_bridge_video_settings', 61 );
 
@@ -57,6 +66,40 @@ function apppresser_bridge_youtube_post_types_field( $field, $key, $value, $args
 	return $field;
 }
 add_filter( 'apppresser_field_override_youtube_post_types', 'apppresser_bridge_youtube_post_types_field', 10, 4 );
+
+function apppresser_bridge_vimeo_post_types_field( $field, $key, $value, $args ) {
+	$post_types = get_post_types( array( 'public' => true ), 'objects' );
+	$saved      = appp_get_setting( 'vimeo_post_types' );
+
+	$field .= '<p style="margin-bottom: 5px;"><a href="#" class="appp-vimeo-select-all">' . esc_html__( 'Select All', 'app-customization' ) . '</a> | <a href="#" class="appp-vimeo-select-none">' . esc_html__( 'Clear', 'app-customization' ) . '</a></p>';
+
+	if ( function_exists( 'buddypress' ) ) {
+		$checked = '';
+
+		if ( $saved ) {
+			$setting = is_array( $saved ) && in_array( 'bp_activity', $saved, true );
+			$checked = checked( $setting, 1, false );
+		}
+
+		$field .= '<label><input ' . $checked . ' type="checkbox" name="appp_settings[vimeo_post_types][]" value="bp_activity">&nbsp;' . esc_html__( 'BuddyPress Activity', 'app-customization' ) . '</label><br>' . "\n";
+	}
+
+	foreach ( $post_types as $post_type => $object ) {
+		$checked = '';
+
+		if ( $saved ) {
+			$setting = is_array( $saved ) && in_array( $post_type, $saved, true );
+			$checked = checked( $setting, 1, false );
+		}
+
+		$field .= '<label><input ' . $checked . ' type="checkbox" name="appp_settings[vimeo_post_types][]" value="' . esc_attr( $post_type ) . '">&nbsp;' . esc_html( $object->labels->name ) . '</label><br>' . "\n";
+	}
+
+	$field .= '<script type="text/javascript">(function(){if(typeof document==="undefined"){return;}var allLinks=document.querySelectorAll(".appp-vimeo-select-all");allLinks.forEach(function(selectAll){var container=selectAll.closest("tr")||document;var selectNone=container.querySelector(".appp-vimeo-select-none");var checkboxes=container.querySelectorAll("input[type=checkbox][name=\"appp_settings[vimeo_post_types][]\"]");selectAll.addEventListener("click",function(e){e.preventDefault();checkboxes.forEach(function(checkbox){checkbox.checked=true;});});if(selectNone){selectNone.addEventListener("click",function(e){e.preventDefault();checkboxes.forEach(function(checkbox){checkbox.checked=false;});});}});})();</script>';
+
+	return $field;
+}
+add_filter( 'apppresser_field_override_vimeo_post_types', 'apppresser_bridge_vimeo_post_types_field', 10, 4 );
 
 /**
  * Register the appp-video rewrite rule when YouTube support is enabled.
