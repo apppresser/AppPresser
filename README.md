@@ -36,6 +36,13 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+### 5.1.0
+* Simplify AppEvents to supported calendar plugins and drop custom field mapping, guessed sources, and plain post type setup.
+* Remove the legacy 2020 in-app purchase v1 endpoints. Purchases continue through the v2 endpoints.
+* Rate-limit login and password reset using the resolved REST route, including subdirectory and plain permalink sites.
+* Restrict diagnostic logging to administrators, and keep logging failures from interrupting login or purchases.
+* Prepare the camera attachment lookup.
+
 ### 5.0.0
 * Bundle ten optional features: Camera, WooCommerce, BuddyPress / BuddyBoss, LearnDash, AppEvents, App Customization, Custom Theme Support, In-app purchases, Push notifications, and Plugin Controls.
 * Add feature management and sidebar navigation with independent settings forms.
