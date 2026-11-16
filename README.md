@@ -36,6 +36,10 @@ Note: This repository is for code contributors. To use this plugin on your websi
 
 ## Changelog
 
+### 5.2.0
+* Add Vimeo support in App Customization, with per post type settings that match YouTube.
+* Strip the fullscreen permission from Vimeo embeds requested by the iOS app.
+
 ### 5.1.0
 * Simplify AppEvents to supported calendar plugins and drop custom field mapping, guessed sources, and plain post type setup.
 * Remove the legacy 2020 in-app purchase v1 endpoints. Purchases continue through the v2 endpoints.

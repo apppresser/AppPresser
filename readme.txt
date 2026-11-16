@@ -5,7 +5,7 @@ Tags: application, iphone app, android app, mobile app, wordpress mobile
 Requires at least: 6.5
 Requires PHP: 7.4
 Tested up to: 6.9
-Stable tag: 5.1.0
+Stable tag: 5.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -72,6 +72,10 @@ Documentation: https://docs.apppresser.com/
 
 
 == Changelog ==
+
+= 5.2.0 =
+* Add Vimeo support in App Customization, with per post type settings that match YouTube.
+* Strip the fullscreen permission from Vimeo embeds requested by the iOS app.
 
 = 5.1.0 =
 * Simplify AppEvents to supported calendar plugins and drop custom field mapping, guessed sources, and plain post type setup.
